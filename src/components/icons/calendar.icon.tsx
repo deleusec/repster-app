@@ -7,6 +7,7 @@ export default function CalendarIcon(props: React.SVGProps<SVGSVGElement>) {
             stroke="currentColor"
             strokeWidth={1.5}
             className="size-6"
+            {...props}
         >
             <path
                 strokeLinecap="round"

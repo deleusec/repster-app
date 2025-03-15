@@ -7,6 +7,7 @@ export default function SquaresIcon(props: React.SVGProps<SVGSVGElement>) {
             strokeWidth={1.5}
             stroke="currentColor"
             className="size-6"
+            {...props}
         >
             <path
                 strokeLinecap="round"

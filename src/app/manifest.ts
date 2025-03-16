@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Repster is your ultimate workout companion',
     start_url: '/',
     display: 'standalone',
-    background_color: '#000000',
-    theme_color: '#ffffff',
+    background_color: 'oklch(14.62% 0.0064 285.58)',
+    theme_color: 'oklch(14.62% 0.0064 285.58)',
     icons: [
       {
         src: '/icon-192x192.png',

@@ -1,0 +1,56 @@
+{
+  "greeting": {
+    "morning": "Bonjour",
+    "afternoon": "Bon après-midi",
+    "evening": "Bonsoir"
+  },
+  "defaultName": "Athlète",
+  "seeAll": "Tout voir",
+  "sections": {
+    "templates": "Templates",
+    "recentSessions": "Dernières séances"
+  },
+  "templates": {
+    "empty": "Aucun template encore",
+    "newLabel": "Nouveau"
+  },
+  "exerciseCount": {
+    "one": "{{n}} exercice",
+    "other": "{{n}} exercices"
+  },
+  "hero": {
+    "eyebrow": "PRÊT À T’ENTRAÎNER ?",
+    "start": "Démarrer la séance",
+    "emptyTitle": "Crée ton premier template",
+    "emptyMessage": "Configure tes exercices et c’est parti.",
+    "create": "Créer un template"
+  },
+  "recent": {
+    "emptyTitle": "Lance ta première séance !",
+    "emptyMessage": "Choisis un template et c’est parti.",
+    "tonnage": "tonnage"
+  },
+  "inProgress": {
+    "label": "SÉANCE EN COURS",
+    "startedAt": "Démarrée {{when}}",
+    "resume": "Reprendre",
+    "discard": "Abandonner",
+    "discardTitle": "Abandonner la séance ?",
+    "discardMessage": "Toutes les saisies en cours seront perdues.",
+    "discardError": "Échec — réessaie."
+  },
+  "stats": {
+    "sessions": "Séances",
+    "volume": "Volume",
+    "streak": "Streak",
+    "thisWeek": "cette sem.",
+    "weekCount": {
+      "one": "semaine",
+      "other": "semaines"
+    }
+  },
+  "streakBadge": {
+    "one": "{{n}} semaine de suite",
+    "other": "{{n}} semaines de suite"
+  }
+}

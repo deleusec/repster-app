@@ -1,0 +1,45 @@
+{
+  "title": "History",
+  "emptySubtitle": "No sessions",
+  "emptyTitle": "No sessions yet",
+  "emptyMessage": "Start your first session from the home screen — it will show up here.",
+  "sessionCount": {
+    "one": "{{n}} session",
+    "other": "{{n}} sessions"
+  },
+  "deleteError": "Delete failed.",
+  "noResult": "No sessions for this group",
+  "groups": {
+    "thisWeek": "This week",
+    "lastWeek": "Last week",
+    "weeksAgo": {
+      "one": "{{n}} week ago",
+      "other": "{{n}} weeks ago"
+    }
+  },
+  "panel": {
+    "sessions": "Sessions",
+    "volume": "Volume",
+    "time": "Time"
+  },
+  "detail": {
+    "title": "Session",
+    "dateFormat": "EEEE, MMMM d 'at' HH:mm",
+    "duration": "Duration",
+    "tonnage": "Tonnage",
+    "sets": "Sets",
+    "notes": "Notes",
+    "perExercise": "Per-exercise breakdown",
+    "setsCount": {
+      "one": "{{n}} set",
+      "other": "{{n}} sets"
+    },
+    "bodyweight": "Bodyweight",
+    "colSet": "Set",
+    "colReps": "Reps",
+    "colLoad": "Load",
+    "colHeld": "Held",
+    "totalExercise": "Exercise total",
+    "totalHeld": "Total held"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "list": {
+    "title": "Programm",
+    "subtitleActive": {
+      "one": "{{n}} aktive Einheit",
+      "other": "{{n}} aktive Einheiten"
+    },
+    "subtitleManage": {
+      "one": "{{n}} / {{total}} aktiv",
+      "other": "{{n}} / {{total}} aktiv"
+    },
+    "manage": "Verwalten",
+    "newAction": "Neu",
+    "emptyTitle": "Keine Einheiten",
+    "emptyMessage": "Erstelle deine erste Einheit, um dein Programm aufzubauen.",
+    "emptyAction": "Einheit erstellen",
+    "emptyActiveTitle": "Keine Einheiten im Programm",
+    "emptyActiveMessage": "Aktiviere Einheiten, um sie deinem Programm hinzuzufügen.",
+    "emptyActiveAction": "Einheiten verwalten",
+    "noResult": "Keine Ergebnisse",
+    "searchHint": "Einheit suchen…",
+    "manageHint": "Ziehen zum Umsortieren · tippe auf den Kreis, um eine Einheit aus-/einzublenden",
+    "savedChanges": "Änderungen gespeichert ✓",
+    "reorderError": "Umsortieren fehlgeschlagen.",
+    "toggleError": "Aktion nicht möglich.",
+    "duplicated": "Einheit kopiert!",
+    "duplicateError": "Duplizieren fehlgeschlagen.",
+    "deleted": "Einheit gelöscht.",
+    "deleteError": "Löschen fehlgeschlagen.",
+    "copySuffix": "(Kopie)"
+  },
+  "card": {
+    "exerciseCount": {
+      "one": "{{n}} Übung",
+      "other": "{{n}} Übungen"
+    },
+    "details": "Details",
+    "copy": "Kopieren",
+    "deleteShort": "Löschen",
+    "activate": "Aktivieren",
+    "deactivate": "Deaktivieren"
+  },
+  "detail": {
+    "title": "Vorlage",
+    "noExercises": "Keine Übungen in dieser Vorlage.",
+    "superset": "Supersatz",
+    "setsCount": {
+      "one": "{{n}} Satz",
+      "other": "{{n}} Sätze"
+    },
+    "seconds": "{{n}} s",
+    "tempo": "Tempo {{value}}",
+    "rest": "Pause {{n}}s",
+    "variantsMore": {
+      "one": "+{{n}} Variante",
+      "other": "+{{n}} Varianten"
+    },
+    "start": "Einheit starten"
+  },
+  "editor": {
+    "newTitle": "Neue Einheit",
+    "editTitle": "Einheit bearbeiten",
+    "exercisesHeader": "ÜBUNGEN ({{count}})",
+    "addExercise": "Übung hinzufügen",
+    "save": "Einheit speichern",
+    "validationError": "Gib einen Namen und mindestens eine benannte Übung ein."
+  },
+  "fields": {
+    "name": "Name der Einheit",
+    "nameHint": "z. B. Brust / Trizeps / Schultern",
+    "description": "Beschreibung (optional)",
+    "descriptionHint": "Beschreibe deine Einheit…",
+    "muscleGroups": "Muskelgruppen",
+    "selectedCount": {
+      "one": "{{n}} ausgewählt",
+      "other": "{{n}} ausgewählt"
+    },
+    "exerciseName": "Name der Übung",
+    "exerciseNameHint": "z. B. Bankdrücken",
+    "type": "Typ",
+    "sets": "Sätze",
+    "duration": "Dauer (s)",
+    "targetReps": "Ziel-Wdh.",
+    "rest": "Pause (s)",
+    "tempo": "Tempo",
+    "tempoHint": "3-1-X-0",
+    "notes": "Notizen (optional)",
+    "notesHint": "Technische Tipps…"
+  },
+  "slot": {
+    "newExercise": "Neue Übung",
+    "variantN": "Variante {{n}}",
+    "primary": "PRIMÄR",
+    "variant": "Variante",
+    "addVariant": "Variante hinzufügen",
+    "supersetNote": "Als Supersatz mit der nächsten Übung verkettet",
+    "supersetLabel": "SUPERSATZ",
+    "reps": "Wiederholungen",
+    "time": "Zeit"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "title": "Statistiken",
+  "sessionsCount": {
+    "one": "{{n}} Einheit",
+    "other": "{{n}} Einheiten"
+  },
+  "weeksShort": "{{n}} Wo.",
+  "subtitle": {
+    "empty": "Keine Einheiten im Zeitraum"
+  },
+  "empty": {
+    "title": "Noch keine Daten",
+    "message": "Absolviere ein paar Einheiten, um deine Kurven und Fortschritte zu sehen."
+  },
+  "range": {
+    "last4Weeks": { "label": "4 Wochen", "short": "4 Wo." },
+    "last3Months": { "label": "3 Monate", "short": "3 Mon." },
+    "all": { "label": "Alles", "short": "Alles" }
+  },
+  "kpi": {
+    "sessions": "Einheiten",
+    "volume": "Volumen",
+    "sets": "Sätze",
+    "avgDuration": "Ø Dauer"
+  },
+  "consistency": {
+    "title": "Beständigkeit",
+    "trainingDays": "aktive Tage",
+    "perWeek": "Einheiten / Wo.",
+    "bestStreak": "beste Serie",
+    "noStreak": "keine Serie",
+    "less": "weniger",
+    "more": "mehr"
+  },
+  "weeklyVolume": {
+    "title": "Volumen pro Woche",
+    "empty": "Noch nicht genug Einheiten im Zeitraum."
+  },
+  "exercise": {
+    "title": "Fortschritt pro Übung",
+    "empty": "Absolviere mindestens 2 Einheiten mit derselben belasteten Übung, um deine Kraftkurve zu sehen.",
+    "pickerTitle": "Übung auswählen",
+    "noExercise": "Keine Übung",
+    "searchHint": "Suchen…",
+    "oneRmMax": "max. geschätztes 1RM",
+    "bestLoad": "beste Last",
+    "record": "Rekord"
+  },
+  "muscleBalance": {
+    "title": "Muskelbalance",
+    "neglected": "— seit {{days}} T. nicht trainiert {{emoji}}",
+    "since": {
+      "none": "–",
+      "today": "heute",
+      "yesterday": "gestern",
+      "daysShort": "{{n}}T"
+    }
+  },
+  "records": {
+    "title": "Rekorde",
+    "bestSession": "Beste Einheit",
+    "heaviestLift": "Schwerste Last",
+    "bestOneRm": "Geschätztes 1RM",
+    "bestStreak": "Längste Serie",
+    "consecutiveWeeks": "aufeinanderfolgende Wochen"
+  }
+}

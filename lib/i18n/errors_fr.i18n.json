@@ -1,0 +1,14 @@
+{
+  "network": "Pas de connexion réseau. Vérifie ta connexion.",
+  "notFound": "Élément introuvable.",
+  "generic": "Une erreur est survenue. Réessaie.",
+  "invalidCode": "Code invalide ou expiré.",
+  "passwordSameAsOld": "Le nouveau mot de passe doit être différent de l'ancien.",
+  "auth": {
+    "invalidCredentials": "Email ou mot de passe incorrect.",
+    "emailNotConfirmed": "Confirme ton email avant de te connecter.",
+    "userAlreadyExists": "Un compte existe déjà avec cet email.",
+    "sessionExpired": "Session expirée. Reconnecte-toi.",
+    "notSignedIn": "Tu dois être connecté."
+  }
+}

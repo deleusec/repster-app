@@ -1,0 +1,67 @@
+{
+  "title": "Stats",
+  "sessionsCount": {
+    "one": "{{n}} séance",
+    "other": "{{n}} séances"
+  },
+  "weeksShort": "{{n}} sem.",
+  "subtitle": {
+    "empty": "Aucune séance sur la période"
+  },
+  "empty": {
+    "title": "Pas encore de données",
+    "message": "Effectue quelques séances pour voir tes courbes et ta progression."
+  },
+  "range": {
+    "last4Weeks": { "label": "4 semaines", "short": "4 sem." },
+    "last3Months": { "label": "3 mois", "short": "3 mois" },
+    "all": { "label": "Tout", "short": "Tout" }
+  },
+  "kpi": {
+    "sessions": "Séances",
+    "volume": "Volume",
+    "sets": "Séries",
+    "avgDuration": "Durée moy."
+  },
+  "consistency": {
+    "title": "Consistance",
+    "trainingDays": "jours actifs",
+    "perWeek": "séances / sem.",
+    "bestStreak": "meilleur streak",
+    "noStreak": "aucun streak",
+    "less": "moins",
+    "more": "plus"
+  },
+  "weeklyVolume": {
+    "title": "Volume par semaine",
+    "empty": "Pas encore assez de séances sur la période."
+  },
+  "exercise": {
+    "title": "Progression par exercice",
+    "empty": "Enchaîne au moins 2 séances avec un même exercice chargé pour voir ta courbe de force.",
+    "pickerTitle": "Choisir un exercice",
+    "noExercise": "Aucun exercice",
+    "searchHint": "Rechercher…",
+    "oneRmMax": "1RM estimé max",
+    "bestLoad": "meilleure charge",
+    "record": "record"
+  },
+  "muscleBalance": {
+    "title": "Équilibre musculaire",
+    "neglected": "— pas travaillé depuis {{days}} j {{emoji}}",
+    "since": {
+      "none": "–",
+      "today": "auj.",
+      "yesterday": "hier",
+      "daysShort": "{{n}}j"
+    }
+  },
+  "records": {
+    "title": "Records",
+    "bestSession": "Meilleure séance",
+    "heaviestLift": "Charge max",
+    "bestOneRm": "1RM estimé",
+    "bestStreak": "Plus long streak",
+    "consecutiveWeeks": "semaines consécutives"
+  }
+}

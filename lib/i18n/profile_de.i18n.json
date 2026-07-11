@@ -1,0 +1,63 @@
+{
+  "notConnected": "Nicht angemeldet.",
+  "navTitle": "PROFIL",
+  "defaultName": "Athlet",
+  "since": "Seit {{month}}",
+  "editSheet": {
+    "title": "Profil bearbeiten"
+  },
+  "sections": {
+    "favoriteMuscleGroup": "Bevorzugte Muskelgruppe",
+    "badges": "Abzeichen"
+  },
+  "stats": {
+    "sessions": "Einheiten",
+    "tonnage": "Tonnage",
+    "sets": "Sätze"
+  },
+  "sessionCount": {
+    "one": "{{n}} Einheit",
+    "other": "{{n}} Einheiten"
+  },
+  "badges": {
+    "empty": "Starte deine erste Einheit, um Abzeichen freizuschalten!",
+    "firstSession": "Erste Einheit",
+    "tenSessions": "10 Einheiten",
+    "tenTonnes": "10 Tonnen",
+    "planner": "Planer"
+  },
+  "avatar": {
+    "sheetTitle": "Profilfoto",
+    "takePhoto": "Foto aufnehmen",
+    "gallery": "Fotogalerie",
+    "remove": "Foto entfernen",
+    "openError": "Das Foto konnte nicht geöffnet werden.",
+    "updated": "Foto aktualisiert!",
+    "saveError": "Das Foto konnte nicht gespeichert werden.",
+    "removed": "Foto entfernt.",
+    "removeError": "Das Foto konnte nicht entfernt werden."
+  },
+  "editForm": {
+    "saved": "Profil aktualisiert.",
+    "pickDate": "Datum wählen",
+    "sections": {
+      "identity": "Identität",
+      "physique": "Körperbau",
+      "goal": "Ziel"
+    },
+    "fields": {
+      "name": "Name / Spitzname",
+      "bio": "Bio",
+      "birthdate": "Geburtsdatum",
+      "weight": "Gewicht (kg)",
+      "height": "Größe (cm)"
+    },
+    "validation": {
+      "nameMin": "Mindestens 2 Zeichen",
+      "nameMax": "Maximal 60 Zeichen",
+      "invalidNumber": "Ungültige Zahl",
+      "heightRange": "Zwischen 80 und 260 cm",
+      "weightRange": "Zwischen 30 und 350 kg"
+    }
+  }
+}

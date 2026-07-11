@@ -1,0 +1,21 @@
+{
+  "chest": "Brust",
+  "back": "Rücken",
+  "shoulders": "Schultern",
+  "biceps": "Bizeps",
+  "triceps": "Trizeps",
+  "forearms": "Unterarme",
+  "quads": "Quadrizeps",
+  "hamstrings": "Beinbeuger",
+  "glutes": "Gesäß",
+  "calves": "Waden",
+  "abs": "Bauch",
+  "custom": "Andere",
+  "sections": {
+    "chestBack": "Brust & Rücken",
+    "shouldersArms": "Schultern & Arme",
+    "legsGlutes": "Beine & Gesäß",
+    "abs": "Bauch",
+    "other": "Andere"
+  }
+}

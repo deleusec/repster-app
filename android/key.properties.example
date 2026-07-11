@@ -1,0 +1,13 @@
+# Signing release Android — copier vers android/key.properties (gitignoré) et remplir.
+# NE JAMAIS committer key.properties ni le fichier .jks/.keystore.
+#
+# Génération du keystore (une seule fois, garder le .jks + les mots de passe en lieu sûr) :
+#   keytool -genkey -v -keystore ~/repster-upload-keystore.jks \
+#     -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+#
+# storeFile : chemin absolu vers le .jks, ou relatif au dossier android/app/.
+
+storePassword=changeme
+keyPassword=changeme
+keyAlias=upload
+storeFile=/chemin/absolu/vers/repster-upload-keystore.jks

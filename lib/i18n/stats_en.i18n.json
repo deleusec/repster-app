@@ -1,0 +1,67 @@
+{
+  "title": "Stats",
+  "sessionsCount": {
+    "one": "{{n}} session",
+    "other": "{{n}} sessions"
+  },
+  "weeksShort": "{{n}} wk",
+  "subtitle": {
+    "empty": "No sessions in this period"
+  },
+  "empty": {
+    "title": "No data yet",
+    "message": "Complete a few sessions to see your curves and progress."
+  },
+  "range": {
+    "last4Weeks": { "label": "4 weeks", "short": "4 wk" },
+    "last3Months": { "label": "3 months", "short": "3 mo" },
+    "all": { "label": "All", "short": "All" }
+  },
+  "kpi": {
+    "sessions": "Sessions",
+    "volume": "Volume",
+    "sets": "Sets",
+    "avgDuration": "Avg. duration"
+  },
+  "consistency": {
+    "title": "Consistency",
+    "trainingDays": "active days",
+    "perWeek": "sessions / wk",
+    "bestStreak": "best streak",
+    "noStreak": "no streak",
+    "less": "less",
+    "more": "more"
+  },
+  "weeklyVolume": {
+    "title": "Weekly volume",
+    "empty": "Not enough sessions in this period yet."
+  },
+  "exercise": {
+    "title": "Progress by exercise",
+    "empty": "Log at least 2 sessions with the same loaded exercise to see your strength curve.",
+    "pickerTitle": "Choose an exercise",
+    "noExercise": "No exercise",
+    "searchHint": "Search…",
+    "oneRmMax": "max estimated 1RM",
+    "bestLoad": "best load",
+    "record": "record"
+  },
+  "muscleBalance": {
+    "title": "Muscle balance",
+    "neglected": "— not trained for {{days}} d {{emoji}}",
+    "since": {
+      "none": "–",
+      "today": "today",
+      "yesterday": "yesterday",
+      "daysShort": "{{n}}d"
+    }
+  },
+  "records": {
+    "title": "Records",
+    "bestSession": "Best session",
+    "heaviestLift": "Heaviest lift",
+    "bestOneRm": "Estimated 1RM",
+    "bestStreak": "Longest streak",
+    "consecutiveWeeks": "consecutive weeks"
+  }
+}

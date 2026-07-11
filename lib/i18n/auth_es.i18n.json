@@ -1,0 +1,101 @@
+{
+  "fields": {
+    "email": "Correo electrónico",
+    "password": "Contraseña"
+  },
+  "backToLogin": "Volver al inicio de sesión",
+  "login": {
+    "welcomeTitle": "Qué bueno verte de nuevo",
+    "welcomeSubtitle": "Inicia sesión para continuar.",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "submit": "Iniciar sesión",
+    "submitLoading": "Iniciando sesión…",
+    "noAccount": "¿Aún no tienes cuenta?",
+    "createAccount": "Crear una cuenta"
+  },
+  "signup": {
+    "title": "Crear una cuenta",
+    "subtitle": "Únete a miles de atletas.",
+    "passwordHint": "Contraseña (8 car. mín.)",
+    "submit": "Crear mi cuenta",
+    "submitLoading": "Creando…",
+    "terms": "Al crear una cuenta, aceptas nuestras condiciones de uso."
+  },
+  "onboarding": {
+    "step1Title": "¿Cómo te\nllamas?",
+    "step1Subtitle": "Para personalizar tu experiencia.",
+    "nameHint": "Tu nombre",
+    "continueLabel": "Continuar",
+    "step2Title": "¿Cuál es tu\nobjetivo?",
+    "step2Subtitle": "Adaptaremos tus sesiones en consecuencia.",
+    "step3Title": "Algunos datos",
+    "optional": "Opcional",
+    "step3Subtitle": "Para recomendaciones más precisas.",
+    "weightHint": "Peso (kg)",
+    "heightHint": "Altura (cm)",
+    "birthdate": "Fecha de nacimiento",
+    "submit": "¡Vamos!",
+    "submitLoading": "Guardando…",
+    "skip": "Omitir este paso",
+    "goalDescriptions": {
+      "hypertrophy": "Ganar músculo",
+      "strength": "Levantar más peso",
+      "endurance": "Cardio y resistencia",
+      "weightLoss": "Quemar calorías",
+      "maintenance": "Mantenerte en forma"
+    },
+    "nameRequired": "Tu nombre es obligatorio.",
+    "nameTooLong": "Nombre demasiado largo.",
+    "goalRequired": "Elige un objetivo.",
+    "weightInvalid": "Peso no válido",
+    "heightInvalid": "Altura no válida"
+  },
+  "verifyEmail": {
+    "title": "Verifica tu correo",
+    "subtitle": "Enviamos un código de 6 dígitos",
+    "submitLoading": "Verificando…",
+    "submitComplete": "Verificar el código",
+    "submitIncomplete": "Introduce el código recibido",
+    "noCode": "¿No recibiste el código?",
+    "resent": "¡Código reenviado!",
+    "resendCooldown": "Reenviar en {{n}}s",
+    "resending": "Enviando…",
+    "resend": "Reenviar el código",
+    "emailMissing": "Falta el correo. Vuelve al registro."
+  },
+  "forgotPassword": {
+    "title": "Contraseña olvidada",
+    "subtitle": "Te enviaremos un enlace de restablecimiento",
+    "submit": "Enviar el enlace",
+    "submitLoading": "Enviando…",
+    "successMessage": "Se ha enviado un enlace de restablecimiento a tu correo electrónico. Revisa tu bandeja de entrada."
+  },
+  "updatePassword": {
+    "title": "Nueva contraseña",
+    "subtitle": "Elige una contraseña segura",
+    "newHint": "Nueva contraseña",
+    "confirmHint": "Confirmar la contraseña",
+    "submit": "Guardar la contraseña",
+    "submitLoading": "Guardando…"
+  },
+  "changePassword": {
+    "title": "Cambiar la contraseña",
+    "subtitle": "Por tu seguridad, confirma tu contraseña actual antes de elegir una nueva.",
+    "currentHint": "Contraseña actual",
+    "newHint": "Nueva contraseña",
+    "confirmHint": "Confirmar la nueva contraseña",
+    "submit": "Actualizar la contraseña",
+    "submitLoading": "Actualizando…",
+    "successToast": "Contraseña actualizada",
+    "currentRequired": "Contraseña actual obligatoria",
+    "mustDiffer": "La nueva contraseña debe ser diferente de la actual",
+    "currentIncorrect": "Contraseña actual incorrecta"
+  },
+  "validators": {
+    "emailRequired": "Correo obligatorio",
+    "emailInvalid": "Correo no válido",
+    "passwordRequired": "Contraseña obligatoria",
+    "passwordMin": "Mínimo 8 caracteres",
+    "passwordMismatch": "Las contraseñas no coinciden"
+  }
+}

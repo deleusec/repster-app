@@ -1,0 +1,63 @@
+{
+  "notConnected": "Non connecté.",
+  "navTitle": "PROFIL",
+  "defaultName": "Athlète",
+  "since": "Depuis {{month}}",
+  "editSheet": {
+    "title": "Modifier le profil"
+  },
+  "sections": {
+    "favoriteMuscleGroup": "Groupe musculaire préféré",
+    "badges": "Badges"
+  },
+  "stats": {
+    "sessions": "Séances",
+    "tonnage": "Tonnage",
+    "sets": "Séries"
+  },
+  "sessionCount": {
+    "one": "{{n}} séance",
+    "other": "{{n}} séances"
+  },
+  "badges": {
+    "empty": "Lance ta première séance pour débloquer des badges !",
+    "firstSession": "Première séance",
+    "tenSessions": "10 séances",
+    "tenTonnes": "10 tonnes",
+    "planner": "Planificateur"
+  },
+  "avatar": {
+    "sheetTitle": "Photo de profil",
+    "takePhoto": "Prendre une photo",
+    "gallery": "Galerie photo",
+    "remove": "Supprimer la photo",
+    "openError": "Impossible d’ouvrir la photo.",
+    "updated": "Photo mise à jour !",
+    "saveError": "Impossible de sauvegarder la photo.",
+    "removed": "Photo supprimée.",
+    "removeError": "Impossible de supprimer la photo."
+  },
+  "editForm": {
+    "saved": "Profil mis à jour.",
+    "pickDate": "Choisir une date",
+    "sections": {
+      "identity": "Identité",
+      "physique": "Physique",
+      "goal": "Objectif"
+    },
+    "fields": {
+      "name": "Nom / Pseudo",
+      "bio": "Bio",
+      "birthdate": "Date de naissance",
+      "weight": "Poids (kg)",
+      "height": "Taille (cm)"
+    },
+    "validation": {
+      "nameMin": "Au moins 2 caractères",
+      "nameMax": "Maximum 60 caractères",
+      "invalidNumber": "Nombre invalide",
+      "heightRange": "Entre 80 et 260 cm",
+      "weightRange": "Entre 30 et 350 kg"
+    }
+  }
+}

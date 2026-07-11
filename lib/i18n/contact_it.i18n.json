@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Contatto & feedback",
+    "subtitle": "Un bug, un'idea, una domanda? Scrivici, leggiamo tutto."
+  },
+  "sections": {
+    "type": "Tipo di richiesta",
+    "yourInfo": "I tuoi dati",
+    "message": "Messaggio"
+  },
+  "fields": {
+    "nameHint": "Il tuo nome",
+    "nameRequired": "Nome obbligatorio",
+    "emailHint": "Il tuo indirizzo email",
+    "emailInvalid": "Email non valida",
+    "messageTooShort": "Messaggio troppo corto (10 caratteri min)"
+  },
+  "counter": "{{current}} / {{max}}",
+  "submit": "Invia",
+  "categories": {
+    "bug": {
+      "label": "Bug",
+      "placeholder": "Es.: dopo la mia serie, il timer di recupero non parte…",
+      "guidance": "Indica i passaggi per riprodurlo, cosa ti aspettavi e il modello del tuo telefono: ci aiuta a correggere in fretta.",
+      "successLine": "Preso nota — andiamo subito a guardare da vicino questo bug."
+    },
+    "feature": {
+      "label": "Idea",
+      "placeholder": "Es.: poter duplicare un template esistente…",
+      "guidance": "Descrivi soprattutto il bisogno dietro l'idea: cosa ti permetterebbe di fare?",
+      "successLine": "Ottima idea, grazie! La aggiungiamo alle nostre riflessioni."
+    },
+    "general": {
+      "label": "Messaggio",
+      "placeholder": "La tua domanda, la tua opinione o il tuo riscontro…",
+      "guidance": "Una domanda, un'osservazione, un incoraggiamento: leggiamo ogni messaggio.",
+      "successLine": "Grazie per il tuo messaggio. Ci prendiamo il tempo di leggere ogni riscontro."
+    },
+    "other": {
+      "label": "Altro",
+      "placeholder": "Raccontaci tutto…",
+      "guidance": "Dacci il maggior contesto possibile per poterti aiutare al meglio.",
+      "successLine": "Grazie per il tuo messaggio. Ti ricontattiamo se necessario."
+    }
+  },
+  "success": {
+    "title": "Messaggio inviato",
+    "back": "Torna alle impostazioni"
+  }
+}

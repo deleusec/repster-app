@@ -1,0 +1,33 @@
+{
+  "actions": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "retry": "Reintentar",
+    "delete": "Eliminar",
+    "close": "Cerrar",
+    "edit": "Editar",
+    "done": "Hecho",
+    "next": "Siguiente",
+    "back": "Atrás"
+  },
+  "all": "Todos",
+  "unnamed": "(sin nombre)",
+  "units": {
+    "reps": "reps"
+  },
+  "date": {
+    "justNow": "ahora mismo",
+    "minutesAgo": "hace {{n}} min",
+    "hoursAgo": "hace {{n}} h",
+    "yesterday": "ayer",
+    "daysAgo": "hace {{n}} d"
+  },
+  "language": {
+    "en": "Inglés",
+    "fr": "Francés",
+    "es": "Español",
+    "de": "Alemán",
+    "it": "Italiano"
+  }
+}

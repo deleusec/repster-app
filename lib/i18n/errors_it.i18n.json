@@ -1,0 +1,14 @@
+{
+  "network": "Nessuna connessione di rete. Controlla la connessione.",
+  "notFound": "Elemento non trovato.",
+  "generic": "Si è verificato un errore. Riprova.",
+  "invalidCode": "Codice non valido o scaduto.",
+  "passwordSameAsOld": "La nuova password deve essere diversa dalla precedente.",
+  "auth": {
+    "invalidCredentials": "Email o password non corretti.",
+    "emailNotConfirmed": "Conferma la tua email prima di accedere.",
+    "userAlreadyExists": "Esiste già un account con questa email.",
+    "sessionExpired": "Sessione scaduta. Accedi di nuovo.",
+    "notSignedIn": "Devi aver effettuato l'accesso."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "appName": "Repster",
+  "actions": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "retry": "Retry",
+    "delete": "Delete",
+    "close": "Close",
+    "edit": "Edit",
+    "done": "Done",
+    "next": "Next",
+    "back": "Back"
+  },
+  "all": "All",
+  "unnamed": "(unnamed)",
+  "units": {
+    "reps": "reps"
+  },
+  "date": {
+    "justNow": "just now",
+    "minutesAgo": "{{n}} min ago",
+    "hoursAgo": "{{n}} h ago",
+    "yesterday": "yesterday",
+    "daysAgo": "{{n}} d ago"
+  },
+  "language": {
+    "en": "English",
+    "fr": "French",
+    "es": "Spanish",
+    "de": "German",
+    "it": "Italian"
+  }
+}

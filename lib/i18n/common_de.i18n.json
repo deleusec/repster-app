@@ -1,0 +1,33 @@
+{
+  "actions": {
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "save": "Speichern",
+    "retry": "Erneut versuchen",
+    "delete": "Löschen",
+    "close": "Schließen",
+    "edit": "Bearbeiten",
+    "done": "Fertig",
+    "next": "Weiter",
+    "back": "Zurück"
+  },
+  "all": "Alle",
+  "unnamed": "(ohne Namen)",
+  "units": {
+    "reps": "Wdh."
+  },
+  "date": {
+    "justNow": "gerade eben",
+    "minutesAgo": "vor {{n}} Min.",
+    "hoursAgo": "vor {{n}} Std.",
+    "yesterday": "gestern",
+    "daysAgo": "vor {{n}} T."
+  },
+  "language": {
+    "en": "Englisch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "de": "Deutsch",
+    "it": "Italienisch"
+  }
+}

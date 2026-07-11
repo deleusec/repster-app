@@ -1,0 +1,14 @@
+base_locale: en
+fallback_strategy: base_locale
+input_directory: lib/i18n
+input_file_pattern: .i18n.json
+output_directory: lib/i18n
+output_file_name: translations.g.dart
+namespaces: true
+string_interpolation: double_braces
+translate_var: t
+enum_name: AppLocale
+# Toutes les locales sont compilées dans le bundle (pas d'imports différés) :
+# le changement de langue synchrone (`setLocaleSync`) fonctionne partout, y
+# compris sur le web. Volume négligeable (~500 clés × 5 langues).
+lazy: false

@@ -1,0 +1,101 @@
+{
+  "list": {
+    "title": "Programma",
+    "subtitleActive": {
+      "one": "{{n}} sessione attiva",
+      "other": "{{n}} sessioni attive"
+    },
+    "subtitleManage": {
+      "one": "{{n}} / {{total}} attiva",
+      "other": "{{n}} / {{total}} attive"
+    },
+    "manage": "Gestisci",
+    "newAction": "Nuova",
+    "emptyTitle": "Nessuna sessione",
+    "emptyMessage": "Crea la tua prima sessione per comporre il tuo programma.",
+    "emptyAction": "Crea una sessione",
+    "emptyActiveTitle": "Nessuna sessione nel programma",
+    "emptyActiveMessage": "Attiva delle sessioni per aggiungerle al tuo programma.",
+    "emptyActiveAction": "Gestisci le sessioni",
+    "noResult": "Nessun risultato",
+    "searchHint": "Cerca una sessione…",
+    "manageHint": "Trascina per riordinare · tocca il cerchio per nascondere/mostrare una sessione",
+    "savedChanges": "Modifiche salvate ✓",
+    "reorderError": "Errore durante il riordino.",
+    "toggleError": "Azione impossibile.",
+    "duplicated": "Sessione copiata!",
+    "duplicateError": "Duplicazione impossibile.",
+    "deleted": "Sessione eliminata.",
+    "deleteError": "Eliminazione impossibile.",
+    "copySuffix": "(copia)"
+  },
+  "card": {
+    "exerciseCount": {
+      "one": "{{n}} esercizio",
+      "other": "{{n}} esercizi"
+    },
+    "details": "Dettagli",
+    "copy": "Copia",
+    "deleteShort": "Elim.",
+    "activate": "Attiva",
+    "deactivate": "Disattiva"
+  },
+  "detail": {
+    "title": "Modello",
+    "noExercises": "Nessun esercizio in questo modello.",
+    "superset": "Superserie",
+    "setsCount": {
+      "one": "{{n}} serie",
+      "other": "{{n}} serie"
+    },
+    "seconds": "{{n}} s",
+    "tempo": "Tempo {{value}}",
+    "rest": "Riposo {{n}}s",
+    "variantsMore": {
+      "one": "+{{n}} variante",
+      "other": "+{{n}} varianti"
+    },
+    "start": "Avvia la sessione"
+  },
+  "editor": {
+    "newTitle": "Nuova sessione",
+    "editTitle": "Modifica sessione",
+    "exercisesHeader": "ESERCIZI ({{count}})",
+    "addExercise": "Aggiungi un esercizio",
+    "save": "Salva sessione",
+    "validationError": "Inserisci un nome e almeno un esercizio con nome."
+  },
+  "fields": {
+    "name": "Nome della sessione",
+    "nameHint": "es.: Petto / Tricipiti / Spalle",
+    "description": "Descrizione (opzionale)",
+    "descriptionHint": "Descrivi la tua sessione…",
+    "muscleGroups": "Gruppi muscolari",
+    "selectedCount": {
+      "one": "{{n}} selezionato",
+      "other": "{{n}} selezionati"
+    },
+    "exerciseName": "Nome dell’esercizio",
+    "exerciseNameHint": "es.: Panca piana",
+    "type": "Tipo",
+    "sets": "Serie",
+    "duration": "Durata (s)",
+    "targetReps": "Rip. obiettivo",
+    "rest": "Recupero (s)",
+    "tempo": "Tempo",
+    "tempoHint": "3-1-X-0",
+    "notes": "Note (opzionale)",
+    "notesHint": "Consigli tecnici…"
+  },
+  "slot": {
+    "newExercise": "Nuovo esercizio",
+    "variantN": "Variante {{n}}",
+    "primary": "PRINCIPALE",
+    "variant": "Variante",
+    "addVariant": "Aggiungi una variante",
+    "supersetNote": "Concatenato in superserie con l’esercizio successivo",
+    "supersetLabel": "SUPERSERIE",
+    "reps": "Ripetizioni",
+    "time": "Tempo"
+  }
+}

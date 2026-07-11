@@ -1,0 +1,14 @@
+{
+  "network": "No network connection. Check your connection.",
+  "notFound": "Item not found.",
+  "generic": "Something went wrong. Try again.",
+  "invalidCode": "Invalid or expired code.",
+  "passwordSameAsOld": "The new password must be different from the old one.",
+  "auth": {
+    "invalidCredentials": "Incorrect email or password.",
+    "emailNotConfirmed": "Confirm your email before signing in.",
+    "userAlreadyExists": "An account already exists with this email.",
+    "sessionExpired": "Session expired. Please sign in again.",
+    "notSignedIn": "You must be signed in."
+  }
+}

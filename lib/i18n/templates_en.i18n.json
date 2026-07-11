@@ -1,0 +1,101 @@
+{
+  "list": {
+    "title": "Program",
+    "subtitleActive": {
+      "one": "{{n}} active session",
+      "other": "{{n}} active sessions"
+    },
+    "subtitleManage": {
+      "one": "{{n}} / {{total}} active",
+      "other": "{{n}} / {{total}} active"
+    },
+    "manage": "Manage",
+    "newAction": "New",
+    "emptyTitle": "No sessions",
+    "emptyMessage": "Create your first session to build your program.",
+    "emptyAction": "Create a session",
+    "emptyActiveTitle": "No sessions in the program",
+    "emptyActiveMessage": "Activate sessions to add them to your program.",
+    "emptyActiveAction": "Manage sessions",
+    "noResult": "No results",
+    "searchHint": "Search a session…",
+    "manageHint": "Drag to reorder · tap the circle to hide/show a session",
+    "savedChanges": "Changes saved ✓",
+    "reorderError": "Reordering failed.",
+    "toggleError": "Action failed.",
+    "duplicated": "Session copied!",
+    "duplicateError": "Duplication failed.",
+    "deleted": "Session deleted.",
+    "deleteError": "Deletion failed.",
+    "copySuffix": "(copy)"
+  },
+  "card": {
+    "exerciseCount": {
+      "one": "{{n}} exercise",
+      "other": "{{n}} exercises"
+    },
+    "details": "Details",
+    "copy": "Copy",
+    "deleteShort": "Delete",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
+  },
+  "detail": {
+    "title": "Template",
+    "noExercises": "No exercises in this template.",
+    "superset": "Superset",
+    "setsCount": {
+      "one": "{{n}} set",
+      "other": "{{n}} sets"
+    },
+    "seconds": "{{n}} s",
+    "tempo": "Tempo {{value}}",
+    "rest": "Rest {{n}}s",
+    "variantsMore": {
+      "one": "+{{n}} variant",
+      "other": "+{{n}} variants"
+    },
+    "start": "Start session"
+  },
+  "editor": {
+    "newTitle": "New session",
+    "editTitle": "Edit session",
+    "exercisesHeader": "EXERCISES ({{count}})",
+    "addExercise": "Add an exercise",
+    "save": "Save session",
+    "validationError": "Enter a name and at least one named exercise."
+  },
+  "fields": {
+    "name": "Session name",
+    "nameHint": "e.g. Chest / Triceps / Shoulders",
+    "description": "Description (optional)",
+    "descriptionHint": "Describe your session…",
+    "muscleGroups": "Muscle groups",
+    "selectedCount": {
+      "one": "{{n}} selected",
+      "other": "{{n}} selected"
+    },
+    "exerciseName": "Exercise name",
+    "exerciseNameHint": "e.g. Bench press",
+    "type": "Type",
+    "sets": "Sets",
+    "duration": "Duration (s)",
+    "targetReps": "Target reps",
+    "rest": "Rest (s)",
+    "tempo": "Tempo",
+    "tempoHint": "3-1-X-0",
+    "notes": "Notes (optional)",
+    "notesHint": "Technical tips…"
+  },
+  "slot": {
+    "newExercise": "New exercise",
+    "variantN": "Variant {{n}}",
+    "primary": "PRIMARY",
+    "variant": "Variant",
+    "addVariant": "Add a variant",
+    "supersetNote": "Chained in a superset with the next exercise",
+    "supersetLabel": "SUPERSET",
+    "reps": "Reps",
+    "time": "Time"
+  }
+}

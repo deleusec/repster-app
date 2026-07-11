@@ -1,0 +1,63 @@
+{
+  "notConnected": "No has iniciado sesión.",
+  "navTitle": "PERFIL",
+  "defaultName": "Atleta",
+  "since": "Desde {{month}}",
+  "editSheet": {
+    "title": "Editar perfil"
+  },
+  "sections": {
+    "favoriteMuscleGroup": "Grupo muscular favorito",
+    "badges": "Insignias"
+  },
+  "stats": {
+    "sessions": "Sesiones",
+    "tonnage": "Tonelaje",
+    "sets": "Series"
+  },
+  "sessionCount": {
+    "one": "{{n}} sesión",
+    "other": "{{n}} sesiones"
+  },
+  "badges": {
+    "empty": "¡Empieza tu primera sesión para desbloquear insignias!",
+    "firstSession": "Primera sesión",
+    "tenSessions": "10 sesiones",
+    "tenTonnes": "10 toneladas",
+    "planner": "Planificador"
+  },
+  "avatar": {
+    "sheetTitle": "Foto de perfil",
+    "takePhoto": "Tomar una foto",
+    "gallery": "Galería de fotos",
+    "remove": "Eliminar la foto",
+    "openError": "No se pudo abrir la foto.",
+    "updated": "¡Foto actualizada!",
+    "saveError": "No se pudo guardar la foto.",
+    "removed": "Foto eliminada.",
+    "removeError": "No se pudo eliminar la foto."
+  },
+  "editForm": {
+    "saved": "Perfil actualizado.",
+    "pickDate": "Elegir una fecha",
+    "sections": {
+      "identity": "Identidad",
+      "physique": "Físico",
+      "goal": "Objetivo"
+    },
+    "fields": {
+      "name": "Nombre / Apodo",
+      "bio": "Biografía",
+      "birthdate": "Fecha de nacimiento",
+      "weight": "Peso (kg)",
+      "height": "Altura (cm)"
+    },
+    "validation": {
+      "nameMin": "Al menos 2 caracteres",
+      "nameMax": "Máximo 60 caracteres",
+      "invalidNumber": "Número no válido",
+      "heightRange": "Entre 80 y 260 cm",
+      "weightRange": "Entre 30 y 350 kg"
+    }
+  }
+}

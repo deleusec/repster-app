@@ -1,0 +1,33 @@
+{
+  "title": "Einstellungen",
+  "sections": {
+    "profile": "Profil",
+    "data": "Meine Daten",
+    "preferences": "Einstellungen",
+    "account": "Konto"
+  },
+  "defaultName": "Athlet",
+  "editProfile": "BEARBEITEN",
+  "rows": {
+    "templates": "Meine Vorlagen",
+    "history": "Trainingsverlauf",
+    "stats": "Statistiken",
+    "notifications": "Benachrichtigungen",
+    "privacy": "Datenschutz",
+    "contact": "Kontakt & Feedback",
+    "language": "Sprache",
+    "changePassword": "Passwort ändern"
+  },
+  "soon": "Bald",
+  "soonToast": "Demnächst verfügbar",
+  "logout": {
+    "action": "Abmelden",
+    "error": "Abmeldung fehlgeschlagen."
+  },
+  "version": "Repster v1.0 · Trainiere, wachse, wiederhole.",
+  "language": {
+    "title": "Sprache",
+    "subtitle": "Wähle die App-Sprache",
+    "system": "Systemsprache"
+  }
+}

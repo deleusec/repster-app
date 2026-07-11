@@ -1,0 +1,56 @@
+{
+  "greeting": {
+    "morning": "Buongiorno",
+    "afternoon": "Buon pomeriggio",
+    "evening": "Buonasera"
+  },
+  "defaultName": "Atleta",
+  "seeAll": "Vedi tutto",
+  "sections": {
+    "templates": "Modelli",
+    "recentSessions": "Ultime sessioni"
+  },
+  "templates": {
+    "empty": "Ancora nessun modello",
+    "newLabel": "Nuovo"
+  },
+  "exerciseCount": {
+    "one": "{{n}} esercizio",
+    "other": "{{n}} esercizi"
+  },
+  "hero": {
+    "eyebrow": "PRONTO AD ALLENARTI?",
+    "start": "Inizia la sessione",
+    "emptyTitle": "Crea il tuo primo modello",
+    "emptyMessage": "Configura i tuoi esercizi e via.",
+    "create": "Crea un modello"
+  },
+  "recent": {
+    "emptyTitle": "Inizia la tua prima sessione!",
+    "emptyMessage": "Scegli un modello e via.",
+    "tonnage": "tonnellaggio"
+  },
+  "inProgress": {
+    "label": "SESSIONE IN CORSO",
+    "startedAt": "Iniziata {{when}}",
+    "resume": "Riprendi",
+    "discard": "Abbandona",
+    "discardTitle": "Abbandonare la sessione?",
+    "discardMessage": "Tutti i dati in corso andranno persi.",
+    "discardError": "Errore — riprova."
+  },
+  "stats": {
+    "sessions": "Sessioni",
+    "volume": "Volume",
+    "streak": "Serie",
+    "thisWeek": "questa sett.",
+    "weekCount": {
+      "one": "settimana",
+      "other": "settimane"
+    }
+  },
+  "streakBadge": {
+    "one": "{{n}} settimana di fila",
+    "other": "{{n}} settimane di fila"
+  }
+}

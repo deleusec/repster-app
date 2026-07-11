@@ -1,0 +1,45 @@
+{
+  "title": "Cronologia",
+  "emptySubtitle": "Nessuna sessione",
+  "emptyTitle": "Ancora nessuna sessione",
+  "emptyMessage": "Avvia la tua prima sessione dalla schermata principale — comparirà qui.",
+  "sessionCount": {
+    "one": "{{n}} sessione",
+    "other": "{{n}} sessioni"
+  },
+  "deleteError": "Eliminazione non riuscita.",
+  "noResult": "Nessuna sessione per questo gruppo",
+  "groups": {
+    "thisWeek": "Questa settimana",
+    "lastWeek": "Settimana scorsa",
+    "weeksAgo": {
+      "one": "{{n}} settimana fa",
+      "other": "{{n}} settimane fa"
+    }
+  },
+  "panel": {
+    "sessions": "Sessioni",
+    "volume": "Volume",
+    "time": "Tempo"
+  },
+  "detail": {
+    "title": "Sessione",
+    "dateFormat": "EEEE d MMMM 'alle' HH:mm",
+    "duration": "Durata",
+    "tonnage": "Tonnellaggio",
+    "sets": "Serie",
+    "notes": "Note",
+    "perExercise": "Dettaglio per esercizio",
+    "setsCount": {
+      "one": "{{n}} serie",
+      "other": "{{n}} serie"
+    },
+    "bodyweight": "Peso corporeo",
+    "colSet": "Serie",
+    "colReps": "Rip.",
+    "colLoad": "Carico",
+    "colHeld": "Tenuto",
+    "totalExercise": "Totale esercizio",
+    "totalHeld": "Totale tenuto"
+  }
+}

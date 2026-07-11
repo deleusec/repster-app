@@ -1,0 +1,101 @@
+{
+  "fields": {
+    "email": "E-Mail-Adresse",
+    "password": "Passwort"
+  },
+  "backToLogin": "Zurück zur Anmeldung",
+  "login": {
+    "welcomeTitle": "Schön, dich wiederzusehen",
+    "welcomeSubtitle": "Melde dich an, um fortzufahren.",
+    "forgotPassword": "Passwort vergessen?",
+    "submit": "Anmelden",
+    "submitLoading": "Anmeldung…",
+    "noAccount": "Noch kein Konto?",
+    "createAccount": "Konto erstellen"
+  },
+  "signup": {
+    "title": "Konto erstellen",
+    "subtitle": "Schließe dich Tausenden von Athleten an.",
+    "passwordHint": "Passwort (mind. 8 Zeichen)",
+    "submit": "Mein Konto erstellen",
+    "submitLoading": "Wird erstellt…",
+    "terms": "Mit der Erstellung eines Kontos akzeptierst du unsere Nutzungsbedingungen."
+  },
+  "onboarding": {
+    "step1Title": "Wie heißt\ndu?",
+    "step1Subtitle": "Um dein Erlebnis zu personalisieren.",
+    "nameHint": "Dein Vorname",
+    "continueLabel": "Weiter",
+    "step2Title": "Was ist dein\nZiel?",
+    "step2Subtitle": "Wir passen deine Einheiten entsprechend an.",
+    "step3Title": "Ein paar Infos",
+    "optional": "Optional",
+    "step3Subtitle": "Für genauere Empfehlungen.",
+    "weightHint": "Gewicht (kg)",
+    "heightHint": "Größe (cm)",
+    "birthdate": "Geburtsdatum",
+    "submit": "Los geht's!",
+    "submitLoading": "Wird gespeichert…",
+    "skip": "Diesen Schritt überspringen",
+    "goalDescriptions": {
+      "hypertrophy": "Muskeln aufbauen",
+      "strength": "Schwerer heben",
+      "endurance": "Cardio & Ausdauer",
+      "weightLoss": "Kalorien verbrennen",
+      "maintenance": "In Form bleiben"
+    },
+    "nameRequired": "Dein Vorname ist erforderlich.",
+    "nameTooLong": "Vorname zu lang.",
+    "goalRequired": "Wähle ein Ziel.",
+    "weightInvalid": "Ungültiges Gewicht",
+    "heightInvalid": "Ungültige Größe"
+  },
+  "verifyEmail": {
+    "title": "Bestätige deine E-Mail",
+    "subtitle": "Wir haben einen 6-stelligen Code gesendet",
+    "submitLoading": "Wird überprüft…",
+    "submitComplete": "Code bestätigen",
+    "submitIncomplete": "Gib den erhaltenen Code ein",
+    "noCode": "Keinen Code erhalten?",
+    "resent": "Code erneut gesendet!",
+    "resendCooldown": "Erneut senden in {{n}}s",
+    "resending": "Wird gesendet…",
+    "resend": "Code erneut senden",
+    "emailMissing": "E-Mail fehlt. Kehre zur Registrierung zurück."
+  },
+  "forgotPassword": {
+    "title": "Passwort vergessen",
+    "subtitle": "Wir senden dir einen Link zum Zurücksetzen",
+    "submit": "Link senden",
+    "submitLoading": "Wird gesendet…",
+    "successMessage": "Ein Link zum Zurücksetzen wurde an deine E-Mail-Adresse gesendet. Prüfe deinen Posteingang."
+  },
+  "updatePassword": {
+    "title": "Neues Passwort",
+    "subtitle": "Wähle ein sicheres Passwort",
+    "newHint": "Neues Passwort",
+    "confirmHint": "Passwort bestätigen",
+    "submit": "Passwort speichern",
+    "submitLoading": "Wird gespeichert…"
+  },
+  "changePassword": {
+    "title": "Passwort ändern",
+    "subtitle": "Bestätige zu deiner Sicherheit dein aktuelles Passwort, bevor du ein neues wählst.",
+    "currentHint": "Aktuelles Passwort",
+    "newHint": "Neues Passwort",
+    "confirmHint": "Neues Passwort bestätigen",
+    "submit": "Passwort aktualisieren",
+    "submitLoading": "Wird aktualisiert…",
+    "successToast": "Passwort aktualisiert",
+    "currentRequired": "Aktuelles Passwort erforderlich",
+    "mustDiffer": "Das neue Passwort muss sich vom aktuellen unterscheiden",
+    "currentIncorrect": "Aktuelles Passwort falsch"
+  },
+  "validators": {
+    "emailRequired": "E-Mail erforderlich",
+    "emailInvalid": "Ungültige E-Mail",
+    "passwordRequired": "Passwort erforderlich",
+    "passwordMin": "Mindestens 8 Zeichen",
+    "passwordMismatch": "Die Passwörter stimmen nicht überein"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Contacto y feedback",
+    "subtitle": "¿Un error, una idea, una pregunta? Escríbenos, lo leemos todo."
+  },
+  "sections": {
+    "type": "Tipo de solicitud",
+    "yourInfo": "Tus datos",
+    "message": "Mensaje"
+  },
+  "fields": {
+    "nameHint": "Tu nombre",
+    "nameRequired": "Nombre obligatorio",
+    "emailHint": "Tu dirección de correo",
+    "emailInvalid": "Correo no válido",
+    "messageTooShort": "Mensaje demasiado corto (10 caracteres mín.)"
+  },
+  "counter": "{{current}} / {{max}}",
+  "submit": "Enviar",
+  "categories": {
+    "bug": {
+      "label": "Error",
+      "placeholder": "Ej.: tras mi serie, el cronómetro de descanso no arranca…",
+      "guidance": "Indica los pasos para reproducirlo, lo que esperabas y tu modelo de teléfono: nos ayuda a corregirlo rápido.",
+      "successLine": "Anotado: vamos a echarle un vistazo de cerca a este error."
+    },
+    "feature": {
+      "label": "Idea",
+      "placeholder": "Ej.: poder duplicar una plantilla existente…",
+      "guidance": "Describe sobre todo la necesidad detrás de la idea: ¿qué te permitiría hacer?",
+      "successLine": "¡Gran idea, gracias! La añadimos a nuestras reflexiones."
+    },
+    "general": {
+      "label": "Mensaje",
+      "placeholder": "Tu pregunta, tu opinión o tus comentarios…",
+      "guidance": "Una pregunta, un comentario, un ánimo: leemos cada mensaje.",
+      "successLine": "Gracias por tu mensaje. Nos tomamos el tiempo de leer cada comentario."
+    },
+    "other": {
+      "label": "Otro",
+      "placeholder": "Cuéntanoslo todo…",
+      "guidance": "Danos el máximo contexto posible para poder ayudarte lo mejor posible.",
+      "successLine": "Gracias por tu mensaje. Te responderemos si es necesario."
+    }
+  },
+  "success": {
+    "title": "Mensaje enviado",
+    "back": "Volver a los ajustes"
+  }
+}

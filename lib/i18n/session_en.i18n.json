@@ -1,0 +1,164 @@
+{
+  "bw": "BW",
+  "continueLabel": "Continue",
+  "error": {
+    "startFailed": "Couldn't start the session.",
+    "saveFailed": "Save failed."
+  },
+  "live": {
+    "exercisePosition": "Exercise {{current}} / {{total}}",
+    "supersetPosition": "Superset {{current}} / {{total}}",
+    "headerSubtitle": "{{completed}}/{{total}} sets · {{time}}",
+    "totalTonnage": "Total tonnage",
+    "nextExercise": "Next exercise",
+    "nextBlock": "Next block",
+    "finishSession": "Finish session"
+  },
+  "confirm": {
+    "quitTitle": "Discard session?",
+    "quitMessage": "All progress will be lost.",
+    "quitConfirm": "Discard",
+    "inProgressTitle": "A session is already in progress",
+    "inProgressMessage": "“{{name}}” was started {{date}}. Starting a new one will permanently delete its progress.",
+    "overwriteAndStart": "Overwrite and start",
+    "deleteExerciseTitle": "Delete “{{name}}”?",
+    "deleteExerciseMessage": {
+      "one": "This exercise already has {{n}} completed set. It will be lost.",
+      "other": "This exercise already has {{n}} completed sets. They will be lost."
+    }
+  },
+  "add": {
+    "title": "Add an exercise",
+    "subtitle": "Added to this session only, without changing the template.",
+    "addLabel": "Add",
+    "addToSession": "Add to session",
+    "reps": "Reps",
+    "time": "Time"
+  },
+  "swap": {
+    "title": "Edit exercise",
+    "currently": "Currently: {{name}}",
+    "sessionOnly": "These changes apply to this session only.",
+    "useLabel": "Use",
+    "adoptFormat": "Adopt the format",
+    "adoptFormatSummary": "{{summary}} · from “{{name}}”",
+    "apply": "Apply for this session"
+  },
+  "variants": {
+    "title": "Choose a variant",
+    "lockedMessage": "A set is already completed — finish the exercise or use “Swap” to adjust on the fly.",
+    "pickMessage": "Pick a variant for this slot. It will replace the current exercise.",
+    "empty": "No variant defined for this exercise.",
+    "main": "MAIN",
+    "variantN": "Variant {{n}}",
+    "restSeconds": "{{n}}s rest",
+    "tempoPart": " · tempo {{tempo}}"
+  },
+  "finish": {
+    "title": "Finish session?",
+    "summaryReps": "{{completed}}/{{total}} sets · ",
+    "summaryTonnageSuffix": " of tonnage",
+    "notesHint": "Notes about the session (optional)…",
+    "confirm": "Finish",
+    "unvalidatedSets": {
+      "one": "{{n}} UNVALIDATED SET",
+      "other": "{{n}} UNVALIDATED SETS"
+    },
+    "incompleteHint": "You can go back and complete your sets, or finish anyway — only checked sets will be saved."
+  },
+  "timer": {
+    "preparation": "GET READY",
+    "running": "IN PROGRESS",
+    "done": "DONE",
+    "go": "GO",
+    "stop": "Stop"
+  },
+  "rest": {
+    "title": "REST",
+    "sec": "SEC",
+    "skip": "Skip",
+    "minimize": "Minimize"
+  },
+  "set": {
+    "addSet": "Add a set",
+    "setLabel": "Set {{n}}",
+    "reps": "Reps",
+    "load": "Load",
+    "duration": "Duration",
+    "held": "Held",
+    "tonnage": "TONNAGE",
+    "targetReps": "target {{n}} reps",
+    "targetDuration": "target {{value}}",
+    "validateWithoutTimer": "Complete without timer",
+    "cmpUp": "Top"
+  },
+  "exercise": {
+    "timed": "Timed",
+    "tempoChip": "Tempo {{tempo}}",
+    "restChip": "{{n}}s rest",
+    "lastTime": "LAST TIME:",
+    "differentTargetSeconds": "· different target ({{n}}s)",
+    "differentTargetReps": "· different target ({{n}} reps)",
+    "perfEntry": "S{{n}} — {{value}}",
+    "modified": "Modified · this session only",
+    "modifiedWas": "Modified · this session only (was: {{name}})",
+    "completedBadge": "✓ Done",
+    "totalHeld": "Total held: {{value}}",
+    "exerciseVolume": "Exercise volume: {{value}} kg"
+  },
+  "overview": {
+    "title": "Exercises",
+    "current": "CURRENT",
+    "setsValidated": "{{completed}}/{{total}} sets completed"
+  },
+  "superset": {
+    "badge": "SUPERSET · {{n}} EXERCISES",
+    "addSetTo": "Add a set to {{letter}} · {{name}}"
+  },
+  "duration": {
+    "title": "Duration per set",
+    "hint": "45 or 1m30",
+    "confirm": "Confirm — {{value}}"
+  },
+  "weight": {
+    "bodyweight": "Bodyweight",
+    "confirmBodyweight": "Confirm — Bodyweight",
+    "confirmKg": "Confirm — {{value}} kg"
+  },
+  "search": {
+    "hint": "Search for an exercise…",
+    "loading": "Loading exercises…",
+    "noMatch": "No exercise matches.",
+    "certifiedBadge": "Repster exercise"
+  },
+  "history": {
+    "title": "History · {{name}}",
+    "empty": "No history yet for this exercise.",
+    "loading": "Loading history…",
+    "setLabel": "Set {{n}}",
+    "dateFormat": "MMM d, yyyy"
+  },
+  "fields": {
+    "exerciseName": "Exercise name",
+    "type": "Type",
+    "sets": "Sets",
+    "durationSec": "Duration (sec)",
+    "targetReps": "Target reps",
+    "restShort": "Rest (sec)",
+    "rest": "Rest (sec)",
+    "tempo": "Tempo",
+    "notesOptional": "Notes (optional)",
+    "notesHint": "Technique tips…"
+  },
+  "toast": {
+    "exerciseAdded": "{{name}} added to the session",
+    "validateOneSet": "Complete at least one set before finishing.",
+    "sessionSaved": "Session saved! 🎉",
+    "finishOrSwap": "Finish the current set or use “Swap”."
+  },
+  "notif": {
+    "countdownChannel": "Rest countdown",
+    "doneChannel": "Rest finished",
+    "doneTitle": "Rest's over"
+  }
+}

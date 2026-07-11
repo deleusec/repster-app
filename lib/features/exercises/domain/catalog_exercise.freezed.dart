@@ -1,0 +1,287 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'catalog_exercise.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
+
+/// @nodoc
+mixin _$CatalogExercise {
+  String get id => throw _privateConstructorUsedError;
+  String get displayName => throw _privateConstructorUsedError;
+  bool get isCertified => throw _privateConstructorUsedError;
+  List<MuscleGroup> get muscleGroups => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError;
+  String? get matchedVia => throw _privateConstructorUsedError;
+
+  /// Create a copy of CatalogExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CatalogExerciseCopyWith<CatalogExercise> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CatalogExerciseCopyWith<$Res> {
+  factory $CatalogExerciseCopyWith(
+    CatalogExercise value,
+    $Res Function(CatalogExercise) then,
+  ) = _$CatalogExerciseCopyWithImpl<$Res, CatalogExercise>;
+  @useResult
+  $Res call({
+    String id,
+    String displayName,
+    bool isCertified,
+    List<MuscleGroup> muscleGroups,
+    String? category,
+    String? matchedVia,
+  });
+}
+
+/// @nodoc
+class _$CatalogExerciseCopyWithImpl<$Res, $Val extends CatalogExercise>
+    implements $CatalogExerciseCopyWith<$Res> {
+  _$CatalogExerciseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CatalogExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? displayName = null,
+    Object? isCertified = null,
+    Object? muscleGroups = null,
+    Object? category = freezed,
+    Object? matchedVia = freezed,
+  }) {
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            displayName: null == displayName
+                ? _value.displayName
+                : displayName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isCertified: null == isCertified
+                ? _value.isCertified
+                : isCertified // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            muscleGroups: null == muscleGroups
+                ? _value.muscleGroups
+                : muscleGroups // ignore: cast_nullable_to_non_nullable
+                      as List<MuscleGroup>,
+            category: freezed == category
+                ? _value.category
+                : category // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            matchedVia: freezed == matchedVia
+                ? _value.matchedVia
+                : matchedVia // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$CatalogExerciseImplCopyWith<$Res>
+    implements $CatalogExerciseCopyWith<$Res> {
+  factory _$$CatalogExerciseImplCopyWith(
+    _$CatalogExerciseImpl value,
+    $Res Function(_$CatalogExerciseImpl) then,
+  ) = __$$CatalogExerciseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    String id,
+    String displayName,
+    bool isCertified,
+    List<MuscleGroup> muscleGroups,
+    String? category,
+    String? matchedVia,
+  });
+}
+
+/// @nodoc
+class __$$CatalogExerciseImplCopyWithImpl<$Res>
+    extends _$CatalogExerciseCopyWithImpl<$Res, _$CatalogExerciseImpl>
+    implements _$$CatalogExerciseImplCopyWith<$Res> {
+  __$$CatalogExerciseImplCopyWithImpl(
+    _$CatalogExerciseImpl _value,
+    $Res Function(_$CatalogExerciseImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of CatalogExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? displayName = null,
+    Object? isCertified = null,
+    Object? muscleGroups = null,
+    Object? category = freezed,
+    Object? matchedVia = freezed,
+  }) {
+    return _then(
+      _$CatalogExerciseImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        displayName: null == displayName
+            ? _value.displayName
+            : displayName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isCertified: null == isCertified
+            ? _value.isCertified
+            : isCertified // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        muscleGroups: null == muscleGroups
+            ? _value._muscleGroups
+            : muscleGroups // ignore: cast_nullable_to_non_nullable
+                  as List<MuscleGroup>,
+        category: freezed == category
+            ? _value.category
+            : category // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        matchedVia: freezed == matchedVia
+            ? _value.matchedVia
+            : matchedVia // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$CatalogExerciseImpl extends _CatalogExercise {
+  const _$CatalogExerciseImpl({
+    required this.id,
+    required this.displayName,
+    required this.isCertified,
+    final List<MuscleGroup> muscleGroups = const <MuscleGroup>[],
+    this.category,
+    this.matchedVia,
+  }) : _muscleGroups = muscleGroups,
+       super._();
+
+  @override
+  final String id;
+  @override
+  final String displayName;
+  @override
+  final bool isCertified;
+  final List<MuscleGroup> _muscleGroups;
+  @override
+  @JsonKey()
+  List<MuscleGroup> get muscleGroups {
+    if (_muscleGroups is EqualUnmodifiableListView) return _muscleGroups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_muscleGroups);
+  }
+
+  @override
+  final String? category;
+  @override
+  final String? matchedVia;
+
+  @override
+  String toString() {
+    return 'CatalogExercise(id: $id, displayName: $displayName, isCertified: $isCertified, muscleGroups: $muscleGroups, category: $category, matchedVia: $matchedVia)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CatalogExerciseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.displayName, displayName) ||
+                other.displayName == displayName) &&
+            (identical(other.isCertified, isCertified) ||
+                other.isCertified == isCertified) &&
+            const DeepCollectionEquality().equals(
+              other._muscleGroups,
+              _muscleGroups,
+            ) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.matchedVia, matchedVia) ||
+                other.matchedVia == matchedVia));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    displayName,
+    isCertified,
+    const DeepCollectionEquality().hash(_muscleGroups),
+    category,
+    matchedVia,
+  );
+
+  /// Create a copy of CatalogExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CatalogExerciseImplCopyWith<_$CatalogExerciseImpl> get copyWith =>
+      __$$CatalogExerciseImplCopyWithImpl<_$CatalogExerciseImpl>(
+        this,
+        _$identity,
+      );
+}
+
+abstract class _CatalogExercise extends CatalogExercise {
+  const factory _CatalogExercise({
+    required final String id,
+    required final String displayName,
+    required final bool isCertified,
+    final List<MuscleGroup> muscleGroups,
+    final String? category,
+    final String? matchedVia,
+  }) = _$CatalogExerciseImpl;
+  const _CatalogExercise._() : super._();
+
+  @override
+  String get id;
+  @override
+  String get displayName;
+  @override
+  bool get isCertified;
+  @override
+  List<MuscleGroup> get muscleGroups;
+  @override
+  String? get category;
+  @override
+  String? get matchedVia;
+
+  /// Create a copy of CatalogExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CatalogExerciseImplCopyWith<_$CatalogExerciseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

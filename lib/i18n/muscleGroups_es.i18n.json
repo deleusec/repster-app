@@ -1,0 +1,21 @@
+{
+  "chest": "Pecho",
+  "back": "Espalda",
+  "shoulders": "Hombros",
+  "biceps": "Bíceps",
+  "triceps": "Tríceps",
+  "forearms": "Antebrazos",
+  "quads": "Cuádriceps",
+  "hamstrings": "Isquiotibiales",
+  "glutes": "Glúteos",
+  "calves": "Pantorrillas",
+  "abs": "Abdominales",
+  "custom": "Otro",
+  "sections": {
+    "chestBack": "Pecho y espalda",
+    "shouldersArms": "Hombros y brazos",
+    "legsGlutes": "Piernas y glúteos",
+    "abs": "Abdominales",
+    "other": "Otro"
+  }
+}

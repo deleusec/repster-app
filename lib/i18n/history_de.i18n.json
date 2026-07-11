@@ -1,0 +1,45 @@
+{
+  "title": "Verlauf",
+  "emptySubtitle": "Keine Einheiten",
+  "emptyTitle": "Noch keine Einheiten",
+  "emptyMessage": "Starte deine erste Einheit über den Startbildschirm — sie erscheint dann hier.",
+  "sessionCount": {
+    "one": "{{n}} Einheit",
+    "other": "{{n}} Einheiten"
+  },
+  "deleteError": "Löschen fehlgeschlagen.",
+  "noResult": "Keine Einheiten für diese Gruppe",
+  "groups": {
+    "thisWeek": "Diese Woche",
+    "lastWeek": "Letzte Woche",
+    "weeksAgo": {
+      "one": "vor {{n}} Woche",
+      "other": "vor {{n}} Wochen"
+    }
+  },
+  "panel": {
+    "sessions": "Einheiten",
+    "volume": "Volumen",
+    "time": "Zeit"
+  },
+  "detail": {
+    "title": "Einheit",
+    "dateFormat": "EEEE, d. MMMM 'um' HH:mm",
+    "duration": "Dauer",
+    "tonnage": "Tonnage",
+    "sets": "Sätze",
+    "notes": "Notizen",
+    "perExercise": "Details pro Übung",
+    "setsCount": {
+      "one": "{{n}} Satz",
+      "other": "{{n}} Sätze"
+    },
+    "bodyweight": "Körpergewicht",
+    "colSet": "Satz",
+    "colReps": "Wdh.",
+    "colLoad": "Last",
+    "colHeld": "Gehalten",
+    "totalExercise": "Übung gesamt",
+    "totalHeld": "Gesamt gehalten"
+  }
+}

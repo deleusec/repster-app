@@ -1,0 +1,101 @@
+{
+  "fields": {
+    "email": "Adresse email",
+    "password": "Mot de passe"
+  },
+  "backToLogin": "Retour à la connexion",
+  "login": {
+    "welcomeTitle": "Content de te revoir",
+    "welcomeSubtitle": "Connecte-toi pour continuer.",
+    "forgotPassword": "Mot de passe oublié ?",
+    "submit": "Se connecter",
+    "submitLoading": "Connexion…",
+    "noAccount": "Pas encore de compte ?",
+    "createAccount": "Créer un compte"
+  },
+  "signup": {
+    "title": "Créer un compte",
+    "subtitle": "Rejoins des milliers d’athlètes.",
+    "passwordHint": "Mot de passe (8 car. min.)",
+    "submit": "Créer mon compte",
+    "submitLoading": "Création…",
+    "terms": "En créant un compte, tu acceptes nos conditions d’utilisation."
+  },
+  "onboarding": {
+    "step1Title": "Comment tu\nt’appelles ?",
+    "step1Subtitle": "Pour personnaliser ton expérience.",
+    "nameHint": "Ton prénom",
+    "continueLabel": "Continuer",
+    "step2Title": "Quel est ton\nobjectif ?",
+    "step2Subtitle": "On adaptera tes séances en conséquence.",
+    "step3Title": "Quelques infos",
+    "optional": "Optionnel",
+    "step3Subtitle": "Pour des recommandations plus précises.",
+    "weightHint": "Poids (kg)",
+    "heightHint": "Taille (cm)",
+    "birthdate": "Date de naissance",
+    "submit": "C'est parti !",
+    "submitLoading": "Enregistrement…",
+    "skip": "Passer cette étape",
+    "goalDescriptions": {
+      "hypertrophy": "Gagner du muscle",
+      "strength": "Augmenter les charges",
+      "endurance": "Cardio & résistance",
+      "weightLoss": "Brûler les calories",
+      "maintenance": "Garder la forme"
+    },
+    "nameRequired": "Ton prénom est requis.",
+    "nameTooLong": "Prénom trop long.",
+    "goalRequired": "Choisis un objectif.",
+    "weightInvalid": "Poids invalide",
+    "heightInvalid": "Taille invalide"
+  },
+  "verifyEmail": {
+    "title": "Vérifie ton email",
+    "subtitle": "On a envoyé un code à 6 chiffres",
+    "submitLoading": "Vérification…",
+    "submitComplete": "Vérifier le code",
+    "submitIncomplete": "Entre le code reçu",
+    "noCode": "Tu n’as pas reçu le code ?",
+    "resent": "Code renvoyé !",
+    "resendCooldown": "Renvoyer dans {{n}}s",
+    "resending": "Envoi…",
+    "resend": "Renvoyer le code",
+    "emailMissing": "Email manquant. Reviens à l'inscription."
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oublié",
+    "subtitle": "On t’envoie un lien de réinitialisation",
+    "submit": "Envoyer le lien",
+    "submitLoading": "Envoi…",
+    "successMessage": "Un lien de réinitialisation a été envoyé à ton adresse email. Vérifie ta boîte de réception."
+  },
+  "updatePassword": {
+    "title": "Nouveau mot de passe",
+    "subtitle": "Choisis un mot de passe sécurisé",
+    "newHint": "Nouveau mot de passe",
+    "confirmHint": "Confirmer le mot de passe",
+    "submit": "Enregistrer le mot de passe",
+    "submitLoading": "Enregistrement…"
+  },
+  "changePassword": {
+    "title": "Changer le mot de passe",
+    "subtitle": "Pour ta sécurité, confirme ton mot de passe actuel avant d'en choisir un nouveau.",
+    "currentHint": "Mot de passe actuel",
+    "newHint": "Nouveau mot de passe",
+    "confirmHint": "Confirmer le nouveau mot de passe",
+    "submit": "Mettre à jour le mot de passe",
+    "submitLoading": "Mise à jour…",
+    "successToast": "Mot de passe mis à jour",
+    "currentRequired": "Mot de passe actuel requis",
+    "mustDiffer": "Le nouveau mot de passe doit être différent de l'actuel",
+    "currentIncorrect": "Mot de passe actuel incorrect"
+  },
+  "validators": {
+    "emailRequired": "Email requis",
+    "emailInvalid": "Email invalide",
+    "passwordRequired": "Mot de passe requis",
+    "passwordMin": "Minimum 8 caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas"
+  }
+}

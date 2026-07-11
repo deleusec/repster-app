@@ -1,0 +1,101 @@
+{
+  "list": {
+    "title": "Programa",
+    "subtitleActive": {
+      "one": "{{n}} sesión activa",
+      "other": "{{n}} sesiones activas"
+    },
+    "subtitleManage": {
+      "one": "{{n}} / {{total}} activa",
+      "other": "{{n}} / {{total}} activas"
+    },
+    "manage": "Gestionar",
+    "newAction": "Nueva",
+    "emptyTitle": "No hay sesiones",
+    "emptyMessage": "Crea tu primera sesión para armar tu programa.",
+    "emptyAction": "Crear una sesión",
+    "emptyActiveTitle": "No hay sesiones en el programa",
+    "emptyActiveMessage": "Activa sesiones para añadirlas a tu programa.",
+    "emptyActiveAction": "Gestionar sesiones",
+    "noResult": "Sin resultados",
+    "searchHint": "Buscar una sesión…",
+    "manageHint": "Arrastra para reordenar · toca el círculo para ocultar/mostrar una sesión",
+    "savedChanges": "Cambios guardados ✓",
+    "reorderError": "Error al reordenar.",
+    "toggleError": "Acción imposible.",
+    "duplicated": "¡Sesión copiada!",
+    "duplicateError": "No se pudo duplicar.",
+    "deleted": "Sesión eliminada.",
+    "deleteError": "No se pudo eliminar.",
+    "copySuffix": "(copia)"
+  },
+  "card": {
+    "exerciseCount": {
+      "one": "{{n}} ejercicio",
+      "other": "{{n}} ejercicios"
+    },
+    "details": "Detalles",
+    "copy": "Copiar",
+    "deleteShort": "Elim.",
+    "activate": "Activar",
+    "deactivate": "Desactivar"
+  },
+  "detail": {
+    "title": "Plantilla",
+    "noExercises": "No hay ejercicios en esta plantilla.",
+    "superset": "Superserie",
+    "setsCount": {
+      "one": "{{n}} serie",
+      "other": "{{n}} series"
+    },
+    "seconds": "{{n}} s",
+    "tempo": "Tempo {{value}}",
+    "rest": "Descanso {{n}}s",
+    "variantsMore": {
+      "one": "+{{n}} variante",
+      "other": "+{{n}} variantes"
+    },
+    "start": "Iniciar sesión"
+  },
+  "editor": {
+    "newTitle": "Nueva sesión",
+    "editTitle": "Editar sesión",
+    "exercisesHeader": "EJERCICIOS ({{count}})",
+    "addExercise": "Añadir un ejercicio",
+    "save": "Guardar sesión",
+    "validationError": "Introduce un nombre y al menos un ejercicio con nombre."
+  },
+  "fields": {
+    "name": "Nombre de la sesión",
+    "nameHint": "ej.: Pecho / Tríceps / Hombros",
+    "description": "Descripción (opcional)",
+    "descriptionHint": "Describe tu sesión…",
+    "muscleGroups": "Grupos musculares",
+    "selectedCount": {
+      "one": "{{n}} seleccionado",
+      "other": "{{n}} seleccionados"
+    },
+    "exerciseName": "Nombre del ejercicio",
+    "exerciseNameHint": "ej.: Press de banca",
+    "type": "Tipo",
+    "sets": "Series",
+    "duration": "Duración (s)",
+    "targetReps": "Reps objetivo",
+    "rest": "Descanso (s)",
+    "tempo": "Tempo",
+    "tempoHint": "3-1-X-0",
+    "notes": "Notas (opcional)",
+    "notesHint": "Consejos técnicos…"
+  },
+  "slot": {
+    "newExercise": "Nuevo ejercicio",
+    "variantN": "Variante {{n}}",
+    "primary": "PRINCIPAL",
+    "variant": "Variante",
+    "addVariant": "Añadir una variante",
+    "supersetNote": "Encadenado en superserie con el siguiente ejercicio",
+    "supersetLabel": "SUPERSERIE",
+    "reps": "Repeticiones",
+    "time": "Tiempo"
+  }
+}

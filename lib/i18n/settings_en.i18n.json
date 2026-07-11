@@ -1,0 +1,33 @@
+{
+  "title": "Settings",
+  "sections": {
+    "profile": "Profile",
+    "data": "My data",
+    "preferences": "Preferences",
+    "account": "Account"
+  },
+  "defaultName": "Athlete",
+  "editProfile": "EDIT",
+  "rows": {
+    "templates": "My templates",
+    "history": "Session history",
+    "stats": "Statistics",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "contact": "Contact & Feedback",
+    "language": "Language",
+    "changePassword": "Change my password"
+  },
+  "soon": "Soon",
+  "soonToast": "Coming soon",
+  "logout": {
+    "action": "Sign out",
+    "error": "Sign-out failed."
+  },
+  "version": "Repster v1.0 · Train, progress, repeat.",
+  "language": {
+    "title": "Language",
+    "subtitle": "Choose the app language",
+    "system": "System default"
+  }
+}

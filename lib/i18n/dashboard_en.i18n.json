@@ -1,0 +1,56 @@
+{
+  "greeting": {
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening"
+  },
+  "defaultName": "Athlete",
+  "seeAll": "See all",
+  "sections": {
+    "templates": "Templates",
+    "recentSessions": "Latest sessions"
+  },
+  "templates": {
+    "empty": "No templates yet",
+    "newLabel": "New"
+  },
+  "exerciseCount": {
+    "one": "{{n}} exercise",
+    "other": "{{n}} exercises"
+  },
+  "hero": {
+    "eyebrow": "READY TO TRAIN?",
+    "start": "Start session",
+    "emptyTitle": "Create your first template",
+    "emptyMessage": "Set up your exercises and off you go.",
+    "create": "Create a template"
+  },
+  "recent": {
+    "emptyTitle": "Start your first session!",
+    "emptyMessage": "Pick a template and off you go.",
+    "tonnage": "tonnage"
+  },
+  "inProgress": {
+    "label": "SESSION IN PROGRESS",
+    "startedAt": "Started {{when}}",
+    "resume": "Resume",
+    "discard": "Discard",
+    "discardTitle": "Discard session?",
+    "discardMessage": "All current entries will be lost.",
+    "discardError": "Failed — try again."
+  },
+  "stats": {
+    "sessions": "Sessions",
+    "volume": "Volume",
+    "streak": "Streak",
+    "thisWeek": "this wk",
+    "weekCount": {
+      "one": "week",
+      "other": "weeks"
+    }
+  },
+  "streakBadge": {
+    "one": "{{n}} week streak",
+    "other": "{{n}} weeks streak"
+  }
+}

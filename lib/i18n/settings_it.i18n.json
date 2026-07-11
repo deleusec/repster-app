@@ -1,0 +1,33 @@
+{
+  "title": "Impostazioni",
+  "sections": {
+    "profile": "Profilo",
+    "data": "I miei dati",
+    "preferences": "Preferenze",
+    "account": "Account"
+  },
+  "defaultName": "Atleta",
+  "editProfile": "MODIFICA",
+  "rows": {
+    "templates": "I miei modelli",
+    "history": "Cronologia sessioni",
+    "stats": "Statistiche",
+    "notifications": "Notifiche",
+    "privacy": "Privacy",
+    "contact": "Contatti e feedback",
+    "language": "Lingua",
+    "changePassword": "Cambia la mia password"
+  },
+  "soon": "Presto",
+  "soonToast": "Presto disponibile",
+  "logout": {
+    "action": "Disconnetti",
+    "error": "Disconnessione non riuscita."
+  },
+  "version": "Repster v1.0 · Allenati, progredisci, ripeti.",
+  "language": {
+    "title": "Lingua",
+    "subtitle": "Scegli la lingua dell'app",
+    "system": "Lingua di sistema"
+  }
+}

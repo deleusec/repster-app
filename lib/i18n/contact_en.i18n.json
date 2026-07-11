@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Contact & feedback",
+    "subtitle": "A bug, an idea, a question? Write to us, we read everything."
+  },
+  "sections": {
+    "type": "Request type",
+    "yourInfo": "Your info",
+    "message": "Message"
+  },
+  "fields": {
+    "nameHint": "Your first name",
+    "nameRequired": "Name required",
+    "emailHint": "Your email address",
+    "emailInvalid": "Invalid email",
+    "messageTooShort": "Message too short (10 characters min)"
+  },
+  "counter": "{{current}} / {{max}}",
+  "submit": "Send",
+  "categories": {
+    "bug": {
+      "label": "Bug",
+      "placeholder": "E.g. after my set, the rest timer doesn't start…",
+      "guidance": "Give the steps to reproduce, what you expected, and your phone model — it helps us fix it fast.",
+      "successLine": "Got it — we're heading over to take a close look at this bug."
+    },
+    "feature": {
+      "label": "Idea",
+      "placeholder": "E.g. being able to duplicate an existing template…",
+      "guidance": "Above all, describe the need behind the idea: what would it let you do?",
+      "successLine": "Great idea, thanks! We're adding it to our thinking."
+    },
+    "general": {
+      "label": "Message",
+      "placeholder": "Your question, your opinion or your feedback…",
+      "guidance": "A question, a remark, some encouragement: we read every message.",
+      "successLine": "Thanks for your message. We take the time to read every piece of feedback."
+    },
+    "other": {
+      "label": "Other",
+      "placeholder": "Tell us everything…",
+      "guidance": "Give us as much context as possible so we can help you as best we can.",
+      "successLine": "Thanks for your message. We'll get back to you if needed."
+    }
+  },
+  "success": {
+    "title": "Message sent",
+    "back": "Back to settings"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "network": "Keine Netzwerkverbindung. Überprüfe deine Verbindung.",
+  "notFound": "Element nicht gefunden.",
+  "generic": "Ein Fehler ist aufgetreten. Versuche es erneut.",
+  "invalidCode": "Ungültiger oder abgelaufener Code.",
+  "passwordSameAsOld": "Das neue Passwort muss sich vom alten unterscheiden.",
+  "auth": {
+    "invalidCredentials": "E-Mail oder Passwort falsch.",
+    "emailNotConfirmed": "Bestätige deine E-Mail vor der Anmeldung.",
+    "userAlreadyExists": "Mit dieser E-Mail existiert bereits ein Konto.",
+    "sessionExpired": "Sitzung abgelaufen. Melde dich erneut an.",
+    "notSignedIn": "Du musst angemeldet sein."
+  }
+}

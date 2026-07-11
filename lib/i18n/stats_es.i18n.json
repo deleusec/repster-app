@@ -1,0 +1,67 @@
+{
+  "title": "Estadísticas",
+  "sessionsCount": {
+    "one": "{{n}} sesión",
+    "other": "{{n}} sesiones"
+  },
+  "weeksShort": "{{n}} sem.",
+  "subtitle": {
+    "empty": "Ninguna sesión en el periodo"
+  },
+  "empty": {
+    "title": "Aún no hay datos",
+    "message": "Completa algunas sesiones para ver tus curvas y tu progresión."
+  },
+  "range": {
+    "last4Weeks": { "label": "4 semanas", "short": "4 sem." },
+    "last3Months": { "label": "3 meses", "short": "3 meses" },
+    "all": { "label": "Todo", "short": "Todo" }
+  },
+  "kpi": {
+    "sessions": "Sesiones",
+    "volume": "Volumen",
+    "sets": "Series",
+    "avgDuration": "Duración media"
+  },
+  "consistency": {
+    "title": "Constancia",
+    "trainingDays": "días activos",
+    "perWeek": "sesiones / sem.",
+    "bestStreak": "mejor racha",
+    "noStreak": "sin racha",
+    "less": "menos",
+    "more": "más"
+  },
+  "weeklyVolume": {
+    "title": "Volumen por semana",
+    "empty": "Aún no hay suficientes sesiones en el periodo."
+  },
+  "exercise": {
+    "title": "Progresión por ejercicio",
+    "empty": "Registra al menos 2 sesiones con el mismo ejercicio con carga para ver tu curva de fuerza.",
+    "pickerTitle": "Elegir un ejercicio",
+    "noExercise": "Ningún ejercicio",
+    "searchHint": "Buscar…",
+    "oneRmMax": "1RM estimado máx.",
+    "bestLoad": "mejor carga",
+    "record": "récord"
+  },
+  "muscleBalance": {
+    "title": "Equilibrio muscular",
+    "neglected": "— sin entrenar desde hace {{days}} d {{emoji}}",
+    "since": {
+      "none": "–",
+      "today": "hoy",
+      "yesterday": "ayer",
+      "daysShort": "{{n}}d"
+    }
+  },
+  "records": {
+    "title": "Récords",
+    "bestSession": "Mejor sesión",
+    "heaviestLift": "Carga máxima",
+    "bestOneRm": "1RM estimado",
+    "bestStreak": "Racha más larga",
+    "consecutiveWeeks": "semanas consecutivas"
+  }
+}

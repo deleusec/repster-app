@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Contact & feedback",
+    "subtitle": "Un bug, une idée, une question ? Écris-nous, on lit tout."
+  },
+  "sections": {
+    "type": "Type de demande",
+    "yourInfo": "Tes infos",
+    "message": "Message"
+  },
+  "fields": {
+    "nameHint": "Ton prénom",
+    "nameRequired": "Nom requis",
+    "emailHint": "Ton adresse email",
+    "emailInvalid": "Email invalide",
+    "messageTooShort": "Message trop court (10 caractères min)"
+  },
+  "counter": "{{current}} / {{max}}",
+  "submit": "Envoyer",
+  "categories": {
+    "bug": {
+      "label": "Bug",
+      "placeholder": "Ex : après ma série, le chrono de repos ne démarre pas…",
+      "guidance": "Précise les étapes pour reproduire, ce que tu attendais, et ton modèle de téléphone — ça nous aide à corriger vite.",
+      "successLine": "C'est noté — on file regarder ce bug de près."
+    },
+    "feature": {
+      "label": "Idée",
+      "placeholder": "Ex : pouvoir dupliquer un template existant…",
+      "guidance": "Décris surtout le besoin derrière l'idée : qu'est-ce que ça te permettrait de faire ?",
+      "successLine": "Super idée, merci ! On l'ajoute à notre réflexion."
+    },
+    "general": {
+      "label": "Message",
+      "placeholder": "Ta question, ton avis ou ton retour…",
+      "guidance": "Une question, une remarque, un encouragement : on lit chaque message.",
+      "successLine": "Merci pour ton message. On prend le temps de lire chaque retour."
+    },
+    "other": {
+      "label": "Autre",
+      "placeholder": "Dis-nous tout…",
+      "guidance": "Donne-nous un maximum de contexte pour qu'on puisse t'aider au mieux.",
+      "successLine": "Merci pour ton message. On revient vers toi si besoin."
+    }
+  },
+  "success": {
+    "title": "Message envoyé",
+    "back": "Retour aux réglages"
+  }
+}

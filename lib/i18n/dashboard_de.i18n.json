@@ -1,0 +1,56 @@
+{
+  "greeting": {
+    "morning": "Guten Morgen",
+    "afternoon": "Guten Tag",
+    "evening": "Guten Abend"
+  },
+  "defaultName": "Athlet",
+  "seeAll": "Alle ansehen",
+  "sections": {
+    "templates": "Vorlagen",
+    "recentSessions": "Letzte Einheiten"
+  },
+  "templates": {
+    "empty": "Noch keine Vorlagen",
+    "newLabel": "Neu"
+  },
+  "exerciseCount": {
+    "one": "{{n}} Übung",
+    "other": "{{n}} Übungen"
+  },
+  "hero": {
+    "eyebrow": "BEREIT ZUM TRAINIEREN?",
+    "start": "Einheit starten",
+    "emptyTitle": "Erstelle deine erste Vorlage",
+    "emptyMessage": "Richte deine Übungen ein und los geht’s.",
+    "create": "Vorlage erstellen"
+  },
+  "recent": {
+    "emptyTitle": "Starte deine erste Einheit!",
+    "emptyMessage": "Wähle eine Vorlage und los geht’s.",
+    "tonnage": "Tonnage"
+  },
+  "inProgress": {
+    "label": "EINHEIT LÄUFT",
+    "startedAt": "Gestartet {{when}}",
+    "resume": "Fortsetzen",
+    "discard": "Verwerfen",
+    "discardTitle": "Einheit verwerfen?",
+    "discardMessage": "Alle aktuellen Eingaben gehen verloren.",
+    "discardError": "Fehlgeschlagen — versuch es erneut."
+  },
+  "stats": {
+    "sessions": "Einheiten",
+    "volume": "Volumen",
+    "streak": "Serie",
+    "thisWeek": "diese Wo.",
+    "weekCount": {
+      "one": "Woche",
+      "other": "Wochen"
+    }
+  },
+  "streakBadge": {
+    "one": "{{n}} Woche in Folge",
+    "other": "{{n}} Wochen in Folge"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Kontakt & Feedback",
+    "subtitle": "Ein Bug, eine Idee, eine Frage? Schreib uns, wir lesen alles."
+  },
+  "sections": {
+    "type": "Art der Anfrage",
+    "yourInfo": "Deine Angaben",
+    "message": "Nachricht"
+  },
+  "fields": {
+    "nameHint": "Dein Vorname",
+    "nameRequired": "Name erforderlich",
+    "emailHint": "Deine E-Mail-Adresse",
+    "emailInvalid": "Ungültige E-Mail",
+    "messageTooShort": "Nachricht zu kurz (mind. 10 Zeichen)"
+  },
+  "counter": "{{current}} / {{max}}",
+  "submit": "Senden",
+  "categories": {
+    "bug": {
+      "label": "Bug",
+      "placeholder": "Z. B.: Nach meinem Satz startet der Pausen-Timer nicht…",
+      "guidance": "Nenne die Schritte zum Reproduzieren, was du erwartet hast, und dein Telefonmodell — das hilft uns, es schnell zu beheben.",
+      "successLine": "Notiert — wir schauen uns diesen Bug gleich genau an."
+    },
+    "feature": {
+      "label": "Idee",
+      "placeholder": "Z. B.: eine bestehende Vorlage duplizieren können…",
+      "guidance": "Beschreibe vor allem den Bedarf hinter der Idee: Was würde es dir ermöglichen?",
+      "successLine": "Tolle Idee, danke! Wir nehmen sie in unsere Überlegungen auf."
+    },
+    "general": {
+      "label": "Nachricht",
+      "placeholder": "Deine Frage, deine Meinung oder dein Feedback…",
+      "guidance": "Eine Frage, eine Anmerkung, ein Ansporn: Wir lesen jede Nachricht.",
+      "successLine": "Danke für deine Nachricht. Wir nehmen uns Zeit, jedes Feedback zu lesen."
+    },
+    "other": {
+      "label": "Sonstiges",
+      "placeholder": "Erzähl uns alles…",
+      "guidance": "Gib uns möglichst viel Kontext, damit wir dir bestmöglich helfen können.",
+      "successLine": "Danke für deine Nachricht. Wir melden uns bei Bedarf."
+    }
+  },
+  "success": {
+    "title": "Nachricht gesendet",
+    "back": "Zurück zu den Einstellungen"
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "bw": "PC",
+  "continueLabel": "Continuer",
+  "error": {
+    "startFailed": "Impossible de démarrer la séance.",
+    "saveFailed": "Échec de la sauvegarde."
+  },
+  "live": {
+    "exercisePosition": "Exercice {{current}} / {{total}}",
+    "supersetPosition": "Superset {{current}} / {{total}}",
+    "headerSubtitle": "{{completed}}/{{total}} séries · {{time}}",
+    "totalTonnage": "Tonnage total",
+    "nextExercise": "Exercice suivant",
+    "nextBlock": "Bloc suivant",
+    "finishSession": "Terminer la séance"
+  },
+  "confirm": {
+    "quitTitle": "Abandonner la séance ?",
+    "quitMessage": "Toute la progression sera perdue.",
+    "quitConfirm": "Abandonner",
+    "inProgressTitle": "Une séance est déjà en cours",
+    "inProgressMessage": "« {{name}} » a été démarrée {{date}}. En démarrer une nouvelle supprimera définitivement sa progression.",
+    "overwriteAndStart": "Écraser et démarrer",
+    "deleteExerciseTitle": "Supprimer « {{name}} » ?",
+    "deleteExerciseMessage": {
+      "one": "Cet exercice a déjà {{n}} série validée. Elles seront perdues.",
+      "other": "Cet exercice a déjà {{n}} séries validées. Elles seront perdues."
+    }
+  },
+  "add": {
+    "title": "Ajouter un exercice",
+    "subtitle": "Ajouté uniquement à cette séance, sans toucher au template.",
+    "addLabel": "Ajouter",
+    "addToSession": "Ajouter à la séance",
+    "reps": "Répétitions",
+    "time": "Temps"
+  },
+  "swap": {
+    "title": "Modifier l'exercice",
+    "currently": "Actuellement : {{name}}",
+    "sessionOnly": "Ces changements ne s’appliquent qu’à cette séance.",
+    "useLabel": "Utiliser",
+    "adoptFormat": "Reprendre le format",
+    "adoptFormatSummary": "{{summary}} · d’après « {{name}} »",
+    "apply": "Appliquer pour cette séance"
+  },
+  "variants": {
+    "title": "Choisir une variante",
+    "lockedMessage": "Une série est déjà validée — termine l’exercice ou utilise « Échanger » pour ajuster en cours de route.",
+    "pickMessage": "Sélectionne une variante pour cet emplacement. Elle remplacera l’exercice courant.",
+    "empty": "Aucune variante définie pour cet exercice.",
+    "main": "PRINCIPAL",
+    "variantN": "Variante {{n}}",
+    "restSeconds": "{{n}}s repos",
+    "tempoPart": " · tempo {{tempo}}"
+  },
+  "finish": {
+    "title": "Terminer la séance ?",
+    "summaryReps": "{{completed}}/{{total}} séries · ",
+    "summaryTonnageSuffix": " de tonnage",
+    "notesHint": "Notes sur la séance (optionnel)…",
+    "confirm": "Terminer",
+    "unvalidatedSets": {
+      "one": "{{n}} SÉRIE NON VALIDÉE",
+      "other": "{{n}} SÉRIES NON VALIDÉES"
+    },
+    "incompleteHint": "Tu peux revenir valider tes séries, ou terminer quand même — seules les séries cochées seront enregistrées."
+  },
+  "timer": {
+    "preparation": "PRÉPARATION",
+    "running": "EN COURS",
+    "done": "TERMINÉ",
+    "go": "GO",
+    "stop": "Arrêter"
+  },
+  "rest": {
+    "title": "RÉCUPÉRATION",
+    "sec": "SEC",
+    "skip": "Passer",
+    "minimize": "Réduire"
+  },
+  "set": {
+    "addSet": "Ajouter une série",
+    "setLabel": "Série {{n}}",
+    "reps": "Reps",
+    "load": "Charge",
+    "duration": "Durée",
+    "held": "Tenu",
+    "tonnage": "TONNAGE",
+    "targetReps": "objectif {{n}} reps",
+    "targetDuration": "objectif {{value}}",
+    "validateWithoutTimer": "Valider sans timer",
+    "cmpUp": "Top"
+  },
+  "exercise": {
+    "timed": "Chronométré",
+    "tempoChip": "Tempo {{tempo}}",
+    "restChip": "{{n}}s récup",
+    "lastTime": "DERNIÈRE FOIS :",
+    "differentTargetSeconds": "· cible différente ({{n}}s)",
+    "differentTargetReps": "· cible différente ({{n}} reps)",
+    "perfEntry": "S{{n}} — {{value}}",
+    "modified": "Modifié · séance uniquement",
+    "modifiedWas": "Modifié · séance uniquement (était : {{name}})",
+    "completedBadge": "✓ Terminé",
+    "totalHeld": "Total tenu : {{value}}",
+    "exerciseVolume": "Volume exercice : {{value}} kg"
+  },
+  "overview": {
+    "title": "Exercices",
+    "current": "EN COURS",
+    "setsValidated": "{{completed}}/{{total}} séries validées"
+  },
+  "superset": {
+    "badge": "SUPERSET · {{n}} EXOS",
+    "addSetTo": "Ajouter une série à {{letter}} · {{name}}"
+  },
+  "duration": {
+    "title": "Durée par série",
+    "hint": "45 ou 1m30",
+    "confirm": "Confirmer — {{value}}"
+  },
+  "weight": {
+    "bodyweight": "Poids de corps",
+    "confirmBodyweight": "Confirmer — Poids de corps",
+    "confirmKg": "Confirmer — {{value}} kg"
+  },
+  "search": {
+    "hint": "Rechercher un exercice…",
+    "loading": "Chargement des exercices…",
+    "noMatch": "Aucun exercice ne correspond.",
+    "certifiedBadge": "Exercice Repster"
+  },
+  "history": {
+    "title": "Historique · {{name}}",
+    "empty": "Pas encore d’historique pour cet exercice.",
+    "loading": "Chargement de l’historique…",
+    "setLabel": "Série {{n}}",
+    "dateFormat": "d MMM yyyy"
+  },
+  "fields": {
+    "exerciseName": "Nom de l’exercice",
+    "type": "Type",
+    "sets": "Séries",
+    "durationSec": "Durée (sec)",
+    "targetReps": "Reps cibles",
+    "restShort": "Récup. (sec)",
+    "rest": "Récupération (sec)",
+    "tempo": "Tempo",
+    "notesOptional": "Notes (optionnel)",
+    "notesHint": "Conseils techniques…"
+  },
+  "toast": {
+    "exerciseAdded": "{{name}} ajouté à la séance",
+    "validateOneSet": "Valide au moins une série avant de finir.",
+    "sessionSaved": "Séance enregistrée ! 🎉",
+    "finishOrSwap": "Termine la série en cours ou utilise « Échanger »."
+  },
+  "notif": {
+    "countdownChannel": "Compte à rebours de récup",
+    "doneChannel": "Fin de récupération",
+    "doneTitle": "Récupération terminée"
+  }
+}

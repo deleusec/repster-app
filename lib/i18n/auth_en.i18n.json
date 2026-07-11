@@ -1,0 +1,101 @@
+{
+  "fields": {
+    "email": "Email address",
+    "password": "Password"
+  },
+  "backToLogin": "Back to sign in",
+  "login": {
+    "welcomeTitle": "Good to see you again",
+    "welcomeSubtitle": "Sign in to continue.",
+    "forgotPassword": "Forgot password?",
+    "submit": "Sign in",
+    "submitLoading": "Signing in…",
+    "noAccount": "No account yet?",
+    "createAccount": "Create an account"
+  },
+  "signup": {
+    "title": "Create an account",
+    "subtitle": "Join thousands of athletes.",
+    "passwordHint": "Password (8 char. min.)",
+    "submit": "Create my account",
+    "submitLoading": "Creating…",
+    "terms": "By creating an account, you accept our terms of use."
+  },
+  "onboarding": {
+    "step1Title": "What's your\nname?",
+    "step1Subtitle": "To personalize your experience.",
+    "nameHint": "Your first name",
+    "continueLabel": "Continue",
+    "step2Title": "What's your\ngoal?",
+    "step2Subtitle": "We'll adapt your sessions accordingly.",
+    "step3Title": "A few details",
+    "optional": "Optional",
+    "step3Subtitle": "For more accurate recommendations.",
+    "weightHint": "Weight (kg)",
+    "heightHint": "Height (cm)",
+    "birthdate": "Date of birth",
+    "submit": "Let's go!",
+    "submitLoading": "Saving…",
+    "skip": "Skip this step",
+    "goalDescriptions": {
+      "hypertrophy": "Build muscle",
+      "strength": "Lift heavier",
+      "endurance": "Cardio & resistance",
+      "weightLoss": "Burn calories",
+      "maintenance": "Stay in shape"
+    },
+    "nameRequired": "Your first name is required.",
+    "nameTooLong": "First name too long.",
+    "goalRequired": "Choose a goal.",
+    "weightInvalid": "Invalid weight",
+    "heightInvalid": "Invalid height"
+  },
+  "verifyEmail": {
+    "title": "Verify your email",
+    "subtitle": "We sent a 6-digit code",
+    "submitLoading": "Verifying…",
+    "submitComplete": "Verify the code",
+    "submitIncomplete": "Enter the code you received",
+    "noCode": "Didn't receive the code?",
+    "resent": "Code resent!",
+    "resendCooldown": "Resend in {{n}}s",
+    "resending": "Sending…",
+    "resend": "Resend the code",
+    "emailMissing": "Missing email. Go back to sign up."
+  },
+  "forgotPassword": {
+    "title": "Forgot password",
+    "subtitle": "We'll send you a reset link",
+    "submit": "Send the link",
+    "submitLoading": "Sending…",
+    "successMessage": "A reset link has been sent to your email address. Check your inbox."
+  },
+  "updatePassword": {
+    "title": "New password",
+    "subtitle": "Choose a secure password",
+    "newHint": "New password",
+    "confirmHint": "Confirm the password",
+    "submit": "Save the password",
+    "submitLoading": "Saving…"
+  },
+  "changePassword": {
+    "title": "Change password",
+    "subtitle": "For your security, confirm your current password before choosing a new one.",
+    "currentHint": "Current password",
+    "newHint": "New password",
+    "confirmHint": "Confirm the new password",
+    "submit": "Update the password",
+    "submitLoading": "Updating…",
+    "successToast": "Password updated",
+    "currentRequired": "Current password required",
+    "mustDiffer": "The new password must differ from the current one",
+    "currentIncorrect": "Current password incorrect"
+  },
+  "validators": {
+    "emailRequired": "Email required",
+    "emailInvalid": "Invalid email",
+    "passwordRequired": "Password required",
+    "passwordMin": "Minimum 8 characters",
+    "passwordMismatch": "Passwords do not match"
+  }
+}

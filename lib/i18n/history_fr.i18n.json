@@ -1,0 +1,45 @@
+{
+  "title": "Historique",
+  "emptySubtitle": "Aucune séance",
+  "emptyTitle": "Aucune séance pour l'instant",
+  "emptyMessage": "Lance ta première séance depuis l'accueil — elle apparaîtra ici.",
+  "sessionCount": {
+    "one": "{{n}} séance",
+    "other": "{{n}} séances"
+  },
+  "deleteError": "Échec de la suppression.",
+  "noResult": "Aucune séance pour ce groupe",
+  "groups": {
+    "thisWeek": "Cette semaine",
+    "lastWeek": "Semaine dernière",
+    "weeksAgo": {
+      "one": "il y a {{n}} semaine",
+      "other": "il y a {{n}} semaines"
+    }
+  },
+  "panel": {
+    "sessions": "Séances",
+    "volume": "Volume",
+    "time": "Temps"
+  },
+  "detail": {
+    "title": "Séance",
+    "dateFormat": "EEEE d MMMM 'à' HH:mm",
+    "duration": "Durée",
+    "tonnage": "Tonnage",
+    "sets": "Séries",
+    "notes": "Notes",
+    "perExercise": "Détail par exercice",
+    "setsCount": {
+      "one": "{{n}} série",
+      "other": "{{n}} séries"
+    },
+    "bodyweight": "Poids de corps",
+    "colSet": "Série",
+    "colReps": "Reps",
+    "colLoad": "Charge",
+    "colHeld": "Tenu",
+    "totalExercise": "Total exercice",
+    "totalHeld": "Total tenu"
+  }
+}

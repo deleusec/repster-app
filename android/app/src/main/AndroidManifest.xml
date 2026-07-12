@@ -2,10 +2,12 @@
     <!-- Rest-timer countdown notification on the lock screen (Android 13+). -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- Fire the rest-end chime at the exact instant while backgrounded/locked.
-         USE_EXACT_ALARM is auto-granted and permitted for timer/alarm apps. -->
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+         SCHEDULE_EXACT_ALARM is broadly permitted (no Play "core alarm app"
+         justification): auto-granted on Android 12, user-grantable in Settings
+         on 13+. When not granted, RestNotifier falls back to an inexact alarm. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <application
-        android:label="repster"
+        android:label="Repster"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

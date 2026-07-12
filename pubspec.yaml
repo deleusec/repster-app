@@ -57,6 +57,11 @@ flutter_launcher_icons:
   adaptive_icon_foreground: "assets/launcher/repster_icon_foreground.png"
   ios: true
   remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/launcher/repster_icon.png"
+    background_color: "#000000"
+    theme_color: "#000000"
 
 flutter:
   uses-material-design: true

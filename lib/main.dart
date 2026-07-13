@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:repster/app.dart';
@@ -17,6 +19,13 @@ Future<void> main() async {
     // Keep the native splash on screen during async bootstrap below.
     FlutterNativeSplash.preserve(widgetsBinding: binding);
 
+    // Web: drop the `#` from routes (path-based URLs). This keeps the URL
+    // fragment free for Supabase's implicit-flow auth callback
+    // (`#access_token=...` on password recovery), which would otherwise
+    // collide with hash-based routing. Vercel already rewrites all paths to
+    // index.html, so deep links resolve. No-op on mobile.
+    if (kIsWeb) usePathUrlStrategy();
+
     installGlobalErrorHandlers();
     Env.assertConfigured();
 
@@ -30,6 +39,14 @@ Future<void> main() async {
       url: Env.supabaseUrl,
       anonKey: Env.supabaseAnonKey,
       authOptions: FlutterAuthClientOptions(
+        // Mobile: PKCE — the same app instance requests the reset and handles
+        // the deep-link callback, so the code_verifier is always available.
+        // Web: implicit — the recovery link is often opened in a different
+        // browser context than the one that requested it (e.g. an installed
+        // PWA vs Safari on iOS), where the PKCE code_verifier is missing and
+        // the code exchange fails. Implicit returns the tokens directly in the
+        // URL, so recovery works regardless of context.
+        authFlowType: kIsWeb ? AuthFlowType.implicit : AuthFlowType.pkce,
         // Stores the session (access + refresh token) encrypted via Keychain
         // (iOS) / EncryptedSharedPreferences (Android). Key matches the
         // Supabase format to stay aligned with the SDK.

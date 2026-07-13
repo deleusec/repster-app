@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Network access (Supabase, HTTP). Required in the release manifest —
+         Flutter only injects it into the debug/profile manifests. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Rest-timer countdown notification on the lock screen (Android 13+). -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- Fire the rest-end chime at the exact instant while backgrounded/locked.

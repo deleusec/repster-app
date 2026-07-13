@@ -19,8 +19,11 @@ class AppColors {
   static const Color roseOnPrimary = Color(0xFFFFF1F2);
 
   // ── Dark scheme (app default) ─────────────────────────────────────────────
-  /// `oklch(0.065 0 0)` — near-black, matches the manifest `themeColor`.
-  static const Color darkBackground = Color(0xFF0A0A0A);
+  /// `oklch(0.065 0 0)` — near-black. This oklch renders as ≈ `#010101` in the
+  /// browser (the PWA's real page background); the manifest `themeColor` uses a
+  /// lighter `#0a0a0a` only for the OS status bar. We match the *content*
+  /// background here so the app is as dark as the PWA.
+  static const Color darkBackground = Color(0xFF010101);
 
   /// `oklch(0.135 0 0)` — card background.
   /// PWA autofill CSS uses rgb(25,25,25), so we align on it.

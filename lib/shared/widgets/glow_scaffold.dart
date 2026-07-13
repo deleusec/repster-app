@@ -39,25 +39,31 @@ class _GlowBackdrop extends StatelessWidget {
       child: ClipRect(
         child: Stack(
           children: [
+            // Main top glow — mirrors the PWA dashboard's atmospheric backdrop
+            // (`-top-40 w-[520] h-[520] bg-primary/9 blur-[90px]`). The larger
+            // blur (was 70) makes it fade out gradually lower on the screen
+            // instead of stopping abruptly around the first section.
             Positioned(
-              top: -220,
+              top: -160,
               left: 0,
               right: 0,
               child: Center(
                 child: SoftGlow(
                   color: primary.withValues(alpha: 0.09),
                   size: 520,
-                  blur: 70,
+                  blur: 90,
                 ),
               ),
             ),
+            // Secondary glow (`top-[30%] -right-28 w-72 h-72 bg-primary/5
+            // blur-3xl`).
             Positioned(
-              top: 130,
-              right: -110,
+              top: 150,
+              right: -112,
               child: SoftGlow(
                 color: primary.withValues(alpha: 0.05),
                 size: 288,
-                blur: 50,
+                blur: 64,
               ),
             ),
           ],

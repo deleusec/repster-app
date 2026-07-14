@@ -38,6 +38,7 @@ class Routes {
   static const String profile = '/profile';
   static const String contact = '/contact';
   static const String privacy = '/privacy';
+  static const String deleteAccount = '/delete-account';
 
   static const String _session = '/session';
   static String session(String templateId, {bool resume = false}) =>

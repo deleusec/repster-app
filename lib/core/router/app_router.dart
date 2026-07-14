@@ -34,6 +34,13 @@ const _publicAuthPaths = <String>{
   Routes.updatePassword,
 };
 
+/// Informational pages reachable regardless of auth state (logged in or not).
+/// The privacy policy must be publicly accessible without signing in — Google
+/// Play requires a public privacy policy URL.
+const _publicPaths = <String>{
+  Routes.privacy,
+};
+
 final goRouterProvider = Provider<GoRouter>((ref) {
   final refresh = _AuthRefreshNotifier(ref);
 
@@ -47,11 +54,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final loggedIn = user != null;
       final path = state.matchedLocation;
       final isAuth = _publicAuthPaths.contains(path);
+      final isPublic = _publicPaths.contains(path);
       final isOnboarding = path == Routes.onboarding;
 
-      // Not logged in → block everything except auth routes.
+      // Not logged in → block everything except auth + public info routes.
       if (!loggedIn) {
-        return isAuth ? null : Routes.login;
+        return (isAuth || isPublic) ? null : Routes.login;
       }
 
       // Password recovery: the reset link produced a valid session, so the
@@ -67,7 +75,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // Onboarding required when the `full_name` metadata is missing.
       final fullName = user.userMetadata?['full_name'] as String?;
       final hasFullName = fullName != null && fullName.trim().isNotEmpty;
-      if (!hasFullName && !isOnboarding) return Routes.onboarding;
+      if (!hasFullName && !isOnboarding && !isPublic) return Routes.onboarding;
       if (hasFullName && isOnboarding) return Routes.dashboard;
 
       return null;

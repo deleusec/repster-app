@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 
@@ -77,6 +78,7 @@ class _TabBarState extends State<_TabBar> {
   }
 
   void _handleTap(int index) {
+    HapticFeedback.selectionClick();
     if (index != _displayedIndex) {
       setState(() => _displayedIndex = index);
     }

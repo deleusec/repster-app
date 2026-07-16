@@ -168,9 +168,7 @@ class RestTimerOverlay extends StatelessWidget {
       left: 16,
       right: 16,
       bottom: MediaQuery.paddingOf(context).bottom + 80,
-      // Glass pill: background blur + translucent tint + hairline (via
-      // `GlassSurface`), consistent with the sheets / drawers. The floating
-      // shadow stays on the outer box, behind the clip.
+      // Shadow on the outer box; GlassSurface handles the blur + tint.
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppRadius.xxl),

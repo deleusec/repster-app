@@ -76,10 +76,15 @@ class _WeightRulerSheetState extends State<_WeightRulerSheet> {
       _programmatic = true;
       await _scroll.animateTo(
         target,
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
       );
       _programmatic = false;
+      if (!mounted) return;
+      // Only when the snap actually pulled, so it never doubles the per-tick
+      // clicks from `_onScroll`.
+      await HapticFeedback.lightImpact();
+      if (!mounted) return;
     }
     setState(() => _value = double.parse((idx * 0.1).toStringAsFixed(1)));
   }
@@ -96,6 +101,7 @@ class _WeightRulerSheetState extends State<_WeightRulerSheet> {
 
   void _adjust(double delta) {
     final next = _clamp(_value + delta);
+    if (next != _value) HapticFeedback.selectionClick();
     setState(() => _value = next);
     _jumpTo(next);
   }

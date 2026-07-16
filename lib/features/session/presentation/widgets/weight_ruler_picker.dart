@@ -64,7 +64,8 @@ class _WeightRulerSheetState extends State<_WeightRulerSheet> {
     final idx = ((_scroll.offset) / _tickW).round().clamp(0, _totalTicks - 1);
     final v = double.parse((idx * 0.1).toStringAsFixed(1));
     if (v != _value) {
-      HapticFeedback.selectionClick();
+      // Tick on whole kilos only (not every 0.1 subdivision).
+      if (idx % 10 == 0) HapticFeedback.selectionClick();
       setState(() => _value = v);
     }
   }

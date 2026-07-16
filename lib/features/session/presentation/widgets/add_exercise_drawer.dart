@@ -36,9 +36,11 @@ Future<AddExerciseData?> showAddExerciseDrawer(
   BuildContext context, {
   required Future<List<CatalogExercise>> Function(String query) search,
 }) {
-  return showGlassSheet<AddExerciseData>(
+  return AppDrawerSheet.show<AddExerciseData>(
     context,
-    builder: (_) => _AddSheet(search: search),
+    title: t.session.add.title,
+    padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+    child: _AddSheet(search: search),
   );
 }
 
@@ -99,176 +101,131 @@ class _AddSheetState extends State<_AddSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    return SafeArea(
-      top: false,
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.viewInsetsOf(context).bottom,
-        ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.sizeOf(context).height * 0.92,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            t.session.add.subtitle,
+            style: TextStyle(
+              fontSize: 12,
+              color: AppColors.accentAmber.withValues(alpha: 0.85),
+            ),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 4),
-                    width: 36,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: onSurface.withValues(alpha: 0.18),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
+          const SizedBox(height: 16),
+          FormFieldLabel(t.session.fields.exerciseName),
+          const SizedBox(height: 6),
+          ExerciseNameField(
+            controller: _name,
+            search: widget.search,
+            addLabel: t.session.add.addLabel,
+            autofocus: true,
+            onSelected: _onSelected,
+            onSubmit: _add,
+          ),
+          const SizedBox(height: 14),
+          FormFieldLabel(t.session.fields.type),
+          const SizedBox(height: 6),
+          _TypeToggle(
+            isTimeBased: _isTimeBased,
+            onChanged: (v) => setState(() {
+              _isTimeBased = v;
+              if (v) {
+                _tempo.text = '0-0-0-0';
+              } else if (_tempo.text == '0-0-0-0') {
+                _tempo.text = '2-0-2-0';
+              }
+            }),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    FormFieldLabel(t.session.fields.sets),
+                    const SizedBox(height: 6),
+                    NumberField(controller: _sets),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    FormFieldLabel(
+                      _isTimeBased
+                          ? t.session.fields.durationSec
+                          : t.session.fields.targetReps,
+                    ),
+                    const SizedBox(height: 6),
+                    NumberField(
+                      controller: _isTimeBased ? _seconds : _reps,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    FormFieldLabel(t.session.fields.restShort),
+                    const SizedBox(height: 6),
+                    NumberField(controller: _rest, suffix: 'sec'),
+                  ],
+                ),
+              ),
+              if (!_isTimeBased) ...[
+                const SizedBox(width: 12),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
-                        t.session.add.title,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: onSurface,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        t.session.add.subtitle,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: AppColors.accentAmber.withValues(alpha: 0.85),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      FormFieldLabel(t.session.fields.exerciseName),
+                      FormFieldLabel(t.session.fields.tempo),
                       const SizedBox(height: 6),
-                      ExerciseNameField(
-                        controller: _name,
-                        search: widget.search,
-                        addLabel: t.session.add.addLabel,
-                        autofocus: true,
-                        onSelected: _onSelected,
-                        onSubmit: _add,
-                      ),
-                      const SizedBox(height: 14),
-                      FormFieldLabel(t.session.fields.type),
-                      const SizedBox(height: 6),
-                      _TypeToggle(
-                        isTimeBased: _isTimeBased,
-                        onChanged: (v) => setState(() {
-                          _isTimeBased = v;
-                          if (v) {
-                            _tempo.text = '0-0-0-0';
-                          } else if (_tempo.text == '0-0-0-0') {
-                            _tempo.text = '2-0-2-0';
-                          }
-                        }),
-                      ),
-                      const SizedBox(height: 14),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                FormFieldLabel(t.session.fields.sets),
-                                const SizedBox(height: 6),
-                                NumberField(controller: _sets),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                FormFieldLabel(
-                                  _isTimeBased
-                                      ? t.session.fields.durationSec
-                                      : t.session.fields.targetReps,
-                                ),
-                                const SizedBox(height: 6),
-                                NumberField(
-                                  controller: _isTimeBased ? _seconds : _reps,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 14),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                FormFieldLabel(t.session.fields.restShort),
-                                const SizedBox(height: 6),
-                                NumberField(controller: _rest, suffix: 'sec'),
-                              ],
-                            ),
-                          ),
-                          if (!_isTimeBased) ...[
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  FormFieldLabel(t.session.fields.tempo),
-                                  const SizedBox(height: 6),
-                                  TempoField(controller: _tempo),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                      const SizedBox(height: 14),
-                      FormFieldLabel(t.session.fields.notesOptional),
-                      const SizedBox(height: 6),
-                      NotesField(controller: _notes),
-                      const SizedBox(height: 20),
-                      FilledButton(
-                        onPressed: _add,
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppRadius.xl),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(LucideIcons.plus, size: 16),
-                            const SizedBox(width: 8),
-                            Text(
-                              t.session.add.addToSession,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      TempoField(controller: _tempo),
                     ],
                   ),
                 ),
               ],
+            ],
+          ),
+          const SizedBox(height: 14),
+          FormFieldLabel(t.session.fields.notesOptional),
+          const SizedBox(height: 6),
+          NotesField(controller: _notes),
+          const SizedBox(height: 20),
+          FilledButton(
+            onPressed: _add,
+            style: FilledButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppRadius.xl),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(LucideIcons.plus, size: 16),
+                const SizedBox(width: 8),
+                Text(
+                  t.session.add.addToSession,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

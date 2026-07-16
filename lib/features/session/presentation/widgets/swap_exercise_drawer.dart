@@ -32,9 +32,11 @@ Future<SwapExerciseData?> showSwapDrawer(
   required String currentTempo,
   required Future<List<CatalogExercise>> Function(String query) search,
 }) {
-  return showGlassSheet<SwapExerciseData>(
+  return AppDrawerSheet.show<SwapExerciseData>(
     context,
-    builder: (_) => _SwapSheet(
+    title: t.session.swap.title,
+    padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+    child: _SwapSheet(
       currentName: currentName,
       currentRestTime: currentRestTime,
       currentNotes: currentNotes,
@@ -106,109 +108,72 @@ class _SwapSheetState extends State<_SwapSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    return SafeArea(
-      top: false,
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.viewInsetsOf(context).bottom,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 8, bottom: 4),
-                  width: 36,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: onSurface.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      t.session.swap.title,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      t.session.swap.currently(name: widget.currentName),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: onSurface.withValues(alpha: 0.55),
-                      ),
-                    ),
-                    Text(
-                      t.session.swap.sessionOnly,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.accentAmber.withValues(alpha: 0.85),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    FormFieldLabel(t.session.fields.exerciseName),
-                    const SizedBox(height: 6),
-                    ExerciseNameField(
-                      controller: _name,
-                      search: widget.search,
-                      addLabel: t.session.swap.useLabel,
-                      onSelected: _onSelected,
-                      onSubmit: _apply,
-                    ),
-                    const SizedBox(height: 14),
-                    FormFieldLabel(t.session.fields.rest),
-                    const SizedBox(height: 6),
-                    NumberField(controller: _rest, suffix: 'sec'),
-                    const SizedBox(height: 14),
-                    FormFieldLabel(t.session.fields.tempo),
-                    const SizedBox(height: 6),
-                    TempoField(controller: _tempo),
-                    const SizedBox(height: 14),
-                    FormFieldLabel(t.session.fields.notesOptional),
-                    const SizedBox(height: 6),
-                    NotesField(controller: _notes),
-                    const SizedBox(height: 20),
-                    FilledButton(
-                      onPressed: _apply,
-                      style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.xl),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(LucideIcons.arrowLeftRight, size: 16),
-                          const SizedBox(width: 8),
-                          Text(
-                            t.session.swap.apply,
-                            style: const TextStyle(fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    final onSurface = Theme.of(context).colorScheme.onSurface;
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            t.session.swap.currently(name: widget.currentName),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              color: onSurface.withValues(alpha: 0.55),
+            ),
           ),
-        ),
+          Text(
+            t.session.swap.sessionOnly,
+            style: TextStyle(
+              fontSize: 12,
+              color: AppColors.accentAmber.withValues(alpha: 0.85),
+            ),
+          ),
+          const SizedBox(height: 16),
+          FormFieldLabel(t.session.fields.exerciseName),
+          const SizedBox(height: 6),
+          ExerciseNameField(
+            controller: _name,
+            search: widget.search,
+            addLabel: t.session.swap.useLabel,
+            onSelected: _onSelected,
+            onSubmit: _apply,
+          ),
+          const SizedBox(height: 14),
+          FormFieldLabel(t.session.fields.rest),
+          const SizedBox(height: 6),
+          NumberField(controller: _rest, suffix: 'sec'),
+          const SizedBox(height: 14),
+          FormFieldLabel(t.session.fields.tempo),
+          const SizedBox(height: 6),
+          TempoField(controller: _tempo),
+          const SizedBox(height: 14),
+          FormFieldLabel(t.session.fields.notesOptional),
+          const SizedBox(height: 6),
+          NotesField(controller: _notes),
+          const SizedBox(height: 20),
+          FilledButton(
+            onPressed: _apply,
+            style: FilledButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppRadius.xl),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(LucideIcons.arrowLeftRight, size: 16),
+                const SizedBox(width: 8),
+                Text(
+                  t.session.swap.apply,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

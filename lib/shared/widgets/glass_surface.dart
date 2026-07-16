@@ -11,8 +11,10 @@ const double kGlassScrimAlpha = 0.55;
 /// Shared "glass" style tokens — a single source of truth for the translucent
 /// tint and hairline, reused by sheets and dialogs.
 extension GlassTokens on ColorScheme {
-  /// Translucent panel tint (`card` color at 90%).
-  Color get glassFill => surfaceContainer.withValues(alpha: 0.9);
+  /// Translucent panel tint (`card` color at 72%) — kept clearly see-through so
+  /// the blurred content behind still reads, matching the toast / full-screen
+  /// overlays (`surface @ 0.7–0.85`) instead of an almost-opaque slab.
+  Color get glassFill => surfaceContainer.withValues(alpha: 0.72);
 
   /// Outline hairline of glass panels.
   Color get glassHairline => onSurface.withValues(alpha: 0.08);

@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/session/presentation/widgets/timer_ring.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/glass_surface.dart';
 
 /// Shared height for the full-screen actions ("Skip" / "Minimize") so they are
 /// exactly identical.
@@ -167,11 +168,12 @@ class RestTimerOverlay extends StatelessWidget {
       left: 16,
       right: 16,
       bottom: MediaQuery.paddingOf(context).bottom + 80,
-      child: Container(
+      // Glass pill: background blur + translucent tint + hairline (via
+      // `GlassSurface`), consistent with the sheets / drawers. The floating
+      // shadow stays on the outer box, behind the clip.
+      child: DecoratedBox(
         decoration: BoxDecoration(
-          color: scheme.surfaceContainer,
           borderRadius: BorderRadius.circular(AppRadius.xxl),
-          border: Border.all(color: onSurface.withValues(alpha: 0.08)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.55),
@@ -181,7 +183,7 @@ class RestTimerOverlay extends StatelessWidget {
             ),
           ],
         ),
-        child: ClipRRect(
+        child: GlassSurface(
           borderRadius: BorderRadius.circular(AppRadius.xxl),
           child: Material(
             type: MaterialType.transparency,

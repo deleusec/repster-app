@@ -221,10 +221,9 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
   /// Live catalog search (certified Repster exercises + the user's own),
   /// localized to the current app language.
-  Future<List<CatalogExercise>> _search(String query) =>
-      ref
-          .read(exercisesCatalogRepositoryProvider)
-          .search(query, locale: LocaleSettings.currentLocale.languageCode);
+  Future<List<CatalogExercise>> _search(String query) => ref
+      .read(exercisesCatalogRepositoryProvider)
+      .search(query, locale: LocaleSettings.currentLocale.languageCode);
 
   Future<void> _openSwap(int exIdx) async {
     final session = ref.read(liveSessionControllerProvider).session;
@@ -288,10 +287,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   }
 
   Future<void> _openAdd() async {
-    final data = await showAddExerciseDrawer(
-      context,
-      search: _search,
-    );
+    final data = await showAddExerciseDrawer(context, search: _search);
     if (data == null) return;
     final current = ref
         .read(liveSessionControllerProvider)
@@ -391,24 +387,30 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(liveSessionControllerProvider);
-    return Scaffold(
-      key: _scaffoldKey,
-      drawerScrimColor: Colors.black.withValues(alpha: kGlassScrimAlpha),
-      endDrawer: OverviewPanel(onGoTo: _ctl.goToExercise, onAdd: _openAdd),
-      body: switch (state.status) {
-        LiveSessionStatus.idle when state.error != null => _ErrorBody(
-          message: state.error!,
-          onBack: () => context.pop(),
-        ),
-        LiveSessionStatus.idle || LiveSessionStatus.loading => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        LiveSessionStatus.finished => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        LiveSessionStatus.running ||
-        LiveSessionStatus.saving => _buildRunning(context, state),
-      },
+    // Unlock web audio on the first tap: cues fire from Timers, which the
+    // browser autoplay policy would otherwise mute (see [SessionAudio.unlock]).
+    // Idempotent + web-only, so this is harmless on native.
+    return Listener(
+      onPointerDown: (_) => ref.read(sessionAudioProvider).unlock(),
+      child: Scaffold(
+        key: _scaffoldKey,
+        drawerScrimColor: Colors.black.withValues(alpha: kGlassScrimAlpha),
+        endDrawer: OverviewPanel(onGoTo: _ctl.goToExercise, onAdd: _openAdd),
+        body: switch (state.status) {
+          LiveSessionStatus.idle when state.error != null => _ErrorBody(
+            message: state.error!,
+            onBack: () => context.pop(),
+          ),
+          LiveSessionStatus.idle || LiveSessionStatus.loading => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          LiveSessionStatus.finished => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          LiveSessionStatus.running ||
+          LiveSessionStatus.saving => _buildRunning(context, state),
+        },
+      ),
     );
   }
 

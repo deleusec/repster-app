@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:repster/core/logging/app_logger.dart';
 
@@ -50,6 +51,29 @@ class SessionAudio {
   };
 
   late final Future<void> _ready;
+  bool _unlocked = false;
+
+  /// Unlocks audio on the web: browsers (iOS Safari especially) only allow
+  /// sound to start from within a user gesture, but our cues fire from Timers
+  /// (rest end, timer preroll/end) — so without priming they stay silent. Call
+  /// this from a real tap early in the session; it plays each cue muted once to
+  /// satisfy the autoplay policy. No-op on native and after the first call.
+  Future<void> unlock() async {
+    if (!kIsWeb || _unlocked) return;
+    _unlocked = true;
+    try {
+      await _ready;
+      for (final entry in _players.entries) {
+        final player = entry.value;
+        await player.setVolume(0);
+        await player.play(AssetSource(entry.key));
+        await player.stop();
+        await player.setVolume(1);
+      }
+    } on Object catch (e, st) {
+      log.w('SessionAudio unlock failed', error: e, stackTrace: st);
+    }
+  }
 
   Future<void> _init() async {
     try {

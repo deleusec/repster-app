@@ -619,32 +619,36 @@ class _PickerField extends StatelessWidget {
                       : onSurface.withValues(alpha: 0.08),
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.5,
-                      color: accent ? amber : onSurface,
-                    ),
-                  ),
-                  if (suffix != null) ...[
-                    const SizedBox(width: 2),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
                     Text(
-                      suffix!,
+                      value,
+                      maxLines: 1,
                       style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: onSurface.withValues(alpha: 0.5),
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.5,
+                        color: accent ? amber : onSurface,
                       ),
                     ),
+                    if (suffix != null) ...[
+                      const SizedBox(width: 2),
+                      Text(
+                        suffix!,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: onSurface.withValues(alpha: 0.5),
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
           ),

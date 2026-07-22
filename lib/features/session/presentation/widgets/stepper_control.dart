@@ -97,14 +97,17 @@ class _StepperControlState extends State<StepperControl> {
                 onStop: _stop,
               ),
               Expanded(
-                child: Text(
-                  widget.displayValue,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5,
-                    color: accentColor,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    widget.displayValue,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
+                      color: accentColor,
+                    ),
                   ),
                 ),
               ),

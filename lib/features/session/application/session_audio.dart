@@ -2,10 +2,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:repster/core/logging/app_logger.dart';
-// Web-only: hints WebKit to duck (not interrupt) the user's music. No-op on
-// native, where the AudioContext below handles ducking.
-import 'package:repster/features/session/application/web_audio_session_stub.dart'
-    if (dart.library.js_interop) 'package:repster/features/session/application/web_audio_session_web.dart';
 
 /// Live-session sounds: rest-end chime plus start/end beeps for the
 /// time-based exercise timer (pre-rendered as WAV assets in `assets/audio/`).
@@ -65,8 +61,6 @@ class SessionAudio {
   Future<void> unlock() async {
     if (!kIsWeb || _unlocked) return;
     _unlocked = true;
-    // Ask WebKit to duck (not stop) the user's music while cues play.
-    configureWebAudioSessionForCues();
     try {
       await _ready;
       for (final entry in _players.entries) {

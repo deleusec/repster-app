@@ -36,6 +36,20 @@ void main() {
       );
     });
 
+    test('folds what Postgres unaccent folds but NFD does not', () {
+      // The DB index is the authority: f_unaccent(lower(...)) yields these.
+      // A mismatch makes the client insert a name the index then rejects.
+      expect(exerciseNameKey('Hüftstoß'), 'huftstoss');
+      expect(exerciseNameKey('Cœur'), 'coeur');
+      expect(exerciseNameKey('Æther'), 'aether');
+      expect(exerciseNameKey('Bankdrücken'), 'bankdrucken');
+    });
+
+    test('leaves hyphens and apostrophes alone, like the DB', () {
+      expect(exerciseNameKey('T-Bar Row'), 't-bar row');
+      expect(exerciseNameKey("L'appui"), "l'appui");
+    });
+
     test('is empty for a blank name', () {
       expect(exerciseNameKey('   '), isEmpty);
     });

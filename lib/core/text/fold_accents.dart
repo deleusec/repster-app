@@ -28,6 +28,16 @@ const _accentMap = {
   'ÿ': 'y',
   'œ': 'oe',
   'æ': 'ae',
+  // Characters Postgres' `unaccent` folds but Unicode decomposition does not.
+  // `exerciseNameKey` mirrors that index, so a mismatch here would have the
+  // client treat a name as new and the DB reject it as a duplicate. `ß` is
+  // live in the catalog ("Hüftstoß").
+  'ß': 'ss',
+  'ø': 'o',
+  'ł': 'l',
+  'đ': 'd',
+  'ð': 'd',
+  'þ': 'th',
 };
 
 /// Normalizes a string for search: lowercased with accents stripped.

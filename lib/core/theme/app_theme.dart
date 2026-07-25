@@ -250,6 +250,70 @@ class AppTheme {
         ),
       ),
 
+      // Keeps Material's calendar (year jumps matter for a birthdate) but
+      // repaints it: same popover surface and radii as our sheets, no blue
+      // header band, selection in `primary` instead of the M3 default.
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: scheme.surfaceContainerHighest,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.sheet),
+        ),
+        // The stock header is a filled primary band — far too loud here.
+        headerBackgroundColor: Colors.transparent,
+        headerForegroundColor: scheme.onSurface.withValues(alpha: 0.7),
+        dividerColor: Colors.transparent,
+        weekdayStyle: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.5,
+          color: scheme.onSurface.withValues(alpha: 0.4),
+        ),
+        dayStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        dayShape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.controlSm),
+          ),
+        ),
+        dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return scheme.primary;
+          return null;
+        }),
+        dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return scheme.onPrimary;
+          if (states.contains(WidgetState.disabled)) {
+            return scheme.onSurface.withValues(alpha: 0.25);
+          }
+          return scheme.onSurface.withValues(alpha: 0.85);
+        }),
+        todayForegroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return scheme.onPrimary;
+          return scheme.primary;
+        }),
+        todayBackgroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return scheme.primary;
+          return null;
+        }),
+        todayBorder: BorderSide(
+          color: scheme.primary.withValues(alpha: 0.5),
+        ),
+        yearStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        yearShape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.controlSm),
+          ),
+        ),
+        yearBackgroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return scheme.primary;
+          return null;
+        }),
+        yearForegroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return scheme.onPrimary;
+          return scheme.onSurface.withValues(alpha: 0.85);
+        }),
+      ),
+
       snackBarTheme: SnackBarThemeData(
         backgroundColor: scheme.surfaceContainerHighest,
         contentTextStyle: TextStyle(color: scheme.onSurface),

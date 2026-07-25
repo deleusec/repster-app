@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:repster/core/error/app_exception.dart';
+import 'package:repster/core/exercises/exercise_identity.dart';
 import 'package:repster/core/supabase/postgrest_error_x.dart';
 import 'package:repster/core/supabase/supabase_providers.dart';
 import 'package:repster/features/templates/data/template_dto.dart';
@@ -13,9 +14,13 @@ import 'package:uuid/uuid.dart';
 /// CRUD repository for templates. Encapsulates the `workout_templates` +
 /// `template_exercises` + `exercises(name)` join and the DB → domain mapping.
 class TemplatesRepository {
-  TemplatesRepository(this._client);
+  TemplatesRepository(this._client, this._exercises);
 
   final sb.SupabaseClient _client;
+
+  /// Resolves exercise names to ids, preferring the certified catalog and
+  /// reusing the user's existing rows — a template must never fork a duplicate.
+  final ExerciseResolver _exercises;
   static const _uuid = Uuid();
 
   String get _userId {
@@ -37,9 +42,13 @@ template_exercises (
   id, exercise_id, position, sets_count, reps_target, tempo, rest_seconds,
   notes, is_time_based, duration_seconds, slot_id, variant_position,
   superset_with_next,
-  exercises ( name )
+  exercises ( name, exercise_names ( name, locale, is_primary ) )
 )
 ''';
+
+  /// Locale used to resolve certified exercises' display names. Read here so
+  /// `template_dto` stays i18n-free.
+  String get _locale => LocaleSettings.currentLocale.languageCode;
 
   Future<List<Template>> fetchAll({bool onlyActive = false}) async {
     try {
@@ -49,7 +58,10 @@ template_exercises (
           .eq('user_id', _userId);
       if (onlyActive) query = query.eq('is_active', true);
       final rows = await query.order('position', ascending: true);
-      return rows.map(TemplateDto.fromRow).toList(growable: false);
+      final locale = _locale;
+      return rows
+          .map((r) => TemplateDto.fromRow(r, locale: locale))
+          .toList(growable: false);
     } catch (e, st) {
       throw mapSupabaseError(e, st);
     }
@@ -63,7 +75,7 @@ template_exercises (
           .eq('id', id)
           .eq('user_id', _userId)
           .single();
-      return TemplateDto.fromRow(row);
+      return TemplateDto.fromRow(row, locale: _locale);
     } catch (e, st) {
       throw mapSupabaseError(e, st);
     }
@@ -216,24 +228,6 @@ template_exercises (
     return (rows.first['position'] as int) + 1;
   }
 
-  /// Upserts exercises by name and returns `name → id`.
-  Future<Map<String, String>> _upsertExercises(List<String> names) async {
-    final unique = names
-        .where((n) => n.trim().isNotEmpty)
-        .toSet()
-        .toList(growable: false);
-    if (unique.isEmpty) return const {};
-
-    final rows = unique
-        .map((n) => {'user_id': _userId, 'name': n})
-        .toList(growable: false);
-    final result = await _client
-        .from('exercises')
-        .upsert(rows, onConflict: 'user_id,name')
-        .select('id, name');
-    return {for (final r in result) r['name'] as String: r['id'] as String};
-  }
-
   Future<void> _replaceTemplateExercises(
     String templateId,
     List<TemplateSlot> slots,
@@ -242,7 +236,7 @@ template_exercises (
       for (final s in slots)
         for (final v in s.variants) v.name,
     ];
-    final exMap = await _upsertExercises(names);
+    final exMap = await _exercises.resolve(names);
     final rows = <Map<String, Object?>>[];
     for (var slotIdx = 0; slotIdx < slots.length; slotIdx++) {
       final slot = slots[slotIdx];
@@ -287,5 +281,8 @@ template_exercises (
 }
 
 final templatesRepositoryProvider = Provider<TemplatesRepository>((ref) {
-  return TemplatesRepository(ref.watch(supabaseClientProvider));
+  return TemplatesRepository(
+    ref.watch(supabaseClientProvider),
+    ref.watch(exerciseResolverProvider),
+  );
 });

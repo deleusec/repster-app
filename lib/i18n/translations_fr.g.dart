@@ -785,6 +785,7 @@ class _Translations$history$detail$fr extends Translations$history$detail$en {
 	@override String get colHeld => 'Tenu';
 	@override String get totalExercise => 'Total exercice';
 	@override String get totalHeld => 'Total tenu';
+	@override late final _Translations$history$detail$edit$fr edit = _Translations$history$detail$edit$fr._(_root);
 }
 
 // Path: muscleGroups.sections
@@ -1557,6 +1558,30 @@ class _Translations$contact$categories$other$fr extends Translations$contact$cat
 	@override String get successLine => 'Merci pour ton message. On revient vers toi si besoin.';
 }
 
+// Path: history.detail.edit
+class _Translations$history$detail$edit$fr extends Translations$history$detail$edit$en {
+	_Translations$history$detail$edit$fr._(TranslationsFr root) : this._root = root, super.internal(root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get open => 'Modifier';
+	@override String get title => 'Modifier la séance';
+	@override String get name => 'Titre';
+	@override String get namePlaceholder => 'Nom de la séance';
+	@override String get date => 'Date';
+	@override String get time => 'Heure';
+	@override String get durationLabel => 'Durée';
+	@override String get hours => 'h';
+	@override String get minutes => 'min';
+	@override String get notesPlaceholder => 'Comment ça s\'est passé ?';
+	@override String get save => 'Enregistrer';
+	@override String get saved => 'Séance mise à jour.';
+	@override String get error => 'Échec de la modification.';
+	@override String get nameRequired => 'Un titre est requis.';
+	@override String get dateFormat => 'd MMMM y';
+}
+
 // Path: profile.editForm.sections
 class _Translations$profile$editForm$sections$fr extends Translations$profile$editForm$sections$en {
 	_Translations$profile$editForm$sections$fr._(TranslationsFr root) : this._root = root, super.internal(root);
@@ -1857,6 +1882,21 @@ extension on TranslationsFr {
 			'history.detail.colHeld' => 'Tenu',
 			'history.detail.totalExercise' => 'Total exercice',
 			'history.detail.totalHeld' => 'Total tenu',
+			'history.detail.edit.open' => 'Modifier',
+			'history.detail.edit.title' => 'Modifier la séance',
+			'history.detail.edit.name' => 'Titre',
+			'history.detail.edit.namePlaceholder' => 'Nom de la séance',
+			'history.detail.edit.date' => 'Date',
+			'history.detail.edit.time' => 'Heure',
+			'history.detail.edit.durationLabel' => 'Durée',
+			'history.detail.edit.hours' => 'h',
+			'history.detail.edit.minutes' => 'min',
+			'history.detail.edit.notesPlaceholder' => 'Comment ça s\'est passé ?',
+			'history.detail.edit.save' => 'Enregistrer',
+			'history.detail.edit.saved' => 'Séance mise à jour.',
+			'history.detail.edit.error' => 'Échec de la modification.',
+			'history.detail.edit.nameRequired' => 'Un titre est requis.',
+			'history.detail.edit.dateFormat' => 'd MMMM y',
 			'legal.onlyInEnglish' => 'Ce document n\'est disponible qu\'en anglais.',
 			'muscleGroups.chest' => 'Pectoraux',
 			'muscleGroups.back' => 'Dos',
@@ -2148,6 +2188,8 @@ extension on TranslationsFr {
 			'templates.editor.save' => 'Enregistrer la séance',
 			'templates.editor.validationError' => 'Renseigne un nom et au moins un exercice nommé.',
 			'templates.fields.name' => 'Nom de la séance',
+			_ => null,
+		} ?? switch (path) {
 			'templates.fields.nameHint' => 'ex : Pec / Triceps / Épaules',
 			'templates.fields.description' => 'Description (optionnel)',
 			'templates.fields.descriptionHint' => 'Décris ta séance…',
@@ -2163,8 +2205,6 @@ extension on TranslationsFr {
 			'templates.fields.tempo' => 'Tempo',
 			'templates.fields.tempoHint' => '3-1-X-0',
 			'templates.fields.notes' => 'Notes (optionnel)',
-			_ => null,
-		} ?? switch (path) {
 			'templates.fields.notesHint' => 'Conseils techniques…',
 			'templates.slot.newExercise' => 'Nouvel exercice',
 			'templates.slot.variantN' => ({required Object n}) => 'Variante ${n}',

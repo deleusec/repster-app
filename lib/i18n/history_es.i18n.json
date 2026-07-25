@@ -40,6 +40,23 @@
     "colLoad": "Carga",
     "colHeld": "Tiempo",
     "totalExercise": "Total ejercicio",
-    "totalHeld": "Total tiempo"
+    "totalHeld": "Total tiempo",
+    "edit": {
+      "open": "Editar",
+      "title": "Editar sesión",
+      "name": "Título",
+      "namePlaceholder": "Nombre de la sesión",
+      "date": "Fecha",
+      "time": "Hora",
+      "durationLabel": "Duración",
+      "hours": "h",
+      "minutes": "min",
+      "notesPlaceholder": "¿Cómo fue?",
+      "save": "Guardar",
+      "saved": "Sesión actualizada.",
+      "error": "Error al actualizar.",
+      "nameRequired": "Se requiere un título.",
+      "dateFormat": "d MMMM y"
+    }
   }
 }

@@ -785,6 +785,7 @@ class _Translations$history$detail$de extends Translations$history$detail$en {
 	@override String get colHeld => 'Gehalten';
 	@override String get totalExercise => 'Übung gesamt';
 	@override String get totalHeld => 'Gesamt gehalten';
+	@override late final _Translations$history$detail$edit$de edit = _Translations$history$detail$edit$de._(_root);
 }
 
 // Path: muscleGroups.sections
@@ -1557,6 +1558,30 @@ class _Translations$contact$categories$other$de extends Translations$contact$cat
 	@override String get successLine => 'Danke für deine Nachricht. Wir melden uns bei Bedarf.';
 }
 
+// Path: history.detail.edit
+class _Translations$history$detail$edit$de extends Translations$history$detail$edit$en {
+	_Translations$history$detail$edit$de._(TranslationsDe root) : this._root = root, super.internal(root);
+
+	final TranslationsDe _root; // ignore: unused_field
+
+	// Translations
+	@override String get open => 'Bearbeiten';
+	@override String get title => 'Einheit bearbeiten';
+	@override String get name => 'Titel';
+	@override String get namePlaceholder => 'Name der Einheit';
+	@override String get date => 'Datum';
+	@override String get time => 'Uhrzeit';
+	@override String get durationLabel => 'Dauer';
+	@override String get hours => 'Std.';
+	@override String get minutes => 'Min.';
+	@override String get notesPlaceholder => 'Wie ist es gelaufen?';
+	@override String get save => 'Speichern';
+	@override String get saved => 'Einheit aktualisiert.';
+	@override String get error => 'Aktualisierung fehlgeschlagen.';
+	@override String get nameRequired => 'Ein Titel ist erforderlich.';
+	@override String get dateFormat => 'd. MMMM y';
+}
+
 // Path: profile.editForm.sections
 class _Translations$profile$editForm$sections$de extends Translations$profile$editForm$sections$en {
 	_Translations$profile$editForm$sections$de._(TranslationsDe root) : this._root = root, super.internal(root);
@@ -1857,6 +1882,21 @@ extension on TranslationsDe {
 			'history.detail.colHeld' => 'Gehalten',
 			'history.detail.totalExercise' => 'Übung gesamt',
 			'history.detail.totalHeld' => 'Gesamt gehalten',
+			'history.detail.edit.open' => 'Bearbeiten',
+			'history.detail.edit.title' => 'Einheit bearbeiten',
+			'history.detail.edit.name' => 'Titel',
+			'history.detail.edit.namePlaceholder' => 'Name der Einheit',
+			'history.detail.edit.date' => 'Datum',
+			'history.detail.edit.time' => 'Uhrzeit',
+			'history.detail.edit.durationLabel' => 'Dauer',
+			'history.detail.edit.hours' => 'Std.',
+			'history.detail.edit.minutes' => 'Min.',
+			'history.detail.edit.notesPlaceholder' => 'Wie ist es gelaufen?',
+			'history.detail.edit.save' => 'Speichern',
+			'history.detail.edit.saved' => 'Einheit aktualisiert.',
+			'history.detail.edit.error' => 'Aktualisierung fehlgeschlagen.',
+			'history.detail.edit.nameRequired' => 'Ein Titel ist erforderlich.',
+			'history.detail.edit.dateFormat' => 'd. MMMM y',
 			'legal.onlyInEnglish' => 'Dieses Dokument ist nur auf Englisch verfügbar.',
 			'muscleGroups.chest' => 'Brust',
 			'muscleGroups.back' => 'Rücken',
@@ -2148,6 +2188,8 @@ extension on TranslationsDe {
 			'templates.editor.save' => 'Einheit speichern',
 			'templates.editor.validationError' => 'Gib einen Namen und mindestens eine benannte Übung ein.',
 			'templates.fields.name' => 'Name der Einheit',
+			_ => null,
+		} ?? switch (path) {
 			'templates.fields.nameHint' => 'z. B. Brust / Trizeps / Schultern',
 			'templates.fields.description' => 'Beschreibung (optional)',
 			'templates.fields.descriptionHint' => 'Beschreibe deine Einheit…',
@@ -2163,8 +2205,6 @@ extension on TranslationsDe {
 			'templates.fields.tempo' => 'Tempo',
 			'templates.fields.tempoHint' => '3-1-X-0',
 			'templates.fields.notes' => 'Notizen (optional)',
-			_ => null,
-		} ?? switch (path) {
 			'templates.fields.notesHint' => 'Technische Tipps…',
 			'templates.slot.newExercise' => 'Neue Übung',
 			'templates.slot.variantN' => ({required Object n}) => 'Variante ${n}',

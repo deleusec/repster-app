@@ -40,6 +40,23 @@
     "colLoad": "Load",
     "colHeld": "Held",
     "totalExercise": "Exercise total",
-    "totalHeld": "Total held"
+    "totalHeld": "Total held",
+    "edit": {
+      "open": "Edit",
+      "title": "Edit session",
+      "name": "Title",
+      "namePlaceholder": "Session name",
+      "date": "Date",
+      "time": "Time",
+      "durationLabel": "Duration",
+      "hours": "h",
+      "minutes": "min",
+      "notesPlaceholder": "How did it go?",
+      "save": "Save",
+      "saved": "Session updated.",
+      "error": "Update failed.",
+      "nameRequired": "A title is required.",
+      "dateFormat": "MMMM d, y"
+    }
   }
 }

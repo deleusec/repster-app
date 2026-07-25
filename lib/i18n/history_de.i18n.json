@@ -40,6 +40,23 @@
     "colLoad": "Last",
     "colHeld": "Gehalten",
     "totalExercise": "Übung gesamt",
-    "totalHeld": "Gesamt gehalten"
+    "totalHeld": "Gesamt gehalten",
+    "edit": {
+      "open": "Bearbeiten",
+      "title": "Einheit bearbeiten",
+      "name": "Titel",
+      "namePlaceholder": "Name der Einheit",
+      "date": "Datum",
+      "time": "Uhrzeit",
+      "durationLabel": "Dauer",
+      "hours": "Std.",
+      "minutes": "Min.",
+      "notesPlaceholder": "Wie ist es gelaufen?",
+      "save": "Speichern",
+      "saved": "Einheit aktualisiert.",
+      "error": "Aktualisierung fehlgeschlagen.",
+      "nameRequired": "Ein Titel ist erforderlich.",
+      "dateFormat": "d. MMMM y"
+    }
   }
 }

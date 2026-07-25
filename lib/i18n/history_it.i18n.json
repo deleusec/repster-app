@@ -40,6 +40,23 @@
     "colLoad": "Carico",
     "colHeld": "Tenuto",
     "totalExercise": "Totale esercizio",
-    "totalHeld": "Totale tenuto"
+    "totalHeld": "Totale tenuto",
+    "edit": {
+      "open": "Modifica",
+      "title": "Modifica sessione",
+      "name": "Titolo",
+      "namePlaceholder": "Nome della sessione",
+      "date": "Data",
+      "time": "Ora",
+      "durationLabel": "Durata",
+      "hours": "h",
+      "minutes": "min",
+      "notesPlaceholder": "Com'è andata?",
+      "save": "Salva",
+      "saved": "Sessione aggiornata.",
+      "error": "Modifica non riuscita.",
+      "nameRequired": "Il titolo è obbligatorio.",
+      "dateFormat": "d MMMM y"
+    }
   }
 }

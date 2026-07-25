@@ -7,12 +7,14 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/features/history/application/history_controller.dart';
+import 'package:repster/features/history/presentation/widgets/edit_session_sheet.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/animation/staggered_list.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 import 'package:repster/shared/widgets/muscle_group_chip.dart';
@@ -42,19 +44,53 @@ String _formatDate(DateTime when) {
   return label.substring(0, 1).toUpperCase() + label.substring(1);
 }
 
-class _Body extends StatelessWidget {
+class _Body extends ConsumerStatefulWidget {
   const _Body(this.session);
   final WorkoutSession session;
 
   @override
+  ConsumerState<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends ConsumerState<_Body> {
+  bool _saving = false;
+
+  Future<void> _edit() async {
+    final result = await showEditSessionSheet(context, session: widget.session);
+    if (result == null || !mounted) return;
+    setState(() => _saving = true);
+    try {
+      await ref
+          .read(historyControllerProvider.notifier)
+          .updateDetails(
+            id: widget.session.id,
+            templateName: result.templateName,
+            startedAt: result.startedAt,
+            durationSeconds: result.durationSeconds,
+            notes: result.notes,
+          );
+      if (mounted) {
+        AppToast.showSuccess(context, t.history.detail.edit.saved);
+      }
+    } on Object {
+      if (mounted) AppToast.showError(context, t.history.detail.edit.error);
+    } finally {
+      // The provider invalidation rebuilds this widget from fresh data; guard
+      // in case it was disposed meanwhile.
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final session = widget.session;
     final scheme = Theme.of(context).colorScheme;
     final stagger = StaggeredList();
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
       children: [
         // ── Back button + hero title ──────────────────────────────────────
-        stagger.wrap(const _NavBar()),
+        stagger.wrap(_NavBar(onEdit: _saving ? null : _edit, busy: _saving)),
         const SizedBox(height: 20),
         stagger.wrap(
           ScreenHeader(
@@ -135,30 +171,48 @@ class _Body extends StatelessWidget {
   }
 }
 
-/// Top nav row for the pushed detail page: just the back button, left-aligned.
+/// Top nav row for the pushed detail page: back button, and the edit button
+/// pushed to the right edge.
 class _NavBar extends StatelessWidget {
-  const _NavBar();
+  const _NavBar({required this.onEdit, required this.busy});
+
+  final VoidCallback? onEdit;
+  final bool busy;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         _NavButton(icon: LucideIcons.chevronLeft, onTap: () => context.pop()),
+        const Spacer(),
+        _NavButton(
+          icon: LucideIcons.pencil,
+          onTap: onEdit,
+          tooltip: t.history.detail.edit.open,
+          busy: busy,
+        ),
       ],
     );
   }
 }
 
 class _NavButton extends StatelessWidget {
-  const _NavButton({required this.icon, required this.onTap});
+  const _NavButton({
+    required this.icon,
+    required this.onTap,
+    this.tooltip,
+    this.busy = false,
+  });
 
   final IconData icon;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final String? tooltip;
+  final bool busy;
 
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
+    final button = Material(
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(AppRadius.controlSm),
       child: InkWell(
@@ -173,10 +227,22 @@ class _NavButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppRadius.controlSm),
             border: Border.all(color: onSurface.withValues(alpha: 0.08)),
           ),
-          child: Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.6)),
+          child: busy
+              ? SizedBox(
+                  width: 15,
+                  height: 15,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: onSurface.withValues(alpha: 0.6),
+                  ),
+                )
+              : Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.6)),
         ),
       ),
     );
+    final message = tooltip;
+    if (message == null) return button;
+    return Tooltip(message: message, child: button);
   }
 }
 

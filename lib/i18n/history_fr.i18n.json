@@ -40,6 +40,23 @@
     "colLoad": "Charge",
     "colHeld": "Tenu",
     "totalExercise": "Total exercice",
-    "totalHeld": "Total tenu"
+    "totalHeld": "Total tenu",
+    "edit": {
+      "open": "Modifier",
+      "title": "Modifier la séance",
+      "name": "Titre",
+      "namePlaceholder": "Nom de la séance",
+      "date": "Date",
+      "time": "Heure",
+      "durationLabel": "Durée",
+      "hours": "h",
+      "minutes": "min",
+      "notesPlaceholder": "Comment ça s'est passé ?",
+      "save": "Enregistrer",
+      "saved": "Séance mise à jour.",
+      "error": "Échec de la modification.",
+      "nameRequired": "Un titre est requis.",
+      "dateFormat": "d MMMM y"
+    }
   }
 }

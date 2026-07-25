@@ -1249,6 +1249,8 @@ class Translations$history$detail$en {
 
 	/// en: 'Total held'
 	String get totalHeld => 'Total held';
+
+	late final Translations$history$detail$edit$en edit = Translations$history$detail$edit$en.internal(_root);
 }
 
 // Path: muscleGroups.sections
@@ -2583,6 +2585,60 @@ class Translations$contact$categories$other$en {
 	String get successLine => 'Thanks for your message. We\'ll get back to you if needed.';
 }
 
+// Path: history.detail.edit
+class Translations$history$detail$edit$en {
+	Translations$history$detail$edit$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Edit'
+	String get open => 'Edit';
+
+	/// en: 'Edit session'
+	String get title => 'Edit session';
+
+	/// en: 'Title'
+	String get name => 'Title';
+
+	/// en: 'Session name'
+	String get namePlaceholder => 'Session name';
+
+	/// en: 'Date'
+	String get date => 'Date';
+
+	/// en: 'Time'
+	String get time => 'Time';
+
+	/// en: 'Duration'
+	String get durationLabel => 'Duration';
+
+	/// en: 'h'
+	String get hours => 'h';
+
+	/// en: 'min'
+	String get minutes => 'min';
+
+	/// en: 'How did it go?'
+	String get notesPlaceholder => 'How did it go?';
+
+	/// en: 'Save'
+	String get save => 'Save';
+
+	/// en: 'Session updated.'
+	String get saved => 'Session updated.';
+
+	/// en: 'Update failed.'
+	String get error => 'Update failed.';
+
+	/// en: 'A title is required.'
+	String get nameRequired => 'A title is required.';
+
+	/// en: 'MMMM d, y'
+	String get dateFormat => 'MMMM d, y';
+}
+
 // Path: profile.editForm.sections
 class Translations$profile$editForm$sections$en {
 	Translations$profile$editForm$sections$en.internal(this._root);
@@ -2930,6 +2986,21 @@ extension on Translations {
 			'history.detail.colHeld' => 'Held',
 			'history.detail.totalExercise' => 'Exercise total',
 			'history.detail.totalHeld' => 'Total held',
+			'history.detail.edit.open' => 'Edit',
+			'history.detail.edit.title' => 'Edit session',
+			'history.detail.edit.name' => 'Title',
+			'history.detail.edit.namePlaceholder' => 'Session name',
+			'history.detail.edit.date' => 'Date',
+			'history.detail.edit.time' => 'Time',
+			'history.detail.edit.durationLabel' => 'Duration',
+			'history.detail.edit.hours' => 'h',
+			'history.detail.edit.minutes' => 'min',
+			'history.detail.edit.notesPlaceholder' => 'How did it go?',
+			'history.detail.edit.save' => 'Save',
+			'history.detail.edit.saved' => 'Session updated.',
+			'history.detail.edit.error' => 'Update failed.',
+			'history.detail.edit.nameRequired' => 'A title is required.',
+			'history.detail.edit.dateFormat' => 'MMMM d, y',
 			'legal.onlyInEnglish' => 'This document is available in English only.',
 			'muscleGroups.chest' => 'Chest',
 			'muscleGroups.back' => 'Back',
@@ -3220,6 +3291,8 @@ extension on Translations {
 			'templates.editor.addExercise' => 'Add an exercise',
 			'templates.editor.save' => 'Save session',
 			'templates.editor.validationError' => 'Enter a name and at least one named exercise.',
+			_ => null,
+		} ?? switch (path) {
 			'templates.fields.name' => 'Session name',
 			'templates.fields.nameHint' => 'e.g. Chest / Triceps / Shoulders',
 			'templates.fields.description' => 'Description (optional)',
@@ -3235,8 +3308,6 @@ extension on Translations {
 			'templates.fields.rest' => 'Rest (s)',
 			'templates.fields.tempo' => 'Tempo',
 			'templates.fields.tempoHint' => '3-1-X-0',
-			_ => null,
-		} ?? switch (path) {
 			'templates.fields.notes' => 'Notes (optional)',
 			'templates.fields.notesHint' => 'Technical tips…',
 			'templates.slot.newExercise' => 'New exercise',

@@ -1,6 +1,11 @@
 import 'package:intl/intl.dart';
 import 'package:repster/i18n/translations.g.dart';
 
+// `foldAccents` lives in core/ so `data/` can normalize names without
+// depending on shared/ (and through it, on i18n). Re-exported here so the
+// UI keeps importing it from the formatting helpers.
+export 'package:repster/core/text/fold_accents.dart' show foldAccents;
+
 /// Shared formatting helpers (duration, tonnage, relative dates). Single source
 /// of truth, used by the dashboard and the history screen.
 ///
@@ -83,47 +88,4 @@ String sessionStamp(DateTime when) {
 String monthLabel(DateTime when) {
   final raw = DateFormat('MMMM yyyy').format(when);
   return raw[0].toUpperCase() + raw.substring(1);
-}
-
-const _accentMap = {
-  'à': 'a',
-  'á': 'a',
-  'â': 'a',
-  'ä': 'a',
-  'ã': 'a',
-  'å': 'a',
-  'ç': 'c',
-  'è': 'e',
-  'é': 'e',
-  'ê': 'e',
-  'ë': 'e',
-  'ì': 'i',
-  'í': 'i',
-  'î': 'i',
-  'ï': 'i',
-  'ñ': 'n',
-  'ò': 'o',
-  'ó': 'o',
-  'ô': 'o',
-  'ö': 'o',
-  'õ': 'o',
-  'ù': 'u',
-  'ú': 'u',
-  'û': 'u',
-  'ü': 'u',
-  'ý': 'y',
-  'ÿ': 'y',
-  'œ': 'oe',
-  'æ': 'ae',
-};
-
-/// Normalizes a string for search: lowercased with accents stripped.
-/// `Développé` → `developpe`, enabling accent-insensitive matching.
-String foldAccents(String input) {
-  final lower = input.toLowerCase();
-  final buffer = StringBuffer();
-  for (final char in lower.split('')) {
-    buffer.write(_accentMap[char] ?? char);
-  }
-  return buffer.toString();
 }

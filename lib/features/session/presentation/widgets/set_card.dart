@@ -367,7 +367,7 @@ class TimedSetCard extends StatelessWidget {
     final onSurface = scheme.onSurface;
     final done = set.completed;
     final prev = prevPerf;
-    final target = set.targetSeconds ?? 30;
+    final target = set.targetSeconds ?? kDefaultHoldSeconds;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: done

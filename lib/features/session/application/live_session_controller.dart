@@ -266,7 +266,9 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       actualReps: last?.actualReps ?? last?.targetReps ?? 10,
       weight: last?.weight ?? 0,
       completed: false,
-      targetSeconds: ex.isTimeBased ? (last?.targetSeconds ?? 30) : null,
+      targetSeconds: ex.isTimeBased
+          ? (last?.targetSeconds ?? kDefaultHoldSeconds)
+          : null,
       actualSeconds: ex.isTimeBased ? 0 : null,
     );
     _replaceExerciseState(exIdx, ex.copyWith(sets: [...ex.sets, newSet]));
@@ -467,7 +469,9 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
 
     final v = variants[variantIndex];
     final isTimeBased = v.isTimeBased;
-    final target = isTimeBased ? (v.durationSeconds ?? 30) : v.reps;
+    final target = isTimeBased
+        ? (v.durationSeconds ?? kDefaultHoldSeconds)
+        : v.reps;
     final newSets = [
       for (var i = 0; i < v.sets; i++)
         WorkoutSet(
@@ -477,7 +481,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
           actualReps: isTimeBased ? 0 : target,
           weight: 0,
           completed: false,
-          targetSeconds: isTimeBased ? (v.durationSeconds ?? 30) : null,
+          targetSeconds: isTimeBased ? target : null,
           actualSeconds: isTimeBased ? 0 : null,
         ),
     ];
@@ -545,7 +549,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     final session = state.session;
     if (session == null) return false;
     if (session.completedSets == 0) return false;
-    state = state.copyWith(status: LiveSessionStatus.saving);
+    state = state.copyWith(status: LiveSessionStatus.saving, error: null);
     try {
       final duration = DateTime.now().difference(session.startedAt).inSeconds;
       final finalSession = session.copyWith(

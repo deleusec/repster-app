@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:repster/core/error/app_exception.dart';
+import 'package:repster/core/exercises/exercise_identity.dart';
 import 'package:repster/core/supabase/postgrest_error_x.dart';
 import 'package:repster/core/supabase/supabase_providers.dart';
 import 'package:repster/features/dashboard/data/workout_session_summary_dto.dart';
@@ -17,9 +18,13 @@ import 'package:uuid/uuid.dart';
 /// Repository for live sessions and history. Wraps operations on
 /// `workout_sessions` / `session_exercises` / `session_sets`.
 class SessionsRepository {
-  SessionsRepository(this._client);
+  SessionsRepository(this._client, this._exercises);
 
   final sb.SupabaseClient _client;
+
+  /// Resolves exercise names to ids, preferring the certified catalog and
+  /// reusing the user's existing rows — a session must never fork a duplicate.
+  final ExerciseResolver _exercises;
 
   String get _userId {
     final id = _client.auth.currentUser?.id;
@@ -60,24 +65,15 @@ class SessionsRepository {
     }
   }
 
-  /// Saves the completed session: updates the parent row and inserts the
-  /// exercises and completed sets.
+  /// Saves the completed session: inserts the exercises and completed sets,
+  /// then marks the parent row as completed.
+  ///
+  /// The parent row is updated **last**: marking it completed also clears the
+  /// live snapshot, so doing it first would turn any failure below into an
+  /// empty completed session that can no longer be resumed.
   Future<void> saveSession(WorkoutSession session) async {
     try {
       final completedAt = DateTime.now().toUtc();
-      await _client
-          .from('workout_sessions')
-          .update({
-            'completed_at': completedAt.toIso8601String(),
-            'duration_seconds': session.duration,
-            'notes': session.notes.trim().isEmpty ? null : session.notes.trim(),
-            // The session becomes an immutable history entry, so clear the
-            // live snapshot.
-            'live_snapshot': null,
-            'live_updated_at': null,
-          })
-          .eq('id', session.id)
-          .eq('user_id', _userId);
 
       // Clear old records in case this is a re-save.
       await _client
@@ -85,10 +81,17 @@ class SessionsRepository {
           .delete()
           .eq('session_id', session.id);
 
+      // Resolved in one pass rather than per exercise: fewer round-trips on the
+      // slowest part of the save.
+      final exerciseIds = await _exercises.resolve(
+        session.exercises.map((e) => e.name),
+      );
+
       // Insert exercises, get their server ids, then insert sets.
       for (var i = 0; i < session.exercises.length; i++) {
         final ex = session.exercises[i];
-        final exerciseId = await _ensureExerciseId(ex.name);
+        final exerciseId =
+            exerciseIds[ex.name.trim()] ?? await _ensureUnnamedExerciseId();
         final inserted = await _client
             .from('session_exercises')
             .insert({
@@ -120,8 +123,12 @@ class SessionsRepository {
             'tempo': ex.tempo.isEmpty ? null : ex.tempo,
             'completed_at': completedAt.toIso8601String(),
             if (ex.isTimeBased) ...{
-              'duration_target_seconds': s.targetSeconds,
-              'duration_performed_seconds': s.actualSeconds,
+              // Never NULL: the history / last-perf reads key on the target
+              // duration and skip rows without one.
+              'duration_target_seconds':
+                  s.targetSeconds ?? s.actualSeconds ?? 0,
+              'duration_performed_seconds':
+                  s.actualSeconds ?? s.targetSeconds ?? 0,
             },
           });
         }
@@ -129,6 +136,53 @@ class SessionsRepository {
           await _client.from('session_sets').insert(setRows);
         }
       }
+
+      // `single()` so a vanished session row (purged by a session started
+      // elsewhere) surfaces as an error instead of a silent no-op.
+      await _client
+          .from('workout_sessions')
+          .update({
+            'completed_at': completedAt.toIso8601String(),
+            'duration_seconds': session.duration,
+            'notes': session.notes.trim().isEmpty ? null : session.notes.trim(),
+            // The session becomes an immutable history entry, so clear the
+            // live snapshot.
+            'live_snapshot': null,
+            'live_updated_at': null,
+          })
+          .eq('id', session.id)
+          .eq('user_id', _userId)
+          .select('id')
+          .single();
+    } catch (e, st) {
+      throw mapSupabaseError(e, st);
+    }
+  }
+
+  /// Edits the metadata of a completed session (title, date, duration, notes).
+  /// The performed exercises and sets stay immutable — only the parent row is
+  /// writable, which is also all the DB grants (`session_sets` /
+  /// `session_exercises` have no UPDATE policy).
+  Future<void> updateSessionDetails({
+    required String sessionId,
+    required String templateName,
+    required DateTime startedAt,
+    required int durationSeconds,
+    required String notes,
+  }) async {
+    try {
+      await _client
+          .from('workout_sessions')
+          .update({
+            'template_name': templateName.trim(),
+            'started_at': startedAt.toUtc().toIso8601String(),
+            'duration_seconds': durationSeconds,
+            'notes': notes.trim().isEmpty ? null : notes.trim(),
+          })
+          .eq('id', sessionId)
+          .eq('user_id', _userId)
+          .select('id')
+          .single();
     } catch (e, st) {
       throw mapSupabaseError(e, st);
     }
@@ -475,27 +529,20 @@ session_exercises (
 
   // ── Internal helpers ───────────────────────────────────────────────────────
 
-  Future<String> _ensureExerciseId(String name) async {
-    final trimmed = name.trim();
-    if (trimmed.isEmpty) {
-      // Safety net: should not happen, the UI blocks empty sets.
-      final inserted = await _client
-          .from('exercises')
-          .insert({'user_id': _userId, 'name': '(unnamed)'})
-          .select('id')
-          .single();
-      return inserted['id'] as String;
-    }
+  /// Safety net for an exercise saved without a name — the UI blocks it, but
+  /// `session_exercises.exercise_id` is worth keeping non-null.
+  Future<String> _ensureUnnamedExerciseId() async {
     final inserted = await _client
         .from('exercises')
         .upsert({
           'user_id': _userId,
-          'name': trimmed,
+          'name': '(unnamed)',
         }, onConflict: 'user_id,name')
         .select('id')
         .single();
     return inserted['id'] as String;
   }
+
 }
 
 /// Aggregated last-perf row (repo-internal).
@@ -524,7 +571,10 @@ class InProgressSnapshot {
 }
 
 final sessionsRepositoryProvider = Provider<SessionsRepository>((ref) {
-  return SessionsRepository(ref.watch(supabaseClientProvider));
+  return SessionsRepository(
+    ref.watch(supabaseClientProvider),
+    ref.watch(exerciseResolverProvider),
+  );
 });
 
 /// Builds the initial live exercise list from a template.
@@ -576,12 +626,12 @@ List<WorkoutExercise> initialExercisesFromTemplate(Template template) {
               actualReps: primary.reps,
               weight: 0,
               completed: false,
+              // A time-based slot always gets a target (the template may have
+              // none) and starts at 0 held, like every other creation path.
               targetSeconds: primary.isTimeBased
-                  ? primary.durationSeconds
+                  ? (primary.durationSeconds ?? kDefaultHoldSeconds)
                   : null,
-              actualSeconds: primary.isTimeBased
-                  ? primary.durationSeconds
-                  : null,
+              actualSeconds: primary.isTimeBased ? 0 : null,
             ),
           ),
           isTimeBased: primary.isTimeBased,

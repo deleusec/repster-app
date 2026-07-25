@@ -386,6 +386,15 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
   @override
   Widget build(BuildContext context) {
+    // A failure while the session is running (typically a failed save) has no
+    // place to render: only the `idle` branch below shows `state.error`.
+    // Without this the finish sheet would just stop spinning, silently.
+    ref.listen(liveSessionControllerProvider, (prev, next) {
+      final error = next.error;
+      if (error == null || error == prev?.error) return;
+      if (next.status == LiveSessionStatus.idle) return;
+      AppToast.showError(context, error);
+    });
     final state = ref.watch(liveSessionControllerProvider);
     // Unlock web audio on the first tap: cues fire from Timers, which the
     // browser autoplay policy would otherwise mute (see [SessionAudio.unlock]).
@@ -532,7 +541,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     if (ts.setIdx >= ex.sets.length) return const SizedBox.shrink();
     final set = ex.sets[ts.setIdx];
     return ExerciseTimerOverlay(
-      targetSeconds: set.targetSeconds ?? 30,
+      targetSeconds: set.targetSeconds ?? kDefaultHoldSeconds,
       audio: ref.read(sessionAudioProvider),
       onCancel: () => setState(() => _timerSet = null),
       onComplete: (actualSeconds) {

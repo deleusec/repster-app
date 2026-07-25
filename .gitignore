@@ -53,3 +53,7 @@ app.*.map.json
 android/key.properties
 *.jks
 *.keystore
+
+# supabase — état local du CLI uniquement (le schéma, lui, est versionné)
+supabase/.temp/
+supabase/.branches/

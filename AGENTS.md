@@ -107,7 +107,29 @@ L'auth state Supabase fait `notifyListeners()` sur le `refreshListenable` de go_
 
 ### Modèle de données
 
-Même schéma Supabase que la PWA — voir `../repster-pwa/supabase/migrations/` et `../repster-pwa/AGENTS.md`. RLS activée.
+**Le schéma vit ici** : `supabase/migrations/`. Il a été déplacé depuis
+`../repster-pwa` — ce dépôt est le seul à faire évoluer la base. RLS activée
+partout.
+
+```bash
+supabase link --project-ref vbdyzcedymuafiozklze   # après un clone frais
+supabase migration new <nom>                       # nouvelle migration
+```
+
+> ⚠️ **La PWA est toujours déployée et utilisée.** Son code est gelé, mais elle
+> écrit dans la même base. Toute migration qui contraint une table doit donc
+> être vérifiée contre **ses** chemins d'écriture, pas seulement contre Flutter :
+> `../repster-pwa/lib/actions/sessions.ts` et `lib/actions/templates.ts`.
+>
+> Précédent : l'index `exercises_user_normalized_name_key` a d'abord été posé
+> sans garde-fou côté PWA — son `upsert(onConflict: "user_id,name")` ne cible
+> que l'index exact, donc une variante de casse partait en INSERT et se faisait
+> rejeter en 23505, faisant échouer l'enregistrement d'une séance.
+>
+> Corollaire : une contrainte d'unicité normalisée doit avoir son miroir
+> **exact** côté client (`exerciseNameKey` ici, `lib/exercise-identity.ts` dans
+> la PWA). Attention aux caractères que `unaccent` replie mais que la
+> décomposition Unicode ignore : `ß`→`ss`, ligatures œ/æ, lettres nordiques.
 
 ## Env
 

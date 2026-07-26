@@ -6,7 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:repster/core/error/humanize_error.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
-import 'package:repster/features/exercises/data/exercises_catalog_repository.dart';
+import 'package:repster/features/exercises/application/exercises_search.dart';
 import 'package:repster/features/exercises/domain/catalog_exercise.dart';
 import 'package:repster/features/templates/application/template_editor_controller.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
@@ -41,9 +41,7 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
   /// Catalog search (certified Repster exercises + the user's own), localized
   /// to the current app language. Feeds each slot's name autocomplete.
   Future<List<CatalogExercise>> _search(String query) =>
-      ref
-          .read(exercisesCatalogRepositoryProvider)
-          .search(query, locale: LocaleSettings.currentLocale.languageCode);
+      ref.read(exercisesSearchProvider).search(query);
 
   @override
   void initState() {

@@ -8,7 +8,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/dashboard/application/dashboard_controller.dart';
-import 'package:repster/features/exercises/data/exercises_catalog_repository.dart';
+import 'package:repster/features/exercises/application/exercises_search.dart';
 import 'package:repster/features/exercises/domain/catalog_exercise.dart';
 import 'package:repster/features/history/application/history_controller.dart';
 import 'package:repster/features/session/application/live_session_controller.dart';
@@ -213,9 +213,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
   /// Live catalog search (certified Repster exercises + the user's own),
   /// localized to the current app language.
-  Future<List<CatalogExercise>> _search(String query) => ref
-      .read(exercisesCatalogRepositoryProvider)
-      .search(query, locale: LocaleSettings.currentLocale.languageCode);
+  Future<List<CatalogExercise>> _search(String query) =>
+      ref.read(exercisesSearchProvider).search(query);
 
   Future<void> _openSwap(int exIdx) async {
     final session = ref.read(liveSessionControllerProvider).session;

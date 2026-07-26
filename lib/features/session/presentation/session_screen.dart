@@ -138,7 +138,9 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     final state = ref.read(liveSessionControllerProvider);
     final session = state.session;
     if (session == null) return;
-    final elapsed = DateTime.now().difference(session.startedAt).inSeconds;
+    // Active time, not wall clock: the displayed clock must be the duration
+    // that will be saved, freeze included.
+    final elapsed = state.activeSecondsAt(DateTime.now());
 
     var remaining = 0;
     if (state.isResting && state.restStartedAt != null) {

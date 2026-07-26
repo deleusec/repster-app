@@ -459,7 +459,7 @@ workout_sessions!inner ( user_id, completed_at )
     try {
       final rows = await _client
           .from('workout_sessions')
-          .select('id, live_snapshot')
+          .select('id, live_snapshot, live_updated_at')
           .eq('user_id', _userId)
           .filter('completed_at', 'is', null)
           .not('live_snapshot', 'is', null)
@@ -469,9 +469,13 @@ workout_sessions!inner ( user_id, completed_at )
       final r = rows.first;
       final snap = r['live_snapshot'];
       if (snap is! Map) return null;
+      final updated = r['live_updated_at'] as String?;
       return InProgressSnapshot(
         sessionId: r['id'] as String,
         snapshot: Map<String, dynamic>.from(snap),
+        liveUpdatedAt: updated == null
+            ? null
+            : DateTime.parse(updated).toLocal(),
       );
     } catch (e, st) {
       throw mapSupabaseError(e, st);
@@ -574,10 +578,19 @@ session_exercises (
 
 /// In-progress session snapshot fetched from Supabase.
 class InProgressSnapshot {
-  const InProgressSnapshot({required this.sessionId, required this.snapshot});
+  const InProgressSnapshot({
+    required this.sessionId,
+    required this.snapshot,
+    this.liveUpdatedAt,
+  });
 
   final String sessionId;
   final Map<String, dynamic> snapshot;
+
+  /// When the snapshot was last written — the last action, give or take the
+  /// sync debounce. Redundant with the snapshot's own `lastActivityAt`, and the
+  /// only source for snapshots written before that field existed.
+  final DateTime? liveUpdatedAt;
 }
 
 final sessionsRepositoryProvider = Provider<SessionsRepository>((ref) {

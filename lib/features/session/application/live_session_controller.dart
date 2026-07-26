@@ -68,6 +68,15 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         restStartedAt: null,
         restTotalSeconds: 0,
         restReturnTo: null,
+        bankedSeconds: (s['bankedSeconds'] as num?)?.toInt() ?? 0,
+        segmentStartedAt:
+            _timestamp(s['segmentStartedAt']) ?? session.startedAt,
+        // A snapshot written before this field existed still has the sync time
+        // on the row, which is the last action give or take the debounce.
+        lastActivityAt:
+            _timestamp(s['lastActivityAt']) ??
+            snap.liveUpdatedAt ??
+            session.startedAt,
       );
       return true;
     } on Object catch (e, st) {
@@ -97,11 +106,12 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         for (final ex in exercises) _prefillWeights(ex, lastPerfs),
       ];
 
+      final startedAt = DateTime.now();
       final session = WorkoutSession(
         id: sessionId,
         templateId: template.id,
         templateName: template.name,
-        startedAt: DateTime.now(),
+        startedAt: startedAt,
         duration: 0,
         exercises: filled,
         tags: template.tags,
@@ -118,6 +128,9 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         restStartedAt: null,
         restTotalSeconds: 0,
         restReturnTo: null,
+        bankedSeconds: 0,
+        segmentStartedAt: startedAt,
+        lastActivityAt: startedAt,
       );
     } on Object catch (e, st) {
       log.e('startFromTemplate failed', error: e, stackTrace: st);
@@ -548,9 +561,10 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     final session = state.session;
     if (session == null) return false;
     if (session.completedSets == 0) return false;
+    // Read before the status change, so the clock cannot drift on a re-save.
+    final duration = state.activeSecondsAt(DateTime.now());
     state = state.copyWith(status: LiveSessionStatus.saving, error: null);
     try {
-      final duration = DateTime.now().difference(session.startedAt).inSeconds;
       final finalSession = session.copyWith(
         duration: duration,
         notes: notes.trim(),
@@ -669,7 +683,34 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     _syncTimer?.cancel();
     final session = state.session;
     if (session == null) return;
+    _markActivity();
     _syncTimer = Timer(_syncDebounce, _flushSync);
+  }
+
+  /// Stamps this mutation as the session's last action. Every mutation already
+  /// routes through [_scheduleSync], so that is the one place activity has to
+  /// be recorded — anything worth persisting is worth counting as training.
+  ///
+  /// An action after an idle gap banks the segment that just ended and opens a
+  /// new one, so a session picked up hours later resumes its clock instead of
+  /// swallowing the gap.
+  void _markActivity() {
+    final now = DateTime.now();
+    final last = state.lastActivityAt;
+    if (state.segmentStartedAt != null &&
+        last != null &&
+        now.difference(last) > kIdleGap) {
+      state = state.copyWith(
+        bankedSeconds: state.activeSecondsAt(last),
+        segmentStartedAt: now,
+        lastActivityAt: now,
+      );
+      return;
+    }
+    state = state.copyWith(
+      lastActivityAt: now,
+      segmentStartedAt: state.segmentStartedAt ?? now,
+    );
   }
 
   Future<void> _flushSync() async {
@@ -687,6 +728,9 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     return {
       'session': session.toJson(),
       'startTimestamp': session.startedAt.millisecondsSinceEpoch,
+      'bankedSeconds': state.bankedSeconds,
+      'segmentStartedAt': state.segmentStartedAt?.millisecondsSinceEpoch,
+      'lastActivityAt': state.lastActivityAt?.millisecondsSinceEpoch,
       'currentExerciseIndex': state.currentExerciseIndex,
       'lastPerfs': {
         for (final entry in state.lastPerfs.entries)
@@ -697,6 +741,12 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
           entry.key: entry.value.toJson(),
       },
     };
+  }
+
+  /// Epoch millis as written by [_snapshotJson], `null` if absent or malformed.
+  DateTime? _timestamp(Object? raw) {
+    if (raw is! num) return null;
+    return DateTime.fromMillisecondsSinceEpoch(raw.toInt());
   }
 
   Map<String, List<LastPerf>> _lastPerfsFromJson(Object? raw) {

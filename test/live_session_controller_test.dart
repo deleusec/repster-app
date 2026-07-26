@@ -99,8 +99,13 @@ WorkoutSession _session(List<WorkoutExercise> exercises) => WorkoutSession(
 InProgressSnapshot _snapshot(
   WorkoutSession session, {
   int currentExerciseIndex = 0,
+  int? bankedSeconds,
+  DateTime? segmentStartedAt,
+  DateTime? lastActivityAt,
+  DateTime? liveUpdatedAt,
 }) => InProgressSnapshot(
   sessionId: session.id,
+  liveUpdatedAt: liveUpdatedAt,
   snapshot: {
     // JSON round-trip to reproduce the real Supabase serialization
     // (json.encode calls toJson() recursively on nested objects).
@@ -108,6 +113,11 @@ InProgressSnapshot _snapshot(
     'currentExerciseIndex': currentExerciseIndex,
     'lastPerfs': <String, dynamic>{},
     'lastPerfsMeta': <String, dynamic>{},
+    if (bankedSeconds != null) 'bankedSeconds': bankedSeconds,
+    if (segmentStartedAt != null)
+      'segmentStartedAt': segmentStartedAt.millisecondsSinceEpoch,
+    if (lastActivityAt != null)
+      'lastActivityAt': lastActivityAt.millisecondsSinceEpoch,
   },
 );
 
@@ -121,9 +131,12 @@ Future<(ProviderContainer, LiveSessionController)> _boot(
   _FakeSessionsRepo? repo,
   int currentExerciseIndex = 0,
   List<Override> extra = const [],
+  InProgressSnapshot? snapshot,
 }) async {
   final r = (repo ?? _FakeSessionsRepo())
-    ..snapshot = _snapshot(session, currentExerciseIndex: currentExerciseIndex);
+    ..snapshot =
+        snapshot ??
+        _snapshot(session, currentExerciseIndex: currentExerciseIndex);
   final container = ProviderContainer(
     overrides: [sessionsRepositoryProvider.overrideWithValue(r), ...extra],
   );
@@ -412,6 +425,160 @@ void main() {
       expect(repo.discardedId, 'sess-1');
       expect(_state(c).status, LiveSessionStatus.idle);
       expect(_state(c).session, isNull);
+    });
+  });
+
+  // The clock measures active time, so a session left open never reports the
+  // hours it spent open. `activeSecondsAt` takes `now`, which keeps these
+  // assertions exact instead of clock-dependent.
+  group('active time', () {
+    final t0 = DateTime(2026, 7, 20, 18);
+
+    LiveSessionState stateAt({
+      int banked = 0,
+      Duration segmentStart = Duration.zero,
+      Duration lastActivity = Duration.zero,
+    }) => LiveSessionState.empty.copyWith(
+      bankedSeconds: banked,
+      segmentStartedAt: t0.add(segmentStart),
+      lastActivityAt: t0.add(lastActivity),
+    );
+
+    test('counts the open segment while the session is live', () {
+      final s = stateAt(lastActivity: const Duration(minutes: 40));
+      expect(
+        s.activeSecondsAt(t0.add(const Duration(minutes: 41))),
+        const Duration(minutes: 41).inSeconds,
+      );
+    });
+
+    test('a long rest under the gap still counts as training', () {
+      // 29 min under the gap: a slow set or a busy machine must not split it.
+      final s = stateAt(lastActivity: const Duration(minutes: 1));
+      final now = t0.add(const Duration(minutes: 30));
+      expect(s.activeSecondsAt(now), const Duration(minutes: 30).inSeconds);
+    });
+
+    test('freezes at the last action once the gap is exceeded', () {
+      final s = stateAt(lastActivity: const Duration(minutes: 45));
+      // Twelve hours later the clock still reads the 45 min actually trained.
+      final s45 = const Duration(minutes: 45).inSeconds;
+      expect(s.activeSecondsAt(t0.add(const Duration(hours: 12))), s45);
+      expect(s.activeSecondsAt(t0.add(const Duration(days: 3))), s45);
+    });
+
+    test('banked segments add up across resumes', () {
+      final s = stateAt(
+        banked: const Duration(minutes: 45).inSeconds,
+        segmentStart: const Duration(hours: 12),
+        lastActivity: const Duration(hours: 12, minutes: 10),
+      );
+      expect(
+        s.activeSecondsAt(t0.add(const Duration(hours: 12, minutes: 10))),
+        const Duration(minutes: 55).inSeconds,
+      );
+    });
+
+    test('an empty session reports nothing rather than a negative', () {
+      expect(LiveSessionState.empty.activeSecondsAt(t0), 0);
+      // A clock skew backwards must not produce a negative duration.
+      expect(
+        stateAt().activeSecondsAt(t0.subtract(const Duration(hours: 1))),
+        0,
+      );
+    });
+
+    test('resume restores the clock from the snapshot', () async {
+      final session = _session([_ex('e1', 'A')]);
+      final (c, _) = await _boot(
+        session,
+        snapshot: _snapshot(
+          session,
+          bankedSeconds: 300,
+          segmentStartedAt: session.startedAt,
+          lastActivityAt: session.startedAt.add(const Duration(minutes: 45)),
+        ),
+      );
+      final s = _state(c);
+      expect(s.bankedSeconds, 300);
+      expect(
+        s.lastActivityAt,
+        session.startedAt.add(const Duration(minutes: 45)),
+      );
+      // Resumed long after the fact: frozen at 300 + 45 min, not at wall clock.
+      expect(
+        s.activeSecondsAt(DateTime.now()),
+        300 + const Duration(minutes: 45).inSeconds,
+      );
+    });
+
+    test('resume falls back to the row sync time on an old snapshot', () async {
+      final session = _session([_ex('e1', 'A')]);
+      final synced = session.startedAt.add(const Duration(minutes: 50));
+      final (c, _) = await _boot(
+        session,
+        // No activity fields: written before they existed.
+        snapshot: _snapshot(session, liveUpdatedAt: synced),
+      );
+      final s = _state(c);
+      expect(s.lastActivityAt, synced);
+      expect(s.segmentStartedAt, session.startedAt);
+      expect(
+        s.activeSecondsAt(DateTime.now()),
+        const Duration(minutes: 50).inSeconds,
+      );
+    });
+
+    test(
+      'an action after the gap banks the segment and opens a new one',
+      () async {
+        final session = _session([
+          _ex('e1', 'A', sets: [_set('a')]),
+        ]);
+        final (c, ctl) = await _boot(
+          session,
+          snapshot: _snapshot(
+            session,
+            segmentStartedAt: session.startedAt,
+            lastActivityAt: session.startedAt.add(const Duration(minutes: 45)),
+          ),
+        );
+        ctl.completeSet(0, 0);
+
+        final s = _state(c);
+        expect(
+          s.bankedSeconds,
+          const Duration(minutes: 45).inSeconds,
+          reason: 'the trained segment is kept, the dead gap is not',
+        );
+        expect(
+          DateTime.now().difference(s.segmentStartedAt!).inSeconds,
+          lessThan(5),
+          reason: 'the new segment starts at the action',
+        );
+        expect(s.activeSecondsAt(DateTime.now()), closeTo(45 * 60, 5));
+      },
+    );
+
+    test('endAndSave stores the active time, not the wall clock', () async {
+      final repo = _FakeSessionsRepo();
+      final session = _session([
+        _ex('e1', 'A', sets: [_set('a', completed: true)]),
+      ]);
+      await _boot(
+        session,
+        repo: repo,
+        snapshot: _snapshot(
+          session,
+          segmentStartedAt: session.startedAt,
+          lastActivityAt: session.startedAt.add(const Duration(minutes: 72)),
+        ),
+      ).then((r) => r.$2.endAndSave(''));
+
+      expect(
+        repo.savedSession!.duration,
+        const Duration(minutes: 72).inSeconds,
+      );
     });
   });
 }

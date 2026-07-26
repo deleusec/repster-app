@@ -35,6 +35,18 @@ mixin _$LiveSessionState {
   WorkoutSession? get session => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
+  /// Active time from segments already closed, in seconds. Only grows, when
+  /// an action resumes a session that had gone idle.
+  int get bankedSeconds => throw _privateConstructorUsedError;
+
+  /// Start of the open segment — the session's start, or the first action
+  /// after an idle gap. `null` before the session starts.
+  DateTime? get segmentStartedAt => throw _privateConstructorUsedError;
+
+  /// Last action performed in the session (a validated set, a changed load,
+  /// an added exercise…). `null` before the session starts.
+  DateTime? get lastActivityAt => throw _privateConstructorUsedError;
+
   /// Create a copy of LiveSessionState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -60,6 +72,9 @@ abstract class $LiveSessionStateCopyWith<$Res> {
     int? restReturnTo,
     WorkoutSession? session,
     String? error,
+    int bankedSeconds,
+    DateTime? segmentStartedAt,
+    DateTime? lastActivityAt,
   });
 
   $WorkoutSessionCopyWith<$Res>? get session;
@@ -90,6 +105,9 @@ class _$LiveSessionStateCopyWithImpl<$Res, $Val extends LiveSessionState>
     Object? restReturnTo = freezed,
     Object? session = freezed,
     Object? error = freezed,
+    Object? bankedSeconds = null,
+    Object? segmentStartedAt = freezed,
+    Object? lastActivityAt = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -133,6 +151,18 @@ class _$LiveSessionStateCopyWithImpl<$Res, $Val extends LiveSessionState>
                 ? _value.error
                 : error // ignore: cast_nullable_to_non_nullable
                       as String?,
+            bankedSeconds: null == bankedSeconds
+                ? _value.bankedSeconds
+                : bankedSeconds // ignore: cast_nullable_to_non_nullable
+                      as int,
+            segmentStartedAt: freezed == segmentStartedAt
+                ? _value.segmentStartedAt
+                : segmentStartedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            lastActivityAt: freezed == lastActivityAt
+                ? _value.lastActivityAt
+                : lastActivityAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
           )
           as $Val,
     );
@@ -173,6 +203,9 @@ abstract class _$$LiveSessionStateImplCopyWith<$Res>
     int? restReturnTo,
     WorkoutSession? session,
     String? error,
+    int bankedSeconds,
+    DateTime? segmentStartedAt,
+    DateTime? lastActivityAt,
   });
 
   @override
@@ -203,6 +236,9 @@ class __$$LiveSessionStateImplCopyWithImpl<$Res>
     Object? restReturnTo = freezed,
     Object? session = freezed,
     Object? error = freezed,
+    Object? bankedSeconds = null,
+    Object? segmentStartedAt = freezed,
+    Object? lastActivityAt = freezed,
   }) {
     return _then(
       _$LiveSessionStateImpl(
@@ -246,6 +282,18 @@ class __$$LiveSessionStateImplCopyWithImpl<$Res>
             ? _value.error
             : error // ignore: cast_nullable_to_non_nullable
                   as String?,
+        bankedSeconds: null == bankedSeconds
+            ? _value.bankedSeconds
+            : bankedSeconds // ignore: cast_nullable_to_non_nullable
+                  as int,
+        segmentStartedAt: freezed == segmentStartedAt
+            ? _value.segmentStartedAt
+            : segmentStartedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        lastActivityAt: freezed == lastActivityAt
+            ? _value.lastActivityAt
+            : lastActivityAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
       ),
     );
   }
@@ -265,6 +313,9 @@ class _$LiveSessionStateImpl extends _LiveSessionState {
     this.restReturnTo,
     this.session,
     this.error,
+    this.bankedSeconds = 0,
+    this.segmentStartedAt,
+    this.lastActivityAt,
   }) : _lastPerfs = lastPerfs,
        _lastPerfsMeta = lastPerfsMeta,
        super._();
@@ -311,9 +362,25 @@ class _$LiveSessionStateImpl extends _LiveSessionState {
   @override
   final String? error;
 
+  /// Active time from segments already closed, in seconds. Only grows, when
+  /// an action resumes a session that had gone idle.
+  @override
+  @JsonKey()
+  final int bankedSeconds;
+
+  /// Start of the open segment — the session's start, or the first action
+  /// after an idle gap. `null` before the session starts.
+  @override
+  final DateTime? segmentStartedAt;
+
+  /// Last action performed in the session (a validated set, a changed load,
+  /// an added exercise…). `null` before the session starts.
+  @override
+  final DateTime? lastActivityAt;
+
   @override
   String toString() {
-    return 'LiveSessionState(status: $status, currentExerciseIndex: $currentExerciseIndex, lastPerfs: $lastPerfs, lastPerfsMeta: $lastPerfsMeta, isResting: $isResting, restStartedAt: $restStartedAt, restTotalSeconds: $restTotalSeconds, restReturnTo: $restReturnTo, session: $session, error: $error)';
+    return 'LiveSessionState(status: $status, currentExerciseIndex: $currentExerciseIndex, lastPerfs: $lastPerfs, lastPerfsMeta: $lastPerfsMeta, isResting: $isResting, restStartedAt: $restStartedAt, restTotalSeconds: $restTotalSeconds, restReturnTo: $restReturnTo, session: $session, error: $error, bankedSeconds: $bankedSeconds, segmentStartedAt: $segmentStartedAt, lastActivityAt: $lastActivityAt)';
   }
 
   @override
@@ -341,7 +408,13 @@ class _$LiveSessionStateImpl extends _LiveSessionState {
             (identical(other.restReturnTo, restReturnTo) ||
                 other.restReturnTo == restReturnTo) &&
             (identical(other.session, session) || other.session == session) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.bankedSeconds, bankedSeconds) ||
+                other.bankedSeconds == bankedSeconds) &&
+            (identical(other.segmentStartedAt, segmentStartedAt) ||
+                other.segmentStartedAt == segmentStartedAt) &&
+            (identical(other.lastActivityAt, lastActivityAt) ||
+                other.lastActivityAt == lastActivityAt));
   }
 
   @override
@@ -357,6 +430,9 @@ class _$LiveSessionStateImpl extends _LiveSessionState {
     restReturnTo,
     session,
     error,
+    bankedSeconds,
+    segmentStartedAt,
+    lastActivityAt,
   );
 
   /// Create a copy of LiveSessionState
@@ -383,6 +459,9 @@ abstract class _LiveSessionState extends LiveSessionState {
     final int? restReturnTo,
     final WorkoutSession? session,
     final String? error,
+    final int bankedSeconds,
+    final DateTime? segmentStartedAt,
+    final DateTime? lastActivityAt,
   }) = _$LiveSessionStateImpl;
   const _LiveSessionState._() : super._();
 
@@ -411,6 +490,21 @@ abstract class _LiveSessionState extends LiveSessionState {
   WorkoutSession? get session;
   @override
   String? get error;
+
+  /// Active time from segments already closed, in seconds. Only grows, when
+  /// an action resumes a session that had gone idle.
+  @override
+  int get bankedSeconds;
+
+  /// Start of the open segment — the session's start, or the first action
+  /// after an idle gap. `null` before the session starts.
+  @override
+  DateTime? get segmentStartedAt;
+
+  /// Last action performed in the session (a validated set, a changed load,
+  /// an added exercise…). `null` before the session starts.
+  @override
+  DateTime? get lastActivityAt;
 
   /// Create a copy of LiveSessionState
   /// with the given fields replaced by the non-null parameter values.

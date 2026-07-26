@@ -16,6 +16,7 @@ import 'package:repster/shared/animation/staggered_list.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
+import 'package:repster/shared/widgets/back_nav_bar.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 import 'package:repster/shared/widgets/muscle_group_chip.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
@@ -90,7 +91,15 @@ class _BodyState extends ConsumerState<_Body> {
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
       children: [
         // ── Back button + hero title ──────────────────────────────────────
-        stagger.wrap(_NavBar(onEdit: _saving ? null : _edit, busy: _saving)),
+        stagger.wrap(
+          BackNavBar(
+            onBack: () => context.pop(),
+            actionIcon: LucideIcons.pencil,
+            onAction: _saving ? null : _edit,
+            actionTooltip: t.history.detail.edit.open,
+            actionBusy: _saving,
+          ),
+        ),
         const SizedBox(height: 20),
         stagger.wrap(
           ScreenHeader(
@@ -173,78 +182,6 @@ class _BodyState extends ConsumerState<_Body> {
 
 /// Top nav row for the pushed detail page: back button, and the edit button
 /// pushed to the right edge.
-class _NavBar extends StatelessWidget {
-  const _NavBar({required this.onEdit, required this.busy});
-
-  final VoidCallback? onEdit;
-  final bool busy;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _NavButton(icon: LucideIcons.chevronLeft, onTap: () => context.pop()),
-        const Spacer(),
-        _NavButton(
-          icon: LucideIcons.pencil,
-          onTap: onEdit,
-          tooltip: t.history.detail.edit.open,
-          busy: busy,
-        ),
-      ],
-    );
-  }
-}
-
-class _NavButton extends StatelessWidget {
-  const _NavButton({
-    required this.icon,
-    required this.onTap,
-    this.tooltip,
-    this.busy = false,
-  });
-
-  final IconData icon;
-  final VoidCallback? onTap;
-  final String? tooltip;
-  final bool busy;
-
-  @override
-  Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
-    final button = Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.controlSm),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.controlSm),
-        onTap: onTap,
-        child: Container(
-          width: 38,
-          height: 38,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: onSurface.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(AppRadius.controlSm),
-            border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-          ),
-          child: busy
-              ? SizedBox(
-                  width: 15,
-                  height: 15,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: onSurface.withValues(alpha: 0.6),
-                  ),
-                )
-              : Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.6)),
-        ),
-      ),
-    );
-    final message = tooltip;
-    if (message == null) return button;
-    return Tooltip(message: message, child: button);
-  }
-}
 
 class _StatTile extends StatelessWidget {
   const _StatTile({

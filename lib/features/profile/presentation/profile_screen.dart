@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
@@ -19,6 +18,7 @@ import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/animation/staggered_list.dart';
 import 'package:repster/shared/widgets/app_drawer_sheet.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
+import 'package:repster/shared/widgets/back_nav_bar.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 import 'package:repster/shared/widgets/section_label.dart';
 
@@ -61,7 +61,14 @@ class _ProfileView extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
       children: [
-        stagger.wrap(_NavBar(onEdit: () => _openEditSheet(context, ref))),
+        stagger.wrap(
+          BackNavBar(
+            onBack: () => context.pop(),
+            title: t.profile.navTitle,
+            actionIcon: LucideIcons.pencil,
+            onAction: () => _openEditSheet(context, ref),
+          ),
+        ),
         const SizedBox(height: 20),
         stagger.wrap(ProfileIdentityHero(user: user)),
         const SizedBox(height: 28),
@@ -87,67 +94,6 @@ class _ProfileView extends ConsumerWidget {
       context,
       title: t.profile.editSheet.title,
       child: ProfileEditForm(user: user),
-    );
-  }
-}
-
-class _NavBar extends StatelessWidget {
-  const _NavBar({required this.onEdit});
-
-  final VoidCallback onEdit;
-
-  @override
-  Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Row(
-      children: [
-        _NavButton(icon: LucideIcons.chevronLeft, onTap: () => context.pop()),
-        Expanded(
-          child: Text(
-            t.profile.navTitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 2,
-              color: onSurface.withValues(alpha: 0.3),
-            ),
-          ),
-        ),
-        _NavButton(icon: LucideIcons.pencil, onTap: onEdit),
-      ],
-    );
-  }
-}
-
-class _NavButton extends StatelessWidget {
-  const _NavButton({required this.icon, required this.onTap});
-
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.controlSm),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.controlSm),
-        onTap: onTap,
-        child: Container(
-          width: 38,
-          height: 38,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: onSurface.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(AppRadius.controlSm),
-            border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-          ),
-          child: Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.6)),
-        ),
-      ),
     );
   }
 }

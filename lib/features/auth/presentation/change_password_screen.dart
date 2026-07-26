@@ -5,7 +5,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/error/app_exception.dart';
 import 'package:repster/core/error/humanize_error.dart';
-import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
 import 'package:repster/features/auth/presentation/auth_validators.dart';
 import 'package:repster/features/auth/presentation/widgets/auth_error_box.dart';
@@ -13,6 +12,7 @@ import 'package:repster/features/auth/presentation/widgets/auth_input.dart';
 import 'package:repster/features/auth/presentation/widgets/auth_primary_button.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
+import 'package:repster/shared/widgets/back_nav_bar.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 
 /// Password change for a signed-in user, opened from the settings. Reuses the
@@ -104,7 +104,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 40),
         children: [
-          _NavBar(onBack: () => context.pop()),
+          BackNavBar(onBack: () => context.pop()),
           const SizedBox(height: 28),
           Text(
             t.auth.changePassword.title,
@@ -189,53 +189,6 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
             onPressed: _submitting ? null : _submit,
           ),
         ],
-      ),
-    );
-  }
-}
-
-// Nav bar (same pattern as profile / contact).
-
-class _NavBar extends StatelessWidget {
-  const _NavBar({required this.onBack});
-
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: _NavButton(icon: LucideIcons.chevronLeft, onTap: onBack),
-    );
-  }
-}
-
-class _NavButton extends StatelessWidget {
-  const _NavButton({required this.icon, required this.onTap});
-
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.controlSm),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.controlSm),
-        onTap: onTap,
-        child: Container(
-          width: 38,
-          height: 38,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: onSurface.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(AppRadius.controlSm),
-            border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-          ),
-          child: Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.6)),
-        ),
       ),
     );
   }

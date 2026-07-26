@@ -152,44 +152,6 @@ class _RichState extends State<Rich> {
 
 // ── Layout blocks ────────────────────────────────────────────────────────────
 
-/// Back button, aligned left above the document title.
-class LegalNavBar extends StatelessWidget {
-  const LegalNavBar({required this.onBack, super.key});
-
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(AppRadius.controlSm),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(AppRadius.controlSm),
-          onTap: onBack,
-          child: Container(
-            width: 38,
-            height: 38,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: onSurface.withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(AppRadius.controlSm),
-              border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-            ),
-            child: Icon(
-              LucideIcons.chevronLeft,
-              size: 17,
-              color: onSurface.withValues(alpha: 0.6),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 /// Document title plus its one-line summary.
 class LegalHeader extends StatelessWidget {
   const LegalHeader({required this.title, required this.subtitle, super.key});

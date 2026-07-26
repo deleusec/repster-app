@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:repster/features/legal/presentation/widgets/legal_blocks.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/back_nav_bar.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 
 /// Account-deletion instructions screen. Publicly reachable (see the router's
@@ -25,7 +26,7 @@ class DeleteAccountScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 80),
             children: [
-              LegalNavBar(
+              BackNavBar(
                 onBack: () => context.canPop() ? context.pop() : null,
               ),
               const SizedBox(height: 28),

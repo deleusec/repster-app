@@ -5,6 +5,7 @@ import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/features/legal/presentation/widgets/legal_blocks.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/back_nav_bar.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 
 /// Privacy policy screen, styled with the app's design-system tokens
@@ -37,7 +38,7 @@ class PrivacyScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 80),
             children: [
-              LegalNavBar(onBack: () => context.pop()),
+              BackNavBar(onBack: () => context.pop()),
               const SizedBox(height: 28),
               const LegalHeader(
                 title: 'Privacy Policy',

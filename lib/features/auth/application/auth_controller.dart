@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:repster/core/logging/app_logger.dart';
 import 'package:repster/features/auth/data/auth_repository.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/auth/domain/auth_user_goal.dart';
@@ -129,9 +130,26 @@ class AuthController extends AsyncNotifier<AuthUser?> {
     await updateProfile(avatarUrl: url);
   }
 
-  /// Removes the avatar from the profile (the storage object is kept but
-  /// dereferenced).
-  Future<void> removeAvatar() => updateProfile(clearAvatar: true);
+  /// Removes the avatar: the storage object first, then the reference to it.
+  ///
+  /// That order is deliberate. If the delete throws, nothing has changed and
+  /// the caller surfaces an error — better than clearing the reference and
+  /// leaving an orphan JPEG readable by URL in a public bucket, which is
+  /// exactly what the privacy policy says we do not do.
+  ///
+  /// A delete that removes nothing is not an error (the file may already be
+  /// gone), but it is worth a line in the log: the other explanation is a
+  /// missing storage DELETE policy, and that one is a silent privacy bug.
+  Future<void> removeAvatar() async {
+    final removed = await _repo.deleteAvatar();
+    if (!removed) {
+      log.w(
+        'removeAvatar: no avatar object deleted — already gone, or the '
+        'storage DELETE policy is missing on the avatars bucket',
+      );
+    }
+    await updateProfile(clearAvatar: true);
+  }
 }
 
 final authControllerProvider = AsyncNotifierProvider<AuthController, AuthUser?>(

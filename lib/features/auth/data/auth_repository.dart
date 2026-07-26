@@ -215,6 +215,32 @@ class AuthRepository {
     }
   }
 
+  /// Deletes the avatar object itself, not just the reference to it. The
+  /// bucket is public, so leaving the JPEG behind would keep it reachable by
+  /// URL after the user asked for it to be removed — see the privacy policy.
+  ///
+  /// Returns whether an object was actually removed. Storage answers a denied
+  /// or unmatched delete with an empty list rather than an error, so the
+  /// caller cannot rely on "no exception" meaning "the file is gone".
+  Future<bool> deleteAvatar() async {
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) {
+      throw const AppAuthException(
+        'Not signed in',
+        reason: AuthFailureReason.notSignedIn,
+      );
+    }
+    try {
+      final removed = await _client.storage.from('avatars').remove([
+        '$userId/avatar.jpg',
+      ]);
+      return removed.isNotEmpty;
+    } catch (e, st) {
+      log.w('deleteAvatar failed', error: e, stackTrace: st);
+      throw mapSupabaseError(e, st);
+    }
+  }
+
   /// Updates `auth.users.user_metadata` (partial PATCH — merged server-side).
   /// Returns the rebuilt user.
   Future<AuthUser> updateUserMetadata(Map<String, Object?> patch) async {

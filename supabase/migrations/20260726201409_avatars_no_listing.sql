@@ -1,0 +1,22 @@
+-- ============================================================
+-- Repster — Stop anonymous listing of the avatars bucket
+-- ------------------------------------------------------------
+-- The `avatars` bucket carried a broad SELECT policy on storage.objects
+-- (`bucket_id = 'avatars'`, role `public`). A public bucket does not need it:
+-- objects are served by `/storage/v1/object/public/<bucket>/<path>`, which
+-- bypasses RLS entirely. What the policy did grant was `list()` — any
+-- anonymous client could enumerate every avatar in the bucket.
+--
+-- Measured before the change, as the `anon` role:
+--   select count(*) from storage.objects where bucket_id = 'avatars';  -- 3
+--
+-- That is a wider exposure than section 10 of the privacy policy describes
+-- ("anyone who knows or guesses that URL"): enumeration removes the guessing.
+-- Dropping the policy closes it while leaving <img src> untouched.
+--
+-- Rollback, should a client ever need the authenticated object endpoint:
+--   CREATE POLICY "Avatars are publicly readable" ON storage.objects
+--     FOR SELECT USING (bucket_id = 'avatars');
+-- ============================================================
+
+DROP POLICY IF EXISTS "Avatars are publicly readable" ON storage.objects;

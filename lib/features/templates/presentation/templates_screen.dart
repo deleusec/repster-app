@@ -189,7 +189,21 @@ class _ProgramHeader extends StatelessWidget {
         const SizedBox(width: 12),
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Row(mainAxisSize: MainAxisSize.min, children: actions),
+          // Equal-width actions, sized to the widest: `IntrinsicWidth` asks
+          // the row for its natural width, and two `Expanded` children split
+          // it evenly. Matching the labels by hand would only work in the
+          // language it was tuned for — "Gérer"/"Créer" happen to be the same
+          // length, "Gestionar"/"Crear" do not.
+          child: IntrinsicWidth(
+            child: Row(
+              children: [
+                for (var i = 0; i < actions.length; i++) ...[
+                  if (i > 0) const SizedBox(width: 8),
+                  Expanded(child: actions[i]),
+                ],
+              ],
+            ),
+          ),
         ),
       ],
     );
@@ -230,17 +244,24 @@ class _HeaderChip extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppRadius.controlSm),
             border: border != null ? Border.all(color: border!) : null,
           ),
+          // Centred rather than min-width: the chip is stretched to the
+          // widest of the pair, so its content has to sit in the middle of
+          // the box instead of hugging the left edge.
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 15, color: foreground),
               const SizedBox(width: 6),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: foreground,
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: foreground,
+                  ),
                 ),
               ),
             ],
@@ -307,7 +328,6 @@ class _NormalList extends StatelessWidget {
             border: onSurface.withValues(alpha: 0.12),
             onTap: onManage,
           ),
-          const SizedBox(width: 8),
         ],
         _HeaderChip(
           icon: LucideIcons.plus,

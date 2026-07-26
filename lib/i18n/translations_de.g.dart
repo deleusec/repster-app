@@ -1394,7 +1394,7 @@ class _Translations$templates$list$de extends Translations$templates$list$en {
 		other: '${n} / ${total} aktiv',
 	);
 	@override String get manage => 'Verwalten';
-	@override String get newAction => 'Neu';
+	@override String get newAction => 'Erstellen';
 	@override String get emptyTitle => 'Keine Einheiten';
 	@override String get emptyMessage => 'Erstelle deine erste Einheit, um dein Programm aufzubauen.';
 	@override String get emptyAction => 'Einheit erstellen';
@@ -2190,7 +2190,7 @@ extension on TranslationsDe {
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} aktive Einheit', other: '${n} aktive Einheiten', ), 
 			'templates.list.subtitleManage' => ({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} / ${total} aktiv', other: '${n} / ${total} aktiv', ), 
 			'templates.list.manage' => 'Verwalten',
-			'templates.list.newAction' => 'Neu',
+			'templates.list.newAction' => 'Erstellen',
 			'templates.list.emptyTitle' => 'Keine Einheiten',
 			'templates.list.emptyMessage' => 'Erstelle deine erste Einheit, um dein Programm aufzubauen.',
 			'templates.list.emptyAction' => 'Einheit erstellen',

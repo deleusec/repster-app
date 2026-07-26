@@ -1394,7 +1394,7 @@ class _Translations$templates$list$it extends Translations$templates$list$en {
 		other: '${n} / ${total} attive',
 	);
 	@override String get manage => 'Gestisci';
-	@override String get newAction => 'Nuova';
+	@override String get newAction => 'Crea';
 	@override String get emptyTitle => 'Nessuna sessione';
 	@override String get emptyMessage => 'Crea la tua prima sessione per comporre il tuo programma.';
 	@override String get emptyAction => 'Crea una sessione';
@@ -2190,7 +2190,7 @@ extension on TranslationsIt {
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} sessione attiva', other: '${n} sessioni attive', ), 
 			'templates.list.subtitleManage' => ({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} / ${total} attiva', other: '${n} / ${total} attive', ), 
 			'templates.list.manage' => 'Gestisci',
-			'templates.list.newAction' => 'Nuova',
+			'templates.list.newAction' => 'Crea',
 			'templates.list.emptyTitle' => 'Nessuna sessione',
 			'templates.list.emptyMessage' => 'Crea la tua prima sessione per comporre il tuo programma.',
 			'templates.list.emptyAction' => 'Crea una sessione',

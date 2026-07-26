@@ -10,7 +10,7 @@
       "other": "{{n}} / {{total}} active"
     },
     "manage": "Manage",
-    "newAction": "New",
+    "newAction": "Create",
     "emptyTitle": "No sessions",
     "emptyMessage": "Create your first session to build your program.",
     "emptyAction": "Create a session",

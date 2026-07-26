@@ -10,7 +10,7 @@
       "other": "{{n}} / {{total}} activas"
     },
     "manage": "Gestionar",
-    "newAction": "Nueva",
+    "newAction": "Crear",
     "emptyTitle": "No hay sesiones",
     "emptyMessage": "Crea tu primera sesión para armar tu programa.",
     "emptyAction": "Crear una sesión",

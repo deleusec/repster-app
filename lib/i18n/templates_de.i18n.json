@@ -10,7 +10,7 @@
       "other": "{{n}} / {{total}} aktiv"
     },
     "manage": "Verwalten",
-    "newAction": "Neu",
+    "newAction": "Erstellen",
     "emptyTitle": "Keine Einheiten",
     "emptyMessage": "Erstelle deine erste Einheit, um dein Programm aufzubauen.",
     "emptyAction": "Einheit erstellen",

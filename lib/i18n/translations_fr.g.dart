@@ -1394,7 +1394,7 @@ class _Translations$templates$list$fr extends Translations$templates$list$en {
 		other: '${n} / ${total} actives',
 	);
 	@override String get manage => 'Gérer';
-	@override String get newAction => 'Nouvelle';
+	@override String get newAction => 'Créer';
 	@override String get emptyTitle => 'Aucune séance';
 	@override String get emptyMessage => 'Crée ta première séance pour composer ton programme.';
 	@override String get emptyAction => 'Créer une séance';
@@ -2190,7 +2190,7 @@ extension on TranslationsFr {
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} séance active', other: '${n} séances actives', ), 
 			'templates.list.subtitleManage' => ({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} / ${total} active', other: '${n} / ${total} actives', ), 
 			'templates.list.manage' => 'Gérer',
-			'templates.list.newAction' => 'Nouvelle',
+			'templates.list.newAction' => 'Créer',
 			'templates.list.emptyTitle' => 'Aucune séance',
 			'templates.list.emptyMessage' => 'Crée ta première séance pour composer ton programme.',
 			'templates.list.emptyAction' => 'Créer une séance',

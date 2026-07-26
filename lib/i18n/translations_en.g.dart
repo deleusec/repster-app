@@ -2283,8 +2283,8 @@ class Translations$templates$list$en {
 	/// en: 'Manage'
 	String get manage => 'Manage';
 
-	/// en: 'New'
-	String get newAction => 'New';
+	/// en: 'Create'
+	String get newAction => 'Create';
 
 	/// en: 'No sessions'
 	String get emptyTitle => 'No sessions';
@@ -3327,7 +3327,7 @@ extension on Translations {
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} active session', other: '${n} active sessions', ), 
 			'templates.list.subtitleManage' => ({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} / ${total} active', other: '${n} / ${total} active', ), 
 			'templates.list.manage' => 'Manage',
-			'templates.list.newAction' => 'New',
+			'templates.list.newAction' => 'Create',
 			'templates.list.emptyTitle' => 'No sessions',
 			'templates.list.emptyMessage' => 'Create your first session to build your program.',
 			'templates.list.emptyAction' => 'Create a session',

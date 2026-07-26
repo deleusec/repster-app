@@ -52,5 +52,13 @@
   "streakBadge": {
     "one": "{{n}} semana seguida",
     "other": "{{n}} semanas seguidas"
+  },
+  "consistency": {
+    "title": "Constancia",
+    "trainingDays": "días activos",
+    "perWeek": "sesiones / sem.",
+    "bestStreak": "mejor racha",
+    "noStreak": "sin racha",
+    "weeksShort": "{{n}} sem."
   }
 }

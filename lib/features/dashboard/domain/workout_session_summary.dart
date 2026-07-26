@@ -16,6 +16,10 @@ class WorkoutSessionSummary with _$WorkoutSessionSummary {
     required double totalTonnageKg,
     required int totalSets,
     required List<MuscleGroup> tags,
+
+    /// Seconds held on time-based exercises. Kept apart from the tonnage:
+    /// seconds and reps are not the same unit.
+    @Default(0) int timeUnderTensionSec,
   }) = _WorkoutSessionSummary;
 
   const WorkoutSessionSummary._();

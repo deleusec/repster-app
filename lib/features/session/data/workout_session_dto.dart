@@ -51,6 +51,7 @@ class WorkoutSessionDto {
               ),
             )
             .toList(growable: false);
+    final catalog = row['exercises'] as Map<String, dynamic>?;
     return WorkoutExercise(
       id: row['id'] as String,
       name: row['name'] as String? ?? '',
@@ -60,6 +61,10 @@ class WorkoutSessionDto {
       sets: sets,
       isTimeBased: isTimeBased,
       slotId: row['slot_id'] as String?,
+      exerciseId: row['exercise_id'] as String?,
+      muscleGroups: MuscleGroup.listFromDb(
+        catalog?['muscle_groups'] as List<dynamic>?,
+      ),
     );
   }
 }

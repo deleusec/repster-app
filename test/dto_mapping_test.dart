@@ -8,7 +8,7 @@ import 'package:repster/features/templates/domain/muscle_group.dart';
 
 void main() {
   group('WorkoutSessionSummaryDto.fromRow', () {
-    test('aggregates tonnage/validated sets and maps tags', () {
+    test('keeps holds out of the tonnage and maps tags', () {
       final row = <String, dynamic>{
         'id': 's1',
         'template_name': 'Push',
@@ -46,7 +46,10 @@ void main() {
       expect(summary.templateName, 'Push');
       expect(summary.durationSeconds, 3600);
       expect(summary.totalSets, 2);
-      expect(summary.totalTonnageKg, 10 * 50 + 30 * 20);
+      // The 30 s × 20 kg hold used to be added here, making it worth more than
+      // the 10 × 50 kg set.
+      expect(summary.totalTonnageKg, 10 * 50);
+      expect(summary.timeUnderTensionSec, 30);
       expect(summary.tags, [MuscleGroup.chest, MuscleGroup.triceps]);
     });
 
@@ -60,6 +63,7 @@ void main() {
       expect(summary.durationSeconds, 0);
       expect(summary.totalSets, 0);
       expect(summary.totalTonnageKg, 0);
+      expect(summary.timeUnderTensionSec, 0);
       expect(summary.tags, isEmpty);
     });
   });

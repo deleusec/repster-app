@@ -13,28 +13,30 @@
     "message": "Absolviere ein paar Einheiten, um deine Kurven und Fortschritte zu sehen."
   },
   "range": {
-    "last4Weeks": { "label": "4 Wochen", "short": "4 Wo." },
-    "last3Months": { "label": "3 Monate", "short": "3 Mon." },
-    "all": { "label": "Alles", "short": "Alles" }
+    "last4Weeks": {
+      "label": "4 Wochen",
+      "short": "4 Wo."
+    },
+    "last3Months": {
+      "label": "3 Monate",
+      "short": "3 Mon."
+    },
+    "all": {
+      "label": "Alles",
+      "short": "Alles"
+    }
   },
   "kpi": {
     "sessions": "Einheiten",
-    "volume": "Volumen",
+    "volume": "Tonnage",
     "sets": "Sätze",
-    "avgDuration": "Ø Dauer"
-  },
-  "consistency": {
-    "title": "Beständigkeit",
-    "trainingDays": "aktive Tage",
-    "perWeek": "Einheiten / Wo.",
-    "bestStreak": "beste Serie",
-    "noStreak": "keine Serie",
-    "less": "weniger",
-    "more": "mehr"
+    "avgDuration": "Ø Dauer",
+    "tension": "Zeit unter Spannung"
   },
   "weeklyVolume": {
     "title": "Volumen pro Woche",
-    "empty": "Noch nicht genug Einheiten im Zeitraum."
+    "empty": "Noch nicht genug Einheiten im Zeitraum.",
+    "inProgress": "laufend"
   },
   "exercise": {
     "title": "Fortschritt pro Übung",
@@ -44,7 +46,13 @@
     "searchHint": "Suchen…",
     "oneRmMax": "max. geschätztes 1RM",
     "bestLoad": "beste Last",
-    "record": "Rekord"
+    "record": "Rekord",
+    "trendUnknown": "Noch nicht genug Einheiten für einen Trend",
+    "trendProgressing": "Fortschritt",
+    "trendPlateau": "Plateau · {{n}} Einheiten ohne Bestwert",
+    "trendRegressing": "Rückschritt",
+    "perMonth": "{{value}} %/Monat",
+    "plateauHint": "Weniger Wdh. mit mehr Gewicht, oder Übung wechseln."
   },
   "muscleBalance": {
     "title": "Muskelbalance",
@@ -54,6 +62,13 @@
       "today": "heute",
       "yesterday": "gestern",
       "daysShort": "{{n}}T"
+    },
+    "unattributed": "+{{n}} Sätze bei Übungen ohne Muskelangabe",
+    "targetHint": "Ziel {{min}}–{{max}} Sätze / Woche",
+    "status": {
+      "under": "unter Ziel",
+      "onTarget": "im Ziel",
+      "over": "über Ziel"
     }
   },
   "records": {
@@ -63,5 +78,9 @@
     "bestOneRm": "Geschätztes 1RM",
     "bestStreak": "Längste Serie",
     "consecutiveWeeks": "aufeinanderfolgende Wochen"
+  },
+  "strength": {
+    "title": "Kraft",
+    "scope": "gesamte Historie"
   }
 }

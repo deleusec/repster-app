@@ -52,5 +52,13 @@
   "streakBadge": {
     "one": "{{n}} settimana di fila",
     "other": "{{n}} settimane di fila"
+  },
+  "consistency": {
+    "title": "Costanza",
+    "trainingDays": "giorni attivi",
+    "perWeek": "sessioni / sett.",
+    "bestStreak": "miglior serie",
+    "noStreak": "nessuna serie",
+    "weeksShort": "{{n}} sett."
   }
 }

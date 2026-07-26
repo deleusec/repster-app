@@ -131,6 +131,7 @@ class _Translations$dashboard$es extends Translations$dashboard$en {
 		one: '${n} semana seguida',
 		other: '${n} semanas seguidas',
 	);
+	@override late final _Translations$dashboard$consistency$es consistency = _Translations$dashboard$consistency$es._(_root);
 }
 
 // Path: errors
@@ -320,11 +321,11 @@ class _Translations$stats$es extends Translations$stats$en {
 	@override late final _Translations$stats$empty$es empty = _Translations$stats$empty$es._(_root);
 	@override late final _Translations$stats$range$es range = _Translations$stats$range$es._(_root);
 	@override late final _Translations$stats$kpi$es kpi = _Translations$stats$kpi$es._(_root);
-	@override late final _Translations$stats$consistency$es consistency = _Translations$stats$consistency$es._(_root);
 	@override late final _Translations$stats$weeklyVolume$es weeklyVolume = _Translations$stats$weeklyVolume$es._(_root);
 	@override late final _Translations$stats$exercise$es exercise = _Translations$stats$exercise$es._(_root);
 	@override late final _Translations$stats$muscleBalance$es muscleBalance = _Translations$stats$muscleBalance$es._(_root);
 	@override late final _Translations$stats$records$es records = _Translations$stats$records$es._(_root);
+	@override late final _Translations$stats$strength$es strength = _Translations$stats$strength$es._(_root);
 }
 
 // Path: templates
@@ -720,6 +721,21 @@ class _Translations$dashboard$stats$es extends Translations$dashboard$stats$en {
 		one: 'semana',
 		other: 'semanas',
 	);
+}
+
+// Path: dashboard.consistency
+class _Translations$dashboard$consistency$es extends Translations$dashboard$consistency$en {
+	_Translations$dashboard$consistency$es._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Constancia';
+	@override String get trainingDays => 'días activos';
+	@override String get perWeek => 'sesiones / sem.';
+	@override String get bestStreak => 'mejor racha';
+	@override String get noStreak => 'sin racha';
+	@override String weeksShort({required Object n}) => '${n} sem.';
 }
 
 // Path: errors.auth
@@ -1278,25 +1294,10 @@ class _Translations$stats$kpi$es extends Translations$stats$kpi$en {
 
 	// Translations
 	@override String get sessions => 'Sesiones';
-	@override String get volume => 'Volumen';
+	@override String get volume => 'Tonelaje';
 	@override String get sets => 'Series';
 	@override String get avgDuration => 'Duración media';
-}
-
-// Path: stats.consistency
-class _Translations$stats$consistency$es extends Translations$stats$consistency$en {
-	_Translations$stats$consistency$es._(TranslationsEs root) : this._root = root, super.internal(root);
-
-	final TranslationsEs _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Constancia';
-	@override String get trainingDays => 'días activos';
-	@override String get perWeek => 'sesiones / sem.';
-	@override String get bestStreak => 'mejor racha';
-	@override String get noStreak => 'sin racha';
-	@override String get less => 'menos';
-	@override String get more => 'más';
+	@override String get tension => 'Tiempo bajo tensión';
 }
 
 // Path: stats.weeklyVolume
@@ -1308,6 +1309,7 @@ class _Translations$stats$weeklyVolume$es extends Translations$stats$weeklyVolum
 	// Translations
 	@override String get title => 'Volumen por semana';
 	@override String get empty => 'Aún no hay suficientes sesiones en el periodo.';
+	@override String get inProgress => 'en curso';
 }
 
 // Path: stats.exercise
@@ -1325,6 +1327,12 @@ class _Translations$stats$exercise$es extends Translations$stats$exercise$en {
 	@override String get oneRmMax => '1RM estimado máx.';
 	@override String get bestLoad => 'mejor carga';
 	@override String get record => 'récord';
+	@override String get trendUnknown => 'Aún no hay sesiones suficientes para ver una tendencia';
+	@override String get trendProgressing => 'Progresando';
+	@override String trendPlateau({required Object n}) => 'Estancado · ${n} sesiones sin récord';
+	@override String get trendRegressing => 'Retrocediendo';
+	@override String perMonth({required Object value}) => '${value} %/mes';
+	@override String get plateauHint => 'Prueba menos reps con más carga, o cambia de ejercicio.';
 }
 
 // Path: stats.muscleBalance
@@ -1337,6 +1345,9 @@ class _Translations$stats$muscleBalance$es extends Translations$stats$muscleBala
 	@override String get title => 'Equilibrio muscular';
 	@override String neglected({required Object days, required Object emoji}) => '— sin entrenar desde hace ${days} d ${emoji}';
 	@override late final _Translations$stats$muscleBalance$since$es since = _Translations$stats$muscleBalance$since$es._(_root);
+	@override String unattributed({required Object n}) => '+${n} series en ejercicios sin músculo indicado';
+	@override String targetHint({required Object min, required Object max}) => 'objetivo ${min}–${max} series / sem.';
+	@override late final _Translations$stats$muscleBalance$status$es status = _Translations$stats$muscleBalance$status$es._(_root);
 }
 
 // Path: stats.records
@@ -1352,6 +1363,17 @@ class _Translations$stats$records$es extends Translations$stats$records$en {
 	@override String get bestOneRm => '1RM estimado';
 	@override String get bestStreak => 'Racha más larga';
 	@override String get consecutiveWeeks => 'semanas consecutivas';
+}
+
+// Path: stats.strength
+class _Translations$stats$strength$es extends Translations$stats$strength$en {
+	_Translations$stats$strength$es._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Fuerza';
+	@override String get scope => 'todo el historial';
 }
 
 // Path: templates.list
@@ -1671,6 +1693,18 @@ class _Translations$stats$muscleBalance$since$es extends Translations$stats$musc
 	@override String daysShort({required Object n}) => '${n}d';
 }
 
+// Path: stats.muscleBalance.status
+class _Translations$stats$muscleBalance$status$es extends Translations$stats$muscleBalance$status$en {
+	_Translations$stats$muscleBalance$status$es._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get under => 'por debajo';
+	@override String get onTarget => 'en objetivo';
+	@override String get over => 'por encima';
+}
+
 /// The flat map containing all translations for locale <es>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1845,6 +1879,12 @@ extension on TranslationsEs {
 			'dashboard.stats.thisWeek' => 'esta sem.',
 			'dashboard.stats.weekCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: 'semana', other: 'semanas', ), 
 			'dashboard.streakBadge' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} semana seguida', other: '${n} semanas seguidas', ), 
+			'dashboard.consistency.title' => 'Constancia',
+			'dashboard.consistency.trainingDays' => 'días activos',
+			'dashboard.consistency.perWeek' => 'sesiones / sem.',
+			'dashboard.consistency.bestStreak' => 'mejor racha',
+			'dashboard.consistency.noStreak' => 'sin racha',
+			'dashboard.consistency.weeksShort' => ({required Object n}) => '${n} sem.',
 			'errors.network' => 'Sin conexión de red. Comprueba tu conexión.',
 			'errors.notFound' => 'Elemento no encontrado.',
 			'errors.generic' => 'Se produjo un error. Inténtalo de nuevo.',
@@ -2118,18 +2158,13 @@ extension on TranslationsEs {
 			'stats.range.all.label' => 'Todo',
 			'stats.range.all.short' => 'Todo',
 			'stats.kpi.sessions' => 'Sesiones',
-			'stats.kpi.volume' => 'Volumen',
+			'stats.kpi.volume' => 'Tonelaje',
 			'stats.kpi.sets' => 'Series',
 			'stats.kpi.avgDuration' => 'Duración media',
-			'stats.consistency.title' => 'Constancia',
-			'stats.consistency.trainingDays' => 'días activos',
-			'stats.consistency.perWeek' => 'sesiones / sem.',
-			'stats.consistency.bestStreak' => 'mejor racha',
-			'stats.consistency.noStreak' => 'sin racha',
-			'stats.consistency.less' => 'menos',
-			'stats.consistency.more' => 'más',
+			'stats.kpi.tension' => 'Tiempo bajo tensión',
 			'stats.weeklyVolume.title' => 'Volumen por semana',
 			'stats.weeklyVolume.empty' => 'Aún no hay suficientes sesiones en el periodo.',
+			'stats.weeklyVolume.inProgress' => 'en curso',
 			'stats.exercise.title' => 'Progresión por ejercicio',
 			'stats.exercise.empty' => 'Registra al menos 2 sesiones con el mismo ejercicio con carga para ver tu curva de fuerza.',
 			'stats.exercise.pickerTitle' => 'Elegir un ejercicio',
@@ -2138,18 +2173,31 @@ extension on TranslationsEs {
 			'stats.exercise.oneRmMax' => '1RM estimado máx.',
 			'stats.exercise.bestLoad' => 'mejor carga',
 			'stats.exercise.record' => 'récord',
+			'stats.exercise.trendUnknown' => 'Aún no hay sesiones suficientes para ver una tendencia',
+			'stats.exercise.trendProgressing' => 'Progresando',
+			'stats.exercise.trendPlateau' => ({required Object n}) => 'Estancado · ${n} sesiones sin récord',
+			'stats.exercise.trendRegressing' => 'Retrocediendo',
+			'stats.exercise.perMonth' => ({required Object value}) => '${value} %/mes',
+			'stats.exercise.plateauHint' => 'Prueba menos reps con más carga, o cambia de ejercicio.',
 			'stats.muscleBalance.title' => 'Equilibrio muscular',
 			'stats.muscleBalance.neglected' => ({required Object days, required Object emoji}) => '— sin entrenar desde hace ${days} d ${emoji}',
 			'stats.muscleBalance.since.none' => '–',
 			'stats.muscleBalance.since.today' => 'hoy',
 			'stats.muscleBalance.since.yesterday' => 'ayer',
 			'stats.muscleBalance.since.daysShort' => ({required Object n}) => '${n}d',
+			'stats.muscleBalance.unattributed' => ({required Object n}) => '+${n} series en ejercicios sin músculo indicado',
+			'stats.muscleBalance.targetHint' => ({required Object min, required Object max}) => 'objetivo ${min}–${max} series / sem.',
+			'stats.muscleBalance.status.under' => 'por debajo',
+			'stats.muscleBalance.status.onTarget' => 'en objetivo',
+			'stats.muscleBalance.status.over' => 'por encima',
 			'stats.records.title' => 'Récords',
 			'stats.records.bestSession' => 'Mejor sesión',
 			'stats.records.heaviestLift' => 'Carga máxima',
 			'stats.records.bestOneRm' => '1RM estimado',
 			'stats.records.bestStreak' => 'Racha más larga',
 			'stats.records.consecutiveWeeks' => 'semanas consecutivas',
+			'stats.strength.title' => 'Fuerza',
+			'stats.strength.scope' => 'todo el historial',
 			'templates.list.title' => 'Programa',
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} sesión activa', other: '${n} sesiones activas', ), 
 			'templates.list.subtitleManage' => ({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} / ${total} activa', other: '${n} / ${total} activas', ), 
@@ -2177,6 +2225,8 @@ extension on TranslationsEs {
 			'templates.card.copy' => 'Copiar',
 			'templates.card.deleteShort' => 'Elim.',
 			'templates.card.activate' => 'Activar',
+			_ => null,
+		} ?? switch (path) {
 			'templates.card.deactivate' => 'Desactivar',
 			'templates.detail.title' => 'Plantilla',
 			'templates.detail.noExercises' => 'No hay ejercicios en esta plantilla.',
@@ -2191,8 +2241,6 @@ extension on TranslationsEs {
 			'templates.editor.editTitle' => 'Editar sesión',
 			'templates.editor.exercisesHeader' => ({required Object count}) => 'EJERCICIOS (${count})',
 			'templates.editor.addExercise' => 'Añadir un ejercicio',
-			_ => null,
-		} ?? switch (path) {
 			'templates.editor.save' => 'Guardar sesión',
 			'templates.editor.validationError' => 'Introduce un nombre y al menos un ejercicio con nombre.',
 			'templates.fields.name' => 'Nombre de la sesión',

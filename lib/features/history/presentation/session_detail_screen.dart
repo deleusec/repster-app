@@ -108,7 +108,7 @@ class _BodyState extends ConsumerState<_Body> {
                 child: _StatTile(
                   icon: LucideIcons.dumbbell,
                   label: t.history.detail.tonnage,
-                  value: formatTonnage(session.totalTonnage),
+                  value: formatTonnage(session.tonnageKg),
                   color: AppColors.accentEmerald,
                 ),
               ),
@@ -354,9 +354,7 @@ class _ExerciseCard extends StatelessWidget {
                             ],
                             Flexible(
                               child: Text(
-                                exercise.name.isEmpty
-                                    ? '—'
-                                    : exercise.name,
+                                exercise.name.isEmpty ? '—' : exercise.name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -443,9 +441,7 @@ class _SetTable extends StatelessWidget {
         // Data rows
         for (final s in sets) ...[
           _Divider(scheme.hairline),
-          _Row(
-            cells: isTime ? _timeCells(scheme, s) : _weightCells(scheme, s),
-          ),
+          _Row(cells: isTime ? _timeCells(scheme, s) : _weightCells(scheme, s)),
         ],
         // Subtotal
         _Divider(scheme.hairline),
@@ -465,9 +461,7 @@ class _SetTable extends StatelessWidget {
                   ? formatHoldDuration(exercise.holdTime)
                   : formatTonnage(exercise.tonnage),
               flex: isTime ? _flexB : _flexB + _flexC,
-              color: isTime
-                  ? AppColors.accentBlue
-                  : AppColors.accentEmerald,
+              color: isTime ? AppColors.accentBlue : AppColors.accentEmerald,
               weight: FontWeight.w700,
               align: TextAlign.end,
             ),

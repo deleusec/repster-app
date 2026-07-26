@@ -375,6 +375,11 @@ mixin _$WorkoutExercise {
   /// Catalog identity, when known. `null` for an exercise typed by hand in
   /// session — the history lookup then falls back to the normalized name.
   String? get exerciseId => throw _privateConstructorUsedError;
+
+  /// Muscles worked, **primary first** — the catalog stores them in that
+  /// order. Empty for a personal exercise with nothing filled in, which the
+  /// stats surface as unattributed rather than silently drop.
+  List<MuscleGroup> get muscleGroups => throw _privateConstructorUsedError;
   String? get slotId => throw _privateConstructorUsedError;
   String? get originalName => throw _privateConstructorUsedError;
   bool get sessionModified => throw _privateConstructorUsedError;
@@ -410,6 +415,7 @@ abstract class $WorkoutExerciseCopyWith<$Res> {
     List<WorkoutSet> sets,
     bool isTimeBased,
     String? exerciseId,
+    List<MuscleGroup> muscleGroups,
     String? slotId,
     String? originalName,
     bool sessionModified,
@@ -444,6 +450,7 @@ class _$WorkoutExerciseCopyWithImpl<$Res, $Val extends WorkoutExercise>
     Object? sets = null,
     Object? isTimeBased = null,
     Object? exerciseId = freezed,
+    Object? muscleGroups = null,
     Object? slotId = freezed,
     Object? originalName = freezed,
     Object? sessionModified = null,
@@ -487,6 +494,10 @@ class _$WorkoutExerciseCopyWithImpl<$Res, $Val extends WorkoutExercise>
                 ? _value.exerciseId
                 : exerciseId // ignore: cast_nullable_to_non_nullable
                       as String?,
+            muscleGroups: null == muscleGroups
+                ? _value.muscleGroups
+                : muscleGroups // ignore: cast_nullable_to_non_nullable
+                      as List<MuscleGroup>,
             slotId: freezed == slotId
                 ? _value.slotId
                 : slotId // ignore: cast_nullable_to_non_nullable
@@ -543,6 +554,7 @@ abstract class _$$WorkoutExerciseImplCopyWith<$Res>
     List<WorkoutSet> sets,
     bool isTimeBased,
     String? exerciseId,
+    List<MuscleGroup> muscleGroups,
     String? slotId,
     String? originalName,
     bool sessionModified,
@@ -576,6 +588,7 @@ class __$$WorkoutExerciseImplCopyWithImpl<$Res>
     Object? sets = null,
     Object? isTimeBased = null,
     Object? exerciseId = freezed,
+    Object? muscleGroups = null,
     Object? slotId = freezed,
     Object? originalName = freezed,
     Object? sessionModified = null,
@@ -619,6 +632,10 @@ class __$$WorkoutExerciseImplCopyWithImpl<$Res>
             ? _value.exerciseId
             : exerciseId // ignore: cast_nullable_to_non_nullable
                   as String?,
+        muscleGroups: null == muscleGroups
+            ? _value._muscleGroups
+            : muscleGroups // ignore: cast_nullable_to_non_nullable
+                  as List<MuscleGroup>,
         slotId: freezed == slotId
             ? _value.slotId
             : slotId // ignore: cast_nullable_to_non_nullable
@@ -668,6 +685,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
     required final List<WorkoutSet> sets,
     this.isTimeBased = false,
     this.exerciseId,
+    final List<MuscleGroup> muscleGroups = const <MuscleGroup>[],
     this.slotId,
     this.originalName,
     this.sessionModified = false,
@@ -677,6 +695,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
     this.supersetPosition,
     this.supersetSize,
   }) : _sets = sets,
+       _muscleGroups = muscleGroups,
        _variants = variants,
        super._();
 
@@ -709,6 +728,23 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
   /// session — the history lookup then falls back to the normalized name.
   @override
   final String? exerciseId;
+
+  /// Muscles worked, **primary first** — the catalog stores them in that
+  /// order. Empty for a personal exercise with nothing filled in, which the
+  /// stats surface as unattributed rather than silently drop.
+  final List<MuscleGroup> _muscleGroups;
+
+  /// Muscles worked, **primary first** — the catalog stores them in that
+  /// order. Empty for a personal exercise with nothing filled in, which the
+  /// stats surface as unattributed rather than silently drop.
+  @override
+  @JsonKey()
+  List<MuscleGroup> get muscleGroups {
+    if (_muscleGroups is EqualUnmodifiableListView) return _muscleGroups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_muscleGroups);
+  }
+
   @override
   final String? slotId;
   @override
@@ -737,7 +773,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
 
   @override
   String toString() {
-    return 'WorkoutExercise(id: $id, name: $name, notes: $notes, tempo: $tempo, restTime: $restTime, sets: $sets, isTimeBased: $isTimeBased, exerciseId: $exerciseId, slotId: $slotId, originalName: $originalName, sessionModified: $sessionModified, variants: $variants, activeVariantIndex: $activeVariantIndex, supersetGroupId: $supersetGroupId, supersetPosition: $supersetPosition, supersetSize: $supersetSize)';
+    return 'WorkoutExercise(id: $id, name: $name, notes: $notes, tempo: $tempo, restTime: $restTime, sets: $sets, isTimeBased: $isTimeBased, exerciseId: $exerciseId, muscleGroups: $muscleGroups, slotId: $slotId, originalName: $originalName, sessionModified: $sessionModified, variants: $variants, activeVariantIndex: $activeVariantIndex, supersetGroupId: $supersetGroupId, supersetPosition: $supersetPosition, supersetSize: $supersetSize)';
   }
 
   @override
@@ -756,6 +792,10 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
                 other.isTimeBased == isTimeBased) &&
             (identical(other.exerciseId, exerciseId) ||
                 other.exerciseId == exerciseId) &&
+            const DeepCollectionEquality().equals(
+              other._muscleGroups,
+              _muscleGroups,
+            ) &&
             (identical(other.slotId, slotId) || other.slotId == slotId) &&
             (identical(other.originalName, originalName) ||
                 other.originalName == originalName) &&
@@ -784,6 +824,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
     const DeepCollectionEquality().hash(_sets),
     isTimeBased,
     exerciseId,
+    const DeepCollectionEquality().hash(_muscleGroups),
     slotId,
     originalName,
     sessionModified,
@@ -821,6 +862,7 @@ abstract class _WorkoutExercise extends WorkoutExercise {
     required final List<WorkoutSet> sets,
     final bool isTimeBased,
     final String? exerciseId,
+    final List<MuscleGroup> muscleGroups,
     final String? slotId,
     final String? originalName,
     final bool sessionModified,
@@ -854,6 +896,12 @@ abstract class _WorkoutExercise extends WorkoutExercise {
   /// session — the history lookup then falls back to the normalized name.
   @override
   String? get exerciseId;
+
+  /// Muscles worked, **primary first** — the catalog stores them in that
+  /// order. Empty for a personal exercise with nothing filled in, which the
+  /// stats surface as unattributed rather than silently drop.
+  @override
+  List<MuscleGroup> get muscleGroups;
   @override
   String? get slotId;
   @override

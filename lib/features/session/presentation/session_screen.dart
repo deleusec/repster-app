@@ -345,7 +345,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     ];
     await showFinishSheet(
       context,
-      tonnage: session.totalTonnage,
+      tonnage: session.tonnageKg,
       completedSets: completed,
       totalSets: totalSets,
       incomplete: incomplete,
@@ -497,7 +497,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
               ),
             ),
             _BottomBar(
-              tonnage: session.totalTonnage,
+              tonnage: session.tonnageKg,
               isLastBlock: isLastBlock,
               isSuperset: currentBlock?.isSuperset ?? false,
               onFinish: _finish,

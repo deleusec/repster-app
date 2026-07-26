@@ -3,6 +3,7 @@ import 'package:repster/core/error/app_exception.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/dashboard/data/dashboard_repository.dart';
+import 'package:repster/features/dashboard/domain/consistency.dart';
 import 'package:repster/features/dashboard/domain/dashboard_data.dart';
 import 'package:repster/features/dashboard/domain/in_progress_session_info.dart';
 import 'package:repster/features/session/data/sessions_repository.dart';
@@ -32,10 +33,12 @@ class DashboardController extends AsyncNotifier<DashboardData> {
     final tplsFut = tplRepo.fetchAll(onlyActive: true);
     final sessionsFut = dashRepo.fetchRecentSessions();
     final inProgressFut = dashRepo.fetchInProgress();
+    final datesFut = dashRepo.fetchTrainingDates();
 
     final templates = await tplsFut;
     final sessions = await sessionsFut;
     final inProgress = await inProgressFut;
+    final dates = await datesFut;
 
     return DashboardData(
       user: user,
@@ -43,6 +46,7 @@ class DashboardController extends AsyncNotifier<DashboardData> {
         templates.take(_maxActiveTemplatesPreview),
       ),
       recentSessions: List.unmodifiable(sessions),
+      consistency: Consistency.fromDates(dates),
       inProgress: inProgress,
     );
   }

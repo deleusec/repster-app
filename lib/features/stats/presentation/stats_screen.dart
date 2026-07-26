@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/stats/application/stats_controller.dart';
 import 'package:repster/features/stats/domain/stats_data.dart';
 import 'package:repster/features/stats/domain/stats_range.dart';
 import 'package:repster/features/stats/presentation/stats_range_l10n.dart';
-import 'package:repster/features/stats/presentation/widgets/consistency_panel.dart';
 import 'package:repster/features/stats/presentation/widgets/exercise_progress_panel.dart';
 import 'package:repster/features/stats/presentation/widgets/muscle_balance_panel.dart';
 import 'package:repster/features/stats/presentation/widgets/records_panel.dart';
@@ -73,13 +73,18 @@ class _StatsBody extends StatelessWidget {
         const SizedBox(height: 18),
         StatsKpiGrid(kpis: data.kpis),
         const SizedBox(height: 16),
-        ConsistencyPanel(consistency: data.consistency),
-        const SizedBox(height: 16),
         WeeklyVolumeChart(weeks: data.weeklyVolume),
         const SizedBox(height: 16),
+        MuscleBalancePanel(
+          loads: data.muscleLoads,
+          unattributedSets: data.unattributedSets,
+        ),
+        // Everything below ignores the range pills on purpose — the label says
+        // so, so a four-week filter never reads as "these are my records".
+        const SizedBox(height: 24),
+        const _StrengthDivider(),
+        const SizedBox(height: 14),
         ExerciseProgressPanel(exercises: data.exercises),
-        const SizedBox(height: 16),
-        MuscleBalancePanel(loads: data.muscleLoads),
         if (!data.records.isEmpty) ...[
           const SizedBox(height: 16),
           RecordsPanel(records: data.records),
@@ -108,6 +113,39 @@ class _EmptyBody extends StatelessWidget {
           icon: LucideIcons.chartColumn,
           title: t.stats.empty.title,
           message: t.stats.empty.message,
+        ),
+      ],
+    );
+  }
+}
+
+/// Separates the range-scoped activity blocks above from the strength blocks
+/// below, which read the whole history. Names the scope rather than leaving the
+/// reader to assume the pills apply.
+class _StrengthDivider extends StatelessWidget {
+  const _StrengthDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
+    return Row(
+      children: [
+        Text(
+          t.stats.strength.title,
+          style: AppText.sectionLabel.copyWith(
+            color: onSurface.withValues(alpha: 0.75),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          t.stats.strength.scope,
+          style: AppText.caption.copyWith(
+            color: onSurface.withValues(alpha: 0.45),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Container(height: 1, color: onSurface.withValues(alpha: 0.12)),
         ),
       ],
     );

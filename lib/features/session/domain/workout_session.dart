@@ -24,19 +24,35 @@ class WorkoutSession with _$WorkoutSession {
   factory WorkoutSession.fromJson(Map<String, Object?> json) =>
       _$WorkoutSessionFromJson(json);
 
-  double get totalTonnage {
+  /// Tonnage in kg: `reps × load`, over rep-based exercises only.
+  ///
+  /// Holds are deliberately excluded rather than counted as `seconds × load`:
+  /// summing the two produced a number in no unit at all, where a 60 s plank
+  /// with a 20 kg plate (1200) outweighed a 10 × 80 kg set (800). Time under
+  /// tension is its own measure — see [timeUnderTensionSec].
+  double get tonnageKg {
     var t = 0.0;
     for (final ex in exercises) {
+      if (ex.isTimeBased) continue;
       for (final s in ex.sets) {
         if (!s.completed) continue;
-        if (ex.isTimeBased) {
-          t += (s.actualSeconds ?? 0) * s.weight;
-        } else {
-          t += s.actualReps * s.weight;
-        }
+        t += s.actualReps * s.weight;
       }
     }
     return t;
+  }
+
+  /// Seconds held over time-based exercises, completed sets only.
+  int get timeUnderTensionSec {
+    var seconds = 0;
+    for (final ex in exercises) {
+      if (!ex.isTimeBased) continue;
+      for (final s in ex.sets) {
+        if (!s.completed) continue;
+        seconds += s.actualSeconds ?? 0;
+      }
+    }
+    return seconds;
   }
 
   int get completedSets => exercises.fold(

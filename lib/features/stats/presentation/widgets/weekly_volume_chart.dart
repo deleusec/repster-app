@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/features/stats/domain/stats_data.dart';
-import 'package:repster/features/stats/presentation/widgets/stat_panel.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/stat_panel.dart';
 
 /// Histogram of weekly aggregated volume (tonnage) — smoothed trend.
 class WeeklyVolumeChart extends StatelessWidget {
@@ -63,7 +63,11 @@ class WeeklyVolumeChart extends StatelessWidget {
                               BarChartRodData(
                                 toY: weeks[i].tonnageKg,
                                 width: 10,
-                                color: scheme.primary.withValues(alpha: 0.85),
+                                // The running week is drawn lighter: it is
+                                // incomplete, not a collapse.
+                                color: scheme.primary.withValues(
+                                  alpha: weeks[i].isInProgress ? 0.35 : 0.85,
+                                ),
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(4),
                                 ),
@@ -86,7 +90,9 @@ class WeeklyVolumeChart extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      shortDate(weeks.last.weekStart),
+                      weeks.last.isInProgress
+                          ? t.stats.weeklyVolume.inProgress
+                          : shortDate(weeks.last.weekStart),
                       style: TextStyle(
                         fontSize: 11,
                         color: onSurface.withValues(alpha: 0.5),

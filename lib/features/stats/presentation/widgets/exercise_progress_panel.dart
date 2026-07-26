@@ -5,10 +5,10 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/features/stats/domain/stats_data.dart';
-import 'package:repster/features/stats/presentation/widgets/stat_panel.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_drawer_sheet.dart';
+import 'package:repster/shared/widgets/stat_panel.dart';
 
 /// Per-exercise progression: picker + estimated 1RM (Epley) curve with
 /// record (PR) markers.
@@ -375,6 +375,8 @@ class _Chart extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _TrendLine(progress: progress),
+        const SizedBox(height: 12),
         Row(
           children: [
             _Stat(
@@ -512,6 +514,85 @@ class _Stat extends StatelessWidget {
             color: onSurface.withValues(alpha: 0.45),
           ),
         ),
+      ],
+    );
+  }
+}
+
+/// Turns the curve into a sentence: a reader should not have to eyeball a slope
+/// to know whether they are moving.
+class _TrendLine extends StatelessWidget {
+  const _TrendLine({required this.progress});
+
+  final ExerciseProgress progress;
+
+  @override
+  Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final trend = progress.trend;
+    final rate = progress.monthlyRate;
+    if (trend == null || rate == null) {
+      return Text(
+        t.stats.exercise.trendUnknown,
+        style: TextStyle(
+          fontSize: 12,
+          color: onSurface.withValues(alpha: 0.45),
+        ),
+      );
+    }
+
+    final (icon, color, label) = switch (trend) {
+      StrengthTrend.progressing => (
+        LucideIcons.trendingUp,
+        AppColors.accentEmerald,
+        t.stats.exercise.trendProgressing,
+      ),
+      StrengthTrend.plateau => (
+        LucideIcons.minus,
+        AppColors.accentAmber,
+        t.stats.exercise.trendPlateau(n: progress.sessionsSinceBest),
+      ),
+      StrengthTrend.regressing => (
+        LucideIcons.trendingDown,
+        AppColors.accentRose,
+        t.stats.exercise.trendRegressing,
+      ),
+    };
+    final signed =
+        '${rate >= 0 ? '+' : '-'}${formatDecimal((rate * 100).abs())}';
+    final rateLabel = t.stats.exercise.perMonth(value: signed);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(icon, size: 14, color: color),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                '$label · $rateLabel',
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: color,
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (trend == StrengthTrend.plateau)
+          Padding(
+            padding: const EdgeInsets.only(top: 4, left: 20),
+            child: Text(
+              t.stats.exercise.plateauHint,
+              style: TextStyle(
+                fontSize: 11,
+                color: onSurface.withValues(alpha: 0.5),
+              ),
+            ),
+          ),
       ],
     );
   }

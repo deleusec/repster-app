@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:repster/features/session/domain/workout_set.dart';
+import 'package:repster/features/templates/domain/muscle_group.dart';
 
 part 'workout_exercise.freezed.dart';
 part 'workout_exercise.g.dart';
@@ -42,6 +43,11 @@ class WorkoutExercise with _$WorkoutExercise {
     /// Catalog identity, when known. `null` for an exercise typed by hand in
     /// session — the history lookup then falls back to the normalized name.
     String? exerciseId,
+
+    /// Muscles worked, **primary first** — the catalog stores them in that
+    /// order. Empty for a personal exercise with nothing filled in, which the
+    /// stats surface as unattributed rather than silently drop.
+    @Default(<MuscleGroup>[]) List<MuscleGroup> muscleGroups,
     String? slotId,
     String? originalName,
     @Default(false) bool sessionModified,
@@ -66,17 +72,14 @@ class WorkoutExercise with _$WorkoutExercise {
   bool get allSetsCompleted =>
       sets.isNotEmpty && sets.every((s) => s.completed);
 
-  /// Exercise tonnage (completed sets only). For a time-based exercise:
-  /// seconds x load, used as a volume proxy.
+  /// Exercise tonnage in kg (completed sets only), `0` for a hold — seconds
+  /// and reps are not the same unit, so a hold reports [holdTime] instead.
   double get tonnage {
+    if (isTimeBased) return 0;
     var t = 0.0;
     for (final s in sets) {
       if (!s.completed) continue;
-      if (isTimeBased) {
-        t += (s.actualSeconds ?? 0) * s.weight;
-      } else {
-        t += s.actualReps * s.weight;
-      }
+      t += s.actualReps * s.weight;
     }
     return t;
   }

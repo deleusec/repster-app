@@ -6,8 +6,11 @@ import 'package:repster/features/dashboard/domain/weekly_stats.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 
-/// Weekly stats panel in a 3-column grid (Sessions / Volume / Streak) with
-/// vertical dividers.
+/// Weekly stats panel in a 2-column grid (Sessions / Volume) with a vertical
+/// divider.
+///
+/// No streak cell: the header badge already carries the current streak, and the
+/// consistency panel below carries the best one.
 class WeeklyStatsPanel extends StatelessWidget {
   const WeeklyStatsPanel({required this.stats, super.key});
 
@@ -46,17 +49,6 @@ class WeeklyStatsPanel extends StatelessWidget {
                 sub: t.dashboard.stats.thisWeek,
               ),
             ),
-            _Divider(color: border),
-            Expanded(
-              child: _StatCell(
-                icon: LucideIcons.flame,
-                iconColor: AppColors.accentOrange,
-                label: t.dashboard.stats.streak,
-                value: '${stats.streakWeeks}',
-                sub: t.dashboard.stats.weekCount(n: stats.streakWeeks),
-                accent: stats.streakWeeks >= 3,
-              ),
-            ),
           ],
         ),
       ),
@@ -79,7 +71,6 @@ class _StatCell extends StatelessWidget {
     required this.label,
     required this.value,
     required this.sub,
-    this.accent = false,
   });
 
   final IconData icon;
@@ -87,7 +78,6 @@ class _StatCell extends StatelessWidget {
   final String label;
   final String value;
   final String sub;
-  final bool accent;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +113,7 @@ class _StatCell extends StatelessWidget {
               fontSize: 22,
               fontWeight: FontWeight.w800,
               height: 1,
-              color: accent ? AppColors.accentOrange : onSurface,
+              color: onSurface,
             ),
           ),
           const SizedBox(height: 2),

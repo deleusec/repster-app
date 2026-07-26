@@ -28,9 +28,13 @@ String formatTonnage(double kg) {
   return '${kg.round()} kg';
 }
 
+/// At most one decimal, dropping a trailing `.0` (`8`, `8.5`, `82.5`).
+String formatDecimal(double value) => value == value.roundToDouble()
+    ? value.toStringAsFixed(0)
+    : value.toStringAsFixed(1);
+
 /// Clean weight: integer when round (`80`), otherwise one decimal (`82.5`).
-String formatWeight(double kg) =>
-    kg == kg.roundToDouble() ? kg.toStringAsFixed(0) : kg.toStringAsFixed(1);
+String formatWeight(double kg) => formatDecimal(kg);
 
 /// Live session timer: `mm:ss` or `h:mm:ss`.
 String formatSessionTimer(int seconds) {

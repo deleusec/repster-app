@@ -4,6 +4,7 @@ import 'package:repster/core/supabase/postgrest_error_x.dart';
 import 'package:repster/core/supabase/supabase_providers.dart';
 import 'package:repster/features/dashboard/data/in_progress_session_info_dto.dart';
 import 'package:repster/features/dashboard/data/workout_session_summary_dto.dart';
+import 'package:repster/features/dashboard/domain/consistency.dart';
 import 'package:repster/features/dashboard/domain/in_progress_session_info.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
@@ -24,6 +25,29 @@ class DashboardRepository {
       );
     }
     return id;
+  }
+
+  /// Session start dates over the consistency window. One column, bounded by
+  /// date: the heatmap needs when you trained, not what you lifted.
+  Future<List<DateTime>> fetchTrainingDates({int weeks = kHeatmapWeeks}) async {
+    try {
+      final since = DateTime.now().subtract(Duration(days: 7 * weeks));
+      final rows = await _client
+          .from('workout_sessions')
+          .select('started_at')
+          .eq('user_id', _userId)
+          .not('completed_at', 'is', null)
+          .gte('started_at', since.toUtc().toIso8601String())
+          .order('started_at', ascending: false);
+      return [
+        for (final row in rows.cast<Map<String, dynamic>>())
+          if (DateTime.tryParse(row['started_at'] as String? ?? '')
+              case final DateTime date)
+            date,
+      ];
+    } catch (e, st) {
+      throw mapSupabaseError(e, st);
+    }
   }
 
   Future<List<WorkoutSessionSummary>> fetchRecentSessions({

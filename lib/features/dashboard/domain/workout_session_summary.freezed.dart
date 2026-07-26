@@ -25,6 +25,10 @@ mixin _$WorkoutSessionSummary {
   int get totalSets => throw _privateConstructorUsedError;
   List<MuscleGroup> get tags => throw _privateConstructorUsedError;
 
+  /// Seconds held on time-based exercises. Kept apart from the tonnage:
+  /// seconds and reps are not the same unit.
+  int get timeUnderTensionSec => throw _privateConstructorUsedError;
+
   /// Create a copy of WorkoutSessionSummary
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -47,6 +51,7 @@ abstract class $WorkoutSessionSummaryCopyWith<$Res> {
     double totalTonnageKg,
     int totalSets,
     List<MuscleGroup> tags,
+    int timeUnderTensionSec,
   });
 }
 
@@ -75,6 +80,7 @@ class _$WorkoutSessionSummaryCopyWithImpl<
     Object? totalTonnageKg = null,
     Object? totalSets = null,
     Object? tags = null,
+    Object? timeUnderTensionSec = null,
   }) {
     return _then(
       _value.copyWith(
@@ -106,6 +112,10 @@ class _$WorkoutSessionSummaryCopyWithImpl<
                 ? _value.tags
                 : tags // ignore: cast_nullable_to_non_nullable
                       as List<MuscleGroup>,
+            timeUnderTensionSec: null == timeUnderTensionSec
+                ? _value.timeUnderTensionSec
+                : timeUnderTensionSec // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -129,6 +139,7 @@ abstract class _$$WorkoutSessionSummaryImplCopyWith<$Res>
     double totalTonnageKg,
     int totalSets,
     List<MuscleGroup> tags,
+    int timeUnderTensionSec,
   });
 }
 
@@ -154,6 +165,7 @@ class __$$WorkoutSessionSummaryImplCopyWithImpl<$Res>
     Object? totalTonnageKg = null,
     Object? totalSets = null,
     Object? tags = null,
+    Object? timeUnderTensionSec = null,
   }) {
     return _then(
       _$WorkoutSessionSummaryImpl(
@@ -185,6 +197,10 @@ class __$$WorkoutSessionSummaryImplCopyWithImpl<$Res>
             ? _value._tags
             : tags // ignore: cast_nullable_to_non_nullable
                   as List<MuscleGroup>,
+        timeUnderTensionSec: null == timeUnderTensionSec
+            ? _value.timeUnderTensionSec
+            : timeUnderTensionSec // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -201,6 +217,7 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
     required this.totalTonnageKg,
     required this.totalSets,
     required final List<MuscleGroup> tags,
+    this.timeUnderTensionSec = 0,
   }) : _tags = tags,
        super._();
 
@@ -224,9 +241,15 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
     return EqualUnmodifiableListView(_tags);
   }
 
+  /// Seconds held on time-based exercises. Kept apart from the tonnage:
+  /// seconds and reps are not the same unit.
+  @override
+  @JsonKey()
+  final int timeUnderTensionSec;
+
   @override
   String toString() {
-    return 'WorkoutSessionSummary(id: $id, templateName: $templateName, startedAt: $startedAt, durationSeconds: $durationSeconds, totalTonnageKg: $totalTonnageKg, totalSets: $totalSets, tags: $tags)';
+    return 'WorkoutSessionSummary(id: $id, templateName: $templateName, startedAt: $startedAt, durationSeconds: $durationSeconds, totalTonnageKg: $totalTonnageKg, totalSets: $totalSets, tags: $tags, timeUnderTensionSec: $timeUnderTensionSec)';
   }
 
   @override
@@ -245,7 +268,9 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
                 other.totalTonnageKg == totalTonnageKg) &&
             (identical(other.totalSets, totalSets) ||
                 other.totalSets == totalSets) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.timeUnderTensionSec, timeUnderTensionSec) ||
+                other.timeUnderTensionSec == timeUnderTensionSec));
   }
 
   @override
@@ -258,6 +283,7 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
     totalTonnageKg,
     totalSets,
     const DeepCollectionEquality().hash(_tags),
+    timeUnderTensionSec,
   );
 
   /// Create a copy of WorkoutSessionSummary
@@ -282,6 +308,7 @@ abstract class _WorkoutSessionSummary extends WorkoutSessionSummary {
     required final double totalTonnageKg,
     required final int totalSets,
     required final List<MuscleGroup> tags,
+    final int timeUnderTensionSec,
   }) = _$WorkoutSessionSummaryImpl;
   const _WorkoutSessionSummary._() : super._();
 
@@ -299,6 +326,11 @@ abstract class _WorkoutSessionSummary extends WorkoutSessionSummary {
   int get totalSets;
   @override
   List<MuscleGroup> get tags;
+
+  /// Seconds held on time-based exercises. Kept apart from the tonnage:
+  /// seconds and reps are not the same unit.
+  @override
+  int get timeUnderTensionSec;
 
   /// Create a copy of WorkoutSessionSummary
   /// with the given fields replaced by the non-null parameter values.

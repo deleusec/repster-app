@@ -499,7 +499,9 @@ workout_sessions!inner ( user_id, completed_at )
 id, template_id, template_name, started_at, completed_at, duration_seconds,
 tags, notes,
 session_exercises (
-  id, name, position, notes, is_time_based, slot_id, superset_with_next,
+  id, exercise_id, name, position, notes, is_time_based, slot_id,
+  superset_with_next,
+  exercises ( muscle_groups ),
   session_sets (
     id, set_number, reps_target, reps_performed, weight_kg, tempo,
     completed_at, duration_target_seconds, duration_performed_seconds

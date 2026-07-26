@@ -8,6 +8,7 @@ import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/dashboard/application/dashboard_controller.dart';
 import 'package:repster/features/dashboard/domain/dashboard_data.dart';
 import 'package:repster/features/dashboard/domain/weekly_stats.dart';
+import 'package:repster/features/dashboard/presentation/widgets/consistency_panel.dart';
 import 'package:repster/features/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:repster/features/dashboard/presentation/widgets/dashboard_section_header.dart';
 import 'package:repster/features/dashboard/presentation/widgets/hero_cta_card.dart';
@@ -77,6 +78,8 @@ class _DashboardBody extends ConsumerWidget {
           const SizedBox(height: 20),
         ],
         stagger.wrap(WeeklyStatsPanel(stats: stats)),
+        const SizedBox(height: 20),
+        stagger.wrap(ConsistencyPanel(consistency: data.consistency)),
         const SizedBox(height: 20),
         stagger.wrap(
           HeroCtaCard(

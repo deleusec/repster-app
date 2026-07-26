@@ -4,10 +4,10 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/features/stats/domain/stats_data.dart';
-import 'package:repster/features/stats/presentation/widgets/stat_panel.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/icon_chip.dart';
+import 'package:repster/shared/widgets/stat_panel.dart';
 
 /// Highlights: best session, heaviest lift, best 1RM, longest streak.
 class RecordsPanel extends StatelessWidget {

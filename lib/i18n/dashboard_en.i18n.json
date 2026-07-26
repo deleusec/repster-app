@@ -52,5 +52,13 @@
   "streakBadge": {
     "one": "{{n}} week streak",
     "other": "{{n}} weeks streak"
+  },
+  "consistency": {
+    "title": "Consistency",
+    "trainingDays": "active days",
+    "perWeek": "sessions / wk",
+    "bestStreak": "best streak",
+    "noStreak": "no streak",
+    "weeksShort": "{{n}} wk"
   }
 }

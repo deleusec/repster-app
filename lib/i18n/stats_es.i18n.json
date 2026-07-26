@@ -13,28 +13,30 @@
     "message": "Completa algunas sesiones para ver tus curvas y tu progresión."
   },
   "range": {
-    "last4Weeks": { "label": "4 semanas", "short": "4 sem." },
-    "last3Months": { "label": "3 meses", "short": "3 meses" },
-    "all": { "label": "Todo", "short": "Todo" }
+    "last4Weeks": {
+      "label": "4 semanas",
+      "short": "4 sem."
+    },
+    "last3Months": {
+      "label": "3 meses",
+      "short": "3 meses"
+    },
+    "all": {
+      "label": "Todo",
+      "short": "Todo"
+    }
   },
   "kpi": {
     "sessions": "Sesiones",
-    "volume": "Volumen",
+    "volume": "Tonelaje",
     "sets": "Series",
-    "avgDuration": "Duración media"
-  },
-  "consistency": {
-    "title": "Constancia",
-    "trainingDays": "días activos",
-    "perWeek": "sesiones / sem.",
-    "bestStreak": "mejor racha",
-    "noStreak": "sin racha",
-    "less": "menos",
-    "more": "más"
+    "avgDuration": "Duración media",
+    "tension": "Tiempo bajo tensión"
   },
   "weeklyVolume": {
     "title": "Volumen por semana",
-    "empty": "Aún no hay suficientes sesiones en el periodo."
+    "empty": "Aún no hay suficientes sesiones en el periodo.",
+    "inProgress": "en curso"
   },
   "exercise": {
     "title": "Progresión por ejercicio",
@@ -44,7 +46,13 @@
     "searchHint": "Buscar…",
     "oneRmMax": "1RM estimado máx.",
     "bestLoad": "mejor carga",
-    "record": "récord"
+    "record": "récord",
+    "trendUnknown": "Aún no hay sesiones suficientes para ver una tendencia",
+    "trendProgressing": "Progresando",
+    "trendPlateau": "Estancado · {{n}} sesiones sin récord",
+    "trendRegressing": "Retrocediendo",
+    "perMonth": "{{value}} %/mes",
+    "plateauHint": "Prueba menos reps con más carga, o cambia de ejercicio."
   },
   "muscleBalance": {
     "title": "Equilibrio muscular",
@@ -54,6 +62,13 @@
       "today": "hoy",
       "yesterday": "ayer",
       "daysShort": "{{n}}d"
+    },
+    "unattributed": "+{{n}} series en ejercicios sin músculo indicado",
+    "targetHint": "objetivo {{min}}–{{max}} series / sem.",
+    "status": {
+      "under": "por debajo",
+      "onTarget": "en objetivo",
+      "over": "por encima"
     }
   },
   "records": {
@@ -63,5 +78,9 @@
     "bestOneRm": "1RM estimado",
     "bestStreak": "Racha más larga",
     "consecutiveWeeks": "semanas consecutivas"
+  },
+  "strength": {
+    "title": "Fuerza",
+    "scope": "todo el historial"
   }
 }

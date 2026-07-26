@@ -65,10 +65,24 @@ class StatsKpiGrid extends StatelessWidget {
                     : formatDuration(kpis.avgDurationSec),
                 delta: kpis.durationDelta,
                 tint: AppColors.accentBlue,
+                moreIsBetter: false,
               ),
             ),
           ],
         ),
+        // Holds used to be folded into the tonnage as `seconds × load`, which
+        // is no unit at all. They get their own measure, and only surface for
+        // someone who actually trains them.
+        if (kpis.tensionSec > 0) ...[
+          const SizedBox(height: 10),
+          _KpiCard(
+            icon: LucideIcons.timer,
+            label: t.stats.kpi.tension,
+            value: formatDuration(kpis.tensionSec),
+            delta: null,
+            tint: AppColors.accentAmber,
+          ),
+        ],
       ],
     );
   }
@@ -81,6 +95,7 @@ class _KpiCard extends StatelessWidget {
     required this.value,
     required this.delta,
     required this.tint,
+    this.moreIsBetter = true,
   });
 
   final IconData icon;
@@ -88,6 +103,11 @@ class _KpiCard extends StatelessWidget {
   final String value;
   final double? delta;
   final Color tint;
+
+  /// Whether a rise is an improvement. `false` paints the change without a
+  /// verdict: an average session getting 18 % longer is not a win, and a deload
+  /// week is not a failure.
+  final bool moreIsBetter;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +123,8 @@ class _KpiCard extends StatelessWidget {
             children: [
               IconChip(icon: icon, color: tint, size: 26, iconSize: 13),
               const Spacer(),
-              if (delta != null) _DeltaChip(delta: delta!),
+              if (delta != null)
+                _DeltaChip(delta: delta!, moreIsBetter: moreIsBetter),
             ],
           ),
           const SizedBox(height: 10),
@@ -134,14 +155,18 @@ class _KpiCard extends StatelessWidget {
 }
 
 class _DeltaChip extends StatelessWidget {
-  const _DeltaChip({required this.delta});
+  const _DeltaChip({required this.delta, required this.moreIsBetter});
 
   final double delta;
+  final bool moreIsBetter;
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
     final up = delta >= 0;
-    final color = up ? AppColors.accentEmerald : AppColors.accentRose;
+    final color = moreIsBetter
+        ? (up ? AppColors.accentEmerald : AppColors.accentRose)
+        : onSurface.withValues(alpha: 0.5);
     final pct = (delta.abs() * 100).round();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),

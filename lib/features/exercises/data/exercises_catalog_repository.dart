@@ -36,7 +36,7 @@ class ExercisesCatalogRepository {
           .cast<Map<String, dynamic>>()
           .map(CatalogExerciseDto.fromRow)
           .toList(growable: false);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }

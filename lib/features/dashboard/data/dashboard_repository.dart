@@ -45,7 +45,7 @@ class DashboardRepository {
               case final DateTime date)
             date,
       ];
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -70,7 +70,7 @@ session_exercises (
           .order('started_at', ascending: false)
           .limit(limit);
       return rows.map(WorkoutSessionSummaryDto.fromRow).toList(growable: false);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -86,7 +86,7 @@ session_exercises (
           .limit(1);
       if (rows.isEmpty) return null;
       return InProgressSessionInfoDto.fromRow(rows.first);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }

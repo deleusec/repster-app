@@ -70,7 +70,7 @@ class AuthRepository {
         );
       }
       return _mapUser(user);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -78,7 +78,7 @@ class AuthRepository {
   Future<void> signUp({required String email, required String password}) async {
     try {
       await _client.auth.signUp(email: email, password: password);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -101,7 +101,7 @@ class AuthRepository {
         );
       }
       return _mapUser(user);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -109,7 +109,7 @@ class AuthRepository {
   Future<void> resendSignupOtp(String email) async {
     try {
       await _client.auth.resend(email: email, type: sb.OtpType.signup);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -123,7 +123,7 @@ class AuthRepository {
         // entry. See [authRedirectUrl].
         redirectTo: authRedirectUrl(),
       );
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -133,7 +133,7 @@ class AuthRepository {
   Future<void> updatePassword(String newPassword) async {
     try {
       await _client.auth.updateUser(sb.UserAttributes(password: newPassword));
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -164,14 +164,14 @@ class AuthRepository {
         email: email,
         password: currentPassword,
       );
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
 
     // 2. Apply the new password.
     try {
       await _client.auth.updateUser(sb.UserAttributes(password: newPassword));
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -179,7 +179,7 @@ class AuthRepository {
   Future<void> signOut() async {
     try {
       await _client.auth.signOut();
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -209,7 +209,7 @@ class AuthRepository {
       final url = _client.storage.from('avatars').getPublicUrl(path);
       final stamp = DateTime.now().millisecondsSinceEpoch;
       return '$url?t=$stamp';
-    } catch (e, st) {
+    } on Object catch (e, st) {
       log.w('uploadAvatar failed', error: e, stackTrace: st);
       throw mapSupabaseError(e, st);
     }
@@ -235,7 +235,7 @@ class AuthRepository {
         '$userId/avatar.jpg',
       ]);
       return removed.isNotEmpty;
-    } catch (e, st) {
+    } on Object catch (e, st) {
       log.w('deleteAvatar failed', error: e, stackTrace: st);
       throw mapSupabaseError(e, st);
     }
@@ -256,7 +256,7 @@ class AuthRepository {
         throw const AppAuthException('Profile update failed');
       }
       return _mapUser(user);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       log.w('updateUserMetadata failed', error: e, stackTrace: st);
       throw mapSupabaseError(e, st);
     }

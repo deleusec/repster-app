@@ -62,7 +62,7 @@ template_exercises (
       return rows
           .map((r) => TemplateDto.fromRow(r, locale: locale))
           .toList(growable: false);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -76,7 +76,7 @@ template_exercises (
           .eq('user_id', _userId)
           .single();
       return TemplateDto.fromRow(row, locale: _locale);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -111,7 +111,7 @@ template_exercises (
         await _replaceTemplateExercises(id, normalized);
       }
       return id;
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -142,7 +142,7 @@ template_exercises (
       if (normalized.isNotEmpty) {
         await _replaceTemplateExercises(id, normalized);
       }
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -154,7 +154,7 @@ template_exercises (
           .delete()
           .eq('id', id)
           .eq('user_id', _userId);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -178,7 +178,7 @@ template_exercises (
         tags: source.tags,
         slots: newSlots,
       );
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -190,7 +190,7 @@ template_exercises (
           .update({'is_active': isActive})
           .eq('id', id)
           .eq('user_id', _userId);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -210,7 +210,7 @@ template_exercises (
               .eq('id', orderedIds[i])
               .eq('user_id', userId),
       ]);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }

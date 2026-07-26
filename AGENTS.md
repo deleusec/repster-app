@@ -166,6 +166,11 @@ Toolchain active : **freezed + json_serializable** via `build_runner`.
 - **Single quotes** par défaut (very_good_analysis).
 - **`const` partout** quand possible.
 - **Pas de `print`** : utiliser `log.i('msg')` / `log.e('msg', error: e, stackTrace: st)`.
+- **`on Object catch (e, st)`**, jamais `catch (e, st)` nu. Sémantiquement
+  identiques, mais very_good_analysis déclare `avoid_catches_without_on_clauses`
+  (dormante sur le SDK actuel, elle ne se déclenche pas) et une clause `on`
+  explicite dit qu'on avale aussi les `Error`. Un type précis
+  (`on AppAuthException catch`) reste préférable quand on sait quoi rattraper.
 - **Pas d'offline** pour l'instant — connexion active supposée pendant une séance.
 
 ## Standards détaillés — `.claude/standards/`

@@ -10,7 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 /// try {
 ///   final res = await supabase.from('templates').select();
 ///   return res.map(TemplateDto.fromJson).toList();
-/// } catch (e, st) {
+/// } on Object catch (e, st) {
 ///   throw mapSupabaseError(e, st);
 /// }
 /// ```

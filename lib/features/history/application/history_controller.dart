@@ -55,7 +55,7 @@ class HistoryController extends AsyncNotifier<List<WorkoutSessionSummary>> {
     state = AsyncData(current.where((s) => s.id != id).toList(growable: false));
     try {
       await ref.read(sessionsRepositoryProvider).deleteSession(id);
-    } catch (_) {
+    } on Object catch (_) {
       await refresh();
       rethrow;
     }

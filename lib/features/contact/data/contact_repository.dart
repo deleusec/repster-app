@@ -35,7 +35,7 @@ class ContactRepository {
               message: message,
             ),
           );
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }

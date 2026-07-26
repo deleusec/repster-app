@@ -60,7 +60,7 @@ class SessionsRepository {
           .select('id')
           .single();
       return row['id'] as String;
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -154,7 +154,7 @@ class SessionsRepository {
           .eq('user_id', _userId)
           .select('id')
           .single();
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -183,7 +183,7 @@ class SessionsRepository {
           .eq('user_id', _userId)
           .select('id')
           .single();
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -196,7 +196,7 @@ class SessionsRepository {
           .delete()
           .eq('id', sessionId)
           .eq('user_id', _userId);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -346,7 +346,7 @@ workout_sessions!inner ( user_id, completed_at )
     if (lookups.isEmpty) return const {};
     try {
       return await _fetchLastPerfs(lookups);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -368,7 +368,7 @@ workout_sessions!inner ( user_id, completed_at )
         isTimeBased: isTimeBased,
         exerciseId: exerciseId,
       )];
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -428,7 +428,7 @@ workout_sessions!inner ( user_id, completed_at )
       }
       entries.sort((a, b) => b.date.compareTo(a.date));
       return entries;
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -449,7 +449,7 @@ workout_sessions!inner ( user_id, completed_at )
           })
           .eq('id', sessionId)
           .eq('user_id', _userId);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -477,7 +477,7 @@ workout_sessions!inner ( user_id, completed_at )
             ? null
             : DateTime.parse(updated).toLocal(),
       );
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -492,7 +492,7 @@ workout_sessions!inner ( user_id, completed_at )
           .delete()
           .eq('id', sessionId)
           .eq('user_id', _userId);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -522,7 +522,7 @@ session_exercises (
           .order('started_at', ascending: false)
           .limit(limit);
       return rows.map(WorkoutSessionSummaryDto.fromRow).toList(growable: false);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -540,7 +540,7 @@ session_exercises (
           .order('started_at', ascending: false)
           .limit(limit);
       return rows.map(WorkoutSessionDto.fromRow).toList(growable: false);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
@@ -554,7 +554,7 @@ session_exercises (
           .eq('user_id', _userId)
           .single();
       return WorkoutSessionDto.fromRow(row);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }

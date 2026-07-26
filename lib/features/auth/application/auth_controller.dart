@@ -33,7 +33,7 @@ class AuthController extends AsyncNotifier<AuthUser?> {
         password: password,
       );
       state = AsyncData<AuthUser?>(user);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       state = AsyncError<AuthUser?>(e, st).copyWithPrevious(state);
       rethrow;
     }
@@ -45,7 +45,7 @@ class AuthController extends AsyncNotifier<AuthUser?> {
       await _repo.signUp(email: email, password: password);
       // Stay signed out until the OTP is verified.
       state = AsyncData<AuthUser?>(_repo.currentUser());
-    } catch (e, st) {
+    } on Object catch (e, st) {
       state = AsyncError<AuthUser?>(e, st).copyWithPrevious(state);
       rethrow;
     }
@@ -59,7 +59,7 @@ class AuthController extends AsyncNotifier<AuthUser?> {
     try {
       final user = await _repo.verifyEmailOtp(email: email, token: token);
       state = AsyncData<AuthUser?>(user);
-    } catch (e, st) {
+    } on Object catch (e, st) {
       state = AsyncError<AuthUser?>(e, st).copyWithPrevious(state);
       rethrow;
     }

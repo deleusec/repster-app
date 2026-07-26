@@ -873,6 +873,15 @@ class Translations$common$date$en {
 
 	/// en: '{{n}} d ago'
 	String daysAgo({required Object n}) => '${n} d ago';
+
+	/// en: 'today'
+	String get today => 'today';
+
+	/// en: '{{n}} w ago'
+	String weeksAgo({required Object n}) => '${n} w ago';
+
+	/// en: '{{n}} mo ago'
+	String monthsAgo({required Object n}) => '${n} mo ago';
 }
 
 // Path: common.language
@@ -1709,18 +1718,6 @@ class Translations$session$exercise$en {
 	/// en: '{{n}}s rest'
 	String restChip({required Object n}) => '${n}s rest';
 
-	/// en: 'LAST TIME:'
-	String get lastTime => 'LAST TIME:';
-
-	/// en: '· different target ({{n}}s)'
-	String differentTargetSeconds({required Object n}) => '· different target (${n}s)';
-
-	/// en: '· different target ({{n}} reps)'
-	String differentTargetReps({required Object n}) => '· different target (${n} reps)';
-
-	/// en: 'S{{n}} — {{value}}'
-	String perfEntry({required Object n, required Object value}) => 'S${n} — ${value}';
-
 	/// en: 'Modified · this session only'
 	String get modified => 'Modified · this session only';
 
@@ -1735,6 +1732,18 @@ class Translations$session$exercise$en {
 
 	/// en: 'Exercise volume: {{value}} kg'
 	String exerciseVolume({required Object value}) => 'Exercise volume: ${value} kg';
+
+	/// en: 'Last time'
+	String get lastTimeLabel => 'Last time';
+
+	/// en: 'was aiming for {{n}} reps'
+	String targetWasReps({required Object n}) => 'was aiming for ${n} reps';
+
+	/// en: 'was aiming for {{n}}s'
+	String targetWasSeconds({required Object n}) => 'was aiming for ${n}s';
+
+	/// en: '+{{n}}'
+	String morePerfs({required Object n}) => '+${n}';
 }
 
 // Path: session.overview
@@ -2877,6 +2886,9 @@ extension on Translations {
 			'common.date.hoursAgo' => ({required Object n}) => '${n} h ago',
 			'common.date.yesterday' => 'yesterday',
 			'common.date.daysAgo' => ({required Object n}) => '${n} d ago',
+			'common.date.today' => 'today',
+			'common.date.weeksAgo' => ({required Object n}) => '${n} w ago',
+			'common.date.monthsAgo' => ({required Object n}) => '${n} mo ago',
 			'common.language.en' => 'English',
 			'common.language.fr' => 'French',
 			'common.language.es' => 'Spanish',
@@ -3134,15 +3146,15 @@ extension on Translations {
 			'session.exercise.timed' => 'Timed',
 			'session.exercise.tempoChip' => ({required Object tempo}) => 'Tempo ${tempo}',
 			'session.exercise.restChip' => ({required Object n}) => '${n}s rest',
-			'session.exercise.lastTime' => 'LAST TIME:',
-			'session.exercise.differentTargetSeconds' => ({required Object n}) => '· different target (${n}s)',
-			'session.exercise.differentTargetReps' => ({required Object n}) => '· different target (${n} reps)',
-			'session.exercise.perfEntry' => ({required Object n, required Object value}) => 'S${n} — ${value}',
 			'session.exercise.modified' => 'Modified · this session only',
 			'session.exercise.modifiedWas' => ({required Object name}) => 'Modified · this session only (was: ${name})',
 			'session.exercise.completedBadge' => '✓ Done',
 			'session.exercise.totalHeld' => ({required Object value}) => 'Total held: ${value}',
 			'session.exercise.exerciseVolume' => ({required Object value}) => 'Exercise volume: ${value} kg',
+			'session.exercise.lastTimeLabel' => 'Last time',
+			'session.exercise.targetWasReps' => ({required Object n}) => 'was aiming for ${n} reps',
+			'session.exercise.targetWasSeconds' => ({required Object n}) => 'was aiming for ${n}s',
+			'session.exercise.morePerfs' => ({required Object n}) => '+${n}',
 			'session.overview.title' => 'Exercises',
 			'session.overview.current' => 'CURRENT',
 			'session.overview.setsValidated' => ({required Object completed, required Object total}) => '${completed}/${total} sets completed',
@@ -3288,11 +3300,11 @@ extension on Translations {
 			'templates.editor.newTitle' => 'New session',
 			'templates.editor.editTitle' => 'Edit session',
 			'templates.editor.exercisesHeader' => ({required Object count}) => 'EXERCISES (${count})',
+			_ => null,
+		} ?? switch (path) {
 			'templates.editor.addExercise' => 'Add an exercise',
 			'templates.editor.save' => 'Save session',
 			'templates.editor.validationError' => 'Enter a name and at least one named exercise.',
-			_ => null,
-		} ?? switch (path) {
 			'templates.fields.name' => 'Session name',
 			'templates.fields.nameHint' => 'e.g. Chest / Triceps / Shoulders',
 			'templates.fields.description' => 'Description (optional)',

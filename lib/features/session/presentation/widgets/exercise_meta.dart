@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/session/domain/last_perf.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/i18n/translations.g.dart';
@@ -86,64 +87,130 @@ class ExerciseMetaChips extends StatelessWidget {
   }
 }
 
-/// "Last time: S1 - 10x80kg . S2 - ..." under the exercise title.
+/// Age past which a reference is dimmed: beyond ~6 weeks it is context, not a
+/// mark to chase.
+const _staleAfter = Duration(days: 42);
+
+/// "Last time · 5 d ago" then one chip per set, under the exercise title.
+///
+/// One chip per set rather than an aggregate: a set that dropped from 10 to 8
+/// reps is exactly what you need to see before starting, and any summary hides
+/// it. Chips are capped at today's set count (a past 5th set is not actionable
+/// on a 3-set exercise) with a `+n` marker so the truncation is never silent.
+/// Tapping opens the full history.
 class ExerciseLastPerfs extends StatelessWidget {
   const ExerciseLastPerfs({
     required this.exercise,
     required this.perfs,
     this.meta,
+    this.onTap,
     super.key,
   });
 
   final WorkoutExercise exercise;
   final List<LastPerf> perfs;
   final LastPerfMeta? meta;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     if (perfs.isEmpty) return const SizedBox.shrink();
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    final m = meta;
+    final performedAt = meta?.performedAt;
+    final isStale =
+        performedAt != null &&
+        DateTime.now().difference(performedAt) > _staleAfter;
+    final dim = onSurface.withValues(alpha: isStale ? 0.35 : 0.55);
+    final chipFg = onSurface.withValues(alpha: isStale ? 0.45 : 0.75);
+    final targetWas = _targetWasLabel();
+
+    final shown = _shownCount();
+    final hidden = perfs.length - shown;
+
+    final header = Row(
+      children: [
+        Expanded(
+          child: Text.rich(
+            TextSpan(
+              style: AppText.caption.copyWith(color: dim),
+              children: [
+                TextSpan(
+                  text: t.session.exercise.lastTimeLabel,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+                if (performedAt != null)
+                  TextSpan(text: ' · ${relativeAge(performedAt)}'),
+                if (targetWas != null) TextSpan(text: ' · $targetWas'),
+              ],
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        if (onTap != null) ...[
+          const SizedBox(width: 4),
+          Icon(LucideIcons.chevronRight, size: 14, color: dim),
+        ],
+      ],
+    );
+
     return Padding(
       padding: const EdgeInsets.only(top: 8),
-      child: Wrap(
-        spacing: 6,
-        runSpacing: 6,
-        crossAxisAlignment: WrapCrossAlignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            t.session.exercise.lastTime,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1,
-              color: onSurface.withValues(alpha: 0.5),
+          if (onTap == null)
+            header
+          else
+            InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(AppRadius.controlSm),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: header,
+              ),
             ),
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              for (var i = 0; i < shown; i++)
+                MetaChip(label: _perfLabel(perfs[i]), color: chipFg),
+              if (hidden > 0)
+                MetaChip(
+                  label: t.session.exercise.morePerfs(n: hidden),
+                  color: dim,
+                ),
+            ],
           ),
-          if (m != null && m.isFallback && m.originalTarget != null)
-            Text(
-              exercise.isTimeBased
-                  ? t.session.exercise.differentTargetSeconds(
-                      n: m.originalTarget!,
-                    )
-                  : t.session.exercise.differentTargetReps(
-                      n: m.originalTarget!,
-                    ),
-              style: TextStyle(
-                fontSize: 10,
-                color: onSurface.withValues(alpha: 0.5),
-              ),
-            ),
-          for (var i = 0; i < perfs.length; i++)
-            MetaChip(
-              label: t.session.exercise.perfEntry(
-                n: i + 1,
-                value: _perfLabel(perfs[i]),
-              ),
-            ),
         ],
       ),
     );
+  }
+
+  /// Chips are capped at today's set count: beyond it a past set has nothing to
+  /// inform. Falls back to the whole list for an exercise with no set yet.
+  int _shownCount() {
+    if (exercise.sets.isEmpty) return perfs.length;
+    return perfs.length < exercise.sets.length
+        ? perfs.length
+        : exercise.sets.length;
+  }
+
+  /// What that session was aiming for, when today's format differs. Shown so a
+  /// reference recorded at another target reads as comparable-with-care rather
+  /// than as a contradiction.
+  String? _targetWasLabel() {
+    final past = meta?.target;
+    if (past == null || past <= 0 || exercise.sets.isEmpty) return null;
+    final today = exercise.isTimeBased
+        ? (exercise.sets.first.targetSeconds ?? 0)
+        : exercise.sets.first.targetReps;
+    if (today <= 0 || today == past) return null;
+    return exercise.isTimeBased
+        ? t.session.exercise.targetWasSeconds(n: past)
+        : t.session.exercise.targetWasReps(n: past);
   }
 
   String _perfLabel(LastPerf p) {

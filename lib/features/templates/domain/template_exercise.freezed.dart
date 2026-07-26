@@ -27,6 +27,7 @@ mixin _$TemplateExercise {
   int get order => throw _privateConstructorUsedError;
   bool get isTimeBased => throw _privateConstructorUsedError;
   int? get durationSeconds => throw _privateConstructorUsedError;
+  String? get exerciseId => throw _privateConstructorUsedError;
 
   /// Create a copy of TemplateExercise
   /// with the given fields replaced by the non-null parameter values.
@@ -53,6 +54,7 @@ abstract class $TemplateExerciseCopyWith<$Res> {
     int order,
     bool isTimeBased,
     int? durationSeconds,
+    String? exerciseId,
   });
 }
 
@@ -81,6 +83,7 @@ class _$TemplateExerciseCopyWithImpl<$Res, $Val extends TemplateExercise>
     Object? order = null,
     Object? isTimeBased = null,
     Object? durationSeconds = freezed,
+    Object? exerciseId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -124,6 +127,10 @@ class _$TemplateExerciseCopyWithImpl<$Res, $Val extends TemplateExercise>
                 ? _value.durationSeconds
                 : durationSeconds // ignore: cast_nullable_to_non_nullable
                       as int?,
+            exerciseId: freezed == exerciseId
+                ? _value.exerciseId
+                : exerciseId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -150,6 +157,7 @@ abstract class _$$TemplateExerciseImplCopyWith<$Res>
     int order,
     bool isTimeBased,
     int? durationSeconds,
+    String? exerciseId,
   });
 }
 
@@ -177,6 +185,7 @@ class __$$TemplateExerciseImplCopyWithImpl<$Res>
     Object? order = null,
     Object? isTimeBased = null,
     Object? durationSeconds = freezed,
+    Object? exerciseId = freezed,
   }) {
     return _then(
       _$TemplateExerciseImpl(
@@ -220,6 +229,10 @@ class __$$TemplateExerciseImplCopyWithImpl<$Res>
             ? _value.durationSeconds
             : durationSeconds // ignore: cast_nullable_to_non_nullable
                   as int?,
+        exerciseId: freezed == exerciseId
+            ? _value.exerciseId
+            : exerciseId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -239,6 +252,7 @@ class _$TemplateExerciseImpl extends _TemplateExercise {
     required this.order,
     this.isTimeBased = false,
     this.durationSeconds,
+    this.exerciseId,
   }) : super._();
 
   @override
@@ -262,10 +276,12 @@ class _$TemplateExerciseImpl extends _TemplateExercise {
   final bool isTimeBased;
   @override
   final int? durationSeconds;
+  @override
+  final String? exerciseId;
 
   @override
   String toString() {
-    return 'TemplateExercise(id: $id, name: $name, sets: $sets, reps: $reps, tempo: $tempo, restTime: $restTime, notes: $notes, order: $order, isTimeBased: $isTimeBased, durationSeconds: $durationSeconds)';
+    return 'TemplateExercise(id: $id, name: $name, sets: $sets, reps: $reps, tempo: $tempo, restTime: $restTime, notes: $notes, order: $order, isTimeBased: $isTimeBased, durationSeconds: $durationSeconds, exerciseId: $exerciseId)';
   }
 
   @override
@@ -285,7 +301,9 @@ class _$TemplateExerciseImpl extends _TemplateExercise {
             (identical(other.isTimeBased, isTimeBased) ||
                 other.isTimeBased == isTimeBased) &&
             (identical(other.durationSeconds, durationSeconds) ||
-                other.durationSeconds == durationSeconds));
+                other.durationSeconds == durationSeconds) &&
+            (identical(other.exerciseId, exerciseId) ||
+                other.exerciseId == exerciseId));
   }
 
   @override
@@ -301,6 +319,7 @@ class _$TemplateExerciseImpl extends _TemplateExercise {
     order,
     isTimeBased,
     durationSeconds,
+    exerciseId,
   );
 
   /// Create a copy of TemplateExercise
@@ -327,6 +346,7 @@ abstract class _TemplateExercise extends TemplateExercise {
     required final int order,
     final bool isTimeBased,
     final int? durationSeconds,
+    final String? exerciseId,
   }) = _$TemplateExerciseImpl;
   const _TemplateExercise._() : super._();
 
@@ -350,6 +370,8 @@ abstract class _TemplateExercise extends TemplateExercise {
   bool get isTimeBased;
   @override
   int? get durationSeconds;
+  @override
+  String? get exerciseId;
 
   /// Create a copy of TemplateExercise
   /// with the given fields replaced by the non-null parameter values.

@@ -9,7 +9,6 @@ import 'package:repster/features/session/domain/last_perf.dart';
 import 'package:repster/features/session/domain/session_block.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/presentation/widgets/exercise_meta.dart';
-import 'package:repster/features/session/presentation/widgets/exercise_view.dart';
 import 'package:repster/features/session/presentation/widgets/set_card.dart';
 import 'package:repster/i18n/translations.g.dart';
 
@@ -226,7 +225,12 @@ class _ExoHeader extends StatelessWidget {
               ),
             ),
           ExerciseMetaChips(exercise: exercise),
-          ExerciseLastPerfs(exercise: exercise, perfs: perfs, meta: meta),
+          ExerciseLastPerfs(
+            exercise: exercise,
+            perfs: perfs,
+            meta: meta,
+            onTap: onHistory,
+          ),
         ],
       ),
     );
@@ -259,7 +263,7 @@ class _InterleavedSet extends ConsumerWidget {
     final set = exercise.sets[setIndex];
     final key = exerciseLastPerfKey(exercise);
     final perfs = lastPerfs[key] ?? const <LastPerf>[];
-    final prev = setIndex < perfs.length ? perfs[setIndex] : null;
+    final prev = perfForSet(perfs, setIndex);
     final canDelete = exercise.sets.length > 1;
 
     return Column(

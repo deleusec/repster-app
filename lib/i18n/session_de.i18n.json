@@ -96,15 +96,15 @@
     "timed": "Auf Zeit",
     "tempoChip": "Tempo {{tempo}}",
     "restChip": "{{n}}s Pause",
-    "lastTime": "LETZTES MAL:",
-    "differentTargetSeconds": "· anderes Ziel ({{n}}s)",
-    "differentTargetReps": "· anderes Ziel ({{n}} Wdh.)",
-    "perfEntry": "S{{n}} — {{value}}",
     "modified": "Geändert · nur dieses Training",
     "modifiedWas": "Geändert · nur dieses Training (war: {{name}})",
     "completedBadge": "✓ Fertig",
     "totalHeld": "Gesamt gehalten: {{value}}",
-    "exerciseVolume": "Übungsvolumen: {{value}} kg"
+    "exerciseVolume": "Übungsvolumen: {{value}} kg",
+    "lastTimeLabel": "Letztes Mal",
+    "targetWasReps": "Ziel war {{n}} Wdh.",
+    "targetWasSeconds": "Ziel war {{n}}s",
+    "morePerfs": "+{{n}}"
   },
   "overview": {
     "title": "Übungen",

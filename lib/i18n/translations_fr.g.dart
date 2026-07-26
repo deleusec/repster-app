@@ -549,6 +549,9 @@ class _Translations$common$date$fr extends Translations$common$date$en {
 	@override String hoursAgo({required Object n}) => 'il y a ${n} h';
 	@override String get yesterday => 'hier';
 	@override String daysAgo({required Object n}) => 'il y a ${n} j';
+	@override String get today => 'aujourd’hui';
+	@override String weeksAgo({required Object n}) => 'il y a ${n} sem';
+	@override String monthsAgo({required Object n}) => 'il y a ${n} mois';
 }
 
 // Path: common.language
@@ -1052,15 +1055,15 @@ class _Translations$session$exercise$fr extends Translations$session$exercise$en
 	@override String get timed => 'Chronométré';
 	@override String tempoChip({required Object tempo}) => 'Tempo ${tempo}';
 	@override String restChip({required Object n}) => '${n}s récup';
-	@override String get lastTime => 'DERNIÈRE FOIS :';
-	@override String differentTargetSeconds({required Object n}) => '· cible différente (${n}s)';
-	@override String differentTargetReps({required Object n}) => '· cible différente (${n} reps)';
-	@override String perfEntry({required Object n, required Object value}) => 'S${n} — ${value}';
 	@override String get modified => 'Modifié · séance uniquement';
 	@override String modifiedWas({required Object name}) => 'Modifié · séance uniquement (était : ${name})';
 	@override String get completedBadge => '✓ Terminé';
 	@override String totalHeld({required Object value}) => 'Total tenu : ${value}';
 	@override String exerciseVolume({required Object value}) => 'Volume exercice : ${value} kg';
+	@override String get lastTimeLabel => 'Dernière fois';
+	@override String targetWasReps({required Object n}) => 'visait ${n} reps';
+	@override String targetWasSeconds({required Object n}) => 'visait ${n}s';
+	@override String morePerfs({required Object n}) => '+${n}';
 }
 
 // Path: session.overview
@@ -1773,6 +1776,9 @@ extension on TranslationsFr {
 			'common.date.hoursAgo' => ({required Object n}) => 'il y a ${n} h',
 			'common.date.yesterday' => 'hier',
 			'common.date.daysAgo' => ({required Object n}) => 'il y a ${n} j',
+			'common.date.today' => 'aujourd’hui',
+			'common.date.weeksAgo' => ({required Object n}) => 'il y a ${n} sem',
+			'common.date.monthsAgo' => ({required Object n}) => 'il y a ${n} mois',
 			'common.language.en' => 'Anglais',
 			'common.language.fr' => 'Français',
 			'common.language.es' => 'Espagnol',
@@ -2030,15 +2036,15 @@ extension on TranslationsFr {
 			'session.exercise.timed' => 'Chronométré',
 			'session.exercise.tempoChip' => ({required Object tempo}) => 'Tempo ${tempo}',
 			'session.exercise.restChip' => ({required Object n}) => '${n}s récup',
-			'session.exercise.lastTime' => 'DERNIÈRE FOIS :',
-			'session.exercise.differentTargetSeconds' => ({required Object n}) => '· cible différente (${n}s)',
-			'session.exercise.differentTargetReps' => ({required Object n}) => '· cible différente (${n} reps)',
-			'session.exercise.perfEntry' => ({required Object n, required Object value}) => 'S${n} — ${value}',
 			'session.exercise.modified' => 'Modifié · séance uniquement',
 			'session.exercise.modifiedWas' => ({required Object name}) => 'Modifié · séance uniquement (était : ${name})',
 			'session.exercise.completedBadge' => '✓ Terminé',
 			'session.exercise.totalHeld' => ({required Object value}) => 'Total tenu : ${value}',
 			'session.exercise.exerciseVolume' => ({required Object value}) => 'Volume exercice : ${value} kg',
+			'session.exercise.lastTimeLabel' => 'Dernière fois',
+			'session.exercise.targetWasReps' => ({required Object n}) => 'visait ${n} reps',
+			'session.exercise.targetWasSeconds' => ({required Object n}) => 'visait ${n}s',
+			'session.exercise.morePerfs' => ({required Object n}) => '+${n}',
 			'session.overview.title' => 'Exercices',
 			'session.overview.current' => 'EN COURS',
 			'session.overview.setsValidated' => ({required Object completed, required Object total}) => '${completed}/${total} séries validées',
@@ -2185,11 +2191,11 @@ extension on TranslationsFr {
 			'templates.editor.editTitle' => 'Modifier la séance',
 			'templates.editor.exercisesHeader' => ({required Object count}) => 'EXERCICES (${count})',
 			'templates.editor.addExercise' => 'Ajouter un exercice',
+			_ => null,
+		} ?? switch (path) {
 			'templates.editor.save' => 'Enregistrer la séance',
 			'templates.editor.validationError' => 'Renseigne un nom et au moins un exercice nommé.',
 			'templates.fields.name' => 'Nom de la séance',
-			_ => null,
-		} ?? switch (path) {
 			'templates.fields.nameHint' => 'ex : Pec / Triceps / Épaules',
 			'templates.fields.description' => 'Description (optionnel)',
 			'templates.fields.descriptionHint' => 'Décris ta séance…',

@@ -21,7 +21,10 @@
     "minutesAgo": "hace {{n}} min",
     "hoursAgo": "hace {{n}} h",
     "yesterday": "ayer",
-    "daysAgo": "hace {{n}} d"
+    "daysAgo": "hace {{n}} d",
+    "today": "hoy",
+    "weeksAgo": "hace {{n}} sem",
+    "monthsAgo": "hace {{n}} meses"
   },
   "language": {
     "en": "Inglés",

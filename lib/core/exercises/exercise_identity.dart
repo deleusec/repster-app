@@ -1,16 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:repster/core/exercises/exercise_name_key.dart';
 import 'package:repster/core/logging/app_logger.dart';
 import 'package:repster/core/supabase/supabase_providers.dart';
-import 'package:repster/core/text/fold_accents.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
-/// Identity key for an exercise name: trimmed, whitespace-collapsed,
-/// lowercased and accent-stripped. Mirrors the DB's `f_unaccent(lower(...))`
-/// comparisons so client and server agree on what counts as "the same name" —
-/// which is what makes `Machine Dips`, `machine dips` and `Machine  dips` one
-/// exercise.
-String exerciseNameKey(String name) =>
-    foldAccents(name.trim().replaceAll(RegExp(r'\s+'), ' '));
+// Re-exported so the existing callers keep a single import for exercise
+// identity, while `domain/` can depend on the pure key function alone.
+export 'package:repster/core/exercises/exercise_name_key.dart'
+    show exerciseNameKey;
 
 /// Name → id lookup over the certified "Repster" catalog.
 ///

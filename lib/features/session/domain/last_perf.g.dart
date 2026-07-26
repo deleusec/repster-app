@@ -22,12 +22,14 @@ Map<String, dynamic> _$$LastPerfImplToJson(_$LastPerfImpl instance) =>
 
 _$LastPerfMetaImpl _$$LastPerfMetaImplFromJson(Map<String, dynamic> json) =>
     _$LastPerfMetaImpl(
-      isFallback: json['isFallback'] as bool? ?? false,
-      originalTarget: (json['originalTarget'] as num?)?.toInt(),
+      performedAt: json['performedAt'] == null
+          ? null
+          : DateTime.parse(json['performedAt'] as String),
+      target: (json['target'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$LastPerfMetaImplToJson(_$LastPerfMetaImpl instance) =>
     <String, dynamic>{
-      'isFallback': instance.isFallback,
-      'originalTarget': instance.originalTarget,
+      'performedAt': instance.performedAt?.toIso8601String(),
+      'target': instance.target,
     };

@@ -21,7 +21,10 @@
     "minutesAgo": "il y a {{n}} min",
     "hoursAgo": "il y a {{n}} h",
     "yesterday": "hier",
-    "daysAgo": "il y a {{n}} j"
+    "daysAgo": "il y a {{n}} j",
+    "today": "aujourd’hui",
+    "weeksAgo": "il y a {{n}} sem",
+    "monthsAgo": "il y a {{n}} mois"
   },
   "language": {
     "en": "Anglais",

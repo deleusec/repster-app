@@ -15,12 +15,17 @@ class SwapExerciseData {
     required this.restTime,
     required this.notes,
     required this.tempo,
+    this.exerciseId,
   });
 
   final String name;
   final int restTime;
   final String notes;
   final String tempo;
+
+  /// Catalog identity of the picked exercise, `null` when the name was typed
+  /// by hand. Drives the history lookup.
+  final String? exerciseId;
 }
 
 /// "Edit exercise" drawer (swap for this session only).
@@ -31,6 +36,7 @@ Future<SwapExerciseData?> showSwapDrawer(
   required String currentNotes,
   required String currentTempo,
   required Future<List<CatalogExercise>> Function(String query) search,
+  String? currentExerciseId,
 }) {
   return AppDrawerSheet.show<SwapExerciseData>(
     context,
@@ -42,6 +48,7 @@ Future<SwapExerciseData?> showSwapDrawer(
       currentNotes: currentNotes,
       currentTempo: currentTempo,
       search: search,
+      currentExerciseId: currentExerciseId,
     ),
   );
 }
@@ -53,6 +60,7 @@ class _SwapSheet extends StatefulWidget {
     required this.currentNotes,
     required this.currentTempo,
     required this.search,
+    this.currentExerciseId,
   });
 
   final String currentName;
@@ -60,6 +68,7 @@ class _SwapSheet extends StatefulWidget {
   final String currentNotes;
   final String currentTempo;
   final Future<List<CatalogExercise>> Function(String query) search;
+  final String? currentExerciseId;
 
   @override
   State<_SwapSheet> createState() => _SwapSheetState();
@@ -71,9 +80,16 @@ class _SwapSheetState extends State<_SwapSheet> {
   late final TextEditingController _tempo;
   late final TextEditingController _notes;
 
+  /// Name/id of the last known catalog pick, so a hand-edited name drops the
+  /// identity instead of inheriting someone else's history.
+  late String _pickedName;
+  late String? _pickedId;
+
   @override
   void initState() {
     super.initState();
+    _pickedName = widget.currentName;
+    _pickedId = widget.currentExerciseId;
     _name = TextEditingController(text: widget.currentName);
     _rest = TextEditingController(text: '${widget.currentRestTime}');
     _tempo = TextEditingController(text: widget.currentTempo);
@@ -90,7 +106,11 @@ class _SwapSheetState extends State<_SwapSheet> {
   }
 
   void _onSelected(CatalogExercise e) {
-    setState(() => _name.text = e.displayName);
+    setState(() {
+      _name.text = e.displayName;
+      _pickedName = e.displayName;
+      _pickedId = e.id;
+    });
   }
 
   void _apply() {
@@ -102,6 +122,7 @@ class _SwapSheetState extends State<_SwapSheet> {
         restTime: int.tryParse(_rest.text.trim()) ?? 0,
         notes: _notes.text.trim(),
         tempo: _tempo.text.trim(),
+        exerciseId: name == _pickedName ? _pickedId : null,
       ),
     );
   }

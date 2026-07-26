@@ -22,7 +22,10 @@
     "minutesAgo": "{{n}} min ago",
     "hoursAgo": "{{n}} h ago",
     "yesterday": "yesterday",
-    "daysAgo": "{{n}} d ago"
+    "daysAgo": "{{n}} d ago",
+    "today": "today",
+    "weeksAgo": "{{n}} w ago",
+    "monthsAgo": "{{n}} mo ago"
   },
   "language": {
     "en": "English",

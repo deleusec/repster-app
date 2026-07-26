@@ -106,6 +106,7 @@ class TemplateDto {
     return TemplateExercise(
       id: r['id'] as String,
       name: name,
+      exerciseId: r['exercise_id'] as String?,
       sets: (r['sets_count'] as int?) ?? 3,
       reps: (r['reps_target'] as int?) ?? 10,
       tempo: (r['tempo'] as String?) ?? '2-0-2-0',

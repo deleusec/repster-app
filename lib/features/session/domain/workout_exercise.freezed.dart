@@ -29,6 +29,7 @@ mixin _$WorkoutVariant {
   String get notes => throw _privateConstructorUsedError;
   bool get isTimeBased => throw _privateConstructorUsedError;
   int? get durationSeconds => throw _privateConstructorUsedError;
+  String? get exerciseId => throw _privateConstructorUsedError;
 
   /// Serializes this WorkoutVariant to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,6 +57,7 @@ abstract class $WorkoutVariantCopyWith<$Res> {
     String notes,
     bool isTimeBased,
     int? durationSeconds,
+    String? exerciseId,
   });
 }
 
@@ -82,6 +84,7 @@ class _$WorkoutVariantCopyWithImpl<$Res, $Val extends WorkoutVariant>
     Object? notes = null,
     Object? isTimeBased = null,
     Object? durationSeconds = freezed,
+    Object? exerciseId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -117,6 +120,10 @@ class _$WorkoutVariantCopyWithImpl<$Res, $Val extends WorkoutVariant>
                 ? _value.durationSeconds
                 : durationSeconds // ignore: cast_nullable_to_non_nullable
                       as int?,
+            exerciseId: freezed == exerciseId
+                ? _value.exerciseId
+                : exerciseId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -141,6 +148,7 @@ abstract class _$$WorkoutVariantImplCopyWith<$Res>
     String notes,
     bool isTimeBased,
     int? durationSeconds,
+    String? exerciseId,
   });
 }
 
@@ -166,6 +174,7 @@ class __$$WorkoutVariantImplCopyWithImpl<$Res>
     Object? notes = null,
     Object? isTimeBased = null,
     Object? durationSeconds = freezed,
+    Object? exerciseId = freezed,
   }) {
     return _then(
       _$WorkoutVariantImpl(
@@ -201,6 +210,10 @@ class __$$WorkoutVariantImplCopyWithImpl<$Res>
             ? _value.durationSeconds
             : durationSeconds // ignore: cast_nullable_to_non_nullable
                   as int?,
+        exerciseId: freezed == exerciseId
+            ? _value.exerciseId
+            : exerciseId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -218,6 +231,7 @@ class _$WorkoutVariantImpl extends _WorkoutVariant {
     required this.notes,
     this.isTimeBased = false,
     this.durationSeconds,
+    this.exerciseId,
   }) : super._();
 
   factory _$WorkoutVariantImpl.fromJson(Map<String, dynamic> json) =>
@@ -240,10 +254,12 @@ class _$WorkoutVariantImpl extends _WorkoutVariant {
   final bool isTimeBased;
   @override
   final int? durationSeconds;
+  @override
+  final String? exerciseId;
 
   @override
   String toString() {
-    return 'WorkoutVariant(name: $name, sets: $sets, reps: $reps, tempo: $tempo, restTime: $restTime, notes: $notes, isTimeBased: $isTimeBased, durationSeconds: $durationSeconds)';
+    return 'WorkoutVariant(name: $name, sets: $sets, reps: $reps, tempo: $tempo, restTime: $restTime, notes: $notes, isTimeBased: $isTimeBased, durationSeconds: $durationSeconds, exerciseId: $exerciseId)';
   }
 
   @override
@@ -261,7 +277,9 @@ class _$WorkoutVariantImpl extends _WorkoutVariant {
             (identical(other.isTimeBased, isTimeBased) ||
                 other.isTimeBased == isTimeBased) &&
             (identical(other.durationSeconds, durationSeconds) ||
-                other.durationSeconds == durationSeconds));
+                other.durationSeconds == durationSeconds) &&
+            (identical(other.exerciseId, exerciseId) ||
+                other.exerciseId == exerciseId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -276,6 +294,7 @@ class _$WorkoutVariantImpl extends _WorkoutVariant {
     notes,
     isTimeBased,
     durationSeconds,
+    exerciseId,
   );
 
   /// Create a copy of WorkoutVariant
@@ -305,6 +324,7 @@ abstract class _WorkoutVariant extends WorkoutVariant {
     required final String notes,
     final bool isTimeBased,
     final int? durationSeconds,
+    final String? exerciseId,
   }) = _$WorkoutVariantImpl;
   const _WorkoutVariant._() : super._();
 
@@ -327,6 +347,8 @@ abstract class _WorkoutVariant extends WorkoutVariant {
   bool get isTimeBased;
   @override
   int? get durationSeconds;
+  @override
+  String? get exerciseId;
 
   /// Create a copy of WorkoutVariant
   /// with the given fields replaced by the non-null parameter values.
@@ -349,6 +371,10 @@ mixin _$WorkoutExercise {
   int get restTime => throw _privateConstructorUsedError;
   List<WorkoutSet> get sets => throw _privateConstructorUsedError;
   bool get isTimeBased => throw _privateConstructorUsedError;
+
+  /// Catalog identity, when known. `null` for an exercise typed by hand in
+  /// session — the history lookup then falls back to the normalized name.
+  String? get exerciseId => throw _privateConstructorUsedError;
   String? get slotId => throw _privateConstructorUsedError;
   String? get originalName => throw _privateConstructorUsedError;
   bool get sessionModified => throw _privateConstructorUsedError;
@@ -383,6 +409,7 @@ abstract class $WorkoutExerciseCopyWith<$Res> {
     int restTime,
     List<WorkoutSet> sets,
     bool isTimeBased,
+    String? exerciseId,
     String? slotId,
     String? originalName,
     bool sessionModified,
@@ -416,6 +443,7 @@ class _$WorkoutExerciseCopyWithImpl<$Res, $Val extends WorkoutExercise>
     Object? restTime = null,
     Object? sets = null,
     Object? isTimeBased = null,
+    Object? exerciseId = freezed,
     Object? slotId = freezed,
     Object? originalName = freezed,
     Object? sessionModified = null,
@@ -455,6 +483,10 @@ class _$WorkoutExerciseCopyWithImpl<$Res, $Val extends WorkoutExercise>
                 ? _value.isTimeBased
                 : isTimeBased // ignore: cast_nullable_to_non_nullable
                       as bool,
+            exerciseId: freezed == exerciseId
+                ? _value.exerciseId
+                : exerciseId // ignore: cast_nullable_to_non_nullable
+                      as String?,
             slotId: freezed == slotId
                 ? _value.slotId
                 : slotId // ignore: cast_nullable_to_non_nullable
@@ -510,6 +542,7 @@ abstract class _$$WorkoutExerciseImplCopyWith<$Res>
     int restTime,
     List<WorkoutSet> sets,
     bool isTimeBased,
+    String? exerciseId,
     String? slotId,
     String? originalName,
     bool sessionModified,
@@ -542,6 +575,7 @@ class __$$WorkoutExerciseImplCopyWithImpl<$Res>
     Object? restTime = null,
     Object? sets = null,
     Object? isTimeBased = null,
+    Object? exerciseId = freezed,
     Object? slotId = freezed,
     Object? originalName = freezed,
     Object? sessionModified = null,
@@ -581,6 +615,10 @@ class __$$WorkoutExerciseImplCopyWithImpl<$Res>
             ? _value.isTimeBased
             : isTimeBased // ignore: cast_nullable_to_non_nullable
                   as bool,
+        exerciseId: freezed == exerciseId
+            ? _value.exerciseId
+            : exerciseId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         slotId: freezed == slotId
             ? _value.slotId
             : slotId // ignore: cast_nullable_to_non_nullable
@@ -629,6 +667,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
     required this.restTime,
     required final List<WorkoutSet> sets,
     this.isTimeBased = false,
+    this.exerciseId,
     this.slotId,
     this.originalName,
     this.sessionModified = false,
@@ -665,6 +704,11 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
   @override
   @JsonKey()
   final bool isTimeBased;
+
+  /// Catalog identity, when known. `null` for an exercise typed by hand in
+  /// session — the history lookup then falls back to the normalized name.
+  @override
+  final String? exerciseId;
   @override
   final String? slotId;
   @override
@@ -693,7 +737,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
 
   @override
   String toString() {
-    return 'WorkoutExercise(id: $id, name: $name, notes: $notes, tempo: $tempo, restTime: $restTime, sets: $sets, isTimeBased: $isTimeBased, slotId: $slotId, originalName: $originalName, sessionModified: $sessionModified, variants: $variants, activeVariantIndex: $activeVariantIndex, supersetGroupId: $supersetGroupId, supersetPosition: $supersetPosition, supersetSize: $supersetSize)';
+    return 'WorkoutExercise(id: $id, name: $name, notes: $notes, tempo: $tempo, restTime: $restTime, sets: $sets, isTimeBased: $isTimeBased, exerciseId: $exerciseId, slotId: $slotId, originalName: $originalName, sessionModified: $sessionModified, variants: $variants, activeVariantIndex: $activeVariantIndex, supersetGroupId: $supersetGroupId, supersetPosition: $supersetPosition, supersetSize: $supersetSize)';
   }
 
   @override
@@ -710,6 +754,8 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
             const DeepCollectionEquality().equals(other._sets, _sets) &&
             (identical(other.isTimeBased, isTimeBased) ||
                 other.isTimeBased == isTimeBased) &&
+            (identical(other.exerciseId, exerciseId) ||
+                other.exerciseId == exerciseId) &&
             (identical(other.slotId, slotId) || other.slotId == slotId) &&
             (identical(other.originalName, originalName) ||
                 other.originalName == originalName) &&
@@ -737,6 +783,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
     restTime,
     const DeepCollectionEquality().hash(_sets),
     isTimeBased,
+    exerciseId,
     slotId,
     originalName,
     sessionModified,
@@ -773,6 +820,7 @@ abstract class _WorkoutExercise extends WorkoutExercise {
     required final int restTime,
     required final List<WorkoutSet> sets,
     final bool isTimeBased,
+    final String? exerciseId,
     final String? slotId,
     final String? originalName,
     final bool sessionModified,
@@ -801,6 +849,11 @@ abstract class _WorkoutExercise extends WorkoutExercise {
   List<WorkoutSet> get sets;
   @override
   bool get isTimeBased;
+
+  /// Catalog identity, when known. `null` for an exercise typed by hand in
+  /// session — the history lookup then falls back to the normalized name.
+  @override
+  String? get exerciseId;
   @override
   String? get slotId;
   @override

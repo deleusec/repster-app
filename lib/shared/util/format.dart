@@ -74,6 +74,25 @@ String relativeDate(DateTime when) {
   return DateFormat('d MMM').format(when);
 }
 
+/// Age of a past performance, in day granularity: `today`, `yesterday`,
+/// `3 d ago`, `2 w ago`, `5 mo ago`.
+///
+/// Unlike [relativeDate] it never falls back to a calendar date: in session,
+/// how long ago something happened is what matters, not the day it landed on.
+String relativeAge(DateTime when) {
+  final now = DateTime.now();
+  final days = DateTime(
+    now.year,
+    now.month,
+    now.day,
+  ).difference(DateTime(when.year, when.month, when.day)).inDays;
+  if (days <= 0) return t.common.date.today;
+  if (days == 1) return t.common.date.yesterday;
+  if (days < 7) return t.common.date.daysAgo(n: days);
+  if (days < 56) return t.common.date.weeksAgo(n: days ~/ 7);
+  return t.common.date.monthsAgo(n: days ~/ 30);
+}
+
 /// Localized short date (`Mar 12`).
 String shortDate(DateTime when) => DateFormat('d MMM').format(when);
 

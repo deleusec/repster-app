@@ -1,11 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:repster/core/exercises/exercise_name_key.dart';
+import 'package:repster/features/session/domain/workout_exercise.dart';
 
 part 'last_perf.freezed.dart';
 part 'last_perf.g.dart';
 
-/// A performance previously recorded on an exercise. Its key is
-/// `name:targetReps` (reps) or `name:T{seconds}` (time-based). Used to
-/// pre-fill weights in the next session.
+/// One set of a performance previously recorded on an exercise. Used to
+/// pre-fill weights and to show the "last time" reference in session.
 @freezed
 class LastPerf with _$LastPerf {
   const factory LastPerf({
@@ -20,14 +21,14 @@ class LastPerf with _$LastPerf {
       _$LastPerfFromJson(json);
 }
 
-/// Metadata attached to a set of `LastPerf`: flags when we had to fall back
-/// to a different target (`isFallback`) and which one (`originalTarget`).
+/// Context of the session a list of `LastPerf` comes from: when it happened
+/// and what its first set was targeting. The target is informative only — it
+/// never filters the lookup, it lets the UI flag "was aiming for 12 reps" when
+/// today's format differs.
 @freezed
 class LastPerfMeta with _$LastPerfMeta {
-  const factory LastPerfMeta({
-    @Default(false) bool isFallback,
-    int? originalTarget,
-  }) = _LastPerfMeta;
+  const factory LastPerfMeta({DateTime? performedAt, int? target}) =
+      _LastPerfMeta;
 
   const LastPerfMeta._();
 
@@ -35,22 +36,64 @@ class LastPerfMeta with _$LastPerfMeta {
       _$LastPerfMetaFromJson(json);
 }
 
-/// Result of a last-perf lookup for an exercise (used after an in-session
-/// swap or exercise add). `perfs` holds one entry per set.
+/// Result of a last-perf lookup: one entry per set of the past session, plus
+/// its context.
 class ExerciseLastPerfResult {
-  const ExerciseLastPerfResult({
-    required this.perfs,
-    this.isFallback = false,
-    this.originalTarget,
-  });
+  const ExerciseLastPerfResult({required this.perfs, required this.meta});
 
   final List<LastPerf> perfs;
-  final bool isFallback;
-  final int? originalTarget;
+  final LastPerfMeta meta;
 }
 
+/// What identifies an exercise when looking up its history: its catalog id
+/// when known, and its display name as a fallback.
+class LastPerfLookup {
+  const LastPerfLookup({required this.name, this.exerciseId});
+
+  LastPerfLookup.of(WorkoutExercise exercise)
+    : name = exercise.name,
+      exerciseId = exercise.exerciseId;
+
+  final String name;
+  final String? exerciseId;
+}
+
+/// Lookup key for an exercise's last perf: its identity and its kind.
+///
+/// Identity is the catalog [exerciseId] when known, and the normalized name
+/// otherwise. Matching on the raw display name lost the history on a language
+/// change (`Développé couché` → `Barbell Bench Press` is the same id), on a
+/// rename, and across a certified exercise's aliases.
+///
+/// The rep/duration target is deliberately **not** part of the key: "last
+/// time" means the most recent session on this exercise, whatever it targeted.
+/// Keying on the target used to split one history into several and made the
+/// reference vanish as soon as a template moved from 10 to 12 reps. Reps and
+/// holds stay separate because their performances are not comparable.
 String lastPerfKey({
   required String exerciseName,
-  required int target,
   required bool isTimeBased,
-}) => '$exerciseName:${isTimeBased ? "T" : ""}$target';
+  String? exerciseId,
+}) {
+  final kind = isTimeBased ? 'T' : 'R';
+  return exerciseId != null && exerciseId.isNotEmpty
+      ? 'id:$exerciseId:$kind'
+      : 'nm:${exerciseNameKey(exerciseName)}:$kind';
+}
+
+/// [lastPerfKey] of a live exercise. Single source of truth for the key, shared
+/// by the pre-fill, the summary line and the per-set pills.
+String exerciseLastPerfKey(WorkoutExercise exercise) => lastPerfKey(
+  exerciseName: exercise.name,
+  isTimeBased: exercise.isTimeBased,
+  exerciseId: exercise.exerciseId,
+);
+
+/// Reference perf for set [index]: the set that matches it in the past
+/// session, or the last one when today's exercise has more sets. Shared by the
+/// summary line, the per-set pill and the weight pre-fill so the three never
+/// disagree.
+LastPerf? perfForSet(List<LastPerf> perfs, int index) {
+  if (perfs.isEmpty || index < 0) return null;
+  return index < perfs.length ? perfs[index] : perfs.last;
+}

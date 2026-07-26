@@ -96,15 +96,15 @@
     "timed": "Timed",
     "tempoChip": "Tempo {{tempo}}",
     "restChip": "{{n}}s rest",
-    "lastTime": "LAST TIME:",
-    "differentTargetSeconds": "· different target ({{n}}s)",
-    "differentTargetReps": "· different target ({{n}} reps)",
-    "perfEntry": "S{{n}} — {{value}}",
     "modified": "Modified · this session only",
     "modifiedWas": "Modified · this session only (was: {{name}})",
     "completedBadge": "✓ Done",
     "totalHeld": "Total held: {{value}}",
-    "exerciseVolume": "Exercise volume: {{value}} kg"
+    "exerciseVolume": "Exercise volume: {{value}} kg",
+    "lastTimeLabel": "Last time",
+    "targetWasReps": "was aiming for {{n}} reps",
+    "targetWasSeconds": "was aiming for {{n}}s",
+    "morePerfs": "+{{n}}"
   },
   "overview": {
     "title": "Exercises",

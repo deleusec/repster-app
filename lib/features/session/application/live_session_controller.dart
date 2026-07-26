@@ -83,9 +83,15 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
           .fetchById(templateId);
       final exercises = initialExercisesFromTemplate(template);
       final sessionId = await _repo.startSession(template);
-      final lastPerfs = await _repo.bulkLastPerfs(
-        exercises.map((e) => e.name).toList(growable: false),
-      );
+      final results = await _repo.bulkLastPerfs([
+        for (final ex in exercises) LastPerfLookup.of(ex),
+      ]);
+      final lastPerfs = {
+        for (final entry in results.entries) entry.key: entry.value.perfs,
+      };
+      final lastPerfsMeta = {
+        for (final entry in results.entries) entry.key: entry.value.meta,
+      };
 
       final filled = [
         for (final ex in exercises) _prefillWeights(ex, lastPerfs),
@@ -107,7 +113,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         session: session,
         currentExerciseIndex: 0,
         lastPerfs: lastPerfs,
-        lastPerfsMeta: const {},
+        lastPerfsMeta: lastPerfsMeta,
         isResting: false,
         restStartedAt: null,
         restTotalSeconds: 0,
@@ -122,30 +128,20 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     }
   }
 
-  /// Pre-fills the weight of every set from the first set of the matching last
-  /// perf.
+  /// Pre-fills each set's weight from its reference perf ([perfForSet]).
   WorkoutExercise _prefillWeights(
     WorkoutExercise ex,
     Map<String, List<LastPerf>> perfsMap,
   ) {
-    final firstSet = ex.sets.isEmpty ? null : ex.sets.first;
-    if (firstSet == null) return ex;
-    final target = ex.isTimeBased
-        ? (firstSet.targetSeconds ?? 0)
-        : firstSet.targetReps;
-    final key = lastPerfKey(
-      exerciseName: ex.name,
-      target: target,
-      isTimeBased: ex.isTimeBased,
-    );
-    final perfs = perfsMap[key];
+    if (ex.sets.isEmpty) return ex;
+    final perfs = perfsMap[exerciseLastPerfKey(ex)];
     if (perfs == null || perfs.isEmpty) return ex;
     return ex.copyWith(
       sets: [
         for (var i = 0; i < ex.sets.length; i++)
           () {
-            final perf = i < perfs.length ? perfs[i] : perfs.last;
-            return perf.weight > 0
+            final perf = perfForSet(perfs, i);
+            return (perf != null && perf.weight > 0)
                 ? ex.sets[i].copyWith(weight: perf.weight)
                 : ex.sets[i];
           }(),
@@ -400,6 +396,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     int? setsCount,
     int? target,
     bool? isTimeBased,
+    String? exerciseId,
   }) {
     final session = state.session;
     if (session == null) return;
@@ -438,6 +435,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       exIdx,
       ex.copyWith(
         name: name,
+        exerciseId: exerciseId,
         restTime: restTime,
         notes: notes,
         tempo: tempo,
@@ -490,6 +488,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       exIdx,
       ex.copyWith(
         name: v.name,
+        exerciseId: v.exerciseId,
         notes: v.notes,
         tempo: v.tempo,
         restTime: v.restTime,
@@ -514,7 +513,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       nextMeta.remove(key);
     } else {
       nextPerfs[key] = perfs;
-      if (meta != null && (meta.isFallback || meta.originalTarget != null)) {
+      if (meta != null) {
         nextMeta[key] = meta;
       } else {
         nextMeta.remove(key);
@@ -602,17 +601,17 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
 
   // ── UI reads (delegate to the repo) ────────────────────────────────────────
 
-  /// Last perf for a given exercise/format (shown on swap / variant change).
+  /// Last perf of an exercise (refreshed on swap / variant change / add).
   /// Routed through the controller so the screen does not depend on `data/`.
   Future<ExerciseLastPerfResult?> lastPerfsForExercise({
     required String name,
-    required int target,
     required bool isTimeBased,
+    String? exerciseId,
   }) {
     return _repo.lastPerfsForExercise(
       name: name,
-      target: target,
       isTimeBased: isTimeBased,
+      exerciseId: exerciseId,
     );
   }
 

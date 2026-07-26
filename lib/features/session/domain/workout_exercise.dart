@@ -6,7 +6,8 @@ part 'workout_exercise.freezed.dart';
 part 'workout_exercise.g.dart';
 
 /// Exercise variant frozen at session start to allow quick swaps without
-/// re-fetching.
+/// re-fetching. Carries its own `exerciseId`: switching variant switches
+/// exercise, so it switches history too.
 @freezed
 class WorkoutVariant with _$WorkoutVariant {
   const factory WorkoutVariant({
@@ -18,6 +19,7 @@ class WorkoutVariant with _$WorkoutVariant {
     required String notes,
     @Default(false) bool isTimeBased,
     int? durationSeconds,
+    String? exerciseId,
   }) = _WorkoutVariant;
 
   const WorkoutVariant._();
@@ -36,6 +38,10 @@ class WorkoutExercise with _$WorkoutExercise {
     required int restTime,
     required List<WorkoutSet> sets,
     @Default(false) bool isTimeBased,
+
+    /// Catalog identity, when known. `null` for an exercise typed by hand in
+    /// session — the history lookup then falls back to the normalized name.
+    String? exerciseId,
     String? slotId,
     String? originalName,
     @Default(false) bool sessionModified,

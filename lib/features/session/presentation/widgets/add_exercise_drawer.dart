@@ -19,6 +19,7 @@ class AddExerciseData {
     required this.restTime,
     required this.tempo,
     required this.notes,
+    this.exerciseId,
   });
 
   final String name;
@@ -29,6 +30,10 @@ class AddExerciseData {
   final int restTime;
   final String tempo;
   final String notes;
+
+  /// Catalog identity of the picked exercise, `null` when the name was typed
+  /// by hand. Drives the history lookup.
+  final String? exerciseId;
 }
 
 /// "Add an exercise" drawer (for this session only).
@@ -63,6 +68,11 @@ class _AddSheetState extends State<_AddSheet> {
   final _notes = TextEditingController();
   bool _isTimeBased = false;
 
+  /// Name/id of the last catalog pick, so a hand-edited name drops the
+  /// identity instead of inheriting someone else's history.
+  String? _pickedName;
+  String? _pickedId;
+
   @override
   void dispose() {
     _name.dispose();
@@ -76,7 +86,11 @@ class _AddSheetState extends State<_AddSheet> {
   }
 
   void _onSelected(CatalogExercise e) {
-    setState(() => _name.text = e.displayName);
+    setState(() {
+      _name.text = e.displayName;
+      _pickedName = e.displayName;
+      _pickedId = e.id;
+    });
   }
 
   int _int(TextEditingController c, int fallback) =>
@@ -95,6 +109,7 @@ class _AddSheetState extends State<_AddSheet> {
         restTime: _int(_rest, 90),
         tempo: _tempo.text.trim(),
         notes: _notes.text.trim(),
+        exerciseId: name == _pickedName ? _pickedId : null,
       ),
     );
   }
@@ -163,9 +178,7 @@ class _AddSheetState extends State<_AddSheet> {
                           : t.session.fields.targetReps,
                     ),
                     const SizedBox(height: 6),
-                    NumberField(
-                      controller: _isTimeBased ? _seconds : _reps,
-                    ),
+                    NumberField(controller: _isTimeBased ? _seconds : _reps),
                   ],
                 ),
               ),

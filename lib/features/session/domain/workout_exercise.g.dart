@@ -16,6 +16,7 @@ _$WorkoutVariantImpl _$$WorkoutVariantImplFromJson(Map<String, dynamic> json) =>
       notes: json['notes'] as String,
       isTimeBased: json['isTimeBased'] as bool? ?? false,
       durationSeconds: (json['durationSeconds'] as num?)?.toInt(),
+      exerciseId: json['exerciseId'] as String?,
     );
 
 Map<String, dynamic> _$$WorkoutVariantImplToJson(
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$WorkoutVariantImplToJson(
   'notes': instance.notes,
   'isTimeBased': instance.isTimeBased,
   'durationSeconds': instance.durationSeconds,
+  'exerciseId': instance.exerciseId,
 };
 
 _$WorkoutExerciseImpl _$$WorkoutExerciseImplFromJson(
@@ -43,6 +45,7 @@ _$WorkoutExerciseImpl _$$WorkoutExerciseImplFromJson(
       .map((e) => WorkoutSet.fromJson(e as Map<String, dynamic>))
       .toList(),
   isTimeBased: json['isTimeBased'] as bool? ?? false,
+  exerciseId: json['exerciseId'] as String?,
   slotId: json['slotId'] as String?,
   originalName: json['originalName'] as String?,
   sessionModified: json['sessionModified'] as bool? ?? false,
@@ -65,6 +68,7 @@ Map<String, dynamic> _$$WorkoutExerciseImplToJson(
   'restTime': instance.restTime,
   'sets': instance.sets,
   'isTimeBased': instance.isTimeBased,
+  'exerciseId': instance.exerciseId,
   'slotId': instance.slotId,
   'originalName': instance.originalName,
   'sessionModified': instance.sessionModified,

@@ -12,18 +12,6 @@ import 'package:repster/features/session/presentation/widgets/set_card.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 
-/// An exercise's `lastPerfs` key (based on the first set).
-String exerciseLastPerfKey(WorkoutExercise ex) {
-  final target = ex.isTimeBased
-      ? (ex.sets.isEmpty ? 0 : (ex.sets.first.targetSeconds ?? 0))
-      : (ex.sets.isEmpty ? 0 : ex.sets.first.targetReps);
-  return lastPerfKey(
-    exerciseName: ex.name,
-    target: target,
-    isTimeBased: ex.isTimeBased,
-  );
-}
-
 /// Standalone exercise page: header (title, actions, meta, last time), set
 /// list, add-set button and volume summary.
 class ExerciseView extends ConsumerWidget {
@@ -100,7 +88,12 @@ class ExerciseView extends ConsumerWidget {
           ],
         ),
         ExerciseMetaChips(exercise: ex),
-        ExerciseLastPerfs(exercise: ex, perfs: perfs, meta: meta),
+        ExerciseLastPerfs(
+          exercise: ex,
+          perfs: perfs,
+          meta: meta,
+          onTap: () => onOpenHistory(exerciseIndex),
+        ),
         const SizedBox(height: 16),
         for (var si = 0; si < ex.sets.length; si++) ...[
           if (si > 0) const SizedBox(height: 12),
@@ -121,7 +114,7 @@ class ExerciseView extends ConsumerWidget {
     List<LastPerf> perfs,
   ) {
     final set = ex.sets[si];
-    final prev = si < perfs.length ? perfs[si] : null;
+    final prev = perfForSet(perfs, si);
     final canDelete = ex.sets.length > 1;
     if (ex.isTimeBased) {
       return TimedSetCard(

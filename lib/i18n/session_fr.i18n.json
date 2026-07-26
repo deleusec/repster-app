@@ -96,15 +96,15 @@
     "timed": "Chronométré",
     "tempoChip": "Tempo {{tempo}}",
     "restChip": "{{n}}s récup",
-    "lastTime": "DERNIÈRE FOIS :",
-    "differentTargetSeconds": "· cible différente ({{n}}s)",
-    "differentTargetReps": "· cible différente ({{n}} reps)",
-    "perfEntry": "S{{n}} — {{value}}",
     "modified": "Modifié · séance uniquement",
     "modifiedWas": "Modifié · séance uniquement (était : {{name}})",
     "completedBadge": "✓ Terminé",
     "totalHeld": "Total tenu : {{value}}",
-    "exerciseVolume": "Volume exercice : {{value}} kg"
+    "exerciseVolume": "Volume exercice : {{value}} kg",
+    "lastTimeLabel": "Dernière fois",
+    "targetWasReps": "visait {{n}} reps",
+    "targetWasSeconds": "visait {{n}}s",
+    "morePerfs": "+{{n}}"
   },
   "overview": {
     "title": "Exercices",

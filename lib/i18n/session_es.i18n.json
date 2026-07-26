@@ -96,15 +96,15 @@
     "timed": "Cronometrado",
     "tempoChip": "Tempo {{tempo}}",
     "restChip": "{{n}}s descanso",
-    "lastTime": "ÚLTIMA VEZ:",
-    "differentTargetSeconds": "· objetivo diferente ({{n}}s)",
-    "differentTargetReps": "· objetivo diferente ({{n}} reps)",
-    "perfEntry": "S{{n}} — {{value}}",
     "modified": "Modificado · solo esta sesión",
     "modifiedWas": "Modificado · solo esta sesión (era: {{name}})",
     "completedBadge": "✓ Hecho",
     "totalHeld": "Total aguantado: {{value}}",
-    "exerciseVolume": "Volumen del ejercicio: {{value}} kg"
+    "exerciseVolume": "Volumen del ejercicio: {{value}} kg",
+    "lastTimeLabel": "Última vez",
+    "targetWasReps": "buscaba {{n}} reps",
+    "targetWasSeconds": "buscaba {{n}}s",
+    "morePerfs": "+{{n}}"
   },
   "overview": {
     "title": "Ejercicios",

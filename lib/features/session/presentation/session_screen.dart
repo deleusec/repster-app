@@ -181,40 +181,30 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
   // ── lastPerfs key / refetch after swap / variant / add ─────────────────────
 
-  Future<void> _refetchPerfs(String name, int target, bool isTimeBased) async {
+  Future<void> _refetchPerfs(
+    String name,
+    bool isTimeBased,
+    String? exerciseId,
+  ) async {
     final key = lastPerfKey(
       exerciseName: name,
-      target: target,
       isTimeBased: isTimeBased,
+      exerciseId: exerciseId,
     );
     try {
       final res = await _ctl.lastPerfsForExercise(
         name: name,
-        target: target,
         isTimeBased: isTimeBased,
+        exerciseId: exerciseId,
       );
       if (res == null) {
         _ctl.setLastPerfsFor(key, const []);
       } else {
-        _ctl.setLastPerfsFor(
-          key,
-          res.perfs,
-          meta: LastPerfMeta(
-            isFallback: res.isFallback,
-            originalTarget: res.originalTarget,
-          ),
-        );
+        _ctl.setLastPerfsFor(key, res.perfs, meta: res.meta);
       }
     } on Object {
       // Network error: keep the existing cache.
     }
-  }
-
-  int _targetOf(WorkoutExercise ex) {
-    if (ex.sets.isEmpty) return 0;
-    return ex.isTimeBased
-        ? (ex.sets.first.targetSeconds ?? 0)
-        : ex.sets.first.targetReps;
   }
 
   // ── Drawer actions ─────────────────────────────────────────────────────────
@@ -236,6 +226,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       currentNotes: ex.notes,
       currentTempo: ex.tempo,
       search: _search,
+      currentExerciseId: ex.exerciseId,
     );
     if (data == null) return;
     _ctl.updateExerciseMeta(
@@ -244,9 +235,10 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       restTime: data.restTime,
       notes: data.notes,
       tempo: data.tempo,
+      exerciseId: data.exerciseId,
     );
     // Keep the current format; refresh the last-perf ghosts for the new name.
-    await _refetchPerfs(data.name, _targetOf(ex), ex.isTimeBased);
+    await _refetchPerfs(data.name, ex.isTimeBased, data.exerciseId);
   }
 
   void _openHistory(int exIdx) {
@@ -282,8 +274,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       return;
     }
     final v = variants[idx];
-    final target = v.isTimeBased ? (v.durationSeconds ?? 30) : v.reps;
-    await _refetchPerfs(v.name, target, v.isTimeBased);
+    await _refetchPerfs(v.name, v.isTimeBased, v.exerciseId);
   }
 
   Future<void> _openAdd() async {
@@ -309,6 +300,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       WorkoutExercise(
         id: _uuid.v4(),
         name: data.name,
+        exerciseId: data.exerciseId,
         notes: data.notes,
         tempo: data.tempo,
         restTime: data.restTime,
@@ -319,8 +311,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       ),
       insertAfter: current,
     );
-    final target = data.isTimeBased ? data.targetSeconds : data.targetReps;
-    await _refetchPerfs(data.name, target, data.isTimeBased);
+    await _refetchPerfs(data.name, data.isTimeBased, data.exerciseId);
     if (mounted) {
       AppToast.showSuccess(
         context,

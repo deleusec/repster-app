@@ -21,7 +21,10 @@
     "minutesAgo": "vor {{n}} Min.",
     "hoursAgo": "vor {{n}} Std.",
     "yesterday": "gestern",
-    "daysAgo": "vor {{n}} T."
+    "daysAgo": "vor {{n}} T.",
+    "today": "heute",
+    "weeksAgo": "vor {{n}} Wo.",
+    "monthsAgo": "vor {{n}} Mon."
   },
   "language": {
     "en": "Englisch",

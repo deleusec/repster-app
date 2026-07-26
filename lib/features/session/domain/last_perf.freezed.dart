@@ -212,8 +212,8 @@ LastPerfMeta _$LastPerfMetaFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LastPerfMeta {
-  bool get isFallback => throw _privateConstructorUsedError;
-  int? get originalTarget => throw _privateConstructorUsedError;
+  DateTime? get performedAt => throw _privateConstructorUsedError;
+  int? get target => throw _privateConstructorUsedError;
 
   /// Serializes this LastPerfMeta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -232,7 +232,7 @@ abstract class $LastPerfMetaCopyWith<$Res> {
     $Res Function(LastPerfMeta) then,
   ) = _$LastPerfMetaCopyWithImpl<$Res, LastPerfMeta>;
   @useResult
-  $Res call({bool isFallback, int? originalTarget});
+  $Res call({DateTime? performedAt, int? target});
 }
 
 /// @nodoc
@@ -249,16 +249,16 @@ class _$LastPerfMetaCopyWithImpl<$Res, $Val extends LastPerfMeta>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? isFallback = null, Object? originalTarget = freezed}) {
+  $Res call({Object? performedAt = freezed, Object? target = freezed}) {
     return _then(
       _value.copyWith(
-            isFallback: null == isFallback
-                ? _value.isFallback
-                : isFallback // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            originalTarget: freezed == originalTarget
-                ? _value.originalTarget
-                : originalTarget // ignore: cast_nullable_to_non_nullable
+            performedAt: freezed == performedAt
+                ? _value.performedAt
+                : performedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            target: freezed == target
+                ? _value.target
+                : target // ignore: cast_nullable_to_non_nullable
                       as int?,
           )
           as $Val,
@@ -275,7 +275,7 @@ abstract class _$$LastPerfMetaImplCopyWith<$Res>
   ) = __$$LastPerfMetaImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isFallback, int? originalTarget});
+  $Res call({DateTime? performedAt, int? target});
 }
 
 /// @nodoc
@@ -291,16 +291,16 @@ class __$$LastPerfMetaImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? isFallback = null, Object? originalTarget = freezed}) {
+  $Res call({Object? performedAt = freezed, Object? target = freezed}) {
     return _then(
       _$LastPerfMetaImpl(
-        isFallback: null == isFallback
-            ? _value.isFallback
-            : isFallback // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        originalTarget: freezed == originalTarget
-            ? _value.originalTarget
-            : originalTarget // ignore: cast_nullable_to_non_nullable
+        performedAt: freezed == performedAt
+            ? _value.performedAt
+            : performedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        target: freezed == target
+            ? _value.target
+            : target // ignore: cast_nullable_to_non_nullable
                   as int?,
       ),
     );
@@ -310,21 +310,19 @@ class __$$LastPerfMetaImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LastPerfMetaImpl extends _LastPerfMeta {
-  const _$LastPerfMetaImpl({this.isFallback = false, this.originalTarget})
-    : super._();
+  const _$LastPerfMetaImpl({this.performedAt, this.target}) : super._();
 
   factory _$LastPerfMetaImpl.fromJson(Map<String, dynamic> json) =>
       _$$LastPerfMetaImplFromJson(json);
 
   @override
-  @JsonKey()
-  final bool isFallback;
+  final DateTime? performedAt;
   @override
-  final int? originalTarget;
+  final int? target;
 
   @override
   String toString() {
-    return 'LastPerfMeta(isFallback: $isFallback, originalTarget: $originalTarget)';
+    return 'LastPerfMeta(performedAt: $performedAt, target: $target)';
   }
 
   @override
@@ -332,15 +330,14 @@ class _$LastPerfMetaImpl extends _LastPerfMeta {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LastPerfMetaImpl &&
-            (identical(other.isFallback, isFallback) ||
-                other.isFallback == isFallback) &&
-            (identical(other.originalTarget, originalTarget) ||
-                other.originalTarget == originalTarget));
+            (identical(other.performedAt, performedAt) ||
+                other.performedAt == performedAt) &&
+            (identical(other.target, target) || other.target == target));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, isFallback, originalTarget);
+  int get hashCode => Object.hash(runtimeType, performedAt, target);
 
   /// Create a copy of LastPerfMeta
   /// with the given fields replaced by the non-null parameter values.
@@ -358,8 +355,8 @@ class _$LastPerfMetaImpl extends _LastPerfMeta {
 
 abstract class _LastPerfMeta extends LastPerfMeta {
   const factory _LastPerfMeta({
-    final bool isFallback,
-    final int? originalTarget,
+    final DateTime? performedAt,
+    final int? target,
   }) = _$LastPerfMetaImpl;
   const _LastPerfMeta._() : super._();
 
@@ -367,9 +364,9 @@ abstract class _LastPerfMeta extends LastPerfMeta {
       _$LastPerfMetaImpl.fromJson;
 
   @override
-  bool get isFallback;
+  DateTime? get performedAt;
   @override
-  int? get originalTarget;
+  int? get target;
 
   /// Create a copy of LastPerfMeta
   /// with the given fields replaced by the non-null parameter values.

@@ -59,6 +59,7 @@
     "perWeek": "Einheiten / Wo.",
     "bestStreak": "beste Serie",
     "noStreak": "keine Serie",
-    "weeksShort": "{{n}} Wo."
+    "weeksShort": "{{n}} Wo.",
+    "notYet": "Dein Trainingsrhythmus erscheint hier nach der ersten Einheit."
   }
 }

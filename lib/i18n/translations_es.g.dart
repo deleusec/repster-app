@@ -736,6 +736,7 @@ class _Translations$dashboard$consistency$es extends Translations$dashboard$cons
 	@override String get bestStreak => 'mejor racha';
 	@override String get noStreak => 'sin racha';
 	@override String weeksShort({required Object n}) => '${n} sem.';
+	@override String get notYet => 'Tu ritmo de entrenamiento aparecerá aquí tras tu primera sesión.';
 }
 
 // Path: errors.auth
@@ -1345,9 +1346,6 @@ class _Translations$stats$muscleBalance$es extends Translations$stats$muscleBala
 	@override String get title => 'Equilibrio muscular';
 	@override String neglected({required Object days, required Object emoji}) => '— sin entrenar desde hace ${days} d ${emoji}';
 	@override late final _Translations$stats$muscleBalance$since$es since = _Translations$stats$muscleBalance$since$es._(_root);
-	@override String unattributed({required Object n}) => '+${n} series en ejercicios sin músculo indicado';
-	@override String targetHint({required Object min, required Object max}) => 'objetivo ${min}–${max} series / sem.';
-	@override late final _Translations$stats$muscleBalance$status$es status = _Translations$stats$muscleBalance$status$es._(_root);
 }
 
 // Path: stats.records
@@ -1693,18 +1691,6 @@ class _Translations$stats$muscleBalance$since$es extends Translations$stats$musc
 	@override String daysShort({required Object n}) => '${n}d';
 }
 
-// Path: stats.muscleBalance.status
-class _Translations$stats$muscleBalance$status$es extends Translations$stats$muscleBalance$status$en {
-	_Translations$stats$muscleBalance$status$es._(TranslationsEs root) : this._root = root, super.internal(root);
-
-	final TranslationsEs _root; // ignore: unused_field
-
-	// Translations
-	@override String get under => 'por debajo';
-	@override String get onTarget => 'en objetivo';
-	@override String get over => 'por encima';
-}
-
 /// The flat map containing all translations for locale <es>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1885,6 +1871,7 @@ extension on TranslationsEs {
 			'dashboard.consistency.bestStreak' => 'mejor racha',
 			'dashboard.consistency.noStreak' => 'sin racha',
 			'dashboard.consistency.weeksShort' => ({required Object n}) => '${n} sem.',
+			'dashboard.consistency.notYet' => 'Tu ritmo de entrenamiento aparecerá aquí tras tu primera sesión.',
 			'errors.network' => 'Sin conexión de red. Comprueba tu conexión.',
 			'errors.notFound' => 'Elemento no encontrado.',
 			'errors.generic' => 'Se produjo un error. Inténtalo de nuevo.',
@@ -2185,11 +2172,6 @@ extension on TranslationsEs {
 			'stats.muscleBalance.since.today' => 'hoy',
 			'stats.muscleBalance.since.yesterday' => 'ayer',
 			'stats.muscleBalance.since.daysShort' => ({required Object n}) => '${n}d',
-			'stats.muscleBalance.unattributed' => ({required Object n}) => '+${n} series en ejercicios sin músculo indicado',
-			'stats.muscleBalance.targetHint' => ({required Object min, required Object max}) => 'objetivo ${min}–${max} series / sem.',
-			'stats.muscleBalance.status.under' => 'por debajo',
-			'stats.muscleBalance.status.onTarget' => 'en objetivo',
-			'stats.muscleBalance.status.over' => 'por encima',
 			'stats.records.title' => 'Récords',
 			'stats.records.bestSession' => 'Mejor sesión',
 			'stats.records.heaviestLift' => 'Carga máxima',
@@ -2225,12 +2207,12 @@ extension on TranslationsEs {
 			'templates.card.copy' => 'Copiar',
 			'templates.card.deleteShort' => 'Elim.',
 			'templates.card.activate' => 'Activar',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.deactivate' => 'Desactivar',
 			'templates.detail.title' => 'Plantilla',
 			'templates.detail.noExercises' => 'No hay ejercicios en esta plantilla.',
 			'templates.detail.superset' => 'Superserie',
+			_ => null,
+		} ?? switch (path) {
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} serie', other: '${n} series', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',

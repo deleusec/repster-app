@@ -736,6 +736,7 @@ class _Translations$dashboard$consistency$de extends Translations$dashboard$cons
 	@override String get bestStreak => 'beste Serie';
 	@override String get noStreak => 'keine Serie';
 	@override String weeksShort({required Object n}) => '${n} Wo.';
+	@override String get notYet => 'Dein Trainingsrhythmus erscheint hier nach der ersten Einheit.';
 }
 
 // Path: errors.auth
@@ -1345,9 +1346,6 @@ class _Translations$stats$muscleBalance$de extends Translations$stats$muscleBala
 	@override String get title => 'Muskelbalance';
 	@override String neglected({required Object days, required Object emoji}) => '— seit ${days} T. nicht trainiert ${emoji}';
 	@override late final _Translations$stats$muscleBalance$since$de since = _Translations$stats$muscleBalance$since$de._(_root);
-	@override String unattributed({required Object n}) => '+${n} Sätze bei Übungen ohne Muskelangabe';
-	@override String targetHint({required Object min, required Object max}) => 'Ziel ${min}–${max} Sätze / Woche';
-	@override late final _Translations$stats$muscleBalance$status$de status = _Translations$stats$muscleBalance$status$de._(_root);
 }
 
 // Path: stats.records
@@ -1693,18 +1691,6 @@ class _Translations$stats$muscleBalance$since$de extends Translations$stats$musc
 	@override String daysShort({required Object n}) => '${n}T';
 }
 
-// Path: stats.muscleBalance.status
-class _Translations$stats$muscleBalance$status$de extends Translations$stats$muscleBalance$status$en {
-	_Translations$stats$muscleBalance$status$de._(TranslationsDe root) : this._root = root, super.internal(root);
-
-	final TranslationsDe _root; // ignore: unused_field
-
-	// Translations
-	@override String get under => 'unter Ziel';
-	@override String get onTarget => 'im Ziel';
-	@override String get over => 'über Ziel';
-}
-
 /// The flat map containing all translations for locale <de>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1885,6 +1871,7 @@ extension on TranslationsDe {
 			'dashboard.consistency.bestStreak' => 'beste Serie',
 			'dashboard.consistency.noStreak' => 'keine Serie',
 			'dashboard.consistency.weeksShort' => ({required Object n}) => '${n} Wo.',
+			'dashboard.consistency.notYet' => 'Dein Trainingsrhythmus erscheint hier nach der ersten Einheit.',
 			'errors.network' => 'Keine Netzwerkverbindung. Überprüfe deine Verbindung.',
 			'errors.notFound' => 'Element nicht gefunden.',
 			'errors.generic' => 'Ein Fehler ist aufgetreten. Versuche es erneut.',
@@ -2185,11 +2172,6 @@ extension on TranslationsDe {
 			'stats.muscleBalance.since.today' => 'heute',
 			'stats.muscleBalance.since.yesterday' => 'gestern',
 			'stats.muscleBalance.since.daysShort' => ({required Object n}) => '${n}T',
-			'stats.muscleBalance.unattributed' => ({required Object n}) => '+${n} Sätze bei Übungen ohne Muskelangabe',
-			'stats.muscleBalance.targetHint' => ({required Object min, required Object max}) => 'Ziel ${min}–${max} Sätze / Woche',
-			'stats.muscleBalance.status.under' => 'unter Ziel',
-			'stats.muscleBalance.status.onTarget' => 'im Ziel',
-			'stats.muscleBalance.status.over' => 'über Ziel',
 			'stats.records.title' => 'Rekorde',
 			'stats.records.bestSession' => 'Beste Einheit',
 			'stats.records.heaviestLift' => 'Schwerste Last',
@@ -2225,12 +2207,12 @@ extension on TranslationsDe {
 			'templates.card.copy' => 'Kopieren',
 			'templates.card.deleteShort' => 'Löschen',
 			'templates.card.activate' => 'Aktivieren',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.deactivate' => 'Deaktivieren',
 			'templates.detail.title' => 'Vorlage',
 			'templates.detail.noExercises' => 'Keine Übungen in dieser Vorlage.',
 			'templates.detail.superset' => 'Supersatz',
+			_ => null,
+		} ?? switch (path) {
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} Satz', other: '${n} Sätze', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',

@@ -59,6 +59,7 @@
     "perWeek": "sessioni / sett.",
     "bestStreak": "miglior serie",
     "noStreak": "nessuna serie",
-    "weeksShort": "{{n}} sett."
+    "weeksShort": "{{n}} sett.",
+    "notYet": "Il tuo ritmo di allenamento apparirà qui dopo la prima sessione."
   }
 }

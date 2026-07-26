@@ -736,6 +736,7 @@ class _Translations$dashboard$consistency$fr extends Translations$dashboard$cons
 	@override String get bestStreak => 'meilleur streak';
 	@override String get noStreak => 'aucun streak';
 	@override String weeksShort({required Object n}) => '${n} sem.';
+	@override String get notYet => 'Ton rythme d’entraînement apparaîtra ici après ta première séance.';
 }
 
 // Path: errors.auth
@@ -1345,9 +1346,6 @@ class _Translations$stats$muscleBalance$fr extends Translations$stats$muscleBala
 	@override String get title => 'Équilibre musculaire';
 	@override String neglected({required Object days, required Object emoji}) => '— pas travaillé depuis ${days} j ${emoji}';
 	@override late final _Translations$stats$muscleBalance$since$fr since = _Translations$stats$muscleBalance$since$fr._(_root);
-	@override String unattributed({required Object n}) => '+${n} séries sur des exercices sans muscle renseigné';
-	@override String targetHint({required Object min, required Object max}) => 'cible ${min}–${max} séries / sem.';
-	@override late final _Translations$stats$muscleBalance$status$fr status = _Translations$stats$muscleBalance$status$fr._(_root);
 }
 
 // Path: stats.records
@@ -1693,18 +1691,6 @@ class _Translations$stats$muscleBalance$since$fr extends Translations$stats$musc
 	@override String daysShort({required Object n}) => '${n}j';
 }
 
-// Path: stats.muscleBalance.status
-class _Translations$stats$muscleBalance$status$fr extends Translations$stats$muscleBalance$status$en {
-	_Translations$stats$muscleBalance$status$fr._(TranslationsFr root) : this._root = root, super.internal(root);
-
-	final TranslationsFr _root; // ignore: unused_field
-
-	// Translations
-	@override String get under => 'sous la cible';
-	@override String get onTarget => 'dans la cible';
-	@override String get over => 'au-delà de la cible';
-}
-
 /// The flat map containing all translations for locale <fr>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1885,6 +1871,7 @@ extension on TranslationsFr {
 			'dashboard.consistency.bestStreak' => 'meilleur streak',
 			'dashboard.consistency.noStreak' => 'aucun streak',
 			'dashboard.consistency.weeksShort' => ({required Object n}) => '${n} sem.',
+			'dashboard.consistency.notYet' => 'Ton rythme d’entraînement apparaîtra ici après ta première séance.',
 			'errors.network' => 'Pas de connexion réseau. Vérifie ta connexion.',
 			'errors.notFound' => 'Élément introuvable.',
 			'errors.generic' => 'Une erreur est survenue. Réessaie.',
@@ -2185,11 +2172,6 @@ extension on TranslationsFr {
 			'stats.muscleBalance.since.today' => 'auj.',
 			'stats.muscleBalance.since.yesterday' => 'hier',
 			'stats.muscleBalance.since.daysShort' => ({required Object n}) => '${n}j',
-			'stats.muscleBalance.unattributed' => ({required Object n}) => '+${n} séries sur des exercices sans muscle renseigné',
-			'stats.muscleBalance.targetHint' => ({required Object min, required Object max}) => 'cible ${min}–${max} séries / sem.',
-			'stats.muscleBalance.status.under' => 'sous la cible',
-			'stats.muscleBalance.status.onTarget' => 'dans la cible',
-			'stats.muscleBalance.status.over' => 'au-delà de la cible',
 			'stats.records.title' => 'Records',
 			'stats.records.bestSession' => 'Meilleure séance',
 			'stats.records.heaviestLift' => 'Charge max',
@@ -2225,12 +2207,12 @@ extension on TranslationsFr {
 			'templates.card.copy' => 'Copier',
 			'templates.card.deleteShort' => 'Suppr.',
 			'templates.card.activate' => 'Activer',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.deactivate' => 'Désactiver',
 			'templates.detail.title' => 'Template',
 			'templates.detail.noExercises' => 'Aucun exercice dans ce template.',
 			'templates.detail.superset' => 'Superset',
+			_ => null,
+		} ?? switch (path) {
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} série', other: '${n} séries', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',

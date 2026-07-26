@@ -79,7 +79,12 @@ class _DashboardBody extends ConsumerWidget {
         ],
         stagger.wrap(WeeklyStatsPanel(stats: stats)),
         const SizedBox(height: 20),
-        stagger.wrap(ConsistencyPanel(consistency: data.consistency)),
+        stagger.wrap(
+          ConsistencyPanel(
+            consistency: data.consistency,
+            hasHistory: data.recentSessions.isNotEmpty,
+          ),
+        ),
         const SizedBox(height: 20),
         stagger.wrap(
           HeroCtaCard(

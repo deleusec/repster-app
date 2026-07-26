@@ -1167,6 +1167,9 @@ class Translations$dashboard$consistency$en {
 
 	/// en: '{{n}} wk'
 	String weeksShort({required Object n}) => '${n} wk';
+
+	/// en: 'Your training rhythm will show up here once you have logged a session.'
+	String get notYet => 'Your training rhythm will show up here once you have logged a session.';
 }
 
 // Path: errors.auth
@@ -2201,14 +2204,6 @@ class Translations$stats$muscleBalance$en {
 	String neglected({required Object days, required Object emoji}) => '— not trained for ${days} d ${emoji}';
 
 	late final Translations$stats$muscleBalance$since$en since = Translations$stats$muscleBalance$since$en.internal(_root);
-
-	/// en: '+{{n}} sets on exercises with no muscle recorded'
-	String unattributed({required Object n}) => '+${n} sets on exercises with no muscle recorded';
-
-	/// en: 'target {{min}}–{{max}} sets / week'
-	String targetHint({required Object min, required Object max}) => 'target ${min}–${max} sets / week';
-
-	late final Translations$stats$muscleBalance$status$en status = Translations$stats$muscleBalance$status$en.internal(_root);
 }
 
 // Path: stats.records
@@ -2826,24 +2821,6 @@ class Translations$stats$muscleBalance$since$en {
 	String daysShort({required Object n}) => '${n}d';
 }
 
-// Path: stats.muscleBalance.status
-class Translations$stats$muscleBalance$status$en {
-	Translations$stats$muscleBalance$status$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'below target'
-	String get under => 'below target';
-
-	/// en: 'on target'
-	String get onTarget => 'on target';
-
-	/// en: 'above target'
-	String get over => 'above target';
-}
-
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -3025,6 +3002,7 @@ extension on Translations {
 			'dashboard.consistency.bestStreak' => 'best streak',
 			'dashboard.consistency.noStreak' => 'no streak',
 			'dashboard.consistency.weeksShort' => ({required Object n}) => '${n} wk',
+			'dashboard.consistency.notYet' => 'Your training rhythm will show up here once you have logged a session.',
 			'errors.network' => 'No network connection. Check your connection.',
 			'errors.notFound' => 'Item not found.',
 			'errors.generic' => 'Something went wrong. Try again.',
@@ -3325,11 +3303,6 @@ extension on Translations {
 			'stats.muscleBalance.since.today' => 'today',
 			'stats.muscleBalance.since.yesterday' => 'yesterday',
 			'stats.muscleBalance.since.daysShort' => ({required Object n}) => '${n}d',
-			'stats.muscleBalance.unattributed' => ({required Object n}) => '+${n} sets on exercises with no muscle recorded',
-			'stats.muscleBalance.targetHint' => ({required Object min, required Object max}) => 'target ${min}–${max} sets / week',
-			'stats.muscleBalance.status.under' => 'below target',
-			'stats.muscleBalance.status.onTarget' => 'on target',
-			'stats.muscleBalance.status.over' => 'above target',
 			'stats.records.title' => 'Records',
 			'stats.records.bestSession' => 'Best session',
 			'stats.records.heaviestLift' => 'Heaviest lift',
@@ -3364,12 +3337,12 @@ extension on Translations {
 			'templates.card.details' => 'Details',
 			'templates.card.copy' => 'Copy',
 			'templates.card.deleteShort' => 'Delete',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.activate' => 'Activate',
 			'templates.card.deactivate' => 'Deactivate',
 			'templates.detail.title' => 'Template',
 			'templates.detail.noExercises' => 'No exercises in this template.',
+			_ => null,
+		} ?? switch (path) {
 			'templates.detail.superset' => 'Superset',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} set', other: '${n} sets', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',

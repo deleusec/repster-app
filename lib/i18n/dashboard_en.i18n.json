@@ -59,6 +59,7 @@
     "perWeek": "sessions / wk",
     "bestStreak": "best streak",
     "noStreak": "no streak",
-    "weeksShort": "{{n}} wk"
+    "weeksShort": "{{n}} wk",
+    "notYet": "Your training rhythm will show up here once you have logged a session."
   }
 }

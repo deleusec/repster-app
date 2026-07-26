@@ -736,6 +736,7 @@ class _Translations$dashboard$consistency$it extends Translations$dashboard$cons
 	@override String get bestStreak => 'miglior serie';
 	@override String get noStreak => 'nessuna serie';
 	@override String weeksShort({required Object n}) => '${n} sett.';
+	@override String get notYet => 'Il tuo ritmo di allenamento apparirà qui dopo la prima sessione.';
 }
 
 // Path: errors.auth
@@ -1345,9 +1346,6 @@ class _Translations$stats$muscleBalance$it extends Translations$stats$muscleBala
 	@override String get title => 'Equilibrio muscolare';
 	@override String neglected({required Object days, required Object emoji}) => '— non allenato da ${days} g ${emoji}';
 	@override late final _Translations$stats$muscleBalance$since$it since = _Translations$stats$muscleBalance$since$it._(_root);
-	@override String unattributed({required Object n}) => '+${n} serie su esercizi senza muscolo indicato';
-	@override String targetHint({required Object min, required Object max}) => 'obiettivo ${min}–${max} serie / sett.';
-	@override late final _Translations$stats$muscleBalance$status$it status = _Translations$stats$muscleBalance$status$it._(_root);
 }
 
 // Path: stats.records
@@ -1693,18 +1691,6 @@ class _Translations$stats$muscleBalance$since$it extends Translations$stats$musc
 	@override String daysShort({required Object n}) => '${n}g';
 }
 
-// Path: stats.muscleBalance.status
-class _Translations$stats$muscleBalance$status$it extends Translations$stats$muscleBalance$status$en {
-	_Translations$stats$muscleBalance$status$it._(TranslationsIt root) : this._root = root, super.internal(root);
-
-	final TranslationsIt _root; // ignore: unused_field
-
-	// Translations
-	@override String get under => 'sotto obiettivo';
-	@override String get onTarget => 'in obiettivo';
-	@override String get over => 'sopra obiettivo';
-}
-
 /// The flat map containing all translations for locale <it>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1885,6 +1871,7 @@ extension on TranslationsIt {
 			'dashboard.consistency.bestStreak' => 'miglior serie',
 			'dashboard.consistency.noStreak' => 'nessuna serie',
 			'dashboard.consistency.weeksShort' => ({required Object n}) => '${n} sett.',
+			'dashboard.consistency.notYet' => 'Il tuo ritmo di allenamento apparirà qui dopo la prima sessione.',
 			'errors.network' => 'Nessuna connessione di rete. Controlla la connessione.',
 			'errors.notFound' => 'Elemento non trovato.',
 			'errors.generic' => 'Si è verificato un errore. Riprova.',
@@ -2185,11 +2172,6 @@ extension on TranslationsIt {
 			'stats.muscleBalance.since.today' => 'oggi',
 			'stats.muscleBalance.since.yesterday' => 'ieri',
 			'stats.muscleBalance.since.daysShort' => ({required Object n}) => '${n}g',
-			'stats.muscleBalance.unattributed' => ({required Object n}) => '+${n} serie su esercizi senza muscolo indicato',
-			'stats.muscleBalance.targetHint' => ({required Object min, required Object max}) => 'obiettivo ${min}–${max} serie / sett.',
-			'stats.muscleBalance.status.under' => 'sotto obiettivo',
-			'stats.muscleBalance.status.onTarget' => 'in obiettivo',
-			'stats.muscleBalance.status.over' => 'sopra obiettivo',
 			'stats.records.title' => 'Record',
 			'stats.records.bestSession' => 'Miglior sessione',
 			'stats.records.heaviestLift' => 'Carico massimo',
@@ -2225,12 +2207,12 @@ extension on TranslationsIt {
 			'templates.card.copy' => 'Copia',
 			'templates.card.deleteShort' => 'Elim.',
 			'templates.card.activate' => 'Attiva',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.deactivate' => 'Disattiva',
 			'templates.detail.title' => 'Modello',
 			'templates.detail.noExercises' => 'Nessun esercizio in questo modello.',
 			'templates.detail.superset' => 'Superserie',
+			_ => null,
+		} ?? switch (path) {
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} serie', other: '${n} serie', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',

@@ -11,8 +11,8 @@ import 'package:repster/i18n/translations.g.dart';
 /// `StatefulShellRoute.indexedStack` app shell. Each tab's stack is preserved
 /// across switches (scroll position, form state, in-flight loads).
 ///
-/// Five tabs. The active background is an animated pill that slides toward the
-/// tapped tab.
+/// Five tabs. Like the PWA, the active state is a plain 200ms cross-fade of the
+/// item's background and colors — nothing slides, nothing pops.
 class TabBarScaffold extends StatelessWidget {
   const TabBarScaffold({required this.navigationShell, super.key});
 
@@ -44,7 +44,7 @@ class TabBarScaffold extends StatelessWidget {
   }
 }
 
-class _TabBar extends StatefulWidget {
+class _TabBar extends StatelessWidget {
   const _TabBar({
     required this.currentIndex,
     required this.destinations,
@@ -59,31 +59,11 @@ class _TabBar extends StatefulWidget {
   static const double barHeight = 64;
   static const double itemHeight = 52;
   static const double hPadding = 8;
-
-  @override
-  State<_TabBar> createState() => _TabBarState();
-}
-
-class _TabBarState extends State<_TabBar> {
-  // Locally displayed index so the pill starts sliding on tap, without waiting
-  // for the GoRouter shell to rebuild.
-  late int _displayedIndex = widget.currentIndex;
-
-  @override
-  void didUpdateWidget(covariant _TabBar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.currentIndex != oldWidget.currentIndex &&
-        widget.currentIndex != _displayedIndex) {
-      setState(() => _displayedIndex = widget.currentIndex);
-    }
-  }
+  static const Duration transition = Duration(milliseconds: 200);
 
   void _handleTap(int index) {
     HapticFeedback.selectionClick();
-    if (index != _displayedIndex) {
-      setState(() => _displayedIndex = index);
-    }
-    widget.onTap(index);
+    onTap(index);
   }
 
   @override
@@ -112,44 +92,17 @@ class _TabBarState extends State<_TabBar> {
             height: _TabBar.barHeight,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: _TabBar.hPadding),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final itemWidth =
-                      constraints.maxWidth / widget.destinations.length;
-                  final pillLeft = _displayedIndex * itemWidth;
-                  const pillTop = (_TabBar.barHeight - _TabBar.itemHeight) / 2;
-
-                  return Stack(
-                    children: [
-                      AnimatedPositioned(
-                        duration: const Duration(milliseconds: 320),
-                        curve: Curves.easeOutCubic,
-                        left: pillLeft,
-                        top: pillTop,
-                        width: itemWidth,
-                        height: _TabBar.itemHeight,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: scheme.primary.withValues(alpha: 0.10),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
+              child: Row(
+                children: [
+                  for (var i = 0; i < destinations.length; i++)
+                    Expanded(
+                      child: _TabItem(
+                        destination: destinations[i],
+                        active: i == currentIndex,
+                        onTap: () => _handleTap(i),
                       ),
-                      Row(
-                        children: [
-                          for (var i = 0; i < widget.destinations.length; i++)
-                            Expanded(
-                              child: _TabItem(
-                                destination: widget.destinations[i],
-                                active: i == _displayedIndex,
-                                onTap: () => _handleTap(i),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
+                    ),
+                ],
               ),
             ),
           ),
@@ -179,38 +132,39 @@ class _TabItem extends StatelessWidget {
 
     final iconColor = active ? scheme.primary : muted;
     final labelColor = active ? scheme.primary : muted.withValues(alpha: 0.6);
+    final borderRadius = BorderRadius.circular(16);
 
     return SizedBox(
       height: _TabBar.barHeight,
       child: Center(
-        child: SizedBox(
+        child: AnimatedContainer(
+          duration: _TabBar.transition,
+          curve: Curves.easeOut,
           height: _TabBar.itemHeight,
           width: double.infinity,
+          decoration: BoxDecoration(
+            color: active
+                ? scheme.primary.withValues(alpha: 0.10)
+                : Colors.transparent,
+            borderRadius: borderRadius,
+          ),
           child: InkWell(
             onTap: onTap,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: borderRadius,
             splashColor: scheme.primary.withValues(alpha: 0.08),
             highlightColor: Colors.transparent,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  transitionBuilder: (child, animation) => FadeTransition(
-                    opacity: animation,
-                    child: ScaleTransition(scale: animation, child: child),
-                  ),
-                  child: HeroIcon(
-                    destination.icon,
-                    key: ValueKey(active),
-                    style: active ? HeroIconStyle.solid : HeroIconStyle.outline,
-                    size: 20,
-                    color: iconColor,
-                  ),
+                HeroIcon(
+                  destination.icon,
+                  style: active ? HeroIconStyle.solid : HeroIconStyle.outline,
+                  size: 20,
+                  color: iconColor,
                 ),
                 const SizedBox(height: 2),
                 AnimatedDefaultTextStyle(
-                  duration: const Duration(milliseconds: 200),
+                  duration: _TabBar.transition,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,

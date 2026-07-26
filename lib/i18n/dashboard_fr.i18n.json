@@ -19,7 +19,7 @@
     "other": "{{n}} exercices"
   },
   "hero": {
-    "eyebrow": "PRÊT À T’ENTRAÎNER ?",
+    "eyebrow": "PROCHAINE SÉANCE",
     "start": "Démarrer la séance",
     "emptyTitle": "Crée ton premier template",
     "emptyMessage": "Configure tes exercices et c’est parti.",

@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import 'package:repster/features/dashboard/presentation/widgets/hero_cta_card.dart';
+import 'package:repster/features/templates/domain/muscle_group.dart';
+import 'package:repster/features/templates/domain/template.dart';
+import 'package:repster/features/templates/domain/template_slot.dart';
+
+Template _template() => Template(
+  id: 't',
+  name: 'Push',
+  description: '',
+  tags: const [MuscleGroup.chest],
+  slots: const <TemplateSlot>[],
+  isActive: true,
+  createdAt: DateTime(2026),
+  updatedAt: DateTime(2026),
+);
+
+Future<void> _pump(WidgetTester tester, {Template? suggested}) async {
+  tester.view.physicalSize = const Size(390, 844);
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+  await tester.pumpWidget(
+    MaterialApp(
+      home: Scaffold(
+        // A ListView, like the dashboard: bounded width, unbounded height —
+        // where a filled button used to blow up on the web's first layout.
+        body: ListView(
+          children: [
+            HeroCtaCard(suggested: suggested, onStart: (_) {}, onCreate: () {}),
+          ],
+        ),
+      ),
+    ),
+  );
+  await tester.pump(const Duration(milliseconds: 400));
+}
+
+void main() {
+  testWidgets('lays out with a suggested template', (tester) async {
+    await _pump(tester, suggested: _template());
+    expect(tester.takeException(), isNull);
+    expect(find.text('Push'), findsOne);
+  });
+
+  testWidgets('lays out with no template to suggest', (tester) async {
+    await _pump(tester);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('shares the card radius used across the page', (tester) async {
+    await _pump(tester, suggested: _template());
+    final decorated = tester.widget<DecoratedBox>(
+      find
+          .descendant(
+            of: find.byType(HeroCtaCard),
+            matching: find.byType(DecoratedBox),
+          )
+          .first,
+    );
+    final decoration = decorated.decoration as BoxDecoration;
+    expect(decoration.borderRadius, BorderRadius.circular(16));
+    expect(decoration.gradient, isNull);
+  });
+}

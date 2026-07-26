@@ -671,7 +671,7 @@ class _Translations$dashboard$hero$es extends Translations$dashboard$hero$en {
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get eyebrow => '¿LISTO PARA ENTRENAR?';
+	@override String get eyebrow => 'PRÓXIMA SESIÓN';
 	@override String get start => 'Empezar sesión';
 	@override String get emptyTitle => 'Crea tu primera plantilla';
 	@override String get emptyMessage => 'Configura tus ejercicios y a por ello.';
@@ -1858,7 +1858,7 @@ extension on TranslationsEs {
 			'dashboard.templates.empty' => 'Aún no hay plantillas',
 			'dashboard.templates.newLabel' => 'Nueva',
 			'dashboard.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} ejercicio', other: '${n} ejercicios', ), 
-			'dashboard.hero.eyebrow' => '¿LISTO PARA ENTRENAR?',
+			'dashboard.hero.eyebrow' => 'PRÓXIMA SESIÓN',
 			'dashboard.hero.start' => 'Empezar sesión',
 			'dashboard.hero.emptyTitle' => 'Crea tu primera plantilla',
 			'dashboard.hero.emptyMessage' => 'Configura tus ejercicios y a por ello.',

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
-import 'package:repster/shared/widgets/soft_glow.dart';
 
-/// Hero call-to-action card. When a template is suggested it offers to start a
-/// session; otherwise it invites the user to create a first template.
+/// Call-to-action card for the next session. When a template is suggested it
+/// offers to start it; otherwise it invites the user to create a first one.
+///
+/// Wears the page's standard card surface ([AppSurfaces.translucentCard]), so
+/// it shares its radius, fill and border weight with the cards around it.
 class HeroCtaCard extends StatelessWidget {
   const HeroCtaCard({
     required this.suggested,
@@ -29,48 +31,15 @@ class HeroCtaCard extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final onSurface = scheme.onSurface;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppRadius.cardLg),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppRadius.cardLg),
-          color: onSurface.withValues(alpha: 0.05),
-          border: Border.all(color: onSurface.withValues(alpha: 0.09)),
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: -48,
-              right: -48,
-              child: SoftGlow(
-                color: scheme.primary.withValues(alpha: 0.22),
-                size: 176,
-                blur: 44,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    t.dashboard.hero.eyebrow,
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.8,
-                      color: onSurface.withValues(alpha: 0.35),
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  if (suggested != null)
-                    ..._withTemplate(context, suggested!, onSurface)
-                  else
-                    ..._empty(context, onSurface),
-                ],
-              ),
-            ),
-          ],
+    return DecoratedBox(
+      decoration: scheme.translucentCard,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: suggested != null
+              ? _withTemplate(context, suggested!, onSurface)
+              : _empty(context, onSurface),
         ),
       ),
     );
@@ -86,6 +55,18 @@ class HeroCtaCard extends StatelessWidget {
         : MuscleGroup.custom;
     final count = template.primaryExercises.length;
     return [
+      // Only over a real suggestion: there is no "next session" to announce
+      // when the user has no template yet.
+      Text(
+        t.dashboard.hero.eyebrow,
+        style: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1.8,
+          color: onSurface.withValues(alpha: 0.35),
+        ),
+      ),
+      const SizedBox(height: 14),
       Row(
         children: [
           MuscleGroupBadge(group: group, size: 44, fontSize: 22),

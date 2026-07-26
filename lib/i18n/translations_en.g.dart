@@ -1051,8 +1051,8 @@ class Translations$dashboard$hero$en {
 
 	// Translations
 
-	/// en: 'READY TO TRAIN?'
-	String get eyebrow => 'READY TO TRAIN?';
+	/// en: 'NEXT SESSION'
+	String get eyebrow => 'NEXT SESSION';
 
 	/// en: 'Start session'
 	String get start => 'Start session';
@@ -2998,7 +2998,7 @@ extension on Translations {
 			'dashboard.templates.empty' => 'No templates yet',
 			'dashboard.templates.newLabel' => 'New',
 			'dashboard.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} exercise', other: '${n} exercises', ), 
-			'dashboard.hero.eyebrow' => 'READY TO TRAIN?',
+			'dashboard.hero.eyebrow' => 'NEXT SESSION',
 			'dashboard.hero.start' => 'Start session',
 			'dashboard.hero.emptyTitle' => 'Create your first template',
 			'dashboard.hero.emptyMessage' => 'Set up your exercises and off you go.',

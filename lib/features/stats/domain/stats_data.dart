@@ -68,50 +68,27 @@ class WeeklyVolume {
   final bool isInProgress;
 }
 
-/// Weight a set carries for a secondary muscle. A bench press set is one set
-/// of chest work; counting it as a full set of triceps *and* shoulders too
-/// would treble the real load.
-const double kSecondaryMuscleWeight = 0.5;
-
-/// Weekly set target per muscle group — the range commonly cited for
-/// hypertrophy. A default, not a law: it depends on the goal (a strength block
-/// sits lower), which is why it lives in one place, ready to be made a setting.
-const int kWeeklySetsTargetMin = 10;
-const int kWeeklySetsTargetMax = 20;
-
-/// Where a group's weekly volume sits against the target range.
-enum MuscleLoadStatus { under, onTarget, over }
-
-/// Load per muscle group over the range: weighted set count, number of
-/// sessions that actually worked it, and time since the last one (all ranges).
+/// Load per muscle group: session count within the range + time since the
+/// last workout (across all ranges).
+///
+/// Counted from the sessions' muscle tags. Crediting the exercises actually
+/// performed would be finer, but `exercises.muscle_groups` is only filled for
+/// the certified catalog — four fifths of a real user's sets run through
+/// personal exercises, which nothing in the app can tag yet. Tags cover
+/// everything, and they are the same source the profile and history read, so
+/// the three screens agree.
 class MuscleLoad {
   const MuscleLoad({
     required this.group,
     required this.sessions,
     required this.daysSinceLast,
-    this.weightedSets = 0,
-    this.setsPerWeek = 0,
   });
 
   final MuscleGroup group;
 
-  /// Sessions in range containing at least one exercise working this group.
+  /// Sessions in range tagged with this group.
   final int sessions;
   final int? daysSinceLast;
-
-  /// Completed sets credited to the group: 1 per set for the primary muscle,
-  /// [kSecondaryMuscleWeight] for the others.
-  final double weightedSets;
-
-  /// [weightedSets] spread over the range's weeks — the unit that can actually
-  /// be judged, since a raw count means nothing without knowing over how long.
-  final double setsPerWeek;
-
-  MuscleLoadStatus get status {
-    if (setsPerWeek < kWeeklySetsTargetMin) return MuscleLoadStatus.under;
-    if (setsPerWeek > kWeeklySetsTargetMax) return MuscleLoadStatus.over;
-    return MuscleLoadStatus.onTarget;
-  }
 }
 
 /// One progression point for an exercise (best set of a session).
@@ -271,7 +248,6 @@ class StatsData {
     required this.exercises,
     required this.records,
     this.hasHistory = false,
-    this.unattributedSets = 0,
   });
 
   factory StatsData.compute({
@@ -301,19 +277,13 @@ class StatsData {
     return StatsData(
       kpis: _kpis(current, previous, hasWindow: window != null),
       weeklyVolume: _weeklyVolume(current, window, now),
-      muscleLoads: _muscleLoads(
-        all,
-        current,
-        now,
-        rangeWeeks: _rangeWeeks(current, window, now),
-      ),
+      muscleLoads: _muscleLoads(all, current, now),
       exercises: _exerciseProgress(all),
       records: _records(
         all,
         Consistency.longestStreak([for (final s in all) s.startedAt]),
       ),
       hasHistory: true,
-      unattributedSets: _unattributedSets(current),
     );
   }
 
@@ -326,9 +296,6 @@ class StatsData {
   /// Whether the user has any completed session at all — as opposed to none
   /// *in the selected range*, which is a normal state with real records.
   final bool hasHistory;
-
-  /// Completed sets in range that no muscle group could be credited for.
-  final int unattributedSets;
 
   bool get isEmpty => !hasHistory;
 
@@ -406,107 +373,45 @@ class StatsData {
     ];
   }
 
-  /// Weeks the range actually spans, so a set count can become a weekly rate.
-  /// Bounded below by one week (a first week of training is not a fraction)
-  /// and, on the "All" range, measured from the first session rather than the
-  /// calendar.
-  static double _rangeWeeks(
-    List<WorkoutSession> current,
-    Duration? window,
-    DateTime now,
-  ) {
-    if (current.isEmpty) return 1;
-    final earliest = current.fold<DateTime>(
-      now,
-      (m, s) => s.startedAt.isBefore(m) ? s.startedAt : m,
-    );
-    final spanDays = window == null
-        ? now.difference(earliest).inDays + 1
-        : window.inDays;
-    return math.max(1, spanDays / 7);
-  }
-
-  /// Muscle load from the exercises **actually performed**, not the template's
-  /// tags.
-  ///
-  /// Tags describe a session's intent: a template tagged "Push" credited every
-  /// group in the tag whatever was really executed, missed an exercise added
-  /// mid-session, and could only count at session granularity. The catalog
-  /// stores each exercise's muscles primary-first, so a completed set credits
-  /// 1 to its primary and [kSecondaryMuscleWeight] to the rest.
   static List<MuscleLoad> _muscleLoads(
     List<WorkoutSession> all,
     List<WorkoutSession> current,
-    DateTime now, {
-    required double rangeWeeks,
-  }) {
+    DateTime now,
+  ) {
+    final groups = <MuscleGroup>{for (final s in all) ...s.tags};
     final lastByGroup = <MuscleGroup, DateTime>{};
     for (final s in all) {
-      for (final ex in s.exercises) {
-        if (ex.sets.every((set) => !set.completed)) continue;
-        for (final g in ex.muscleGroups) {
-          final seen = lastByGroup[g];
-          if (seen == null || s.startedAt.isAfter(seen)) {
-            lastByGroup[g] = s.startedAt;
-          }
+      for (final g in s.tags) {
+        final cur = lastByGroup[g];
+        if (cur == null || s.startedAt.isAfter(cur)) {
+          lastByGroup[g] = s.startedAt;
         }
       }
     }
-
-    final setsByGroup = <MuscleGroup, double>{};
     final sessByGroup = <MuscleGroup, int>{};
     for (final s in current) {
-      final touched = <MuscleGroup>{};
-      for (final ex in s.exercises) {
-        final done = ex.sets.where((set) => set.completed).length;
-        if (done == 0) continue;
-        for (var i = 0; i < ex.muscleGroups.length; i++) {
-          final g = ex.muscleGroups[i];
-          final credit = i == 0 ? 1.0 : kSecondaryMuscleWeight;
-          setsByGroup.update(
-            g,
-            (v) => v + done * credit,
-            ifAbsent: () => done * credit,
-          );
-          touched.add(g);
-        }
-      }
-      for (final g in touched) {
+      for (final g in s.tags) {
         sessByGroup.update(g, (v) => v + 1, ifAbsent: () => 1);
       }
     }
-
-    final groups = <MuscleGroup>{...lastByGroup.keys, ...setsByGroup.keys};
-    return [
-      for (final g in groups)
-        MuscleLoad(
-          group: g,
-          sessions: sessByGroup[g] ?? 0,
-          weightedSets: setsByGroup[g] ?? 0,
-          setsPerWeek: (setsByGroup[g] ?? 0) / rangeWeeks,
-          daysSinceLast: lastByGroup[g] == null
-              ? null
-              : now.difference(lastByGroup[g]!).inDays,
-        ),
-    ]..sort((a, b) {
-      final c = b.weightedSets.compareTo(a.weightedSets);
-      if (c != 0) return c;
-      return (a.daysSinceLast ?? 1 << 30).compareTo(b.daysSinceLast ?? 1 << 30);
-    });
-  }
-
-  /// Completed sets in range whose exercise has no muscle recorded — surfaced
-  /// rather than dropped, so a gap in the catalog does not read as a gap in
-  /// training.
-  static int _unattributedSets(List<WorkoutSession> current) {
-    var n = 0;
-    for (final s in current) {
-      for (final ex in s.exercises) {
-        if (ex.muscleGroups.isNotEmpty) continue;
-        n += ex.sets.where((set) => set.completed).length;
-      }
-    }
-    return n;
+    final loads =
+        [
+          for (final g in groups)
+            MuscleLoad(
+              group: g,
+              sessions: sessByGroup[g] ?? 0,
+              daysSinceLast: lastByGroup[g] == null
+                  ? null
+                  : now.difference(lastByGroup[g]!).inDays,
+            ),
+        ]..sort((a, b) {
+          final c = b.sessions.compareTo(a.sessions);
+          if (c != 0) return c;
+          return (a.daysSinceLast ?? 1 << 30).compareTo(
+            b.daysSinceLast ?? 1 << 30,
+          );
+        });
+    return loads;
   }
 
   /// Strength curve per exercise, over the **whole** history: a range-scoped

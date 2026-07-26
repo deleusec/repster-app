@@ -62,13 +62,6 @@
       "today": "auj.",
       "yesterday": "hier",
       "daysShort": "{{n}}j"
-    },
-    "unattributed": "+{{n}} séries sur des exercices sans muscle renseigné",
-    "targetHint": "cible {{min}}–{{max}} séries / sem.",
-    "status": {
-      "under": "sous la cible",
-      "onTarget": "dans la cible",
-      "over": "au-delà de la cible"
     }
   },
   "records": {

@@ -5,40 +5,25 @@ import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/stats/domain/stats_data.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/l10n/muscle_group_l10n.dart';
-import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/stat_panel.dart';
 
 /// Threshold (days) beyond which a group is flagged as neglected.
 const int _neglectDays = 10;
 
-/// Muscle balance: weekly sets per group against the target range, + a soft
-/// alert for groups not trained in a while.
-///
-/// Sets per week, not sessions: a group worked with one set and one worked with
-/// eight are not the same load, and a raw count means nothing without knowing
-/// over how long. The target range turns the bar from a comparison between your
-/// own muscles into something you can actually act on.
+/// Muscle balance: per-group frequency bars (over the range) + a soft alert
+/// for groups not trained in a while.
 class MuscleBalancePanel extends StatelessWidget {
-  const MuscleBalancePanel({
-    required this.loads,
-    this.unattributedSets = 0,
-    super.key,
-  });
+  const MuscleBalancePanel({required this.loads, super.key});
 
   final List<MuscleLoad> loads;
-
-  /// Completed sets no group could be credited for (exercise without muscles).
-  final int unattributedSets;
 
   @override
   Widget build(BuildContext context) {
     if (loads.isEmpty) return const SizedBox.shrink();
-    // The scale runs to the top of the target range, so the bars read against
-    // the target rather than against each other.
-    final maxSets = loads.fold<double>(
-      kWeeklySetsTargetMax.toDouble(),
-      (m, l) => l.setsPerWeek > m ? l.setsPerWeek : m,
+    final maxSessions = loads.fold<int>(
+      0,
+      (m, l) => l.sessions > m ? l.sessions : m,
     );
 
     final neglected = [
@@ -52,21 +37,6 @@ class MuscleBalancePanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text(
-              t.stats.muscleBalance.targetHint(
-                min: kWeeklySetsTargetMin,
-                max: kWeeklySetsTargetMax,
-              ),
-              style: TextStyle(
-                fontSize: 11,
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.45),
-              ),
-            ),
-          ),
           if (neglected.isNotEmpty) ...[
             _NeglectAlert(load: neglected.first),
             const SizedBox(height: 14),
@@ -74,20 +44,7 @@ class MuscleBalancePanel extends StatelessWidget {
           for (final l in loads)
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: _MuscleRow(load: l, maxSets: maxSets),
-            ),
-          if (unattributedSets > 0)
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(
-                t.stats.muscleBalance.unattributed(n: unattributedSets),
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.4),
-                ),
-              ),
+              child: _MuscleRow(load: l, maxSessions: maxSessions),
             ),
         ],
       ),
@@ -143,16 +100,16 @@ class _NeglectAlert extends StatelessWidget {
 }
 
 class _MuscleRow extends StatelessWidget {
-  const _MuscleRow({required this.load, required this.maxSets});
+  const _MuscleRow({required this.load, required this.maxSessions});
 
   final MuscleLoad load;
-  final double maxSets;
+  final int maxSessions;
 
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
     final accent = load.group.accent;
-    final ratio = maxSets == 0 ? 0.0 : load.setsPerWeek / maxSets;
+    final ratio = maxSessions == 0 ? 0.0 : load.sessions / maxSessions;
     final since = load.daysSinceLast;
     final neglected = (since ?? 0) > _neglectDays;
 
@@ -185,9 +142,9 @@ class _MuscleRow extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         SizedBox(
-          width: 34,
+          width: 22,
           child: Text(
-            formatDecimal(load.setsPerWeek),
+            '${load.sessions}',
             textAlign: TextAlign.right,
             style: TextStyle(
               fontSize: 13,
@@ -196,9 +153,7 @@ class _MuscleRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 6),
-        _StatusDot(status: load.status),
-        const SizedBox(width: 6),
+        const SizedBox(width: 8),
         SizedBox(
           width: 42,
           child: Text(
@@ -222,38 +177,5 @@ class _MuscleRow extends StatelessWidget {
     if (days == 0) return t.stats.muscleBalance.since.today;
     if (days == 1) return t.stats.muscleBalance.since.yesterday;
     return t.stats.muscleBalance.since.daysShort(n: days);
-  }
-}
-
-/// Status against the weekly target. An icon carries the meaning; the colour
-/// only reinforces it, so it still reads without colour vision.
-class _StatusDot extends StatelessWidget {
-  const _StatusDot({required this.status});
-
-  final MuscleLoadStatus status;
-
-  @override
-  Widget build(BuildContext context) {
-    final (icon, color, label) = switch (status) {
-      MuscleLoadStatus.under => (
-        LucideIcons.arrowDown,
-        AppColors.accentAmber,
-        t.stats.muscleBalance.status.under,
-      ),
-      MuscleLoadStatus.onTarget => (
-        LucideIcons.check,
-        AppColors.accentEmerald,
-        t.stats.muscleBalance.status.onTarget,
-      ),
-      MuscleLoadStatus.over => (
-        LucideIcons.arrowUp,
-        AppColors.accentOrange,
-        t.stats.muscleBalance.status.over,
-      ),
-    };
-    return Tooltip(
-      message: label,
-      child: Icon(icon, size: 13, color: color),
-    );
   }
 }

@@ -29,7 +29,6 @@ WorkoutExercise _exercise({
   required List<WorkoutSet> sets,
   String name = 'Bench Press',
   bool isTimeBased = false,
-  List<MuscleGroup> muscles = const [],
 }) => WorkoutExercise(
   id: 'ex-$name',
   name: name,
@@ -38,11 +37,10 @@ WorkoutExercise _exercise({
   restTime: 90,
   sets: sets,
   isTimeBased: isTimeBased,
-  muscleGroups: muscles,
 );
 
 WorkoutSession _session({
-  required List<WorkoutExercise> exercises,
+  List<WorkoutExercise> exercises = const [],
   int daysAgo = 1,
   List<MuscleGroup> tags = const [],
   String name = 'Push',
@@ -192,86 +190,48 @@ void main() {
   });
 
   group('muscle load', () {
-    test('credits the primary muscle fully and the others by half', () {
+    test('counts the sessions tagged with each group', () {
+      final data = _compute([
+        _session(daysAgo: 2, tags: [MuscleGroup.chest, MuscleGroup.triceps]),
+        _session(daysAgo: 5, name: 'Push 2', tags: [MuscleGroup.chest]),
+      ]);
+      int sessionsOf(MuscleGroup g) =>
+          data.muscleLoads.firstWhere((l) => l.group == g).sessions;
+      expect(sessionsOf(MuscleGroup.chest), 2);
+      expect(sessionsOf(MuscleGroup.triceps), 1);
+    });
+
+    test('keeps a group the exercises alone would have dropped', () {
+      // The real reason this reads tags: `exercises.muscle_groups` is empty for
+      // every personal exercise, which is most of what people actually log.
       final data = _compute([
         _session(
+          tags: [MuscleGroup.abs],
           exercises: [
-            _exercise(
-              sets: [_set(), _set()],
-              muscles: [
-                MuscleGroup.chest,
-                MuscleGroup.triceps,
-                MuscleGroup.shoulders,
-              ],
-            ),
+            _exercise(name: 'Crunch poulie haute', sets: [_set()]),
           ],
         ),
       ]);
-      double setsOf(MuscleGroup g) =>
-          data.muscleLoads.firstWhere((l) => l.group == g).weightedSets;
-      expect(setsOf(MuscleGroup.chest), 2);
-      expect(setsOf(MuscleGroup.triceps), 1);
-      expect(setsOf(MuscleGroup.shoulders), 1);
+      expect(data.muscleLoads.map((l) => l.group), [MuscleGroup.abs]);
     });
 
-    test('ignores the template tags and reads the exercises performed', () {
+    test('reports how long since a group was last trained', () {
       final data = _compute([
-        _session(
-          // The template claims legs; nothing in the session works them.
-          tags: [MuscleGroup.quads, MuscleGroup.glutes],
-          exercises: [
-            _exercise(sets: [_set()], muscles: [MuscleGroup.chest]),
-          ],
-        ),
+        _session(daysAgo: 3, tags: [MuscleGroup.back]),
       ]);
-      expect(data.muscleLoads.map((l) => l.group), [MuscleGroup.chest]);
+      expect(data.muscleLoads.single.daysSinceLast, 3);
     });
 
-    test('counts uncompleted sets for nothing', () {
+    test('keeps a group out of range, at zero sessions', () {
       final data = _compute([
-        _session(
-          exercises: [
-            _exercise(
-              sets: [_set(), _set(completed: false)],
-              muscles: [MuscleGroup.back],
-            ),
-          ],
-        ),
+        _session(daysAgo: 2, tags: [MuscleGroup.chest]),
+        _session(daysAgo: 200, name: 'Legs', tags: [MuscleGroup.quads]),
       ]);
-      expect(data.muscleLoads.single.weightedSets, 1);
-    });
-
-    test('turns the count into a weekly rate over the range', () {
-      // 24 credited sets across the 4-week window → 6 a week, under target.
-      final data = _compute([
-        for (var w = 0; w < 4; w++)
-          _session(
-            daysAgo: 1 + 7 * w,
-            name: 'Push $w',
-            exercises: [
-              _exercise(
-                sets: [_set(), _set(), _set(), _set(), _set(), _set()],
-                muscles: [MuscleGroup.chest],
-              ),
-            ],
-          ),
-      ]);
-      final chest = data.muscleLoads.single;
-      expect(chest.weightedSets, 24);
-      expect(chest.setsPerWeek, closeTo(6, 0.01));
-      expect(chest.status, MuscleLoadStatus.under);
-    });
-
-    test('surfaces sets it could not attribute', () {
-      final data = _compute([
-        _session(
-          exercises: [
-            _exercise(sets: [_set()], muscles: [MuscleGroup.chest]),
-            _exercise(name: 'Machin perso', sets: [_set(), _set()]),
-          ],
-        ),
-      ]);
-      expect(data.unattributedSets, 2);
+      final quads = data.muscleLoads.firstWhere(
+        (l) => l.group == MuscleGroup.quads,
+      );
+      expect(quads.sessions, 0);
+      expect(quads.daysSinceLast, 200);
     });
   });
 

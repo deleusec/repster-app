@@ -62,13 +62,6 @@
       "today": "today",
       "yesterday": "yesterday",
       "daysShort": "{{n}}d"
-    },
-    "unattributed": "+{{n}} sets on exercises with no muscle recorded",
-    "targetHint": "target {{min}}–{{max}} sets / week",
-    "status": {
-      "under": "below target",
-      "onTarget": "on target",
-      "over": "above target"
     }
   },
   "records": {

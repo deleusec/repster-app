@@ -62,13 +62,6 @@
       "today": "heute",
       "yesterday": "gestern",
       "daysShort": "{{n}}T"
-    },
-    "unattributed": "+{{n}} Sätze bei Übungen ohne Muskelangabe",
-    "targetHint": "Ziel {{min}}–{{max}} Sätze / Woche",
-    "status": {
-      "under": "unter Ziel",
-      "onTarget": "im Ziel",
-      "over": "über Ziel"
     }
   },
   "records": {

@@ -75,10 +75,7 @@ class _StatsBody extends StatelessWidget {
         const SizedBox(height: 16),
         WeeklyVolumeChart(weeks: data.weeklyVolume),
         const SizedBox(height: 16),
-        MuscleBalancePanel(
-          loads: data.muscleLoads,
-          unattributedSets: data.unattributedSets,
-        ),
+        MuscleBalancePanel(loads: data.muscleLoads),
         // Everything below ignores the range pills on purpose — the label says
         // so, so a four-week filter never reads as "these are my records".
         const SizedBox(height: 24),

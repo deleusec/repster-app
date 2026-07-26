@@ -46,11 +46,6 @@ _$WorkoutExerciseImpl _$$WorkoutExerciseImplFromJson(
       .toList(),
   isTimeBased: json['isTimeBased'] as bool? ?? false,
   exerciseId: json['exerciseId'] as String?,
-  muscleGroups:
-      (json['muscleGroups'] as List<dynamic>?)
-          ?.map((e) => $enumDecode(_$MuscleGroupEnumMap, e))
-          .toList() ??
-      const <MuscleGroup>[],
   slotId: json['slotId'] as String?,
   originalName: json['originalName'] as String?,
   sessionModified: json['sessionModified'] as bool? ?? false,
@@ -74,9 +69,6 @@ Map<String, dynamic> _$$WorkoutExerciseImplToJson(
   'sets': instance.sets,
   'isTimeBased': instance.isTimeBased,
   'exerciseId': instance.exerciseId,
-  'muscleGroups': instance.muscleGroups
-      .map((e) => _$MuscleGroupEnumMap[e]!)
-      .toList(),
   'slotId': instance.slotId,
   'originalName': instance.originalName,
   'sessionModified': instance.sessionModified,
@@ -85,19 +77,4 @@ Map<String, dynamic> _$$WorkoutExerciseImplToJson(
   'supersetGroupId': instance.supersetGroupId,
   'supersetPosition': instance.supersetPosition,
   'supersetSize': instance.supersetSize,
-};
-
-const _$MuscleGroupEnumMap = {
-  MuscleGroup.chest: 'chest',
-  MuscleGroup.back: 'back',
-  MuscleGroup.shoulders: 'shoulders',
-  MuscleGroup.biceps: 'biceps',
-  MuscleGroup.triceps: 'triceps',
-  MuscleGroup.forearms: 'forearms',
-  MuscleGroup.quads: 'quads',
-  MuscleGroup.hamstrings: 'hamstrings',
-  MuscleGroup.glutes: 'glutes',
-  MuscleGroup.calves: 'calves',
-  MuscleGroup.abs: 'abs',
-  MuscleGroup.custom: 'custom',
 };

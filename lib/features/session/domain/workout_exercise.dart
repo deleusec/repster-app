@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:repster/features/session/domain/workout_set.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 
 part 'workout_exercise.freezed.dart';
 part 'workout_exercise.g.dart';
@@ -43,11 +42,6 @@ class WorkoutExercise with _$WorkoutExercise {
     /// Catalog identity, when known. `null` for an exercise typed by hand in
     /// session — the history lookup then falls back to the normalized name.
     String? exerciseId,
-
-    /// Muscles worked, **primary first** — the catalog stores them in that
-    /// order. Empty for a personal exercise with nothing filled in, which the
-    /// stats surface as unattributed rather than silently drop.
-    @Default(<MuscleGroup>[]) List<MuscleGroup> muscleGroups,
     String? slotId,
     String? originalName,
     @Default(false) bool sessionModified,

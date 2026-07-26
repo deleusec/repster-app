@@ -62,13 +62,6 @@
       "today": "oggi",
       "yesterday": "ieri",
       "daysShort": "{{n}}g"
-    },
-    "unattributed": "+{{n}} serie su esercizi senza muscolo indicato",
-    "targetHint": "obiettivo {{min}}–{{max}} serie / sett.",
-    "status": {
-      "under": "sotto obiettivo",
-      "onTarget": "in obiettivo",
-      "over": "sopra obiettivo"
     }
   },
   "records": {

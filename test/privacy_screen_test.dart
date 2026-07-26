@@ -23,16 +23,16 @@ void main() {
     // Header + intro kicker (policy body is English-only).
     expect(find.text('Privacy Policy'), findsOneWidget);
     expect(find.text('Last updated'), findsOneWidget);
-    expect(find.text('April 3, 2026'), findsOneWidget);
+    expect(find.text('July 26, 2026'), findsOneWidget);
 
     // Expected sections (one lower in the scroll to validate scrolling).
     expect(find.text('1. Data controller'), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('11. Contact'),
+      find.text('13. Contact'),
       400,
       scrollable: find.byType(Scrollable),
     );
-    expect(find.text('11. Contact'), findsOneWidget);
+    expect(find.text('13. Contact'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

@@ -1,25 +1,35 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import 'package:repster/core/logging/app_logger.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/features/legal/presentation/widgets/legal_blocks.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Privacy policy screen, styled with the app's design-system tokens
 /// (see [AppSurfaces], [AppRadius]).
 class PrivacyScreen extends StatelessWidget {
   const PrivacyScreen({super.key});
 
-  static const String _lastUpdated = 'April 3, 2026';
+  static const String _lastUpdated = 'July 26, 2026';
+
+  /// Single contact address for every privacy request. Must stay in sync with
+  /// `DeleteAccountScreen` and with the store listings.
+  static const String _contactEmail = 'admin@aevon.studio';
+
+  /// "Aëvon" is a trading name, not a company: the controller is the natural
+  /// person behind the sole proprietorship, which GDPR Art. 13(1)(a) requires
+  /// us to name.
+  static const String _publisher =
+      'Corentin Deleuse — entrepreneur individuel (EI)';
+  static const String _siren = '992 545 517';
+
+  static const String _postalAddress =
+      '537 chemin de Boissy, 73420 Viviers-du-Lac, France';
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
     return GlowScaffold(
       child: Center(
         child: ConstrainedBox(
@@ -27,125 +37,243 @@ class PrivacyScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 80),
             children: [
-              _NavBar(onBack: () => context.pop()),
+              LegalNavBar(onBack: () => context.pop()),
               const SizedBox(height: 28),
-              const Text(
-                'Privacy Policy',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5,
-                  height: 1,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'How your data is protected and used, '
-                'in accordance with the GDPR.',
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 1.4,
-                  color: scheme.onSurface.withValues(alpha: 0.4),
-                ),
+              const LegalHeader(
+                title: 'Privacy Policy',
+                subtitle:
+                    'How your data is protected and used, '
+                    'in accordance with the GDPR.',
               ),
               if (LocaleSettings.currentLocale != AppLocale.en) ...[
                 const SizedBox(height: 16),
-                _EnglishOnlyNote(),
+                const EnglishOnlyNote(),
               ],
               const SizedBox(height: 28),
-              const _IntroCard(lastUpdated: _lastUpdated),
+              const LegalIntroCard(
+                lastUpdated: _lastUpdated,
+                preamble: [
+                  Txt('At '),
+                  Bold('Aëvon', full: true),
+                  Txt(
+                    ', we take the protection of your '
+                    'personal data very seriously. This privacy policy '
+                    'explains what data we collect in ',
+                  ),
+                  Bold('Repster', full: true),
+                  Txt(
+                    ' — both the mobile app and the web app — how we use it, '
+                    'and what rights you have over it, in accordance with '
+                    'the GDPR.',
+                  ),
+                ],
+              ),
               const SizedBox(height: 28),
 
-              const _Section(
+              const LegalSection(
                 title: '1. Data controller',
                 children: [
-                  _Prose(
+                  Prose(
                     'The controller of your personal data '
                     'is:',
                   ),
                   SizedBox(height: 16),
-                  _InfoBlock(
+                  LegalInfoBlock(
                     rows: [
-                      _InfoRow(label: 'Entity', value: 'Aëvon'),
-                      _InfoRow(label: 'Application', value: 'Repster'),
-                      _InfoRow(label: 'Contact', value: 'admin@aevon.studio'),
+                      LegalInfoRow(label: 'Controller', value: _publisher),
+                      LegalInfoRow(label: 'Trading as', value: 'Aëvon'),
+                      LegalInfoRow(label: 'SIREN', value: _siren),
+                      LegalInfoRow(label: 'Address', value: _postalAddress),
+                      LegalInfoRow(
+                        label: 'Service',
+                        value: 'Repster (iOS, Android, web)',
+                      ),
+                      LegalInfoRow(
+                        label: 'Contact',
+                        value: _contactEmail,
+                        href: 'mailto:$_contactEmail',
+                      ),
                     ],
                   ),
                 ],
               ),
 
-              const _Section(
-                title: '2. Data collected',
+              const LegalSection(
+                title: '2. Scope of this policy',
                 children: [
-                  _Prose(
+                  Prose(
+                    'Repster exists as a mobile app (iOS and Android) and as '
+                    'a web app. Both share the same account and the same '
+                    'database, so this policy covers them together. Where a '
+                    'point applies to only one of them, it is marked as such.',
+                  ),
+                ],
+              ),
+
+              const LegalSection(
+                title: '3. Data collected',
+                children: [
+                  Prose(
                     'We only collect the data necessary for the '
-                    'app to function. This data falls '
-                    'into four categories:',
+                    'service to function. This data falls '
+                    'into five categories:',
                   ),
                   SizedBox(height: 16),
-                  _SubSection(
+                  LegalSubSection(
                     title: 'Account data',
                     children: [
-                      _ListItem('Email address — login identifier'),
-                      _ListItem(
-                        'Password — stored encrypted and salted '
-                        '(never in plain text)',
+                      ListItem('Email address — login identifier'),
+                      ListItem(
+                        'Password — never stored in plain text; Supabase '
+                        'Auth keeps only a salted hash of it, which we '
+                        'cannot read',
                       ),
-                      _ListItem('Full name — displayed in the interface'),
+                      ListItem('Full name — displayed in the interface'),
                     ],
                   ),
                   SizedBox(height: 16),
-                  _SubSection(
+                  LegalSubSection(
                     title: 'Profile data',
+                    note:
+                        'Everything in this category except the interface '
+                        'language is optional. You can skip it at sign-up '
+                        'and clear it at any time from your profile.',
                     children: [
-                      _ListItem(
+                      ListItem(
                         'Fitness goal (strength, hypertrophy, endurance…)',
                       ),
-                      _ListItem(
-                        'Profile picture (avatar) — optional, provided and '
-                        'stored only if you upload it',
+                      ListItem(
+                        'Body height (cm) and body weight (kg) — used to '
+                        'contextualize your training statistics',
+                      ),
+                      ListItem(
+                        'Date of birth — used to contextualize your training '
+                        'statistics',
+                      ),
+                      ListItem(
+                        'Profile picture (avatar) — provided and stored only '
+                        'if you upload it (see section 10 on how it is '
+                        'served)',
+                      ),
+                      ListItem(
+                        'Interface language — so the app opens in the '
+                        'language you picked',
                       ),
                     ],
                   ),
                   SizedBox(height: 16),
-                  _SubSection(
+                  LegalSubSection(
                     title: 'Training data',
                     note:
                         'This data is at the heart of the service. It '
                         'remains private and is never shared or '
                         'used for advertising purposes.',
                     children: [
-                      _ListItem('Workout templates (name, exercises, order)'),
-                      _ListItem(
+                      ListItem('Workout templates (name, exercises, order)'),
+                      ListItem(
                         'Exercise settings (sets, target reps, '
                         'tempo, rest time)',
                       ),
-                      _ListItem(
+                      ListItem(
                         'Completed sessions: exercises performed, number of '
-                        'reps, load (kg), date and time',
+                        'reps, load (kg), date, time and duration',
+                      ),
+                      ListItem(
+                        'Free-text notes you attach to a template, an '
+                        'exercise or a session',
                       ),
                     ],
                   ),
                   SizedBox(height: 16),
-                  _SubSection(
+                  LegalSubSection(
+                    title: 'Support data',
+                    note:
+                        'Support messages outlive your account, because they '
+                        'are our record of the exchange. See section 8.',
+                    children: [
+                      ListItem(
+                        'Messages sent through the in-app contact form: '
+                        'name, email address, category and message body',
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  LegalSubSection(
                     title: 'Technical data',
                     children: [
-                      _ListItem(
-                        'Anonymized usage data — via Vercel '
-                        'Analytics (pages visited, device, country) with no '
-                        'cookies or personal identifier',
+                      ListItem(
+                        'Authentication logs — login timestamps and IP '
+                        'address, recorded by Supabase Auth',
                       ),
-                      _ListItem(
-                        'Authentication logs — login '
-                        'timestamps managed by Supabase Auth',
+                      ListItem(
+                        'Your login session, stored on your own device so '
+                        'you stay signed in (see section 10)',
+                      ),
+                      ListItem(
+                        'Web app only — anonymized usage data via Vercel '
+                        'Analytics (pages visited, device type, country), '
+                        'with no cookies and no personal identifier. The '
+                        'mobile app contains no analytics at all.',
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  LegalSubSection(
+                    title: 'What we never collect',
+                    children: [
+                      ListItem('Your precise or background location'),
+                      ListItem('Your contacts, calendar or files'),
+                      ListItem(
+                        'Advertising identifiers (IDFA, Android '
+                        'Advertising ID)',
+                      ),
+                      ListItem(
+                        'Data from Apple Health, Google Fit or any other '
+                        'health app — Repster does not connect to them',
+                      ),
+                      ListItem(
+                        'Biometric data, and no third-party advertising, '
+                        'tracking or crash-reporting SDK',
                       ),
                     ],
                   ),
                 ],
               ),
 
-              const _Section(
-                title: '3. Purposes and legal basis',
+              const LegalSection(
+                title: '4. Device permissions (mobile app)',
+                children: [
+                  Prose(
+                    'The mobile app asks for two permissions. Both are '
+                    'optional: if you decline, the rest of the app keeps '
+                    'working without the matching feature, and you can '
+                    'change your mind at any time in your system settings.',
+                  ),
+                  SizedBox(height: 12),
+                  _PurposeRow(
+                    purpose: 'Camera and photo library',
+                    detail:
+                        'Only to set your profile picture. The image you '
+                        'pick is uploaded as your avatar and nothing else — '
+                        'we never browse or read the rest of your library.',
+                    legal: 'Consent, revocable in your system settings',
+                  ),
+                  SizedBox(height: 12),
+                  _PurposeRow(
+                    purpose: 'Notifications',
+                    detail:
+                        'Only for the rest timer: the countdown and the '
+                        'end-of-rest chime during a session. These '
+                        'notifications are scheduled locally on your device. '
+                        'There is no push token and nothing is sent to a '
+                        'server.',
+                    legal: 'Consent, revocable in your system settings',
+                  ),
+                ],
+              ),
+
+              const LegalSection(
+                title: '5. Purposes and legal basis',
                 children: [
                   _PurposeRow(
                     purpose: 'Provide the service',
@@ -164,10 +292,30 @@ class PrivacyScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 12),
                   _PurposeRow(
-                    purpose: 'Improving the app',
+                    purpose: 'Personalize your statistics',
                     detail:
-                        'Analyze which features are used (aggregated '
-                        'and anonymized data).',
+                        'Use the optional body height, body weight and date '
+                        'of birth you chose to provide. Clearing these '
+                        'fields in your profile withdraws your consent for '
+                        'the future.',
+                    legal:
+                        'Consent (Art. 6(1)(a) GDPR, and Art. 9(2)(a) where '
+                        'this qualifies as health data)',
+                  ),
+                  SizedBox(height: 12),
+                  _PurposeRow(
+                    purpose: 'Answer your support requests',
+                    detail:
+                        'Handle the messages you send through the contact '
+                        'form and keep a record of the exchange.',
+                    legal: 'Legitimate interest (Art. 6(1)(f) GDPR)',
+                  ),
+                  SizedBox(height: 12),
+                  _PurposeRow(
+                    purpose: 'Improving the web app',
+                    detail:
+                        'Analyze which pages are used, from aggregated and '
+                        'anonymized data. Web app only.',
                     legal: 'Legitimate interest (Art. 6(1)(f) GDPR)',
                   ),
                   SizedBox(height: 12),
@@ -181,10 +329,10 @@ class PrivacyScreen extends StatelessWidget {
                 ],
               ),
 
-              const _Section(
-                title: '4. Hosting and sub-processors',
+              const LegalSection(
+                title: '6. Hosting, sub-processors and transfers',
                 children: [
-                  _Prose(
+                  Prose(
                     'Your data is hosted exclusively with '
                     'trusted sub-processors that provide contractual '
                     'guarantees compliant with the GDPR:',
@@ -192,11 +340,11 @@ class PrivacyScreen extends StatelessWidget {
                   SizedBox(height: 12),
                   _SubProcessorCard(
                     name: 'Supabase',
-                    role: 'Database and authentication',
-                    location: 'European Union (Frankfurt, Germany)',
+                    role: 'Database, authentication and avatar storage',
+                    location: 'European Union (Paris, France)',
                     link: 'https://supabase.com/privacy',
                     detail:
-                        'All your account and training data is '
+                        'All your account, profile and training data is '
                         'stored on Supabase servers hosted in '
                         'the EU. Supabase is a signatory of the EU '
                         'Standard Contractual Clauses (SCC).',
@@ -204,29 +352,64 @@ class PrivacyScreen extends StatelessWidget {
                   SizedBox(height: 12),
                   _SubProcessorCard(
                     name: 'Vercel',
-                    role: 'Web app hosting',
+                    role: 'Web app hosting and web analytics',
                     location:
                         'Global regions (CDN), EU processing '
                         'available',
                     link: 'https://vercel.com/legal/privacy-policy',
                     detail:
-                        'Vercel hosts the Repster frontend. Vercel '
-                        'Analytics collects fully anonymized browsing '
-                        'data, with no cookies and no '
-                        'cross-site identifier.',
+                        'Vercel serves the Repster web app and, on that web '
+                        'app only, collects fully anonymized browsing data '
+                        'with no cookies and no cross-site identifier. '
+                        'Vercel plays no part in the mobile app.',
+                  ),
+                  SizedBox(height: 12),
+                  _SubProcessorCard(
+                    name: 'Apple and Google',
+                    role: 'Mobile app distribution',
+                    location: 'United States and global regions',
+                    link: 'https://www.apple.com/legal/privacy/',
+                    detail:
+                        'The App Store and Google Play distribute the app '
+                        'and, under their own privacy policies, collect '
+                        'their own install, crash and usage statistics. We '
+                        'receive only aggregated reports from them and '
+                        'cannot identify you from those.',
+                  ),
+                  SizedBox(height: 16),
+                  LegalSubSection(
+                    title: 'Transfers outside the EU',
+                    children: [
+                      ListItem(
+                        'Your account, profile and training data stays in '
+                        'the European Union.',
+                      ),
+                      ListItem(
+                        "Vercel's CDN may serve the web app from a region "
+                        'outside the EU, and Apple and Google process '
+                        'distribution data outside the EU.',
+                      ),
+                      ListItem(
+                        'These transfers rely on the EU Standard '
+                        'Contractual Clauses and, for US recipients, on the '
+                        'EU–US Data Privacy Framework where the recipient '
+                        'is certified under it.',
+                      ),
+                    ],
                   ),
                 ],
               ),
 
-              _Section(
-                title: '5. Cookies and trackers',
+              LegalSection(
+                title: '7. Cookies and trackers',
                 children: [
-                  _NoteBox(
+                  NoteBox(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Repster does not use tracking cookies.',
+                          'Repster uses no tracking cookies and no '
+                          'advertising trackers, on any platform.',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -237,10 +420,28 @@ class PrivacyScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const _Rich(alpha: 0.6, [
-                          _Txt('The Vercel Analytics tool is '),
-                          _Emph('privacy-by-design'),
-                          _Txt(
+                        const Prose(
+                          'The mobile app sets no cookies at all. Your '
+                          'login session is kept in your device’s secure '
+                          'storage (see section 10), not in a cookie.',
+                          alpha: 0.6,
+                        ),
+                        const SizedBox(height: 8),
+                        const Prose(
+                          'On the web app, strictly necessary storage is '
+                          'used by Supabase Auth to keep you signed in. It '
+                          'cannot be disabled, because without it the '
+                          'service cannot work.',
+                          alpha: 0.6,
+                        ),
+                        const SizedBox(height: 8),
+                        const Rich(alpha: 0.6, [
+                          Txt(
+                            'Still on the web app, the Vercel Analytics '
+                            'tool is ',
+                          ),
+                          Emph('privacy-by-design'),
+                          Txt(
                             ': it sets no cookies, creates no '
                             'individual profile and performs no '
                             'cross-site tracking. The data collected '
@@ -248,63 +449,70 @@ class PrivacyScreen extends StatelessWidget {
                             'and cannot be used to identify you.',
                           ),
                         ]),
-                        const SizedBox(height: 8),
-                        const _Prose(
-                          'Strictly necessary session cookies '
-                          'are set by Supabase Auth to maintain your '
-                          'authentication. These cookies cannot be '
-                          'disabled because they are essential to the '
-                          'operation of the service.',
-                          alpha: 0.6,
-                        ),
                       ],
                     ),
                   ),
                 ],
               ),
 
-              const _Section(
-                title: '6. Retention period',
+              const LegalSection(
+                title: '8. Retention period',
                 children: [
-                  _InfoBlock(
+                  LegalInfoBlock(
                     rows: [
-                      _InfoRow(
-                        label: 'Account and training data',
+                      LegalInfoRow(
+                        label: 'Account, profile and training data',
                         value: 'Until account deletion',
                       ),
-                      _InfoRow(
-                        label: 'Authentication logs',
-                        value: '90 rolling days',
+                      LegalInfoRow(
+                        label: 'Profile picture',
+                        value: 'Until you replace it or delete your account',
                       ),
-                      _InfoRow(
-                        label: 'Anonymized analytics data',
+                      LegalInfoRow(
+                        label: 'Support messages',
+                        value: '3 years after the last exchange',
+                      ),
+                      LegalInfoRow(
+                        label: 'Authentication logs',
+                        value: '12 months maximum',
+                      ),
+                      LegalInfoRow(
+                        label: 'Anonymized analytics data (web)',
                         value: '13 months maximum',
                       ),
                     ],
                   ),
                   SizedBox(height: 12),
-                  _Rich([
-                    _Txt(
-                      'When your account is deleted, all of '
-                      'your personal data (account, profile, '
-                      'workouts) is permanently deleted within a '
+                  Rich([
+                    Txt(
+                      'When your account is deleted, your account, profile '
+                      'and training data is permanently deleted within a '
                       'maximum of ',
                     ),
-                    _Bold('30 days'),
-                    _Txt(
+                    Bold('30 days'),
+                    Txt(
                       '. Anonymized technical data (aggregated '
                       'logs) may be kept longer for '
                       'statistical purposes, but cannot be used to '
                       'identify you.',
                     ),
                   ]),
+                  SizedBox(height: 8),
+                  Prose(
+                    'One exception, and we would rather be plain about it: '
+                    'messages sent through the contact form are our record '
+                    'of the exchange, so they survive the deletion of your '
+                    'account. They are detached from it, but the name, '
+                    'email address and message body you wrote remain. Ask '
+                    'us and we will delete those too.',
+                  ),
                 ],
               ),
 
-              const _Section(
-                title: '7. Your rights',
+              const LegalSection(
+                title: '9. Your rights',
                 children: [
-                  _Prose(
+                  Prose(
                     'In accordance with the GDPR, you have the following '
                     'rights over your data:',
                   ),
@@ -312,36 +520,48 @@ class PrivacyScreen extends StatelessWidget {
                   _RightRow(
                     name: 'Right of access',
                     detail:
-                        'Obtain a copy of all the data '
-                        'we hold about you.',
+                        'Obtain a copy of all the data we hold about you. '
+                        'Email us and we send it to you.',
                   ),
                   SizedBox(height: 8),
                   _RightRow(
                     name: 'Right to rectification',
                     detail:
                         'Correct inaccurate information directly '
-                        'from your profile.',
+                        'from your profile, at any time.',
                   ),
                   SizedBox(height: 8),
                   _RightRow(
                     name: 'Right to erasure',
                     detail:
-                        'Permanently delete your account and all your '
-                        'data.',
+                        'Permanently delete your account and its data. '
+                        'There is no in-app button yet: send us the '
+                        'request by email and we handle it within 30 days. '
+                        'The account-deletion page details the procedure.',
                   ),
                   SizedBox(height: 8),
                   _RightRow(
                     name: 'Right to portability',
                     detail:
-                        'Receive your data in a structured, '
-                        'readable format (JSON/CSV).',
+                        'Receive your data in a structured, readable '
+                        'format (JSON). This is handled manually on '
+                        'request — there is no self-service export yet.',
+                  ),
+                  SizedBox(height: 8),
+                  _RightRow(
+                    name: 'Right to withdraw consent',
+                    detail:
+                        'Clear your body height, body weight or date of '
+                        'birth from your profile whenever you want. '
+                        'Withdrawal does not affect processing already '
+                        'carried out.',
                   ),
                   SizedBox(height: 8),
                   _RightRow(
                     name: 'Right to object',
                     detail:
-                        'Object to processing based on our '
-                        'legitimate interest (analytics).',
+                        'Object to processing based on our legitimate '
+                        'interest — web analytics and support history.',
                   ),
                   SizedBox(height: 8),
                   _RightRow(
@@ -351,75 +571,108 @@ class PrivacyScreen extends StatelessWidget {
                         'processing of your data.',
                   ),
                   SizedBox(height: 16),
-                  _NoteBox(
+                  NoteBox(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _Rich(alpha: 0.6, [
-                          _Txt('To exercise these rights, contact us at '),
-                          _Link(
-                            'admin@aevon.studio',
-                            'mailto:admin@aevon.studio',
+                        Rich(alpha: 0.6, [
+                          Txt('To exercise these rights, contact us at '),
+                          Link(_contactEmail, 'mailto:$_contactEmail'),
+                          Txt('. We will respond within '),
+                          Bold('one month'),
+                          Txt(
+                            ', extendable by two further months if the '
+                            'request is complex — in which case we will '
+                            'tell you why within that first month '
+                            '(Art. 12(3) GDPR).',
                           ),
-                          _Txt('. We will respond within a maximum of '),
-                          _Bold('30 days'),
-                          _Txt('.'),
                         ]),
                         SizedBox(height: 8),
-                        _Rich(alpha: 0.6, [
-                          _Txt(
+                        Rich(alpha: 0.6, [
+                          Txt(
                             'You also have the right to lodge a '
                             'complaint with your local data protection '
                             'authority (in France, the ',
                           ),
-                          _Bold('CNIL'),
-                          _Txt(
+                          Bold('CNIL'),
+                          Txt(
                             ', the Commission Nationale de '
                             "l'Informatique et des Libertés): ",
                           ),
-                          _Link('www.cnil.fr', 'https://www.cnil.fr'),
+                          Link('www.cnil.fr', 'https://www.cnil.fr'),
                         ]),
                       ],
                     ),
                   ),
+                  SizedBox(height: 12),
+                  Prose(
+                    'Two commitments while we are here. We never sell your '
+                    'data and never share it with third parties for '
+                    'advertising. And we take no automated decision '
+                    'producing legal effects about you, nor do we profile '
+                    'you in the sense of Art. 22 GDPR.',
+                  ),
                 ],
               ),
 
-              const _Section(
-                title: '8. Security',
+              const LegalSection(
+                title: '10. Security',
                 children: [
-                  _Prose(
+                  Prose(
                     'We implement appropriate technical and '
                     'organizational measures to protect your data:',
                   ),
                   SizedBox(height: 12),
-                  _ListItem.rich([
-                    _Txt('Encryption of communications via '),
-                    _Bold('HTTPS/TLS'),
+                  ListItem.rich([
+                    Txt('Encryption of communications via '),
+                    Bold('HTTPS/TLS'),
                   ]),
-                  _ListItem.rich([
-                    _Txt('Passwords encrypted with '),
-                    _Bold('bcrypt'),
-                    _Txt(' — never stored in plain text'),
+                  ListItem.rich([
+                    Txt('Passwords hashed and salted with '),
+                    Bold('bcrypt'),
+                    Txt(' by Supabase Auth — never stored in plain text'),
                   ]),
-                  _ListItem.rich([
-                    _Bold('Row Level Security (RLS)'),
-                    _Txt(
-                      ' enabled on all tables — you can only access '
-                      'your own data',
+                  ListItem.rich([
+                    Bold('Row Level Security (RLS)'),
+                    Txt(
+                      ' enabled on every table holding your data — you can '
+                      'only access your own rows',
                     ),
                   ]),
-                  _ListItem(
+                  ListItem(
                     'Database access restricted to authorized services '
                     'only',
                   ),
-                  _ListItem.rich([
-                    _Txt('Sessions authenticated with '),
-                    _Bold('JWT'),
-                    _Txt(' with automatic expiration'),
+                  ListItem.rich([
+                    Txt('Sessions authenticated with '),
+                    Bold('JWT'),
+                    Txt(' with automatic expiration'),
                   ]),
+                  ListItem.rich([
+                    Txt(
+                      'On mobile, your login session is stored encrypted '
+                      'on the device itself — ',
+                    ),
+                    Bold('iOS Keychain'),
+                    Txt(' and '),
+                    Bold('Android Keystore'),
+                  ]),
+                  SizedBox(height: 16),
+                  NoteBox(
+                    child: Rich(alpha: 0.6, [
+                      Bold('One deliberate exception: your avatar.'),
+                      Txt(
+                        ' So that it can be displayed quickly across the '
+                        'app, your profile picture is served from a public '
+                        'storage URL. Anyone who knows or guesses that URL '
+                        'can view the image, without being signed in. '
+                        'Please do not upload a picture you would not want '
+                        'to be publicly reachable.',
+                      ),
+                    ]),
+                  ),
                   SizedBox(height: 12),
-                  _ItalicNote(
+                  ItalicNote(
                     'No system is infallible. In the event of a '
                     'data breach likely to affect your '
                     'rights, we undertake to inform you '
@@ -429,40 +682,35 @@ class PrivacyScreen extends StatelessWidget {
                 ],
               ),
 
-              const _Section(
-                title: '9. Minors',
+              const LegalSection(
+                title: '11. Minors',
                 children: [
-                  _Rich([
-                    _Txt('Repster is intended for users aged '),
-                    _Bold('16 and over'),
-                    _Txt(
+                  Rich([
+                    Txt('Repster is intended for users aged '),
+                    Bold('16 and over'),
+                    Txt(
                       '. We do not knowingly collect personal '
                       'data from minors under 16. If you '
                       'believe a minor has created an account, contact '
                       'us at ',
                     ),
-                    _Link('admin@aevon.studio', 'mailto:admin@aevon.studio'),
-                    _Txt(' so that we can delete the account.'),
+                    Link(_contactEmail, 'mailto:$_contactEmail'),
+                    Txt(' so that we can delete the account.'),
                   ]),
                 ],
               ),
 
-              const _Section(
-                title: '10. Changes to this policy',
+              const LegalSection(
+                title: '12. Changes to this policy',
                 children: [
-                  _Rich([
-                    _Txt(
-                      'We reserve the right to update this '
-                      'privacy policy. In the event of a substantial '
-                      'change affecting your rights, you will be '
-                      'notified by email or by an in-app '
-                      'notification at least ',
-                    ),
-                    _Bold('14 days before the changes take effect'),
-                    _Txt('.'),
-                  ]),
+                  Prose(
+                    'We reserve the right to update this privacy policy. '
+                    'In the event of a substantial change affecting your '
+                    'rights, we will inform you by email or by an in-app '
+                    'notice before the change takes effect.',
+                  ),
                   SizedBox(height: 8),
-                  _Prose(
+                  Prose(
                     'The “Last updated” date at the top of this '
                     'page indicates the version in force. Continued '
                     'use of Repster after this date constitutes acceptance '
@@ -471,470 +719,40 @@ class PrivacyScreen extends StatelessWidget {
                 ],
               ),
 
-              const _Section(
-                title: '11. Contact',
+              const LegalSection(
+                title: '13. Contact',
                 children: [
-                  _InfoBlock(
+                  LegalInfoBlock(
                     rows: [
-                      _InfoRow(
-                        label: 'Data protection officer',
+                      LegalInfoRow(
+                        label: 'Data protection contact',
                         value: 'Aëvon',
                       ),
-                      _InfoRow(
+                      LegalInfoRow(
                         label: 'Email',
-                        value: 'admin@aevon.studio',
-                        href: 'mailto:admin@aevon.studio',
+                        value: _contactEmail,
+                        href: 'mailto:$_contactEmail',
                       ),
                     ],
                   ),
                   SizedBox(height: 12),
-                  _Rich([
-                    _Txt(
+                  Rich([
+                    Txt(
                       'For any question relating to this policy or to '
                       'your personal data, please do not hesitate to '
                       'contact us. We undertake to respond within ',
                     ),
-                    _Bold('30 business days'),
-                    _Txt('.'),
+                    Bold('one month'),
+                    Txt('.'),
                   ]),
                 ],
               ),
 
               const SizedBox(height: 8),
-              const _Footer(lastUpdated: _lastUpdated),
+              const LegalFooter(lastUpdated: _lastUpdated),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _NavBar extends StatelessWidget {
-  const _NavBar({required this.onBack});
-
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: _NavButton(icon: LucideIcons.chevronLeft, onTap: onBack),
-    );
-  }
-}
-
-class _NavButton extends StatelessWidget {
-  const _NavButton({required this.icon, required this.onTap});
-
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.controlSm),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.controlSm),
-        onTap: onTap,
-        child: Container(
-          width: 38,
-          height: 38,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: onSurface.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(AppRadius.controlSm),
-            border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-          ),
-          child: Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.6)),
-        ),
-      ),
-    );
-  }
-}
-
-Future<void> _openUrl(String url) async {
-  final uri = Uri.parse(url);
-  try {
-    final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
-    if (!ok) log.w("Impossible d'ouvrir le lien : $url");
-  } on Object catch (e, st) {
-    log.e('Échec ouverture lien : $url', error: e, stackTrace: st);
-  }
-}
-
-/// Inline fragment of a rich paragraph, decoupled from its Flutter rendering
-/// (handled by [_Rich]).
-sealed class _Frag {
-  const _Frag();
-}
-
-/// Plain text; inherits the paragraph's base style.
-class _Txt extends _Frag {
-  const _Txt(this.text);
-  final String text;
-}
-
-/// Bold accent. Default is an 80% tint; with [full] set to `true` it uses the
-/// full tint.
-class _Bold extends _Frag {
-  const _Bold(this.text, {this.full = false});
-  final String text;
-  final bool full;
-}
-
-/// Tint emphasis without bold weight.
-class _Emph extends _Frag {
-  const _Emph(this.text);
-  final String text;
-}
-
-/// Tappable link, colored `primary` and underlined.
-class _Link extends _Frag {
-  const _Link(this.label, this.url);
-  final String label;
-  final String url;
-}
-
-/// Intro card: "Last updated" label, date, and GDPR preamble.
-class _IntroCard extends StatelessWidget {
-  const _IntroCard({required this.lastUpdated});
-
-  final String lastUpdated;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Container(
-      decoration: scheme.translucentCard,
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Last updated', style: _kickerStyle(context, 0.35)),
-          const SizedBox(height: 12),
-          Text(
-            lastUpdated,
-            style: TextStyle(
-              fontSize: 14,
-              color: scheme.onSurface.withValues(alpha: 0.55),
-            ),
-          ),
-          const SizedBox(height: 12),
-          const _Rich(alpha: 0.7, [
-            _Txt('At '),
-            _Bold('Aëvon', full: true),
-            _Txt(
-              ', we take the protection of your '
-              'personal data very seriously. This privacy policy '
-              'explains what data we collect in the ',
-            ),
-            _Bold('Repster', full: true),
-            _Txt(
-              ' app, how we use it, and what rights you have over '
-              'it, in accordance with the GDPR.',
-            ),
-          ]),
-        ],
-      ),
-    );
-  }
-}
-
-/// Section: spaced uppercase label plus a translucent card holding the body.
-class _Section extends StatelessWidget {
-  const _Section({required this.title, required this.children});
-
-  final String title;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 28),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: _kickerStyle(context, 0.5)),
-          const SizedBox(height: 12),
-          Container(
-            width: double.infinity,
-            decoration: scheme.translucentCard,
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: children,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Sub-section: secondary title, list, and optional italic note.
-class _SubSection extends StatelessWidget {
-  const _SubSection({required this.title, required this.children, this.note});
-
-  final String title;
-  final List<Widget> children;
-  final String? note;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title.toUpperCase(),
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.6,
-            color: scheme.onSurface.withValues(alpha: 0.6),
-          ),
-        ),
-        const SizedBox(height: 8),
-        ...children,
-        if (note != null) ...[
-          const SizedBox(height: 8),
-          _ItalicNote(note!, alpha: 0.45),
-        ],
-      ],
-    );
-  }
-}
-
-/// Plain paragraph, without rich fragments.
-class _Prose extends StatelessWidget {
-  const _Prose(this.text, {this.alpha = 0.65});
-
-  final String text;
-  final double alpha;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: 13,
-        height: 1.55,
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: alpha),
-      ),
-    );
-  }
-}
-
-/// Rich paragraph (bold, emphasis, links). Manages the lifecycle of the links'
-/// [TapGestureRecognizer]s.
-class _Rich extends StatefulWidget {
-  const _Rich(this.frags, {this.alpha = 0.65});
-
-  final List<_Frag> frags;
-  final double alpha;
-
-  @override
-  State<_Rich> createState() => _RichState();
-}
-
-class _RichState extends State<_Rich> {
-  /// One recognizer per link, created once (fragments are fixed).
-  late final Map<_Link, TapGestureRecognizer> _recognizers = {
-    for (final frag in widget.frags)
-      if (frag is _Link)
-        frag: (TapGestureRecognizer()..onTap = () => _openUrl(frag.url)),
-  };
-
-  @override
-  void dispose() {
-    for (final r in _recognizers.values) {
-      r.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final baseColor = scheme.onSurface.withValues(alpha: widget.alpha);
-
-    final spans = <InlineSpan>[];
-    for (final frag in widget.frags) {
-      switch (frag) {
-        case _Txt(:final text):
-          spans.add(TextSpan(text: text));
-        case _Bold(:final text, :final full):
-          spans.add(
-            TextSpan(
-              text: text,
-              style: TextStyle(
-                color: full
-                    ? scheme.onSurface
-                    : scheme.onSurface.withValues(alpha: 0.8),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          );
-        case _Emph(:final text):
-          spans.add(
-            TextSpan(
-              text: text,
-              style: TextStyle(color: scheme.onSurface.withValues(alpha: 0.8)),
-            ),
-          );
-        case _Link(:final label):
-          spans.add(
-            TextSpan(
-              text: label,
-              style: TextStyle(
-                color: scheme.primary,
-                decoration: TextDecoration.underline,
-                decorationColor: scheme.primary,
-              ),
-              recognizer: _recognizers[frag],
-            ),
-          );
-      }
-    }
-
-    return Text.rich(
-      TextSpan(children: spans),
-      style: TextStyle(fontSize: 13, height: 1.55, color: baseColor),
-    );
-  }
-}
-
-/// List bullet: `primary` dot plus text (plain or rich).
-class _ListItem extends StatelessWidget {
-  const _ListItem(String text) : _text = text, _frags = null;
-
-  const _ListItem.rich(List<_Frag> frags) : _text = null, _frags = frags;
-
-  final String? _text;
-  final List<_Frag>? _frags;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final frags = _frags;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 7),
-            child: Container(
-              width: 4,
-              height: 4,
-              decoration: BoxDecoration(
-                color: scheme.primary.withValues(alpha: 0.6),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(child: frags != null ? _Rich(frags) : _Prose(_text!)),
-        ],
-      ),
-    );
-  }
-}
-
-/// Bordered info block with zebra-striped rows.
-class _InfoBlock extends StatelessWidget {
-  const _InfoBlock({required this.rows});
-
-  final List<_InfoRow> rows;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppRadius.control),
-        border: Border.all(color: scheme.onSurface.withValues(alpha: 0.06)),
-      ),
-      child: Column(
-        children: [
-          for (var i = 0; i < rows.length; i++)
-            rows[i]._build(
-              context,
-              odd: i.isEven, // first row striped (CSS :nth-child odd)
-              last: i == rows.length - 1,
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Row of an [_InfoBlock]: muted label plus value (text or link).
-class _InfoRow {
-  const _InfoRow({required this.label, required this.value, this.href});
-
-  final String label;
-  final String value;
-  final String? href;
-
-  Widget _build(BuildContext context, {required bool odd, required bool last}) {
-    final scheme = Theme.of(context).colorScheme;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: odd ? scheme.onSurface.withValues(alpha: 0.02) : null,
-        border: last
-            ? null
-            : Border(
-                bottom: BorderSide(
-                  color: scheme.onSurface.withValues(alpha: 0.05),
-                ),
-              ),
-      ),
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: 12,
-        runSpacing: 2,
-        children: [
-          SizedBox(
-            width: 120,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: scheme.onSurface.withValues(alpha: 0.4),
-              ),
-            ),
-          ),
-          if (href != null)
-            GestureDetector(
-              onTap: () => _openUrl(href!),
-              child: Text(
-                value,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: scheme.primary,
-                  decoration: TextDecoration.underline,
-                  decorationColor: scheme.primary,
-                ),
-              ),
-            )
-          else
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 13,
-                color: scheme.onSurface.withValues(alpha: 0.75),
-              ),
-            ),
-        ],
       ),
     );
   }
@@ -998,7 +816,7 @@ class _SubProcessorCard extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               GestureDetector(
-                onTap: () => _openUrl(link),
+                onTap: () => openLegalUrl(link),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 2),
                   child: Text(
@@ -1172,115 +990,3 @@ class _RightRow extends StatelessWidget {
     );
   }
 }
-
-/// Subtle inset box for highlighted blocks (cookies, exercising rights).
-class _NoteBox extends StatelessWidget {
-  const _NoteBox({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: scheme.onSurface.withValues(alpha: 0.03),
-        borderRadius: BorderRadius.circular(AppRadius.control),
-        border: Border.all(color: scheme.onSurface.withValues(alpha: 0.06)),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: child,
-    );
-  }
-}
-
-/// Subtle banner (in the user's language) noting the legal document exists only
-/// in English. Shown only outside the EN locale.
-class _EnglishOnlyNote extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: scheme.onSurface.withValues(alpha: 0.03),
-        borderRadius: BorderRadius.circular(AppRadius.control),
-        border: Border.all(color: scheme.onSurface.withValues(alpha: 0.06)),
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            LucideIcons.info,
-            size: 15,
-            color: scheme.onSurface.withValues(alpha: 0.4),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              t.legal.onlyInEnglish,
-              style: TextStyle(
-                fontSize: 12,
-                height: 1.5,
-                color: scheme.onSurface.withValues(alpha: 0.55),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Italic note in a muted tint.
-class _ItalicNote extends StatelessWidget {
-  const _ItalicNote(this.text, {this.alpha = 0.4});
-
-  final String text;
-  final double alpha;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: 12,
-        height: 1.5,
-        fontStyle: FontStyle.italic,
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: alpha),
-      ),
-    );
-  }
-}
-
-/// Centered, very subtle footer.
-class _Footer extends StatelessWidget {
-  const _Footer({required this.lastUpdated});
-
-  final String lastUpdated;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Repster · Aëvon · $lastUpdated',
-        style: TextStyle(
-          fontSize: 10,
-          color: Theme.of(
-            context,
-          ).colorScheme.onSurface.withValues(alpha: 0.15),
-        ),
-      ),
-    );
-  }
-}
-
-/// Spaced uppercase label (section / intro kicker).
-TextStyle _kickerStyle(BuildContext context, double alpha) => TextStyle(
-  fontSize: 11,
-  fontWeight: FontWeight.w600,
-  letterSpacing: 1.8,
-  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: alpha),
-);

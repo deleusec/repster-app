@@ -19,7 +19,8 @@
     "passwordHint": "Passwort (mind. 8 Zeichen)",
     "submit": "Mein Konto erstellen",
     "submitLoading": "Wird erstellt…",
-    "terms": "Mit der Erstellung eines Kontos akzeptierst du unsere Nutzungsbedingungen."
+    "termsPrefix": "Mit der Erstellung eines Kontos akzeptierst du unsere ",
+    "termsLink": "Nutzungsbedingungen"
   },
   "onboarding": {
     "step1Title": "Wie heißt\ndu?",

@@ -568,8 +568,11 @@ class Translations$auth$signup$en {
 	/// en: 'Creating…'
 	String get submitLoading => 'Creating…';
 
-	/// en: 'By creating an account, you accept our terms of use.'
-	String get terms => 'By creating an account, you accept our terms of use.';
+	/// en: 'By creating an account, you accept our '
+	String get termsPrefix => 'By creating an account, you accept our ';
+
+	/// en: 'terms of use'
+	String get termsLink => 'terms of use';
 }
 
 // Path: auth.onboarding
@@ -2014,6 +2017,9 @@ class Translations$settings$rows$en {
 	/// en: 'Privacy'
 	String get privacy => 'Privacy';
 
+	/// en: 'Terms of use'
+	String get terms => 'Terms of use';
+
 	/// en: 'Contact & Feedback'
 	String get contact => 'Contact & Feedback';
 
@@ -2844,7 +2850,8 @@ extension on Translations {
 			'auth.signup.passwordHint' => 'Password (8 char. min.)',
 			'auth.signup.submit' => 'Create my account',
 			'auth.signup.submitLoading' => 'Creating…',
-			'auth.signup.terms' => 'By creating an account, you accept our terms of use.',
+			'auth.signup.termsPrefix' => 'By creating an account, you accept our ',
+			'auth.signup.termsLink' => 'terms of use',
 			'auth.onboarding.step1Title' => 'What\'s your\nname?',
 			'auth.onboarding.step1Subtitle' => 'To personalize your experience.',
 			'auth.onboarding.nameHint' => 'Your first name',
@@ -3252,6 +3259,7 @@ extension on Translations {
 			'settings.rows.stats' => 'Statistics',
 			'settings.rows.notifications' => 'Notifications',
 			'settings.rows.privacy' => 'Privacy',
+			'settings.rows.terms' => 'Terms of use',
 			'settings.rows.contact' => 'Contact & Feedback',
 			'settings.rows.language' => 'Language',
 			'settings.rows.changePassword' => 'Change my password',
@@ -3339,10 +3347,10 @@ extension on Translations {
 			'templates.card.deleteShort' => 'Delete',
 			'templates.card.activate' => 'Activate',
 			'templates.card.deactivate' => 'Deactivate',
-			'templates.detail.title' => 'Template',
-			'templates.detail.noExercises' => 'No exercises in this template.',
 			_ => null,
 		} ?? switch (path) {
+			'templates.detail.title' => 'Template',
+			'templates.detail.noExercises' => 'No exercises in this template.',
 			'templates.detail.superset' => 'Superset',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} set', other: '${n} sets', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',

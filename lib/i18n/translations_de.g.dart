@@ -393,7 +393,8 @@ class _Translations$auth$signup$de extends Translations$auth$signup$en {
 	@override String get passwordHint => 'Passwort (mind. 8 Zeichen)';
 	@override String get submit => 'Mein Konto erstellen';
 	@override String get submitLoading => 'Wird erstellt…';
-	@override String get terms => 'Mit der Erstellung eines Kontos akzeptierst du unsere Nutzungsbedingungen.';
+	@override String get termsPrefix => 'Mit der Erstellung eines Kontos akzeptierst du unsere ';
+	@override String get termsLink => 'Nutzungsbedingungen';
 }
 
 // Path: auth.onboarding
@@ -1226,6 +1227,7 @@ class _Translations$settings$rows$de extends Translations$settings$rows$en {
 	@override String get stats => 'Statistiken';
 	@override String get notifications => 'Benachrichtigungen';
 	@override String get privacy => 'Datenschutz';
+	@override String get terms => 'Nutzungsbedingungen';
 	@override String get contact => 'Kontakt & Feedback';
 	@override String get language => 'Sprache';
 	@override String get changePassword => 'Passwort ändern';
@@ -1714,7 +1716,8 @@ extension on TranslationsDe {
 			'auth.signup.passwordHint' => 'Passwort (mind. 8 Zeichen)',
 			'auth.signup.submit' => 'Mein Konto erstellen',
 			'auth.signup.submitLoading' => 'Wird erstellt…',
-			'auth.signup.terms' => 'Mit der Erstellung eines Kontos akzeptierst du unsere Nutzungsbedingungen.',
+			'auth.signup.termsPrefix' => 'Mit der Erstellung eines Kontos akzeptierst du unsere ',
+			'auth.signup.termsLink' => 'Nutzungsbedingungen',
 			'auth.onboarding.step1Title' => 'Wie heißt\ndu?',
 			'auth.onboarding.step1Subtitle' => 'Um dein Erlebnis zu personalisieren.',
 			'auth.onboarding.nameHint' => 'Dein Vorname',
@@ -2121,6 +2124,7 @@ extension on TranslationsDe {
 			'settings.rows.stats' => 'Statistiken',
 			'settings.rows.notifications' => 'Benachrichtigungen',
 			'settings.rows.privacy' => 'Datenschutz',
+			'settings.rows.terms' => 'Nutzungsbedingungen',
 			'settings.rows.contact' => 'Kontakt & Feedback',
 			'settings.rows.language' => 'Sprache',
 			'settings.rows.changePassword' => 'Passwort ändern',
@@ -2209,10 +2213,10 @@ extension on TranslationsDe {
 			'templates.card.activate' => 'Aktivieren',
 			'templates.card.deactivate' => 'Deaktivieren',
 			'templates.detail.title' => 'Vorlage',
-			'templates.detail.noExercises' => 'Keine Übungen in dieser Vorlage.',
-			'templates.detail.superset' => 'Supersatz',
 			_ => null,
 		} ?? switch (path) {
+			'templates.detail.noExercises' => 'Keine Übungen in dieser Vorlage.',
+			'templates.detail.superset' => 'Supersatz',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} Satz', other: '${n} Sätze', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',

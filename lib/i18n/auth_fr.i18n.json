@@ -19,7 +19,8 @@
     "passwordHint": "Mot de passe (8 car. min.)",
     "submit": "Créer mon compte",
     "submitLoading": "Création…",
-    "terms": "En créant un compte, tu acceptes nos conditions d’utilisation."
+    "termsPrefix": "En créant un compte, tu acceptes nos ",
+    "termsLink": "conditions d’utilisation"
   },
   "onboarding": {
     "step1Title": "Comment tu\nt’appelles ?",

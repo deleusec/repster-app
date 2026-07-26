@@ -393,7 +393,8 @@ class _Translations$auth$signup$it extends Translations$auth$signup$en {
 	@override String get passwordHint => 'Password (min. 8 car.)';
 	@override String get submit => 'Crea il mio account';
 	@override String get submitLoading => 'Creazione…';
-	@override String get terms => 'Creando un account, accetti le nostre condizioni d\'uso.';
+	@override String get termsPrefix => 'Creando un account, accetti le nostre ';
+	@override String get termsLink => 'condizioni d\'uso';
 }
 
 // Path: auth.onboarding
@@ -1226,6 +1227,7 @@ class _Translations$settings$rows$it extends Translations$settings$rows$en {
 	@override String get stats => 'Statistiche';
 	@override String get notifications => 'Notifiche';
 	@override String get privacy => 'Privacy';
+	@override String get terms => 'Condizioni d\'uso';
 	@override String get contact => 'Contatti e feedback';
 	@override String get language => 'Lingua';
 	@override String get changePassword => 'Cambia la mia password';
@@ -1714,7 +1716,8 @@ extension on TranslationsIt {
 			'auth.signup.passwordHint' => 'Password (min. 8 car.)',
 			'auth.signup.submit' => 'Crea il mio account',
 			'auth.signup.submitLoading' => 'Creazione…',
-			'auth.signup.terms' => 'Creando un account, accetti le nostre condizioni d\'uso.',
+			'auth.signup.termsPrefix' => 'Creando un account, accetti le nostre ',
+			'auth.signup.termsLink' => 'condizioni d\'uso',
 			'auth.onboarding.step1Title' => 'Come ti\nchiami?',
 			'auth.onboarding.step1Subtitle' => 'Per personalizzare la tua esperienza.',
 			'auth.onboarding.nameHint' => 'Il tuo nome',
@@ -2121,6 +2124,7 @@ extension on TranslationsIt {
 			'settings.rows.stats' => 'Statistiche',
 			'settings.rows.notifications' => 'Notifiche',
 			'settings.rows.privacy' => 'Privacy',
+			'settings.rows.terms' => 'Condizioni d\'uso',
 			'settings.rows.contact' => 'Contatti e feedback',
 			'settings.rows.language' => 'Lingua',
 			'settings.rows.changePassword' => 'Cambia la mia password',
@@ -2209,10 +2213,10 @@ extension on TranslationsIt {
 			'templates.card.activate' => 'Attiva',
 			'templates.card.deactivate' => 'Disattiva',
 			'templates.detail.title' => 'Modello',
-			'templates.detail.noExercises' => 'Nessun esercizio in questo modello.',
-			'templates.detail.superset' => 'Superserie',
 			_ => null,
 		} ?? switch (path) {
+			'templates.detail.noExercises' => 'Nessun esercizio in questo modello.',
+			'templates.detail.superset' => 'Superserie',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} serie', other: '${n} serie', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',

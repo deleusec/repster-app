@@ -19,7 +19,8 @@
     "passwordHint": "Contraseña (8 car. mín.)",
     "submit": "Crear mi cuenta",
     "submitLoading": "Creando…",
-    "terms": "Al crear una cuenta, aceptas nuestras condiciones de uso."
+    "termsPrefix": "Al crear una cuenta, aceptas nuestras ",
+    "termsLink": "condiciones de uso"
   },
   "onboarding": {
     "step1Title": "¿Cómo te\nllamas?",

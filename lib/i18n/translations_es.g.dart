@@ -393,7 +393,8 @@ class _Translations$auth$signup$es extends Translations$auth$signup$en {
 	@override String get passwordHint => 'Contraseña (8 car. mín.)';
 	@override String get submit => 'Crear mi cuenta';
 	@override String get submitLoading => 'Creando…';
-	@override String get terms => 'Al crear una cuenta, aceptas nuestras condiciones de uso.';
+	@override String get termsPrefix => 'Al crear una cuenta, aceptas nuestras ';
+	@override String get termsLink => 'condiciones de uso';
 }
 
 // Path: auth.onboarding
@@ -1226,6 +1227,7 @@ class _Translations$settings$rows$es extends Translations$settings$rows$en {
 	@override String get stats => 'Estadísticas';
 	@override String get notifications => 'Notificaciones';
 	@override String get privacy => 'Privacidad';
+	@override String get terms => 'Condiciones de uso';
 	@override String get contact => 'Contacto y comentarios';
 	@override String get language => 'Idioma';
 	@override String get changePassword => 'Cambiar mi contraseña';
@@ -1714,7 +1716,8 @@ extension on TranslationsEs {
 			'auth.signup.passwordHint' => 'Contraseña (8 car. mín.)',
 			'auth.signup.submit' => 'Crear mi cuenta',
 			'auth.signup.submitLoading' => 'Creando…',
-			'auth.signup.terms' => 'Al crear una cuenta, aceptas nuestras condiciones de uso.',
+			'auth.signup.termsPrefix' => 'Al crear una cuenta, aceptas nuestras ',
+			'auth.signup.termsLink' => 'condiciones de uso',
 			'auth.onboarding.step1Title' => '¿Cómo te\nllamas?',
 			'auth.onboarding.step1Subtitle' => 'Para personalizar tu experiencia.',
 			'auth.onboarding.nameHint' => 'Tu nombre',
@@ -2121,6 +2124,7 @@ extension on TranslationsEs {
 			'settings.rows.stats' => 'Estadísticas',
 			'settings.rows.notifications' => 'Notificaciones',
 			'settings.rows.privacy' => 'Privacidad',
+			'settings.rows.terms' => 'Condiciones de uso',
 			'settings.rows.contact' => 'Contacto y comentarios',
 			'settings.rows.language' => 'Idioma',
 			'settings.rows.changePassword' => 'Cambiar mi contraseña',
@@ -2209,10 +2213,10 @@ extension on TranslationsEs {
 			'templates.card.activate' => 'Activar',
 			'templates.card.deactivate' => 'Desactivar',
 			'templates.detail.title' => 'Plantilla',
-			'templates.detail.noExercises' => 'No hay ejercicios en esta plantilla.',
-			'templates.detail.superset' => 'Superserie',
 			_ => null,
 		} ?? switch (path) {
+			'templates.detail.noExercises' => 'No hay ejercicios en esta plantilla.',
+			'templates.detail.superset' => 'Superserie',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} serie', other: '${n} series', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',

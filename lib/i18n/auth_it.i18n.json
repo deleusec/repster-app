@@ -19,7 +19,8 @@
     "passwordHint": "Password (min. 8 car.)",
     "submit": "Crea il mio account",
     "submitLoading": "Creazione…",
-    "terms": "Creando un account, accetti le nostre condizioni d'uso."
+    "termsPrefix": "Creando un account, accetti le nostre ",
+    "termsLink": "condizioni d'uso"
   },
   "onboarding": {
     "step1Title": "Come ti\nchiami?",

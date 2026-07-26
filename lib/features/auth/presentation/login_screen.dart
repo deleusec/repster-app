@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -211,16 +212,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           onPressed: _submitting ? null : _submit,
         ),
         const SizedBox(height: 16),
-        Center(
-          child: Text(
-            t.auth.signup.terms,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 11,
-              color: Colors.white.withValues(alpha: 0.20),
-            ),
-          ),
-        ),
+        const Center(child: _TermsNotice()),
       ],
     );
   }
@@ -256,4 +248,50 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           if (_passwordError != null) setState(() => _passwordError = null);
         },
       );
+}
+
+/// Sign-up disclaimer: the terms of use must be readable *before* the account
+/// exists, so the trailing words link to the (public) terms route.
+class _TermsNotice extends StatefulWidget {
+  const _TermsNotice();
+
+  @override
+  State<_TermsNotice> createState() => _TermsNoticeState();
+}
+
+class _TermsNoticeState extends State<_TermsNotice> {
+  late final TapGestureRecognizer _recognizer = TapGestureRecognizer()
+    ..onTap = () => context.push(Routes.terms);
+
+  @override
+  void dispose() {
+    _recognizer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(text: t.auth.signup.termsPrefix),
+          TextSpan(
+            text: t.auth.signup.termsLink,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.45),
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.white.withValues(alpha: 0.30),
+            ),
+            recognizer: _recognizer,
+          ),
+          const TextSpan(text: '.'),
+        ],
+      ),
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 11,
+        color: Colors.white.withValues(alpha: 0.20),
+      ),
+    );
+  }
 }

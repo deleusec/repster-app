@@ -19,7 +19,8 @@
     "passwordHint": "Password (8 char. min.)",
     "submit": "Create my account",
     "submitLoading": "Creating…",
-    "terms": "By creating an account, you accept our terms of use."
+    "termsPrefix": "By creating an account, you accept our ",
+    "termsLink": "terms of use"
   },
   "onboarding": {
     "step1Title": "What's your\nname?",

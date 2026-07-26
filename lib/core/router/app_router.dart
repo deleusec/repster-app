@@ -16,6 +16,7 @@ import 'package:repster/features/history/presentation/history_screen.dart';
 import 'package:repster/features/history/presentation/session_detail_screen.dart';
 import 'package:repster/features/legal/presentation/delete_account_screen.dart';
 import 'package:repster/features/legal/presentation/privacy_screen.dart';
+import 'package:repster/features/legal/presentation/terms_screen.dart';
 import 'package:repster/features/profile/presentation/profile_screen.dart';
 import 'package:repster/features/session/presentation/session_screen.dart';
 import 'package:repster/features/settings/presentation/settings_screen.dart';
@@ -40,6 +41,7 @@ const _publicAuthPaths = <String>{
 /// Play requires a public privacy policy URL.
 const _publicPaths = <String>{
   Routes.privacy,
+  Routes.terms,
   Routes.deleteAccount,
 };
 
@@ -120,6 +122,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: Routes.privacy,
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, _) => const PrivacyScreen(),
+      ),
+      GoRoute(
+        path: Routes.terms,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, _) => const TermsScreen(),
       ),
       GoRoute(
         path: Routes.deleteAccount,

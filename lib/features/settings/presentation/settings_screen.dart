@@ -110,6 +110,12 @@ class SettingsScreen extends ConsumerWidget {
                   onTap: () => context.push(Routes.privacy),
                 ),
                 _SettingsRow(
+                  icon: LucideIcons.scrollText,
+                  tint: AppColors.accentViolet,
+                  label: t.settings.rows.terms,
+                  onTap: () => context.push(Routes.terms),
+                ),
+                _SettingsRow(
                   icon: LucideIcons.mail,
                   tint: AppColors.accentOrange,
                   label: t.settings.rows.contact,

@@ -393,7 +393,8 @@ class _Translations$auth$signup$fr extends Translations$auth$signup$en {
 	@override String get passwordHint => 'Mot de passe (8 car. min.)';
 	@override String get submit => 'Créer mon compte';
 	@override String get submitLoading => 'Création…';
-	@override String get terms => 'En créant un compte, tu acceptes nos conditions d’utilisation.';
+	@override String get termsPrefix => 'En créant un compte, tu acceptes nos ';
+	@override String get termsLink => 'conditions d’utilisation';
 }
 
 // Path: auth.onboarding
@@ -1226,6 +1227,7 @@ class _Translations$settings$rows$fr extends Translations$settings$rows$en {
 	@override String get stats => 'Statistiques';
 	@override String get notifications => 'Notifications';
 	@override String get privacy => 'Confidentialité';
+	@override String get terms => 'Conditions d’utilisation';
 	@override String get contact => 'Contact & Feedback';
 	@override String get language => 'Langue';
 	@override String get changePassword => 'Changer mon mot de passe';
@@ -1714,7 +1716,8 @@ extension on TranslationsFr {
 			'auth.signup.passwordHint' => 'Mot de passe (8 car. min.)',
 			'auth.signup.submit' => 'Créer mon compte',
 			'auth.signup.submitLoading' => 'Création…',
-			'auth.signup.terms' => 'En créant un compte, tu acceptes nos conditions d’utilisation.',
+			'auth.signup.termsPrefix' => 'En créant un compte, tu acceptes nos ',
+			'auth.signup.termsLink' => 'conditions d’utilisation',
 			'auth.onboarding.step1Title' => 'Comment tu\nt’appelles ?',
 			'auth.onboarding.step1Subtitle' => 'Pour personnaliser ton expérience.',
 			'auth.onboarding.nameHint' => 'Ton prénom',
@@ -2121,6 +2124,7 @@ extension on TranslationsFr {
 			'settings.rows.stats' => 'Statistiques',
 			'settings.rows.notifications' => 'Notifications',
 			'settings.rows.privacy' => 'Confidentialité',
+			'settings.rows.terms' => 'Conditions d’utilisation',
 			'settings.rows.contact' => 'Contact & Feedback',
 			'settings.rows.language' => 'Langue',
 			'settings.rows.changePassword' => 'Changer mon mot de passe',
@@ -2209,10 +2213,10 @@ extension on TranslationsFr {
 			'templates.card.activate' => 'Activer',
 			'templates.card.deactivate' => 'Désactiver',
 			'templates.detail.title' => 'Template',
-			'templates.detail.noExercises' => 'Aucun exercice dans ce template.',
-			'templates.detail.superset' => 'Superset',
 			_ => null,
 		} ?? switch (path) {
+			'templates.detail.noExercises' => 'Aucun exercice dans ce template.',
+			'templates.detail.superset' => 'Superset',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} série', other: '${n} séries', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',

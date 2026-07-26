@@ -70,6 +70,7 @@ WorkoutExercise _ex(
   List<WorkoutSet>? sets,
   String? supersetGroupId,
   int? supersetPosition,
+  int? supersetSize,
   List<WorkoutVariant>? variants,
   int? activeVariantIndex,
 }) => WorkoutExercise(
@@ -81,6 +82,7 @@ WorkoutExercise _ex(
   sets: sets ?? [_set('$id-1')],
   supersetGroupId: supersetGroupId,
   supersetPosition: supersetPosition,
+  supersetSize: supersetSize,
   variants: variants,
   activeVariantIndex: activeVariantIndex,
 );
@@ -265,6 +267,81 @@ void main() {
       expect(s.isResting, isTrue);
       expect(s.restReturnTo, 0);
     });
+
+    // A block whose stored positions no longer start at 0 — what a snapshot
+    // written before block metadata was renormalized looks like, and what
+    // removeExercise used to leave behind.
+    test('a stale position does not make a mid-block set the last', () async {
+      final (c, ctl) = await _boot(
+        _session([
+          _ex('e2', 'B', supersetGroupId: 'g', supersetPosition: 1),
+          _ex('e3', 'C', supersetGroupId: 'g', supersetPosition: 2),
+        ]),
+      );
+      ctl.completeSet(0, 0);
+      final s = _state(c);
+      expect(s.isResting, isFalse, reason: 'B must chain to C, not rest');
+      expect(s.currentExerciseIndex, 1);
+    });
+
+    test('removeExercise renumbers the block it shrank', () async {
+      final (c, ctl) = await _boot(
+        _session([
+          _ex('e1', 'A', supersetGroupId: 'g', supersetPosition: 0),
+          _ex('e2', 'B', supersetGroupId: 'g', supersetPosition: 1),
+          _ex('e3', 'C', supersetGroupId: 'g', supersetPosition: 2),
+        ]),
+      );
+      ctl.removeExercise(0);
+      final left = _state(c).session!.exercises;
+      expect(left.map((e) => e.supersetPosition), [0, 1]);
+      expect(
+        left.map((e) => e.supersetSize),
+        [2, 2],
+        reason: 'a stale size persists a wrong superset_with_next',
+      );
+
+      // And the chaining that depends on it still works.
+      ctl.completeSet(0, 0);
+      expect(_state(c).isResting, isFalse);
+    });
+
+    test('a block down to one member is no longer a superset', () async {
+      final (c, ctl) = await _boot(
+        _session([
+          _ex('e1', 'A', supersetGroupId: 'g', supersetPosition: 0),
+          _ex('e2', 'B', supersetGroupId: 'g', supersetPosition: 1),
+          _ex('e3', 'Solo'),
+        ]),
+      );
+      ctl.removeExercise(0);
+      final left = _state(c).session!.exercises;
+      expect(left.first.supersetGroupId, isNull);
+      expect(left.first.supersetPosition, isNull);
+      expect(left.first.supersetSize, isNull);
+
+      // A lone exercise rests like any other.
+      ctl.completeSet(0, 0);
+      expect(_state(c).isResting, isTrue);
+    });
+
+    test('reorderExercise renumbers the block in list order', () async {
+      final (c, ctl) = await _boot(
+        _session([
+          _ex('e1', 'A', supersetGroupId: 'g', supersetPosition: 0),
+          _ex('e2', 'B', supersetGroupId: 'g', supersetPosition: 1),
+          _ex('e3', 'C', supersetGroupId: 'g', supersetPosition: 2),
+        ]),
+      );
+      ctl.reorderExercise(2, 0); // C moves to the front of the block
+      final left = _state(c).session!.exercises;
+      expect(left.map((e) => e.name), ['C', 'A', 'B']);
+      expect(
+        left.map((e) => e.supersetPosition),
+        [0, 1, 2],
+        reason: 'block order is the list order, not the old stored order',
+      );
+    });
   });
 
   group('exercises', () {
@@ -298,6 +375,17 @@ void main() {
       final s = _state(c);
       expect(s.session!.exercises.map((e) => e.name), ['A', 'C', 'B']);
     });
+
+    test('removeSet ignores an out-of-range index', () async {
+      final (c, ctl) = await _boot(
+        _session([
+          _ex('e1', 'A', sets: [_set('s1'), _set('s2')]),
+        ]),
+      );
+      // Every sibling mutation bounds-checks; this one used to RangeError.
+      expect(() => ctl.removeSet(0, 7), returnsNormally);
+      expect(_state(c).session!.exercises.first.sets, hasLength(2));
+    });
   });
 
   group('rest', () {
@@ -315,6 +403,28 @@ void main() {
       final s = _state(c);
       expect(s.isResting, isFalse);
       expect(s.currentExerciseIndex, 0);
+    });
+
+    test('skipRest persists the exercise it lands on', () async {
+      final repo = _FakeSessionsRepo();
+      final (c, ctl) = await _boot(
+        _session([
+          _ex('e1', 'A', supersetGroupId: 'g', supersetPosition: 0),
+          _ex('e2', 'B', supersetGroupId: 'g', supersetPosition: 1),
+        ]),
+        repo: repo,
+        currentExerciseIndex: 1,
+      );
+      ctl.completeSet(1, 0);
+      final before = _state(c).lastActivityAt;
+      ctl.skipRest();
+      // Leaving rest moves currentExerciseIndex; a resume that never learns
+      // about it reopens the session on the wrong exercise.
+      expect(
+        _state(c).lastActivityAt,
+        isNot(before),
+        reason: 'skipping a rest is an action: it must mark activity and sync',
+      );
     });
   });
 

@@ -212,18 +212,18 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     final newSession = session.copyWith(exercises: newExercises);
 
     if (ex.supersetGroupId != null) {
-      final blockIndices =
-          [
-            for (var i = 0; i < newExercises.length; i++)
-              if (newExercises[i].supersetGroupId == ex.supersetGroupId) i,
-          ]..sort(
-            (a, b) => (newExercises[a].supersetPosition ?? 0).compareTo(
-              newExercises[b].supersetPosition ?? 0,
-            ),
-          );
-      final posInBlock = ex.supersetPosition ?? 0;
+      // List order is the block order — it is what the user sees. Reading the
+      // rank off `supersetPosition` instead would trust a number that can be
+      // stale (a snapshot written before the block was renormalized), and a
+      // stale rank turns a mid-block exercise into the last one: rest instead
+      // of chaining.
+      final blockIndices = [
+        for (var i = 0; i < newExercises.length; i++)
+          if (newExercises[i].supersetGroupId == ex.supersetGroupId) i,
+      ];
+      final posInBlock = blockIndices.indexOf(exIdx);
 
-      if (posInBlock < blockIndices.length - 1) {
+      if (posInBlock >= 0 && posInBlock < blockIndices.length - 1) {
         // Mid-block: instant jump to the next exercise, no rest.
         state = state.copyWith(
           session: newSession,
@@ -288,6 +288,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     if (session == null) return;
     if (exIdx < 0 || exIdx >= session.exercises.length) return;
     final ex = session.exercises[exIdx];
+    if (setIdx < 0 || setIdx >= ex.sets.length) return;
     if (ex.sets.length <= 1) return;
     final newSets = [...ex.sets]..removeAt(setIdx);
     for (var i = 0; i < newSets.length; i++) {
@@ -349,7 +350,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       current++;
     }
     state = state.copyWith(
-      session: session.copyWith(exercises: list),
+      session: session.copyWith(exercises: _normalizeSupersets(list)),
       currentExerciseIndex: current,
     );
     _scheduleSync();
@@ -389,10 +390,49 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       current = current.clamp(0, next.length - 1);
     }
     state = state.copyWith(
-      session: session.copyWith(exercises: next),
+      session: session.copyWith(exercises: _normalizeSupersets(next)),
       currentExerciseIndex: current,
     );
     _scheduleSync();
+  }
+
+  /// Rewrites every superset block's metadata from the list itself: rank by
+  /// list order, size by member count.
+  ///
+  /// Removing or moving an exercise used to leave the block describing a shape
+  /// it no longer had — a rank pointing past the end, a size counting a member
+  /// that had gone. That stale size is also what `saveSession` persists as
+  /// `superset_with_next`, so history ended up showing a chaining that never
+  /// happened.
+  ///
+  /// A block left with a single member stops being a superset: it is an
+  /// ordinary exercise again, and rests like one.
+  List<WorkoutExercise> _normalizeSupersets(List<WorkoutExercise> exercises) {
+    final size = <String, int>{};
+    for (final ex in exercises) {
+      final group = ex.supersetGroupId;
+      if (group != null) size[group] = (size[group] ?? 0) + 1;
+    }
+    if (size.isEmpty) return exercises;
+
+    final rank = <String, int>{};
+    return [
+      for (final ex in exercises)
+        if (ex.supersetGroupId case final group?)
+          if (size[group]! < 2)
+            ex.copyWith(
+              supersetGroupId: null,
+              supersetPosition: null,
+              supersetSize: null,
+            )
+          else
+            ex.copyWith(
+              supersetPosition: rank[group] = (rank[group] ?? -1) + 1,
+              supersetSize: size[group],
+            )
+        else
+          ex,
+    ];
   }
 
   /// Edits an exercise's metadata for this session only (swap).
@@ -538,6 +578,12 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
 
   // ── Rest ───────────────────────────────────────────────────────────────────
 
+  /// Leaves rest, landing on the exercise the block wants next.
+  ///
+  /// Syncs like any other mutation: it moves `currentExerciseIndex`, and a
+  /// snapshot that never hears about it reopens the session on the exercise
+  /// the user had already left. Cutting a rest short is also a deliberate
+  /// action, so it counts as training time.
   void skipRest() {
     final target = state.restReturnTo;
     state = state.copyWith(
@@ -547,12 +593,14 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       restReturnTo: null,
       currentExerciseIndex: target ?? state.currentExerciseIndex,
     );
+    _scheduleSync();
   }
 
   void extendRest(int seconds) {
     if (!state.isResting) return;
     final next = (state.restTotalSeconds + seconds).clamp(0, 24 * 3600);
     state = state.copyWith(restTotalSeconds: next);
+    _scheduleSync();
   }
 
   // ── Finalization ───────────────────────────────────────────────────────────

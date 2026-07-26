@@ -8,6 +8,7 @@
   },
   "defaultName": "Athlète",
   "editProfile": "MODIFIER",
+  "profileUnavailable": "Profil indisponible",
   "rows": {
     "templates": "Mes templates",
     "history": "Historique des séances",

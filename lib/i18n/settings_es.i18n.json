@@ -8,6 +8,7 @@
   },
   "defaultName": "Atleta",
   "editProfile": "EDITAR",
+  "profileUnavailable": "Perfil no disponible",
   "rows": {
     "templates": "Mis plantillas",
     "history": "Historial de sesiones",

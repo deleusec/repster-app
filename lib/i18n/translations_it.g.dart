@@ -296,6 +296,7 @@ class _Translations$settings$it extends Translations$settings$en {
 	@override late final _Translations$settings$sections$it sections = _Translations$settings$sections$it._(_root);
 	@override String get defaultName => 'Atleta';
 	@override String get editProfile => 'MODIFICA';
+	@override String get profileUnavailable => 'Profilo non disponibile';
 	@override late final _Translations$settings$rows$it rows = _Translations$settings$rows$it._(_root);
 	@override String get soon => 'Presto';
 	@override String get soonToast => 'Presto disponibile';
@@ -2119,6 +2120,7 @@ extension on TranslationsIt {
 			'settings.sections.account' => 'Account',
 			'settings.defaultName' => 'Atleta',
 			'settings.editProfile' => 'MODIFICA',
+			'settings.profileUnavailable' => 'Profilo non disponibile',
 			'settings.rows.templates' => 'I miei modelli',
 			'settings.rows.history' => 'Cronologia sessioni',
 			'settings.rows.stats' => 'Statistiche',
@@ -2212,9 +2214,9 @@ extension on TranslationsIt {
 			'templates.card.deleteShort' => 'Elim.',
 			'templates.card.activate' => 'Attiva',
 			'templates.card.deactivate' => 'Disattiva',
-			'templates.detail.title' => 'Modello',
 			_ => null,
 		} ?? switch (path) {
+			'templates.detail.title' => 'Modello',
 			'templates.detail.noExercises' => 'Nessun esercizio in questo modello.',
 			'templates.detail.superset' => 'Superserie',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} serie', other: '${n} serie', ), 

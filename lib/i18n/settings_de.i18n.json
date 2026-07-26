@@ -8,6 +8,7 @@
   },
   "defaultName": "Athlet",
   "editProfile": "BEARBEITEN",
+  "profileUnavailable": "Profil nicht verfügbar",
   "rows": {
     "templates": "Meine Vorlagen",
     "history": "Trainingsverlauf",

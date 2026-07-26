@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import 'package:repster/core/error/humanize_error.dart';
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
@@ -27,7 +28,17 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authControllerProvider).valueOrNull;
+    final userState = ref.watch(authControllerProvider);
+    // Keep showing a stale user while a refresh is in flight — the card is
+    // identity, not live data, and blinking it out is worse than a second of
+    // staleness.
+    final user = userState.valueOrNull;
+    // Only surface the failure when it left nothing to show.
+    final userError = user == null ? userState.error : null;
+
+    // Best-effort on purpose: these two only decorate a row with a count. A
+    // row that navigates without its badge is a smaller loss than a settings
+    // screen that refuses to open because a count could not be fetched.
     final templateCount = ref
         .watch(templatesControllerProvider)
         .valueOrNull
@@ -52,6 +63,16 @@ class SettingsScreen extends ConsumerWidget {
               _ProfileCard(
                 user: user,
                 onTap: () => context.push(Routes.profile),
+              ),
+            ),
+            const SizedBox(height: 24),
+          ] else if (userError != null) ...[
+            stagger.wrap(SectionLabel(t.settings.sections.profile)),
+            const SizedBox(height: 12),
+            stagger.wrap(
+              _ProfileCardError(
+                error: userError,
+                onRetry: () => ref.invalidate(authControllerProvider),
               ),
             ),
             const SizedBox(height: 24),
@@ -143,6 +164,69 @@ class SettingsScreen extends ConsumerWidget {
           stagger.wrap(const _LogoutButton()),
           const SizedBox(height: 24),
           const _VersionFooter(),
+        ],
+      ),
+    );
+  }
+}
+
+/// Stands in for [_ProfileCard] when the user could not be loaded.
+///
+/// The screen deliberately does not gate on the user: sign-out, the language
+/// picker and the legal pages have to stay reachable precisely when auth is
+/// unhappy — an error page here could strand someone with a broken session.
+/// But a card that simply vanishes reads as "you are signed out", so the
+/// failure gets a row of its own instead of no row at all.
+class _ProfileCardError extends StatelessWidget {
+  const _ProfileCardError({required this.error, required this.onRetry});
+
+  final Object error;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      decoration: scheme.translucentCard,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          IconChip(
+            icon: LucideIcons.circleAlert,
+            color: scheme.error,
+            size: 38,
+            iconSize: 18,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.settings.profileUnavailable,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: scheme.onSurface.withValues(alpha: 0.85),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  humanizeAppError(error),
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 1.4,
+                    color: scheme.onSurface.withValues(alpha: 0.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: onRetry,
+            child: Text(t.common.actions.retry),
+          ),
         ],
       ),
     );

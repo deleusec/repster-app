@@ -423,6 +423,9 @@ class Translations$settings$en {
 	/// en: 'EDIT'
 	String get editProfile => 'EDIT';
 
+	/// en: 'Profile unavailable'
+	String get profileUnavailable => 'Profile unavailable';
+
 	late final Translations$settings$rows$en rows = Translations$settings$rows$en.internal(_root);
 
 	/// en: 'Soon'
@@ -3254,6 +3257,7 @@ extension on Translations {
 			'settings.sections.account' => 'Account',
 			'settings.defaultName' => 'Athlete',
 			'settings.editProfile' => 'EDIT',
+			'settings.profileUnavailable' => 'Profile unavailable',
 			'settings.rows.templates' => 'My templates',
 			'settings.rows.history' => 'Session history',
 			'settings.rows.stats' => 'Statistics',
@@ -3346,9 +3350,9 @@ extension on Translations {
 			'templates.card.copy' => 'Copy',
 			'templates.card.deleteShort' => 'Delete',
 			'templates.card.activate' => 'Activate',
-			'templates.card.deactivate' => 'Deactivate',
 			_ => null,
 		} ?? switch (path) {
+			'templates.card.deactivate' => 'Deactivate',
 			'templates.detail.title' => 'Template',
 			'templates.detail.noExercises' => 'No exercises in this template.',
 			'templates.detail.superset' => 'Superset',

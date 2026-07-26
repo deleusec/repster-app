@@ -54,4 +54,40 @@ void main() {
       expect(exerciseNameKey('   '), isEmpty);
     });
   });
+
+  group('groupByNameKey', () {
+    test('keeps distinct names apart, one group each', () {
+      final groups = groupByNameKey(['Squat', 'Bench Press', 'Deadlift']);
+      expect(groups.keys, ['Squat', 'Bench Press', 'Deadlift']);
+      expect(groups.values.every((aliases) => aliases.length == 1), isTrue);
+    });
+
+    test('folds casing variants onto the first name seen', () {
+      // The whole point: these two normalize identically, so inserting both
+      // would violate exercises_user_normalized_name_key.
+      final groups = groupByNameKey(['Machine Dips', 'Machine dips']);
+      expect(groups.keys, ['Machine Dips']);
+      expect(groups['Machine Dips'], ['Machine Dips', 'Machine dips']);
+    });
+
+    test('folds accents and stray whitespace too', () {
+      final groups = groupByNameKey([
+        'Développé couché',
+        'Developpe couche',
+        'Développé  couché ',
+      ]);
+      expect(groups, hasLength(1));
+      expect(groups.values.single, hasLength(3));
+    });
+
+    test('drops blank names rather than grouping them together', () {
+      final groups = groupByNameKey(['Squat', '   ', '']);
+      expect(groups.keys, ['Squat']);
+    });
+
+    test('is stable: the representative is the first occurrence', () {
+      final groups = groupByNameKey(['machine dips', 'Machine Dips']);
+      expect(groups.keys, ['machine dips']);
+    });
+  });
 }

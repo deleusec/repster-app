@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 // Re-exported so the existing callers keep a single import for exercise
 // identity, while `domain/` can depend on the pure key function alone.
 export 'package:repster/core/exercises/exercise_name_key.dart'
-    show exerciseNameKey;
+    show exerciseNameKey, groupByNameKey;
 
 /// Name → id lookup over the certified "Repster" catalog.
 ///
@@ -137,14 +137,24 @@ class ExerciseResolver {
     }
     if (toCreate.isEmpty) return resolved;
 
+    // `onConflict` targets the exact (user_id, name) index, so two spellings
+    // of one movement in this batch would not look like a conflict — but
+    // `exercises_user_normalized_name_key` sees one, and rejects the whole
+    // upsert. Insert one row per normalized name and point every spelling at
+    // it.
+    final groups = groupByNameKey(toCreate);
     final inserted = await _client
         .from('exercises')
         .upsert([
-          for (final name in toCreate) {'user_id': _userId, 'name': name},
+          for (final name in groups.keys) {'user_id': _userId, 'name': name},
         ], onConflict: 'user_id,name')
         .select('id, name');
     for (final row in inserted) {
-      resolved[row['name'] as String] = row['id'] as String;
+      final name = row['name'] as String;
+      final id = row['id'] as String;
+      for (final spelling in groups[name] ?? [name]) {
+        resolved[spelling] = id;
+      }
     }
     return resolved;
   }

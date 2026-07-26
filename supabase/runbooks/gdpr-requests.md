@@ -104,7 +104,47 @@ where id = '<uid>';
 
 ---
 
-## 6. Rétention automatique
+## 6. Formulaire de contact — notification
+
+Chaque insertion dans `contact_requests` déclenche `contact_request_notify`,
+qui poste la ligne à l'edge function `on-contact-request`, qui l'envoie par
+e-mail à `admin@aevon.studio`. Répondre au mail répond directement à la
+personne (`reply_to` porte son adresse).
+
+**La table reste la source de vérité.** Le mail est un confort : le trigger
+avale ses propres erreurs pour qu'une notification ratée ne fasse jamais
+échouer l'enregistrement d'un message. Un mail non reçu ne veut donc pas dire
+qu'il n'y a pas de message.
+
+Diagnostic quand rien n'arrive :
+
+```sql
+-- Le POST est-il parti, et qu'a répondu la fonction ?
+select status_code, error_msg, left(content, 200), created
+from net._http_response order by created desc limit 5;
+```
+
+Un résultat **vide** signifie que le POST n'est jamais parti (secrets Vault
+absents, ou erreur avalée par le garde-fou) — pas qu'il a réussi. Vérifier
+alors que les deux secrets existent :
+
+```sql
+select name from vault.decrypted_secrets
+where name in ('contact_hook_url', 'contact_hook_secret');
+```
+
+Un `500 not configured` signifie que la fonction est joignable mais qu'il lui
+manque `RESEND_API_KEY` ou `CONTACT_HOOK_SECRET` dans ses secrets
+(dashboard → Edge Functions → on-contact-request → Secrets).
+
+Et dans tous les cas, relire la boîte de temps en temps :
+
+```sql
+select created_at, name, email, category, message
+from contact_requests order by created_at desc limit 20;
+```
+
+## 7. Rétention automatique
 
 Les journaux d'authentification sont purgés à 12 mois par un job pg_cron
 hebdomadaire (`purge-auth-audit-logs`, dimanche 03:00 UTC). Pour le contrôler :

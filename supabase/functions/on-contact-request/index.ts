@@ -52,7 +52,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const hookSecret = Deno.env.get("CONTACT_HOOK_SECRET");
   const resendKey = Deno.env.get("RESEND_API_KEY");
   const to = Deno.env.get("CONTACT_INBOX") ?? "admin@aevon.studio";
-  const from = Deno.env.get("CONTACT_FROM") ?? "onboarding@resend.dev";
+  // Both defaults must stay on the verified domain: Resend only delivers mail
+  // from resend.dev to the account owner, so a test sender would silently
+  // narrow who can be notified.
+  const from = Deno.env.get("CONTACT_FROM") ?? "contact@aevon.studio";
 
   if (!hookSecret || !resendKey) {
     console.error("missing CONTACT_HOOK_SECRET or RESEND_API_KEY");

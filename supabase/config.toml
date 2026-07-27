@@ -378,6 +378,13 @@ deno_version = 2
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 
+# The caller is the `contact_request_notify` trigger, not a signed-in user, so
+# there is no JWT to verify — the function authenticates on a shared secret
+# instead. Declared here so a plain `functions deploy` cannot turn verification
+# back on and make every notification 401 silently.
+[functions.on-contact-request]
+verify_jwt = false
+
 [analytics]
 enabled = true
 port = 54327

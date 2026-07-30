@@ -15,6 +15,9 @@ class DashboardData with _$DashboardData {
     required List<Template> activeTemplates,
     required List<WorkoutSessionSummary> recentSessions,
     required Consistency consistency,
+
+    /// Next session in the program order. See `DashboardController`.
+    Template? suggestedTemplate,
     InProgressSessionInfo? inProgress,
   }) = _DashboardData;
 

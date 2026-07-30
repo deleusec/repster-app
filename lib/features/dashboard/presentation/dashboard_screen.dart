@@ -53,9 +53,6 @@ class _DashboardBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stats = WeeklyStats.fromSessions(data.recentSessions);
-    final suggested = data.activeTemplates.isNotEmpty
-        ? data.activeTemplates.first
-        : null;
     final recents = data.recentSessions
         .take(DashboardScreen._maxRecentSessions)
         .toList(growable: false);
@@ -88,7 +85,7 @@ class _DashboardBody extends ConsumerWidget {
         const SizedBox(height: 20),
         stagger.wrap(
           HeroCtaCard(
-            suggested: suggested,
+            suggested: data.suggestedTemplate,
             onStart: (t) => startTemplateSession(context, ref, t.id),
             onCreate: () => context.go(Routes.templateNew),
           ),

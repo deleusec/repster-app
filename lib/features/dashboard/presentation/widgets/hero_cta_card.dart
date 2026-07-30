@@ -21,7 +21,8 @@ class HeroCtaCard extends StatelessWidget {
     super.key,
   });
 
-  /// Template suggested for the next session (the first active template).
+  /// Template suggested for the next session (the one following the last
+  /// trained, in the program order).
   final Template? suggested;
   final ValueChanged<Template> onStart;
   final VoidCallback onCreate;

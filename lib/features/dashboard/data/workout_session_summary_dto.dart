@@ -37,6 +37,7 @@ class WorkoutSessionSummaryDto {
     return WorkoutSessionSummary(
       id: row['id'] as String,
       templateName: row['template_name'] as String? ?? '',
+      templateId: row['template_id'] as String?,
       startedAt: DateTime.parse(row['started_at'] as String),
       durationSeconds: (row['duration_seconds'] as int?) ?? 0,
       totalTonnageKg: tonnage,

@@ -57,7 +57,7 @@ class DashboardRepository {
       final rows = await _client
           .from('workout_sessions')
           .select('''
-id, template_name, started_at, completed_at, duration_seconds, tags,
+id, template_id, template_name, started_at, completed_at, duration_seconds, tags,
 session_exercises (
   is_time_based,
   session_sets (

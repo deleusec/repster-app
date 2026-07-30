@@ -6,6 +6,7 @@ import 'package:repster/features/dashboard/data/dashboard_repository.dart';
 import 'package:repster/features/dashboard/domain/consistency.dart';
 import 'package:repster/features/dashboard/domain/dashboard_data.dart';
 import 'package:repster/features/dashboard/domain/in_progress_session_info.dart';
+import 'package:repster/features/dashboard/domain/next_session.dart';
 import 'package:repster/features/session/data/sessions_repository.dart';
 import 'package:repster/features/templates/data/templates_repository.dart';
 
@@ -47,6 +48,7 @@ class DashboardController extends AsyncNotifier<DashboardData> {
       ),
       recentSessions: List.unmodifiable(sessions),
       consistency: Consistency.fromDates(dates),
+      suggestedTemplate: suggestNextTemplate(templates, sessions),
       inProgress: inProgress,
     );
   }

@@ -19,6 +19,10 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$WorkoutSessionSummary {
   String get id => throw _privateConstructorUsedError;
   String get templateName => throw _privateConstructorUsedError;
+
+  /// Template the session came from. Null once that template is deleted —
+  /// only [templateName] survives.
+  String? get templateId => throw _privateConstructorUsedError;
   DateTime get startedAt => throw _privateConstructorUsedError;
   int get durationSeconds => throw _privateConstructorUsedError;
   double get totalTonnageKg => throw _privateConstructorUsedError;
@@ -46,6 +50,7 @@ abstract class $WorkoutSessionSummaryCopyWith<$Res> {
   $Res call({
     String id,
     String templateName,
+    String? templateId,
     DateTime startedAt,
     int durationSeconds,
     double totalTonnageKg,
@@ -75,6 +80,7 @@ class _$WorkoutSessionSummaryCopyWithImpl<
   $Res call({
     Object? id = null,
     Object? templateName = null,
+    Object? templateId = freezed,
     Object? startedAt = null,
     Object? durationSeconds = null,
     Object? totalTonnageKg = null,
@@ -92,6 +98,10 @@ class _$WorkoutSessionSummaryCopyWithImpl<
                 ? _value.templateName
                 : templateName // ignore: cast_nullable_to_non_nullable
                       as String,
+            templateId: freezed == templateId
+                ? _value.templateId
+                : templateId // ignore: cast_nullable_to_non_nullable
+                      as String?,
             startedAt: null == startedAt
                 ? _value.startedAt
                 : startedAt // ignore: cast_nullable_to_non_nullable
@@ -134,6 +144,7 @@ abstract class _$$WorkoutSessionSummaryImplCopyWith<$Res>
   $Res call({
     String id,
     String templateName,
+    String? templateId,
     DateTime startedAt,
     int durationSeconds,
     double totalTonnageKg,
@@ -160,6 +171,7 @@ class __$$WorkoutSessionSummaryImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? templateName = null,
+    Object? templateId = freezed,
     Object? startedAt = null,
     Object? durationSeconds = null,
     Object? totalTonnageKg = null,
@@ -177,6 +189,10 @@ class __$$WorkoutSessionSummaryImplCopyWithImpl<$Res>
             ? _value.templateName
             : templateName // ignore: cast_nullable_to_non_nullable
                   as String,
+        templateId: freezed == templateId
+            ? _value.templateId
+            : templateId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         startedAt: null == startedAt
             ? _value.startedAt
             : startedAt // ignore: cast_nullable_to_non_nullable
@@ -212,6 +228,7 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
   const _$WorkoutSessionSummaryImpl({
     required this.id,
     required this.templateName,
+    required this.templateId,
     required this.startedAt,
     required this.durationSeconds,
     required this.totalTonnageKg,
@@ -225,6 +242,11 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
   final String id;
   @override
   final String templateName;
+
+  /// Template the session came from. Null once that template is deleted —
+  /// only [templateName] survives.
+  @override
+  final String? templateId;
   @override
   final DateTime startedAt;
   @override
@@ -249,7 +271,7 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
 
   @override
   String toString() {
-    return 'WorkoutSessionSummary(id: $id, templateName: $templateName, startedAt: $startedAt, durationSeconds: $durationSeconds, totalTonnageKg: $totalTonnageKg, totalSets: $totalSets, tags: $tags, timeUnderTensionSec: $timeUnderTensionSec)';
+    return 'WorkoutSessionSummary(id: $id, templateName: $templateName, templateId: $templateId, startedAt: $startedAt, durationSeconds: $durationSeconds, totalTonnageKg: $totalTonnageKg, totalSets: $totalSets, tags: $tags, timeUnderTensionSec: $timeUnderTensionSec)';
   }
 
   @override
@@ -260,6 +282,8 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.templateName, templateName) ||
                 other.templateName == templateName) &&
+            (identical(other.templateId, templateId) ||
+                other.templateId == templateId) &&
             (identical(other.startedAt, startedAt) ||
                 other.startedAt == startedAt) &&
             (identical(other.durationSeconds, durationSeconds) ||
@@ -278,6 +302,7 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
     runtimeType,
     id,
     templateName,
+    templateId,
     startedAt,
     durationSeconds,
     totalTonnageKg,
@@ -303,6 +328,7 @@ abstract class _WorkoutSessionSummary extends WorkoutSessionSummary {
   const factory _WorkoutSessionSummary({
     required final String id,
     required final String templateName,
+    required final String? templateId,
     required final DateTime startedAt,
     required final int durationSeconds,
     required final double totalTonnageKg,
@@ -316,6 +342,11 @@ abstract class _WorkoutSessionSummary extends WorkoutSessionSummary {
   String get id;
   @override
   String get templateName;
+
+  /// Template the session came from. Null once that template is deleted —
+  /// only [templateName] survives.
+  @override
+  String? get templateId;
   @override
   DateTime get startedAt;
   @override

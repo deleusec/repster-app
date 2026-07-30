@@ -22,6 +22,9 @@ mixin _$DashboardData {
   List<WorkoutSessionSummary> get recentSessions =>
       throw _privateConstructorUsedError;
   Consistency get consistency => throw _privateConstructorUsedError;
+
+  /// Next session in the program order. See `DashboardController`.
+  Template? get suggestedTemplate => throw _privateConstructorUsedError;
   InProgressSessionInfo? get inProgress => throw _privateConstructorUsedError;
 
   /// Create a copy of DashboardData
@@ -43,10 +46,12 @@ abstract class $DashboardDataCopyWith<$Res> {
     List<Template> activeTemplates,
     List<WorkoutSessionSummary> recentSessions,
     Consistency consistency,
+    Template? suggestedTemplate,
     InProgressSessionInfo? inProgress,
   });
 
   $AuthUserCopyWith<$Res> get user;
+  $TemplateCopyWith<$Res>? get suggestedTemplate;
   $InProgressSessionInfoCopyWith<$Res>? get inProgress;
 }
 
@@ -69,6 +74,7 @@ class _$DashboardDataCopyWithImpl<$Res, $Val extends DashboardData>
     Object? activeTemplates = null,
     Object? recentSessions = null,
     Object? consistency = null,
+    Object? suggestedTemplate = freezed,
     Object? inProgress = freezed,
   }) {
     return _then(
@@ -89,6 +95,10 @@ class _$DashboardDataCopyWithImpl<$Res, $Val extends DashboardData>
                 ? _value.consistency
                 : consistency // ignore: cast_nullable_to_non_nullable
                       as Consistency,
+            suggestedTemplate: freezed == suggestedTemplate
+                ? _value.suggestedTemplate
+                : suggestedTemplate // ignore: cast_nullable_to_non_nullable
+                      as Template?,
             inProgress: freezed == inProgress
                 ? _value.inProgress
                 : inProgress // ignore: cast_nullable_to_non_nullable
@@ -105,6 +115,20 @@ class _$DashboardDataCopyWithImpl<$Res, $Val extends DashboardData>
   $AuthUserCopyWith<$Res> get user {
     return $AuthUserCopyWith<$Res>(_value.user, (value) {
       return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  /// Create a copy of DashboardData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TemplateCopyWith<$Res>? get suggestedTemplate {
+    if (_value.suggestedTemplate == null) {
+      return null;
+    }
+
+    return $TemplateCopyWith<$Res>(_value.suggestedTemplate!, (value) {
+      return _then(_value.copyWith(suggestedTemplate: value) as $Val);
     });
   }
 
@@ -137,11 +161,14 @@ abstract class _$$DashboardDataImplCopyWith<$Res>
     List<Template> activeTemplates,
     List<WorkoutSessionSummary> recentSessions,
     Consistency consistency,
+    Template? suggestedTemplate,
     InProgressSessionInfo? inProgress,
   });
 
   @override
   $AuthUserCopyWith<$Res> get user;
+  @override
+  $TemplateCopyWith<$Res>? get suggestedTemplate;
   @override
   $InProgressSessionInfoCopyWith<$Res>? get inProgress;
 }
@@ -164,6 +191,7 @@ class __$$DashboardDataImplCopyWithImpl<$Res>
     Object? activeTemplates = null,
     Object? recentSessions = null,
     Object? consistency = null,
+    Object? suggestedTemplate = freezed,
     Object? inProgress = freezed,
   }) {
     return _then(
@@ -184,6 +212,10 @@ class __$$DashboardDataImplCopyWithImpl<$Res>
             ? _value.consistency
             : consistency // ignore: cast_nullable_to_non_nullable
                   as Consistency,
+        suggestedTemplate: freezed == suggestedTemplate
+            ? _value.suggestedTemplate
+            : suggestedTemplate // ignore: cast_nullable_to_non_nullable
+                  as Template?,
         inProgress: freezed == inProgress
             ? _value.inProgress
             : inProgress // ignore: cast_nullable_to_non_nullable
@@ -201,6 +233,7 @@ class _$DashboardDataImpl extends _DashboardData {
     required final List<Template> activeTemplates,
     required final List<WorkoutSessionSummary> recentSessions,
     required this.consistency,
+    this.suggestedTemplate,
     this.inProgress,
   }) : _activeTemplates = activeTemplates,
        _recentSessions = recentSessions,
@@ -226,12 +259,16 @@ class _$DashboardDataImpl extends _DashboardData {
 
   @override
   final Consistency consistency;
+
+  /// Next session in the program order. See `DashboardController`.
+  @override
+  final Template? suggestedTemplate;
   @override
   final InProgressSessionInfo? inProgress;
 
   @override
   String toString() {
-    return 'DashboardData(user: $user, activeTemplates: $activeTemplates, recentSessions: $recentSessions, consistency: $consistency, inProgress: $inProgress)';
+    return 'DashboardData(user: $user, activeTemplates: $activeTemplates, recentSessions: $recentSessions, consistency: $consistency, suggestedTemplate: $suggestedTemplate, inProgress: $inProgress)';
   }
 
   @override
@@ -250,6 +287,8 @@ class _$DashboardDataImpl extends _DashboardData {
             ) &&
             (identical(other.consistency, consistency) ||
                 other.consistency == consistency) &&
+            (identical(other.suggestedTemplate, suggestedTemplate) ||
+                other.suggestedTemplate == suggestedTemplate) &&
             (identical(other.inProgress, inProgress) ||
                 other.inProgress == inProgress));
   }
@@ -261,6 +300,7 @@ class _$DashboardDataImpl extends _DashboardData {
     const DeepCollectionEquality().hash(_activeTemplates),
     const DeepCollectionEquality().hash(_recentSessions),
     consistency,
+    suggestedTemplate,
     inProgress,
   );
 
@@ -279,6 +319,7 @@ abstract class _DashboardData extends DashboardData {
     required final List<Template> activeTemplates,
     required final List<WorkoutSessionSummary> recentSessions,
     required final Consistency consistency,
+    final Template? suggestedTemplate,
     final InProgressSessionInfo? inProgress,
   }) = _$DashboardDataImpl;
   const _DashboardData._() : super._();
@@ -291,6 +332,10 @@ abstract class _DashboardData extends DashboardData {
   List<WorkoutSessionSummary> get recentSessions;
   @override
   Consistency get consistency;
+
+  /// Next session in the program order. See `DashboardController`.
+  @override
+  Template? get suggestedTemplate;
   @override
   InProgressSessionInfo? get inProgress;
 

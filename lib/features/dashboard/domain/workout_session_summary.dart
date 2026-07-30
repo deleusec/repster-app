@@ -11,6 +11,10 @@ class WorkoutSessionSummary with _$WorkoutSessionSummary {
   const factory WorkoutSessionSummary({
     required String id,
     required String templateName,
+
+    /// Template the session came from. Null once that template is deleted —
+    /// only [templateName] survives.
+    required String? templateId,
     required DateTime startedAt,
     required int durationSeconds,
     required double totalTonnageKg,

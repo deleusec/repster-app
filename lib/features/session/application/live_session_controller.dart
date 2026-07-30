@@ -94,7 +94,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       final sessionId = await _repo.startSession(template);
       final results = await _repo.bulkLastPerfs([
         for (final ex in exercises) LastPerfLookup.of(ex),
-      ]);
+      ], templateId: template.id);
       final lastPerfs = {
         for (final entry in results.entries) entry.key: entry.value.perfs,
       };
@@ -103,7 +103,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       };
 
       final filled = [
-        for (final ex in exercises) _prefillWeights(ex, lastPerfs),
+        for (final ex in exercises) _withReferenceWeight(ex, lastPerfs),
       ];
 
       final startedAt = DateTime.now();
@@ -141,25 +141,47 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     }
   }
 
-  /// Pre-fills each set's weight from its reference perf ([perfForSet]).
-  WorkoutExercise _prefillWeights(
+  /// Starts every uncompleted set at the exercise's [referenceWeight] — one
+  /// load for the whole exercise. Reps are left alone: they come from the
+  /// template's target, not from what was managed last time.
+  ///
+  /// With [clearWhenUnknown], an exercise with no usable reference goes back
+  /// to 0 instead of keeping whatever was in the sets. Only the mid-session
+  /// paths want that: the sets then belong to the *previous* exercise, and
+  /// 60 kg left over from a bench press is a worse start than nothing.
+  WorkoutExercise _withReferenceWeight(
     WorkoutExercise ex,
-    Map<String, List<LastPerf>> perfsMap,
-  ) {
+    Map<String, List<LastPerf>> perfsMap, {
+    bool clearWhenUnknown = false,
+  }) {
     if (ex.sets.isEmpty) return ex;
-    final perfs = perfsMap[exerciseLastPerfKey(ex)];
-    if (perfs == null || perfs.isEmpty) return ex;
+    final reference = referenceWeight(perfsMap[exerciseLastPerfKey(ex)]);
+    if (reference == null && !clearWhenUnknown) return ex;
+    final weight = reference ?? 0;
+    if (ex.sets.every((s) => s.completed || s.weight == weight)) return ex;
     return ex.copyWith(
       sets: [
-        for (var i = 0; i < ex.sets.length; i++)
-          () {
-            final perf = perfForSet(perfs, i);
-            return (perf != null && perf.weight > 0)
-                ? ex.sets[i].copyWith(weight: perf.weight)
-                : ex.sets[i];
-          }(),
+        for (final s in ex.sets) s.completed ? s : s.copyWith(weight: weight),
       ],
     );
+  }
+
+  /// Re-applies the reference weight to an exercise whose identity changed
+  /// mid-session (swap, variant, added exercise), once its perfs have been
+  /// fetched. Without this the new exercise kept the previous one's load, or
+  /// started at 0 while its history sat right above in the "last time" line.
+  void applyReferenceWeight(int exIdx) {
+    final session = state.session;
+    if (session == null) return;
+    if (exIdx < 0 || exIdx >= session.exercises.length) return;
+    final ex = session.exercises[exIdx];
+    final updated = _withReferenceWeight(
+      ex,
+      state.lastPerfs,
+      clearWhenUnknown: true,
+    );
+    if (identical(updated, ex)) return;
+    _replaceExerciseState(exIdx, updated);
   }
 
   // ── Navigation ─────────────────────────────────────────────────────────────
@@ -356,9 +378,11 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     _scheduleSync();
   }
 
-  void addExercise(WorkoutExercise exercise, {int? insertAfter}) {
+  /// Inserts an exercise and returns the index it landed on, so the caller can
+  /// keep working on it (fetching its perfs, pre-filling its weight).
+  int addExercise(WorkoutExercise exercise, {int? insertAfter}) {
     final session = state.session;
-    if (session == null) return;
+    if (session == null) return -1;
     final list = [...session.exercises];
     final insertAt = (insertAfter == null || insertAfter < 0)
         ? list.length
@@ -371,6 +395,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       currentExerciseIndex: current,
     );
     _scheduleSync();
+    return insertAt;
   }
 
   void removeExercise(int exIdx) {
@@ -674,6 +699,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       name: name,
       isTimeBased: isTimeBased,
       exerciseId: exerciseId,
+      templateId: state.session?.templateId,
     );
   }
 

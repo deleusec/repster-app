@@ -119,6 +119,25 @@ void main() {
     });
   });
 
+  group('referenceWeight', () {
+    test('takes the first set, not the heaviest or the last', () {
+      expect(
+        referenceWeight(const [
+          LastPerf(reps: 10, weight: 80),
+          LastPerf(reps: 8, weight: 60),
+          LastPerf(reps: 6, weight: 90),
+        ]),
+        80,
+      );
+    });
+
+    test('is null without history or at bodyweight', () {
+      expect(referenceWeight(null), isNull);
+      expect(referenceWeight(const []), isNull);
+      expect(referenceWeight(const [LastPerf(reps: 12, weight: 0)]), isNull);
+    });
+  });
+
   group('perfForSet', () {
     const perfs = [
       LastPerf(reps: 10, weight: 80),
@@ -204,6 +223,40 @@ void main() {
       );
       expect(find.byType(MetaChip), findsOne);
       expect(find.textContaining('+'), findsNothing);
+    });
+
+    testWidgets('says when the reference comes from another workout', (
+      tester,
+    ) async {
+      await _pumpSummary(
+        tester,
+        exercise: _exercise(),
+        perfs: const [LastPerf(reps: 10, weight: 80)],
+        meta: LastPerfMeta(performedAt: DateTime.now(), target: 10),
+      );
+      expect(
+        find.textContaining('another workout', findRichText: true),
+        findsOne,
+      );
+    });
+
+    testWidgets('stays quiet when it comes from this same workout', (
+      tester,
+    ) async {
+      await _pumpSummary(
+        tester,
+        exercise: _exercise(),
+        perfs: const [LastPerf(reps: 10, weight: 80)],
+        meta: LastPerfMeta(
+          performedAt: DateTime.now(),
+          target: 10,
+          fromSameWorkout: true,
+        ),
+      );
+      expect(
+        find.textContaining('another workout', findRichText: true),
+        findsNothing,
+      );
     });
 
     testWidgets('flags a target the session was not aiming for', (

@@ -1774,6 +1774,9 @@ class Translations$session$exercise$en {
 	/// en: 'Last time'
 	String get lastTimeLabel => 'Last time';
 
+	/// en: 'another workout'
+	String get otherWorkout => 'another workout';
+
 	/// en: 'was aiming for {{n}} reps'
 	String targetWasReps({required Object n}) => 'was aiming for ${n} reps';
 
@@ -3210,6 +3213,7 @@ extension on Translations {
 			'session.exercise.totalHeld' => ({required Object value}) => 'Total held: ${value}',
 			'session.exercise.exerciseVolume' => ({required Object value}) => 'Exercise volume: ${value} kg',
 			'session.exercise.lastTimeLabel' => 'Last time',
+			'session.exercise.otherWorkout' => 'another workout',
 			'session.exercise.targetWasReps' => ({required Object n}) => 'was aiming for ${n} reps',
 			'session.exercise.targetWasSeconds' => ({required Object n}) => 'was aiming for ${n}s',
 			'session.exercise.morePerfs' => ({required Object n}) => '+${n}',
@@ -3349,9 +3353,9 @@ extension on Translations {
 			'templates.card.details' => 'Details',
 			'templates.card.copy' => 'Copy',
 			'templates.card.deleteShort' => 'Delete',
-			'templates.card.activate' => 'Activate',
 			_ => null,
 		} ?? switch (path) {
+			'templates.card.activate' => 'Activate',
 			'templates.card.deactivate' => 'Deactivate',
 			'templates.detail.title' => 'Template',
 			'templates.detail.noExercises' => 'No exercises in this template.',

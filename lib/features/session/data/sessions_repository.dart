@@ -207,7 +207,7 @@ session_sets (
   set_number, reps_target, reps_performed, weight_kg, completed_at,
   duration_target_seconds, duration_performed_seconds
 ),
-workout_sessions!inner ( user_id, completed_at )
+workout_sessions!inner ( user_id, completed_at, template_id )
 ''';
 
   /// Past `session_exercises` rows of the user, matched by catalog id or by
@@ -231,6 +231,13 @@ workout_sessions!inner ( user_id, completed_at )
   /// Last perf of each of [lookups], indexed by [lastPerfKey] — deduplicated
   /// per key, keeping the most recent session.
   ///
+  /// When [templateId] is given, the most recent run of *that* workout wins
+  /// over a more recent run of the same exercise elsewhere: bench press on
+  /// push day and bench press at the end of a full-body session are not done
+  /// with the same freshness, so the number to beat is the one from the same
+  /// workout. Any other session is still used as a fallback, flagged
+  /// `fromSameWorkout: false` so the UI can say where it comes from.
+  ///
   /// Every row is indexed under **both** its id key and its name key: today's
   /// exercise may know its catalog id while an old row does not, or the other
   /// way around, and either should still find its history.
@@ -238,8 +245,9 @@ workout_sessions!inner ( user_id, completed_at )
   /// The rep target is read but never filters: a template moving from 10 to 12
   /// reps must not lose its history.
   Future<Map<String, ExerciseLastPerfResult>> _fetchLastPerfs(
-    List<LastPerfLookup> lookups,
-  ) async {
+    List<LastPerfLookup> lookups, {
+    String? templateId,
+  }) async {
     final ids = <String>{};
     final names = <String>{};
     for (final lookup in lookups) {
@@ -279,7 +287,10 @@ workout_sessions!inner ( user_id, completed_at )
         return cb.compareTo(ca);
       });
 
-    final result = <String, ExerciseLastPerfResult>{};
+    // Two passes over the same rows: what this workout did last time, and what
+    // any session did last time. The first wins, the second is the fallback.
+    final sameWorkout = <String, ExerciseLastPerfResult>{};
+    final anyWorkout = <String, ExerciseLastPerfResult>{};
     for (final row in rows) {
       final name = row['name'] as String?;
       if (name == null) continue;
@@ -295,10 +306,9 @@ workout_sessions!inner ( user_id, completed_at )
             );
       if (sets.isEmpty) continue;
 
+      final session = row['workout_sessions'] as Map<String, dynamic>?;
       final completedAt = DateTime.tryParse(
-        (row['workout_sessions'] as Map<String, dynamic>?)?['completed_at']
-                as String? ??
-            '',
+        session?['completed_at'] as String? ?? '',
       );
       if (completedAt == null) continue;
 
@@ -308,19 +318,18 @@ workout_sessions!inner ( user_id, completed_at )
           ? sets.first['duration_target_seconds'] as int?
           : sets.first['reps_target'] as int?;
 
-      final entry = ExerciseLastPerfResult(
-        perfs: [
-          for (final s in sets)
-            LastPerf(
-              reps: (s['reps_performed'] as int?) ?? 0,
-              weight: ((s['weight_kg'] as num?) ?? 0).toDouble(),
-              seconds: isTimeBased
-                  ? (s['duration_performed_seconds'] as int? ?? 0)
-                  : null,
-            ),
-        ],
-        meta: LastPerfMeta(performedAt: completedAt, target: target),
-      );
+      final perfs = [
+        for (final s in sets)
+          LastPerf(
+            reps: (s['reps_performed'] as int?) ?? 0,
+            weight: ((s['weight_kg'] as num?) ?? 0).toDouble(),
+            seconds: isTimeBased
+                ? (s['duration_performed_seconds'] as int? ?? 0)
+                : null,
+          ),
+      ];
+      final isSameWorkout =
+          templateId != null && session?['template_id'] == templateId;
 
       final rowId = row['exercise_id'] as String?;
       for (final key in {
@@ -332,37 +341,58 @@ workout_sessions!inner ( user_id, completed_at )
           ),
         lastPerfKey(exerciseName: name, isTimeBased: isTimeBased),
       }) {
-        result.putIfAbsent(key, () => entry);
+        anyWorkout.putIfAbsent(
+          key,
+          () => ExerciseLastPerfResult(
+            perfs: perfs,
+            meta: LastPerfMeta(performedAt: completedAt, target: target),
+          ),
+        );
+        if (isSameWorkout) {
+          sameWorkout.putIfAbsent(
+            key,
+            () => ExerciseLastPerfResult(
+              perfs: perfs,
+              meta: LastPerfMeta(
+                performedAt: completedAt,
+                target: target,
+                fromSameWorkout: true,
+              ),
+            ),
+          );
+        }
       }
     }
-    return result;
+    return {...anyWorkout, ...sameWorkout};
   }
 
   /// Startup pre-fill: last perf of each template exercise, indexed by
-  /// [lastPerfKey].
+  /// [lastPerfKey], preferring past runs of [templateId].
   Future<Map<String, ExerciseLastPerfResult>> bulkLastPerfs(
-    List<LastPerfLookup> lookups,
-  ) async {
+    List<LastPerfLookup> lookups, {
+    String? templateId,
+  }) async {
     if (lookups.isEmpty) return const {};
     try {
-      return await _fetchLastPerfs(lookups);
+      return await _fetchLastPerfs(lookups, templateId: templateId);
     } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
 
   /// Last perf of a single exercise, used after an in-session swap or add.
-  /// Same policy as [bulkLastPerfs]: the most recent session on this exercise,
-  /// whatever it targeted.
+  /// Same policy as [bulkLastPerfs]: the last run of this workout, else the
+  /// most recent session on this exercise, whatever it targeted.
   Future<ExerciseLastPerfResult?> lastPerfsForExercise({
     required String name,
     required bool isTimeBased,
     String? exerciseId,
+    String? templateId,
   }) async {
     try {
       final found = await _fetchLastPerfs([
         LastPerfLookup(name: name, exerciseId: exerciseId),
-      ]);
+      ], templateId: templateId);
       return found[lastPerfKey(
         exerciseName: name,
         isTimeBased: isTimeBased,

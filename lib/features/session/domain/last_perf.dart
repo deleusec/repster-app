@@ -27,8 +27,15 @@ class LastPerf with _$LastPerf {
 /// today's format differs.
 @freezed
 class LastPerfMeta with _$LastPerfMeta {
-  const factory LastPerfMeta({DateTime? performedAt, int? target}) =
-      _LastPerfMeta;
+  const factory LastPerfMeta({
+    DateTime? performedAt,
+    int? target,
+
+    /// True when the reference comes from a past run of *this* workout. False
+    /// means it was picked up from another workout, which the UI says out loud:
+    /// the same exercise placed elsewhere in the week is not the same effort.
+    @Default(false) bool fromSameWorkout,
+  }) = _LastPerfMeta;
 
   const LastPerfMeta._();
 
@@ -88,6 +95,19 @@ String exerciseLastPerfKey(WorkoutExercise exercise) => lastPerfKey(
   isTimeBased: exercise.isTimeBased,
   exerciseId: exercise.exerciseId,
 );
+
+/// Weight to start the exercise at: the load of the reference session's first
+/// set, or `null` when there is nothing to go on (no history, bodyweight).
+///
+/// One load for the whole exercise, deliberately. Replaying the past set by
+/// set brought back drop-sets and off-days as if they were the plan; the first
+/// set is what you actually decided to lift that day, and the user adjusts
+/// from there.
+double? referenceWeight(List<LastPerf>? perfs) {
+  if (perfs == null || perfs.isEmpty) return null;
+  final weight = perfs.first.weight;
+  return weight > 0 ? weight : null;
+}
 
 /// Reference perf for set [index]: the set that matches it in the past
 /// session, or the last one when today's exercise has more sets. Shared by the

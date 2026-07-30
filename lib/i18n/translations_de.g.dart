@@ -1080,6 +1080,7 @@ class _Translations$session$exercise$de extends Translations$session$exercise$en
 	@override String totalHeld({required Object value}) => 'Gesamt gehalten: ${value}';
 	@override String exerciseVolume({required Object value}) => 'Übungsvolumen: ${value} kg';
 	@override String get lastTimeLabel => 'Letztes Mal';
+	@override String get otherWorkout => 'anderes Workout';
 	@override String targetWasReps({required Object n}) => 'Ziel war ${n} Wdh.';
 	@override String targetWasSeconds({required Object n}) => 'Ziel war ${n}s';
 	@override String morePerfs({required Object n}) => '+${n}';
@@ -2073,6 +2074,7 @@ extension on TranslationsDe {
 			'session.exercise.totalHeld' => ({required Object value}) => 'Gesamt gehalten: ${value}',
 			'session.exercise.exerciseVolume' => ({required Object value}) => 'Übungsvolumen: ${value} kg',
 			'session.exercise.lastTimeLabel' => 'Letztes Mal',
+			'session.exercise.otherWorkout' => 'anderes Workout',
 			'session.exercise.targetWasReps' => ({required Object n}) => 'Ziel war ${n} Wdh.',
 			'session.exercise.targetWasSeconds' => ({required Object n}) => 'Ziel war ${n}s',
 			'session.exercise.morePerfs' => ({required Object n}) => '+${n}',
@@ -2213,9 +2215,9 @@ extension on TranslationsDe {
 			'templates.card.copy' => 'Kopieren',
 			'templates.card.deleteShort' => 'Löschen',
 			'templates.card.activate' => 'Aktivieren',
-			'templates.card.deactivate' => 'Deaktivieren',
 			_ => null,
 		} ?? switch (path) {
+			'templates.card.deactivate' => 'Deaktivieren',
 			'templates.detail.title' => 'Vorlage',
 			'templates.detail.noExercises' => 'Keine Übungen in dieser Vorlage.',
 			'templates.detail.superset' => 'Supersatz',

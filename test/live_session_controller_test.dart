@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:repster/features/session/application/live_session_controller.dart';
 import 'package:repster/features/session/application/live_session_state.dart';
 import 'package:repster/features/session/data/sessions_repository.dart';
+import 'package:repster/features/session/domain/last_perf.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
@@ -243,6 +244,85 @@ void main() {
       final sets = _state(c).session!.exercises[0].sets;
       expect(sets[0].weight, 50, reason: 'validated set left unchanged');
       expect(sets[1].weight, 100);
+    });
+  });
+
+  group('reference weight', () {
+    WorkoutExercise squat() => _ex(
+      'e1',
+      'Squat',
+      sets: [
+        _set('s1', weight: 0),
+        _set('s2', weight: 0, completed: true),
+        _set('s3', weight: 0),
+      ],
+    );
+
+    test('puts the first set of the reference on every pending set', () async {
+      final ex = squat();
+      final (c, ctl) = await _boot(_session([ex]));
+      ctl
+        ..setLastPerfsFor(exerciseLastPerfKey(ex), const [
+          LastPerf(reps: 10, weight: 80),
+          LastPerf(reps: 8, weight: 60),
+        ])
+        ..applyReferenceWeight(0);
+      final sets = _state(c).session!.exercises[0].sets;
+      expect(sets[0].weight, 80);
+      expect(sets[2].weight, 80, reason: 'same load on every set');
+    });
+
+    test('never touches a completed set', () async {
+      final ex = squat();
+      final (c, ctl) = await _boot(_session([ex]));
+      ctl
+        ..setLastPerfsFor(exerciseLastPerfKey(ex), const [
+          LastPerf(reps: 10, weight: 80),
+        ])
+        ..applyReferenceWeight(0);
+      expect(_state(c).session!.exercises[0].sets[1].weight, 0);
+    });
+
+    test('leaves the reps to the template target', () async {
+      final ex = squat();
+      final (c, ctl) = await _boot(_session([ex]));
+      ctl
+        ..setLastPerfsFor(exerciseLastPerfKey(ex), const [
+          LastPerf(reps: 6, weight: 80),
+        ])
+        ..applyReferenceWeight(0);
+      final sets = _state(c).session!.exercises[0].sets;
+      expect(sets[0].targetReps, 10);
+      expect(sets[0].actualReps, 10);
+    });
+
+    test('no history clears the load left by the previous exercise', () async {
+      final ex = _ex('e1', 'Squat', sets: [_set('s1', weight: 42)]);
+      final (c, ctl) = await _boot(_session([ex]));
+      ctl.applyReferenceWeight(0);
+      expect(_state(c).session!.exercises[0].sets[0].weight, 0);
+    });
+
+    test('a bodyweight reference means 0, not the leftover load', () async {
+      final ex = _ex('e1', 'Squat', sets: [_set('s1', weight: 42)]);
+      final (c, ctl) = await _boot(_session([ex]));
+      ctl
+        ..setLastPerfsFor(exerciseLastPerfKey(ex), const [
+          LastPerf(reps: 20, weight: 0),
+        ])
+        ..applyReferenceWeight(0);
+      expect(_state(c).session!.exercises[0].sets[0].weight, 0);
+    });
+
+    test('a completed set keeps its load even with no history', () async {
+      final ex = _ex(
+        'e1',
+        'Squat',
+        sets: [_set('s1', weight: 42, completed: true)],
+      );
+      final (c, ctl) = await _boot(_session([ex]));
+      ctl.applyReferenceWeight(0);
+      expect(_state(c).session!.exercises[0].sets[0].weight, 42);
     });
   });
 

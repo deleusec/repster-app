@@ -26,10 +26,12 @@ _$LastPerfMetaImpl _$$LastPerfMetaImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['performedAt'] as String),
       target: (json['target'] as num?)?.toInt(),
+      fromSameWorkout: json['fromSameWorkout'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$LastPerfMetaImplToJson(_$LastPerfMetaImpl instance) =>
     <String, dynamic>{
       'performedAt': instance.performedAt?.toIso8601String(),
       'target': instance.target,
+      'fromSameWorkout': instance.fromSameWorkout,
     };

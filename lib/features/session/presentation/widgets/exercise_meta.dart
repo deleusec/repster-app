@@ -138,6 +138,10 @@ class ExerciseLastPerfs extends StatelessWidget {
                   text: t.session.exercise.lastTimeLabel,
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
+                // Said out loud when the reference was borrowed from another
+                // workout: same exercise, different day, different freshness.
+                if (meta != null && !meta!.fromSameWorkout)
+                  TextSpan(text: ' · ${t.session.exercise.otherWorkout}'),
                 if (performedAt != null)
                   TextSpan(text: ' · ${relativeAge(performedAt)}'),
                 if (targetWas != null) TextSpan(text: ' · $targetWas'),

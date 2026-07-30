@@ -102,6 +102,7 @@
     "totalHeld": "Total aguantado: {{value}}",
     "exerciseVolume": "Volumen del ejercicio: {{value}} kg",
     "lastTimeLabel": "Última vez",
+    "otherWorkout": "otra sesión",
     "targetWasReps": "buscaba {{n}} reps",
     "targetWasSeconds": "buscaba {{n}}s",
     "morePerfs": "+{{n}}"

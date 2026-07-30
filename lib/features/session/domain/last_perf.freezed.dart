@@ -215,6 +215,11 @@ mixin _$LastPerfMeta {
   DateTime? get performedAt => throw _privateConstructorUsedError;
   int? get target => throw _privateConstructorUsedError;
 
+  /// True when the reference comes from a past run of *this* workout. False
+  /// means it was picked up from another workout, which the UI says out loud:
+  /// the same exercise placed elsewhere in the week is not the same effort.
+  bool get fromSameWorkout => throw _privateConstructorUsedError;
+
   /// Serializes this LastPerfMeta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -232,7 +237,7 @@ abstract class $LastPerfMetaCopyWith<$Res> {
     $Res Function(LastPerfMeta) then,
   ) = _$LastPerfMetaCopyWithImpl<$Res, LastPerfMeta>;
   @useResult
-  $Res call({DateTime? performedAt, int? target});
+  $Res call({DateTime? performedAt, int? target, bool fromSameWorkout});
 }
 
 /// @nodoc
@@ -249,7 +254,11 @@ class _$LastPerfMetaCopyWithImpl<$Res, $Val extends LastPerfMeta>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? performedAt = freezed, Object? target = freezed}) {
+  $Res call({
+    Object? performedAt = freezed,
+    Object? target = freezed,
+    Object? fromSameWorkout = null,
+  }) {
     return _then(
       _value.copyWith(
             performedAt: freezed == performedAt
@@ -260,6 +269,10 @@ class _$LastPerfMetaCopyWithImpl<$Res, $Val extends LastPerfMeta>
                 ? _value.target
                 : target // ignore: cast_nullable_to_non_nullable
                       as int?,
+            fromSameWorkout: null == fromSameWorkout
+                ? _value.fromSameWorkout
+                : fromSameWorkout // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -275,7 +288,7 @@ abstract class _$$LastPerfMetaImplCopyWith<$Res>
   ) = __$$LastPerfMetaImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime? performedAt, int? target});
+  $Res call({DateTime? performedAt, int? target, bool fromSameWorkout});
 }
 
 /// @nodoc
@@ -291,7 +304,11 @@ class __$$LastPerfMetaImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? performedAt = freezed, Object? target = freezed}) {
+  $Res call({
+    Object? performedAt = freezed,
+    Object? target = freezed,
+    Object? fromSameWorkout = null,
+  }) {
     return _then(
       _$LastPerfMetaImpl(
         performedAt: freezed == performedAt
@@ -302,6 +319,10 @@ class __$$LastPerfMetaImplCopyWithImpl<$Res>
             ? _value.target
             : target // ignore: cast_nullable_to_non_nullable
                   as int?,
+        fromSameWorkout: null == fromSameWorkout
+            ? _value.fromSameWorkout
+            : fromSameWorkout // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -310,7 +331,11 @@ class __$$LastPerfMetaImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LastPerfMetaImpl extends _LastPerfMeta {
-  const _$LastPerfMetaImpl({this.performedAt, this.target}) : super._();
+  const _$LastPerfMetaImpl({
+    this.performedAt,
+    this.target,
+    this.fromSameWorkout = false,
+  }) : super._();
 
   factory _$LastPerfMetaImpl.fromJson(Map<String, dynamic> json) =>
       _$$LastPerfMetaImplFromJson(json);
@@ -320,9 +345,16 @@ class _$LastPerfMetaImpl extends _LastPerfMeta {
   @override
   final int? target;
 
+  /// True when the reference comes from a past run of *this* workout. False
+  /// means it was picked up from another workout, which the UI says out loud:
+  /// the same exercise placed elsewhere in the week is not the same effort.
+  @override
+  @JsonKey()
+  final bool fromSameWorkout;
+
   @override
   String toString() {
-    return 'LastPerfMeta(performedAt: $performedAt, target: $target)';
+    return 'LastPerfMeta(performedAt: $performedAt, target: $target, fromSameWorkout: $fromSameWorkout)';
   }
 
   @override
@@ -332,12 +364,15 @@ class _$LastPerfMetaImpl extends _LastPerfMeta {
             other is _$LastPerfMetaImpl &&
             (identical(other.performedAt, performedAt) ||
                 other.performedAt == performedAt) &&
-            (identical(other.target, target) || other.target == target));
+            (identical(other.target, target) || other.target == target) &&
+            (identical(other.fromSameWorkout, fromSameWorkout) ||
+                other.fromSameWorkout == fromSameWorkout));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, performedAt, target);
+  int get hashCode =>
+      Object.hash(runtimeType, performedAt, target, fromSameWorkout);
 
   /// Create a copy of LastPerfMeta
   /// with the given fields replaced by the non-null parameter values.
@@ -357,6 +392,7 @@ abstract class _LastPerfMeta extends LastPerfMeta {
   const factory _LastPerfMeta({
     final DateTime? performedAt,
     final int? target,
+    final bool fromSameWorkout,
   }) = _$LastPerfMetaImpl;
   const _LastPerfMeta._() : super._();
 
@@ -367,6 +403,12 @@ abstract class _LastPerfMeta extends LastPerfMeta {
   DateTime? get performedAt;
   @override
   int? get target;
+
+  /// True when the reference comes from a past run of *this* workout. False
+  /// means it was picked up from another workout, which the UI says out loud:
+  /// the same exercise placed elsewhere in the week is not the same effort.
+  @override
+  bool get fromSameWorkout;
 
   /// Create a copy of LastPerfMeta
   /// with the given fields replaced by the non-null parameter values.

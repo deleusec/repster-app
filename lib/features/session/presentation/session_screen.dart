@@ -183,7 +183,10 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
   // ── lastPerfs key / refetch after swap / variant / add ─────────────────────
 
+  /// Refreshes the "last time" reference of the exercise at [exIdx] after its
+  /// identity changed, then starts it at that reference's weight.
   Future<void> _refetchPerfs(
+    int exIdx,
     String name,
     bool isTimeBased,
     String? exerciseId,
@@ -204,6 +207,9 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       } else {
         _ctl.setLastPerfsFor(key, res.perfs, meta: res.meta);
       }
+      // Also when there is no history: the sets carry the previous exercise's
+      // load, which has nothing to do with this one.
+      _ctl.applyReferenceWeight(exIdx);
     } on Object {
       // Network error: keep the existing cache.
     }
@@ -239,7 +245,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       exerciseId: data.exerciseId,
     );
     // Keep the current format; refresh the last-perf ghosts for the new name.
-    await _refetchPerfs(data.name, ex.isTimeBased, data.exerciseId);
+    await _refetchPerfs(exIdx, data.name, ex.isTimeBased, data.exerciseId);
   }
 
   void _openHistory(int exIdx) {
@@ -275,7 +281,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       return;
     }
     final v = variants[idx];
-    await _refetchPerfs(v.name, v.isTimeBased, v.exerciseId);
+    await _refetchPerfs(exIdx, v.name, v.isTimeBased, v.exerciseId);
   }
 
   Future<void> _openAdd() async {
@@ -297,7 +303,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
           actualSeconds: data.isTimeBased ? 0 : null,
         ),
     ];
-    _ctl.addExercise(
+    final addedAt = _ctl.addExercise(
       WorkoutExercise(
         id: _uuid.v4(),
         name: data.name,
@@ -312,7 +318,14 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       ),
       insertAfter: current,
     );
-    await _refetchPerfs(data.name, data.isTimeBased, data.exerciseId);
+    if (addedAt >= 0) {
+      await _refetchPerfs(
+        addedAt,
+        data.name,
+        data.isTimeBased,
+        data.exerciseId,
+      );
+    }
     if (mounted) {
       AppToast.showSuccess(
         context,

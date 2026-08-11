@@ -125,6 +125,80 @@ void main() {
       expect(b.sets[1].completed, isTrue);
       expect(b.sets[1].actualReps, 9);
     });
+
+    group('exercise name', () {
+      // One completed session on the certified bench press, recorded back when
+      // the app was in Italian.
+      Map<String, dynamic> row({Map<String, dynamic>? exercises}) => {
+        'id': 's1',
+        'template_id': 't1',
+        'template_name': 'Forge',
+        'started_at': '2026-08-05T10:00:00.000Z',
+        'duration_seconds': 100,
+        'tags': <String>[],
+        'notes': '',
+        'session_exercises': [
+          {
+            'id': 'se1',
+            'exercise_id': 'bench',
+            'name': 'Panca piana',
+            'position': 0,
+            'is_time_based': false,
+            'session_sets': <dynamic>[],
+            if (exercises != null) 'exercises': exercises,
+          },
+        ],
+      };
+
+      final certified = {
+        'name': 'Barbell Bench Press',
+        'exercise_names': [
+          {'name': 'Barbell Bench Press', 'locale': 'en', 'is_primary': true},
+          {'name': 'Développé couché', 'locale': 'fr', 'is_primary': true},
+          {'name': 'Panca piana', 'locale': 'it', 'is_primary': true},
+        ],
+      };
+
+      String nameIn(String locale, {Map<String, dynamic>? exercises}) =>
+          WorkoutSessionDto.fromRow(
+            row(exercises: exercises),
+            locale: locale,
+          ).exercises.first.name;
+
+      test('reads the catalog, not the label snapshotted at save time', () {
+        // The set was recorded as "Panca piana"; in French it must read
+        // "Développé couché" — same exercise, same history.
+        expect(nameIn('fr', exercises: certified), 'Développé couché');
+        expect(nameIn('it', exercises: certified), 'Panca piana');
+      });
+
+      test('falls back to English for a locale the catalog lacks', () {
+        expect(nameIn('de', exercises: certified), 'Barbell Bench Press');
+      });
+
+      test('keeps the recorded label when the join brought nothing', () {
+        // Hand-typed exercise, or one deleted since: its snapshot is all we
+        // have and must not become an empty name.
+        expect(nameIn('fr'), 'Panca piana');
+      });
+
+      test('keeps the recorded label for an exercise with no translations', () {
+        expect(
+          nameIn(
+            'fr',
+            exercises: {'name': 'Hack squat', 'exercise_names': <dynamic>[]},
+          ),
+          'Hack squat',
+        );
+      });
+
+      test('carries the catalog id through for grouping', () {
+        expect(
+          WorkoutSessionDto.fromRow(row()).exercises.first.exerciseId,
+          'bench',
+        );
+      });
+    });
   });
 
   group('TemplateDto.fromRow', () {

@@ -59,6 +59,13 @@ class WorkoutExercise with _$WorkoutExercise {
 
   bool get inSuperset => supersetGroupId != null;
 
+  /// Reps (or seconds, for a hold) the exercise is aiming for today, read off
+  /// its first set. Ranks its history: a 5-rep day and a 10-rep day on the same
+  /// movement are not the same effort.
+  int? get currentTarget => sets.isEmpty
+      ? null
+      : (isTimeBased ? sets.first.targetSeconds : sets.first.targetReps);
+
   /// Number of completed sets.
   int get completedSetCount => sets.where((s) => s.completed).length;
 

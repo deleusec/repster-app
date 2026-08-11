@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:repster/core/exercises/exercise_name_key.dart';
 import 'package:repster/features/dashboard/domain/consistency.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/stats/domain/stats_range.dart';
@@ -420,7 +421,10 @@ class StatsData {
   static List<ExerciseProgress> _exerciseProgress(List<WorkoutSession> all) {
     final sortedAsc = [...all]
       ..sort((a, b) => a.startedAt.compareTo(b.startedAt));
-    final byName = <String, List<ExercisePoint>>{};
+    // Keyed by exercise identity, not by display name: one bench press is one
+    // curve whatever language it was recorded in.
+    final byExercise = <String, List<ExercisePoint>>{};
+    final labels = <String, String>{};
     for (final s in sortedAsc) {
       for (final ex in s.exercises) {
         if (ex.isTimeBased) continue;
@@ -440,7 +444,11 @@ class StatsData {
           }
         }
         if (bestE <= 0) continue;
-        (byName[ex.name] ??= []).add(
+        final key = exerciseIdentityKey(
+          name: ex.name,
+          exerciseId: ex.exerciseId,
+        );
+        (byExercise[key] ??= []).add(
           ExercisePoint(
             date: s.startedAt,
             estimatedOneRm: bestE,
@@ -448,11 +456,16 @@ class StatsData {
             repsAtTop: topReps,
           ),
         );
+        // Sessions are walked oldest first, so the most recent spelling labels
+        // the curve. Catalog exercises are already named identically across
+        // rows; this only decides between spellings of a hand-typed one.
+        labels[key] = ex.name;
       }
     }
     final progress = [
-      for (final e in byName.entries)
-        if (e.value.length >= 2) ExerciseProgress(name: e.key, points: e.value),
+      for (final e in byExercise.entries)
+        if (e.value.length >= 2)
+          ExerciseProgress(name: labels[e.key] ?? '', points: e.value),
     ]..sort((a, b) => b.sessionCount.compareTo(a.sessionCount));
     return progress;
   }

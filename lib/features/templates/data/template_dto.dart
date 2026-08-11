@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:repster/core/exercises/exercise_display_name.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
@@ -71,38 +72,13 @@ class TemplateDto {
     );
   }
 
-  /// Display name of the joined exercise: the primary `exercise_names` entry
-  /// for [locale], else the English one, else the canonical `exercises.name`.
-  ///
-  /// Same precedence as the `search_exercises` RPC, so the catalog picker and
-  /// the templates agree. Personal exercises carry no `exercise_names` rows and
-  /// therefore always fall through to their canonical name — without this, a
-  /// certified exercise would show its English canonical name in a French
-  /// template, and `saveSession` would snapshot that into the history.
-  static String _displayName(Map<String, dynamic>? exercises, String locale) {
-    if (exercises == null) return '';
-    final canonical = exercises['name'] as String? ?? '';
-    final rows = exercises['exercise_names'] as List<dynamic>? ?? const [];
-    String? localized;
-    String? english;
-    for (final raw in rows.cast<Map<String, dynamic>>()) {
-      if (raw['is_primary'] != true) continue;
-      if (raw['name'] case final String value) {
-        final rowLocale = raw['locale'] as String?;
-        if (rowLocale == locale) localized = value;
-        if (rowLocale == 'en') english = value;
-      }
-    }
-    return localized ?? english ?? canonical;
-  }
-
   static TemplateExercise _exerciseFromRow(
     Map<String, dynamic> r,
     int slotOrder,
     String locale,
   ) {
     final exercises = r['exercises'] as Map<String, dynamic>?;
-    final name = _displayName(exercises, locale);
+    final name = exerciseDisplayName(exercises, locale);
     return TemplateExercise(
       id: r['id'] as String,
       name: name,

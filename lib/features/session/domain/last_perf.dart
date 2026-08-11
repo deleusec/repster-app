@@ -52,17 +52,118 @@ class ExerciseLastPerfResult {
   final LastPerfMeta meta;
 }
 
+/// One past session offered as the reference for one [lastPerfKey].
+class LastPerfCandidate {
+  const LastPerfCandidate({
+    required this.key,
+    required this.perfs,
+    required this.performedAt,
+    required this.target,
+    required this.fromSameWorkout,
+    required this.matchesTarget,
+  });
+
+  final String key;
+  final List<LastPerf> perfs;
+  final DateTime performedAt;
+
+  /// What that session was aiming for — `null` when it was not recorded.
+  final int? target;
+
+  /// The session was a past run of the workout being started.
+  final bool fromSameWorkout;
+
+  /// That session aimed for what today aims for. False when either side is
+  /// unknown: "cannot tell" is not a match.
+  final bool matchesTarget;
+}
+
+/// Best reference per key among [candidates], which must be ordered most
+/// recent first.
+///
+/// Ranking, strongest first:
+///   1. same workout, same target
+///   2. same workout
+///   3. same target
+///   4. anything
+///
+/// (1) and (2) come first because the same exercise placed in two different
+/// workouts is not done with the same freshness. (3) is what stops a program
+/// alternating a 5-rep and a 10-rep day from handing one the other's load — and
+/// it is the only rank that can fire at all for a session recorded without a
+/// template, or for a freshly imported program whose templates are new rows.
+///
+/// Each rank degrades into the next, so a reference is never lost, only less
+/// well matched. (2) outranks (3) so a template that moved from 10 to 12 reps
+/// keeps pointing at its own history.
+Map<String, ExerciseLastPerfResult> rankLastPerfs(
+  Iterable<LastPerfCandidate> candidates,
+) {
+  final any = <String, ExerciseLastPerfResult>{};
+  final sameTarget = <String, ExerciseLastPerfResult>{};
+  final sameWorkout = <String, ExerciseLastPerfResult>{};
+  final sameWorkoutSameTarget = <String, ExerciseLastPerfResult>{};
+
+  for (final candidate in candidates) {
+    final result = ExerciseLastPerfResult(
+      perfs: candidate.perfs,
+      meta: LastPerfMeta(
+        performedAt: candidate.performedAt,
+        target: candidate.target,
+        fromSameWorkout: candidate.fromSameWorkout,
+      ),
+    );
+    // Candidates arrive most recent first, so the first to claim a key is the
+    // latest of its rank.
+    any.putIfAbsent(candidate.key, () => result);
+    if (candidate.matchesTarget) {
+      sameTarget.putIfAbsent(candidate.key, () => result);
+    }
+    if (candidate.fromSameWorkout) {
+      sameWorkout.putIfAbsent(candidate.key, () => result);
+      if (candidate.matchesTarget) {
+        sameWorkoutSameTarget.putIfAbsent(candidate.key, () => result);
+      }
+    }
+  }
+
+  // Weakest rank first: each spread overrides the one before it.
+  return {...any, ...sameTarget, ...sameWorkout, ...sameWorkoutSameTarget};
+}
+
 /// What identifies an exercise when looking up its history: its catalog id
 /// when known, and its display name as a fallback.
 class LastPerfLookup {
-  const LastPerfLookup({required this.name, this.exerciseId});
+  const LastPerfLookup({
+    required this.name,
+    this.exerciseId,
+    this.isTimeBased = false,
+    this.target,
+  });
 
   LastPerfLookup.of(WorkoutExercise exercise)
     : name = exercise.name,
-      exerciseId = exercise.exerciseId;
+      exerciseId = exercise.exerciseId,
+      isTimeBased = exercise.isTimeBased,
+      target = exercise.currentTarget;
 
   final String name;
   final String? exerciseId;
+
+  /// Part of [lastPerfKey], so the caller needs it to read its own entry back
+  /// out of the result map.
+  final bool isTimeBased;
+
+  /// Reps (or seconds) this exercise is aiming for today. Ranks the candidate
+  /// past sessions, never filters them — see [lastPerfKey].
+  final int? target;
+
+  /// Where this lookup's result lands in the map returned by the repository.
+  String get key => lastPerfKey(
+    exerciseName: name,
+    isTimeBased: isTimeBased,
+    exerciseId: exerciseId,
+  );
 }
 
 /// Lookup key for an exercise's last perf: its identity and its kind.
@@ -77,15 +178,21 @@ class LastPerfLookup {
 /// Keying on the target used to split one history into several and made the
 /// reference vanish as soon as a template moved from 10 to 12 reps. Reps and
 /// holds stay separate because their performances are not comparable.
+///
+/// The target still *ranks* the candidates — a 5-rep day must not be handed the
+/// load of a 10-rep day. That happens in the repository, on
+/// [LastPerfLookup.target], where losing the match degrades to an older session
+/// instead of to none at all.
 String lastPerfKey({
   required String exerciseName,
   required bool isTimeBased,
   String? exerciseId,
 }) {
-  final kind = isTimeBased ? 'T' : 'R';
-  return exerciseId != null && exerciseId.isNotEmpty
-      ? 'id:$exerciseId:$kind'
-      : 'nm:${exerciseNameKey(exerciseName)}:$kind';
+  final identity = exerciseIdentityKey(
+    name: exerciseName,
+    exerciseId: exerciseId,
+  );
+  return '$identity:${isTimeBased ? 'T' : 'R'}';
 }
 
 /// [lastPerfKey] of a live exercise. Single source of truth for the key, shared

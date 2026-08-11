@@ -12,6 +12,7 @@ import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
 import 'package:repster/features/templates/domain/template.dart';
+import 'package:repster/i18n/translations.g.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 import 'package:uuid/uuid.dart';
 
@@ -25,6 +26,10 @@ class SessionsRepository {
   /// Resolves exercise names to ids, preferring the certified catalog and
   /// reusing the user's existing rows — a session must never fork a duplicate.
   final ExerciseResolver _exercises;
+
+  /// Locale used to name certified exercises. Read here so the DTOs stay
+  /// i18n-free, same as `templates_repository`.
+  String get _locale => LocaleSettings.currentLocale.languageCode;
 
   String get _userId {
     final id = _client.auth.currentUser?.id;
@@ -90,8 +95,10 @@ class SessionsRepository {
       // Insert exercises, get their server ids, then insert sets.
       for (var i = 0; i < session.exercises.length; i++) {
         final ex = session.exercises[i];
+        // A blank name resolves to nothing: the UI blocks it, but
+        // `session_exercises.exercise_id` is worth keeping non-null.
         final exerciseId =
-            exerciseIds[ex.name.trim()] ?? await _ensureUnnamedExerciseId();
+            exerciseIds[ex.name.trim()] ?? await _exercises.idForUnnamed();
         final inserted = await _client
             .from('session_exercises')
             .insert({
@@ -228,34 +235,44 @@ workout_sessions!inner ( user_id, completed_at, template_id )
     return data.cast<Map<String, dynamic>>();
   }
 
-  /// Last perf of each of [lookups], indexed by [lastPerfKey] — deduplicated
-  /// per key, keeping the most recent session.
+  /// Last perf of each of [lookups], indexed by [lastPerfKey]. Fetches the
+  /// candidate sessions and hands the arbitration to [rankLastPerfs], which
+  /// documents the ranking; [templateId] is what makes a candidate count as the
+  /// same workout.
   ///
-  /// When [templateId] is given, the most recent run of *that* workout wins
-  /// over a more recent run of the same exercise elsewhere: bench press on
-  /// push day and bench press at the end of a full-body session are not done
-  /// with the same freshness, so the number to beat is the one from the same
-  /// workout. Any other session is still used as a fallback, flagged
-  /// `fromSameWorkout: false` so the UI can say where it comes from.
-  ///
-  /// Every row is indexed under **both** its id key and its name key: today's
+  /// Every row is offered under **both** its id key and its name key: today's
   /// exercise may know its catalog id while an old row does not, or the other
   /// way around, and either should still find its history.
   ///
-  /// The rep target is read but never filters: a template moving from 10 to 12
-  /// reps must not lose its history.
+  /// The target never filters the query, it only ranks: a template moving from
+  /// 10 to 12 reps must not lose its history.
   Future<Map<String, ExerciseLastPerfResult>> _fetchLastPerfs(
     List<LastPerfLookup> lookups, {
     String? templateId,
   }) async {
     final ids = <String>{};
     final names = <String>{};
+    // Today's target per key. Rows are indexed under both their id key and
+    // their name key, so a target is registered under both: whichever key the
+    // caller reads back must know what today is aiming for.
+    final targetByKey = <String, int>{};
     for (final lookup in lookups) {
       final id = lookup.exerciseId;
       if (id != null && id.isNotEmpty) {
         ids.add(id);
       }
       if (lookup.name.trim().isNotEmpty) names.add(lookup.name);
+      if (lookup.target case final target?) {
+        targetByKey
+          ..putIfAbsent(lookup.key, () => target)
+          ..putIfAbsent(
+            lastPerfKey(
+              exerciseName: lookup.name,
+              isTimeBased: lookup.isTimeBased,
+            ),
+            () => target,
+          );
+      }
     }
     if (ids.isEmpty && names.isEmpty) return const {};
 
@@ -287,10 +304,9 @@ workout_sessions!inner ( user_id, completed_at, template_id )
         return cb.compareTo(ca);
       });
 
-    // Two passes over the same rows: what this workout did last time, and what
-    // any session did last time. The first wins, the second is the fallback.
-    final sameWorkout = <String, ExerciseLastPerfResult>{};
-    final anyWorkout = <String, ExerciseLastPerfResult>{};
+    // Rows are already sorted most recent first, which is what rankLastPerfs
+    // expects.
+    final candidates = <LastPerfCandidate>[];
     for (final row in rows) {
       final name = row['name'] as String?;
       if (name == null) continue;
@@ -312,8 +328,9 @@ workout_sessions!inner ( user_id, completed_at, template_id )
       );
       if (completedAt == null) continue;
 
-      // Informative only: what that session was aiming for, so the UI can flag
-      // a format change. A missing target must not discard the perf.
+      // What that session was aiming for: surfaced so the UI can flag a format
+      // change, and compared with today's target to rank this row. A missing
+      // target must not discard the perf — it just can't reach the top ranks.
       final target = isTimeBased
           ? sets.first['duration_target_seconds'] as int?
           : sets.first['reps_target'] as int?;
@@ -341,29 +358,21 @@ workout_sessions!inner ( user_id, completed_at, template_id )
           ),
         lastPerfKey(exerciseName: name, isTimeBased: isTimeBased),
       }) {
-        anyWorkout.putIfAbsent(
-          key,
-          () => ExerciseLastPerfResult(
+        candidates.add(
+          LastPerfCandidate(
+            key: key,
             perfs: perfs,
-            meta: LastPerfMeta(performedAt: completedAt, target: target),
+            performedAt: completedAt,
+            target: target,
+            fromSameWorkout: isSameWorkout,
+            // No target on one side or the other means "cannot tell", which is
+            // not a match.
+            matchesTarget: target != null && target == targetByKey[key],
           ),
         );
-        if (isSameWorkout) {
-          sameWorkout.putIfAbsent(
-            key,
-            () => ExerciseLastPerfResult(
-              perfs: perfs,
-              meta: LastPerfMeta(
-                performedAt: completedAt,
-                target: target,
-                fromSameWorkout: true,
-              ),
-            ),
-          );
-        }
       }
     }
-    return {...anyWorkout, ...sameWorkout};
+    return rankLastPerfs(candidates);
   }
 
   /// Startup pre-fill: last perf of each template exercise, indexed by
@@ -381,48 +390,81 @@ workout_sessions!inner ( user_id, completed_at, template_id )
   }
 
   /// Last perf of a single exercise, used after an in-session swap or add.
-  /// Same policy as [bulkLastPerfs]: the last run of this workout, else the
-  /// most recent session on this exercise, whatever it targeted.
+  /// Same ranking as [bulkLastPerfs] — pass [target] so a swap into a 5-rep
+  /// slot is not handed the load of a 10-rep day.
   Future<ExerciseLastPerfResult?> lastPerfsForExercise({
     required String name,
     required bool isTimeBased,
     String? exerciseId,
+    int? target,
     String? templateId,
   }) async {
     try {
-      final found = await _fetchLastPerfs([
-        LastPerfLookup(name: name, exerciseId: exerciseId),
-      ], templateId: templateId);
-      return found[lastPerfKey(
-        exerciseName: name,
-        isTimeBased: isTimeBased,
+      final lookup = LastPerfLookup(
+        name: name,
         exerciseId: exerciseId,
-      )];
+        isTimeBased: isTimeBased,
+        target: target,
+      );
+      final found = await _fetchLastPerfs([lookup], templateId: templateId);
+      return found[lookup.key];
     } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
   }
 
   static const _exerciseHistorySelect = '''
-is_time_based,
+id, is_time_based,
 session_sets ( set_number, reps_performed, weight_kg,
   duration_performed_seconds, completed_at ),
 workout_sessions!inner ( user_id, completed_at )
 ''';
 
-  /// Full per-exercise history: every past completed session on [name], each
-  /// with its completed sets, most recent first. Feeds the history sheet.
-  Future<List<ExerciseHistoryEntry>> fetchExerciseHistory(String name) async {
+  /// Rows of one exercise, matched by catalog id or by recorded name. Same
+  /// two-query shape as [_lastPerfRows], and for the same reason.
+  Future<List<Map<String, dynamic>>> _exerciseHistoryRows({
+    String? exerciseId,
+    String? name,
+  }) async {
+    var query = _client
+        .from('session_exercises')
+        .select(_exerciseHistorySelect)
+        .eq('workout_sessions.user_id', _userId)
+        .not('workout_sessions.completed_at', 'is', null);
+    if (exerciseId != null) query = query.eq('exercise_id', exerciseId);
+    if (name != null) query = query.eq('name', name);
+    final data = await query;
+    return data.cast<Map<String, dynamic>>();
+  }
+
+  /// Full per-exercise history: every past completed session on this exercise,
+  /// each with its completed sets, most recent first. Feeds the history sheet.
+  ///
+  /// Matched on [exerciseId] when the caller knows it, **plus** on the recorded
+  /// [name]. Filtering on the name alone is what made this sheet show 3 entries
+  /// in Italian and 33 in French for one bench press: the name is the label
+  /// snapshotted at save time, the id is the identity. The name query is kept
+  /// for rows that predate the catalog link and for hand-typed exercises.
+  Future<List<ExerciseHistoryEntry>> fetchExerciseHistory({
+    required String name,
+    String? exerciseId,
+  }) async {
     try {
-      final data = await _client
-          .from('session_exercises')
-          .select(_exerciseHistorySelect)
-          .eq('name', name)
-          .eq('workout_sessions.user_id', _userId)
-          .not('workout_sessions.completed_at', 'is', null);
+      final batches = await Future.wait([
+        if (exerciseId != null && exerciseId.isNotEmpty)
+          _exerciseHistoryRows(exerciseId: exerciseId),
+        if (name.trim().isNotEmpty) _exerciseHistoryRows(name: name),
+      ]);
+      // A row matches both filters more often than not: dedup on its own key.
+      final unique = <String, Map<String, dynamic>>{};
+      for (final batch in batches) {
+        for (final row in batch) {
+          if (row['id'] case final String id) unique[id] = row;
+        }
+      }
 
       final entries = <ExerciseHistoryEntry>[];
-      for (final row in data.cast<Map<String, dynamic>>()) {
+      for (final row in unique.values) {
         final completedAt =
             (row['workout_sessions'] as Map<String, dynamic>?)?['completed_at']
                 as String?;
@@ -529,15 +571,31 @@ workout_sessions!inner ( user_id, completed_at )
 
   // ── History ────────────────────────────────────────────────────────────────
 
-  static const _historySelect = '''
+  static const _historySelect =
+      '''
 id, template_id, template_name, started_at, completed_at, duration_seconds,
 tags, notes,
 session_exercises (
   id, exercise_id, name, position, notes, is_time_based, slot_id,
   superset_with_next,
+  $exerciseDisplayNameSelect,
   session_sets (
     id, set_number, reps_target, reps_performed, weight_kg, tempo,
     completed_at, duration_target_seconds, duration_performed_seconds
+  )
+)
+''';
+
+  /// Only what [WorkoutSessionSummaryDto] aggregates. Kept separate from
+  /// [_historySelect] so the list screens do not pay for the per-exercise
+  /// catalog join they never display. Mirrors `dashboard_repository`.
+  static const _historySummarySelect = '''
+id, template_id, template_name, started_at, completed_at, duration_seconds,
+tags,
+session_exercises (
+  is_time_based,
+  session_sets (
+    reps_performed, weight_kg, duration_performed_seconds, completed_at
   )
 )
 ''';
@@ -546,7 +604,7 @@ session_exercises (
     try {
       final rows = await _client
           .from('workout_sessions')
-          .select(_historySelect)
+          .select(_historySummarySelect)
           .eq('user_id', _userId)
           .not('completed_at', 'is', null)
           .order('started_at', ascending: false)
@@ -569,7 +627,10 @@ session_exercises (
           .not('completed_at', 'is', null)
           .order('started_at', ascending: false)
           .limit(limit);
-      return rows.map(WorkoutSessionDto.fromRow).toList(growable: false);
+      final locale = _locale;
+      return rows
+          .map((r) => WorkoutSessionDto.fromRow(r, locale: locale))
+          .toList(growable: false);
     } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
@@ -583,7 +644,7 @@ session_exercises (
           .eq('id', id)
           .eq('user_id', _userId)
           .single();
-      return WorkoutSessionDto.fromRow(row);
+      return WorkoutSessionDto.fromRow(row, locale: _locale);
     } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }
@@ -591,19 +652,6 @@ session_exercises (
 
   // ── Internal helpers ───────────────────────────────────────────────────────
 
-  /// Safety net for an exercise saved without a name — the UI blocks it, but
-  /// `session_exercises.exercise_id` is worth keeping non-null.
-  Future<String> _ensureUnnamedExerciseId() async {
-    final inserted = await _client
-        .from('exercises')
-        .upsert({
-          'user_id': _userId,
-          'name': '(unnamed)',
-        }, onConflict: 'user_id,name')
-        .select('id')
-        .single();
-    return inserted['id'] as String;
-  }
 }
 
 /// In-progress session snapshot fetched from Supabase.

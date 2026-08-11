@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:repster/core/logging/app_logger.dart';
 import 'package:repster/core/supabase/supabase_providers.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
+import 'package:repster/features/history/application/history_controller.dart';
+import 'package:repster/features/stats/application/stats_controller.dart';
+import 'package:repster/features/templates/application/templates_controller.dart';
 import 'package:repster/i18n/translations.g.dart';
 
 /// Drives language changes from the UI (Settings picker).
@@ -18,6 +21,7 @@ class LanguageController {
   /// Applies a specific language chosen by the user.
   Future<void> setLanguage(AppLocale locale) async {
     LocaleSettings.setLocaleSync(locale);
+    _invalidateLocalizedData();
     await _persist(locale.languageCode);
   }
 
@@ -25,7 +29,21 @@ class LanguageController {
   /// preference and applies detection.
   Future<void> useSystemLanguage() async {
     LocaleSettings.useDeviceLocaleSync();
+    _invalidateLocalizedData();
     await _persist(null);
+  }
+
+  /// Drops the caches whose rows carry a certified exercise's display name.
+  ///
+  /// Those names are resolved at fetch time from the locale, not by slang, so a
+  /// rebuild alone leaves them in the previous language until something else
+  /// happens to refetch — a template still reading `Panca piana` after a switch
+  /// to French.
+  void _invalidateLocalizedData() {
+    _ref
+      ..invalidate(templatesControllerProvider)
+      ..invalidate(statsSessionsProvider)
+      ..invalidate(sessionByIdProvider);
   }
 
   /// Aligns intl, then persists (best-effort) the language code — `null` clears

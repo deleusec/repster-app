@@ -29,6 +29,7 @@ WorkoutExercise _exercise({
   required List<WorkoutSet> sets,
   String name = 'Bench Press',
   bool isTimeBased = false,
+  String? exerciseId,
 }) => WorkoutExercise(
   id: 'ex-$name',
   name: name,
@@ -37,6 +38,7 @@ WorkoutExercise _exercise({
   restTime: 90,
   sets: sets,
   isTimeBased: isTimeBased,
+  exerciseId: exerciseId,
 );
 
 WorkoutSession _session({
@@ -186,6 +188,105 @@ void main() {
 
     test('no history at all is empty', () {
       expect(_compute([]).isEmpty, isTrue);
+    });
+  });
+
+  group('strength curve identity', () {
+    test('one catalog id is one curve across languages', () {
+      // The real case: the same bench press recorded in Italian, then in
+      // French. Grouping on the display name gave two curves of one point each,
+      // which the ≥2 filter then hid entirely.
+      final data = _compute([
+        _session(
+          daysAgo: 20,
+          exercises: [
+            _exercise(
+              name: 'Panca piana',
+              exerciseId: 'bench',
+              sets: [_set(reps: 5, weight: 72.5)],
+            ),
+          ],
+        ),
+        _session(
+          daysAgo: 2,
+          exercises: [
+            _exercise(
+              name: 'Développé couché',
+              exerciseId: 'bench',
+              sets: [_set(reps: 5, weight: 75)],
+            ),
+          ],
+        ),
+      ]);
+      expect(data.exercises, hasLength(1));
+      expect(data.exercises.single.points, hasLength(2));
+    });
+
+    test('the curve is labelled with the most recent name', () {
+      final data = _compute([
+        _session(
+          daysAgo: 20,
+          exercises: [
+            _exercise(
+              name: 'Panca piana',
+              exerciseId: 'bench',
+              sets: [_set(reps: 5, weight: 72.5)],
+            ),
+          ],
+        ),
+        _session(
+          daysAgo: 2,
+          exercises: [
+            _exercise(
+              name: 'Développé couché',
+              exerciseId: 'bench',
+              sets: [_set(reps: 5, weight: 75)],
+            ),
+          ],
+        ),
+      ]);
+      expect(data.exercises.single.name, 'Développé couché');
+    });
+
+    test('two ids stay two curves even under one name', () {
+      final data = _compute([
+        for (var i = 0; i < 2; i++)
+          _session(
+            daysAgo: 20 - i,
+            exercises: [
+              _exercise(
+                name: 'Curl',
+                exerciseId: 'a',
+                sets: [_set(weight: 20)],
+              ),
+              _exercise(
+                name: 'Curl',
+                exerciseId: 'b',
+                sets: [_set(weight: 30)],
+              ),
+            ],
+          ),
+      ]);
+      expect(data.exercises, hasLength(2));
+    });
+
+    test('without an id it still groups on the normalized name', () {
+      final data = _compute([
+        _session(
+          daysAgo: 20,
+          exercises: [
+            _exercise(name: 'Machine Dips', sets: [_set(weight: 40)]),
+          ],
+        ),
+        _session(
+          daysAgo: 2,
+          exercises: [
+            _exercise(name: 'machine  dips', sets: [_set(weight: 45)]),
+          ],
+        ),
+      ]);
+      expect(data.exercises, hasLength(1));
+      expect(data.exercises.single.points, hasLength(2));
     });
   });
 

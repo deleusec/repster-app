@@ -36,13 +36,14 @@ class TemplatesRepository {
 
   // ── Read ─────────────────────────────────────────────────────────────────
 
-  static const _selectAll = '''
+  static const _selectAll =
+      '''
 id, name, description, tags, position, is_active, created_at, updated_at,
 template_exercises (
   id, exercise_id, position, sets_count, reps_target, tempo, rest_seconds,
   notes, is_time_based, duration_seconds, slot_id, variant_position,
   superset_with_next,
-  exercises ( name, exercise_names ( name, locale, is_primary ) )
+  $exerciseDisplayNameSelect
 )
 ''';
 

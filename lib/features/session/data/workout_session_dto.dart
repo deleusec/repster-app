@@ -1,3 +1,4 @@
+import 'package:repster/core/exercises/exercise_display_name.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
@@ -9,14 +10,25 @@ import 'package:repster/features/templates/domain/muscle_group.dart';
 class WorkoutSessionDto {
   const WorkoutSessionDto._();
 
-  static WorkoutSession fromRow(Map<String, dynamic> row) {
+  /// [locale] names each exercise from the catalog rather than from the label
+  /// snapshotted at save time. The snapshot is what the user saw that day, but
+  /// it is not the exercise's identity: leaving it in place made the same bench
+  /// press read as `Panca piana` or `Développé couché` depending on the app
+  /// language of the day, and split every screen that groups by name. The
+  /// recorded label stays the fallback for exercises the catalog does not know.
+  static WorkoutSession fromRow(
+    Map<String, dynamic> row, {
+    String locale = 'en',
+  }) {
     final exRows =
         (row['session_exercises'] as List<dynamic>? ?? const [])
             .cast<Map<String, dynamic>>()
           ..sort(
             (a, b) => (a['position'] as int).compareTo(b['position'] as int),
           );
-    final exercises = exRows.map(_exerciseFromRow).toList(growable: false);
+    final exercises = exRows
+        .map((r) => _exerciseFromRow(r, locale))
+        .toList(growable: false);
     return WorkoutSession(
       id: row['id'] as String,
       templateId: row['template_id'] as String? ?? '',
@@ -29,7 +41,10 @@ class WorkoutSessionDto {
     );
   }
 
-  static WorkoutExercise _exerciseFromRow(Map<String, dynamic> row) {
+  static WorkoutExercise _exerciseFromRow(
+    Map<String, dynamic> row,
+    String locale,
+  ) {
     final isTimeBased = (row['is_time_based'] as bool?) ?? false;
     final sets =
         ((row['session_sets'] as List<dynamic>? ?? const [])
@@ -53,7 +68,11 @@ class WorkoutSessionDto {
             .toList(growable: false);
     return WorkoutExercise(
       id: row['id'] as String,
-      name: row['name'] as String? ?? '',
+      name: exerciseDisplayName(
+        row['exercises'] as Map<String, dynamic>?,
+        locale,
+        fallback: row['name'] as String? ?? '',
+      ),
       notes: row['notes'] as String? ?? '',
       tempo: '2-0-2-0',
       restTime: 90,

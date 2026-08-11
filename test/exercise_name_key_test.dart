@@ -90,4 +90,41 @@ void main() {
       expect(groups.keys, ['machine dips']);
     });
   });
+
+  group('exerciseIdentityKey', () {
+    test('one catalog id is one exercise, whatever the language', () {
+      expect(
+        exerciseIdentityKey(name: 'Panca piana', exerciseId: 'bench'),
+        exerciseIdentityKey(name: 'Développé couché', exerciseId: 'bench'),
+      );
+    });
+
+    test('separates two exercises that only share a name', () {
+      expect(
+        exerciseIdentityKey(name: 'Curl', exerciseId: 'a'),
+        isNot(exerciseIdentityKey(name: 'Curl', exerciseId: 'b')),
+      );
+    });
+
+    test('falls back to the normalized name without an id', () {
+      expect(
+        exerciseIdentityKey(name: 'Machine Dips'),
+        exerciseIdentityKey(name: '  machine  dips '),
+      );
+    });
+
+    test('an empty id counts as no id', () {
+      expect(
+        exerciseIdentityKey(name: 'Squat', exerciseId: ''),
+        exerciseIdentityKey(name: 'Squat'),
+      );
+    });
+
+    test('an id never collides with a name key', () {
+      expect(
+        exerciseIdentityKey(name: 'x', exerciseId: 'squat'),
+        isNot(exerciseIdentityKey(name: 'squat')),
+      );
+    });
+  });
 }

@@ -119,6 +119,135 @@ void main() {
     });
   });
 
+  group('rankLastPerfs', () {
+    const key = 'id:bench:R';
+
+    LastPerfCandidate candidate({
+      required int day,
+      required double weight,
+      int? target,
+      bool fromSameWorkout = false,
+      bool matchesTarget = false,
+      String forKey = key,
+    }) => LastPerfCandidate(
+      key: forKey,
+      perfs: [LastPerf(reps: target ?? 0, weight: weight)],
+      performedAt: DateTime(2026, 8, day),
+      target: target,
+      fromSameWorkout: fromSameWorkout,
+      matchesTarget: matchesTarget,
+    );
+
+    double? weightFor(
+      Map<String, ExerciseLastPerfResult> ranked, [
+      String forKey = key,
+    ]) => ranked[forKey]?.perfs.first.weight;
+
+    test('takes the most recent when nothing else separates candidates', () {
+      final ranked = rankLastPerfs([
+        candidate(day: 8, weight: 67.5),
+        candidate(day: 5, weight: 75),
+      ]);
+      expect(weightFor(ranked), 67.5);
+    });
+
+    test('a matching target beats a more recent session at another target', () {
+      // The real case: a 5×5 day and a 4×10 day on the same bench press. Today
+      // aims for 5, so the 75kg of the 5th beats the 67.5kg of the 8th.
+      final ranked = rankLastPerfs([
+        candidate(day: 8, weight: 67.5, target: 10),
+        candidate(day: 5, weight: 75, target: 5, matchesTarget: true),
+      ]);
+      expect(weightFor(ranked), 75);
+    });
+
+    test('the same workout beats a matching target elsewhere', () {
+      // A template that moved from 10 to 12 reps keeps its own history.
+      final ranked = rankLastPerfs([
+        candidate(day: 8, weight: 60, target: 12, matchesTarget: true),
+        candidate(day: 5, weight: 80, target: 10, fromSameWorkout: true),
+      ]);
+      expect(weightFor(ranked), 80);
+      expect(ranked[key]!.meta.fromSameWorkout, isTrue);
+    });
+
+    test('the same workout at the same target wins over both', () {
+      final ranked = rankLastPerfs([
+        candidate(day: 9, weight: 60, target: 5, matchesTarget: true),
+        candidate(day: 8, weight: 70, target: 10, fromSameWorkout: true),
+        candidate(
+          day: 5,
+          weight: 80,
+          target: 5,
+          fromSameWorkout: true,
+          matchesTarget: true,
+        ),
+      ]);
+      expect(weightFor(ranked), 80);
+    });
+
+    test('keeps the most recent inside a rank', () {
+      final ranked = rankLastPerfs([
+        candidate(day: 8, weight: 75, target: 5, matchesTarget: true),
+        candidate(day: 5, weight: 72.5, target: 5, matchesTarget: true),
+      ]);
+      expect(weightFor(ranked), 75);
+    });
+
+    test('a reference is never lost when no rank matches', () {
+      final ranked = rankLastPerfs([
+        candidate(day: 8, weight: 67.5, target: 10),
+      ]);
+      expect(weightFor(ranked), 67.5);
+      expect(ranked[key]!.meta.fromSameWorkout, isFalse);
+    });
+
+    test('ranks each key on its own', () {
+      final ranked = rankLastPerfs([
+        candidate(day: 8, weight: 67.5, target: 10),
+        candidate(day: 5, weight: 75, target: 5, matchesTarget: true),
+        candidate(day: 9, weight: 40, forKey: 'id:row:R'),
+      ]);
+      expect(weightFor(ranked), 75);
+      expect(weightFor(ranked, 'id:row:R'), 40);
+    });
+
+    test('carries the past target through for the UI to flag', () {
+      final ranked = rankLastPerfs([
+        candidate(day: 8, weight: 67.5, target: 10),
+      ]);
+      expect(ranked[key]!.meta.target, 10);
+      expect(ranked[key]!.meta.performedAt, DateTime(2026, 8, 8));
+    });
+
+    test('is empty without candidates', () {
+      expect(rankLastPerfs(const []), isEmpty);
+    });
+  });
+
+  group('LastPerfLookup', () {
+    test('reads the target off the first set', () {
+      expect(LastPerfLookup.of(_exercise(targetReps: 5)).target, 5);
+    });
+
+    test('reads seconds for a hold', () {
+      final lookup = LastPerfLookup.of(
+        _exercise(targetReps: 45, isTimeBased: true),
+      );
+      expect(lookup.target, 45);
+      expect(lookup.isTimeBased, isTrue);
+    });
+
+    test('has no target without sets', () {
+      expect(LastPerfLookup.of(_exercise(setCount: 0)).target, isNull);
+    });
+
+    test('its key is the one the exercise reads back', () {
+      final ex = _exercise().copyWith(exerciseId: 'abc');
+      expect(LastPerfLookup.of(ex).key, exerciseLastPerfKey(ex));
+    });
+  });
+
   group('referenceWeight', () {
     test('takes the first set, not the heaviest or the last', () {
       expect(

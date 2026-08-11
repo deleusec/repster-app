@@ -189,8 +189,9 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     int exIdx,
     String name,
     bool isTimeBased,
-    String? exerciseId,
-  ) async {
+    String? exerciseId, {
+    int? target,
+  }) async {
     final key = lastPerfKey(
       exerciseName: name,
       isTimeBased: isTimeBased,
@@ -201,6 +202,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
         name: name,
         isTimeBased: isTimeBased,
         exerciseId: exerciseId,
+        target: target,
       );
       if (res == null) {
         _ctl.setLastPerfsFor(key, const []);
@@ -245,18 +247,27 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       exerciseId: data.exerciseId,
     );
     // Keep the current format; refresh the last-perf ghosts for the new name.
-    await _refetchPerfs(exIdx, data.name, ex.isTimeBased, data.exerciseId);
+    await _refetchPerfs(
+      exIdx,
+      data.name,
+      ex.isTimeBased,
+      data.exerciseId,
+      target: ex.currentTarget,
+    );
   }
 
   void _openHistory(int exIdx) {
     final session = ref.read(liveSessionControllerProvider).session;
     if (session == null || exIdx >= session.exercises.length) return;
-    final name = session.exercises[exIdx].name;
+    final ex = session.exercises[exIdx];
     unawaited(
       showExerciseHistorySheet(
         context,
-        name: name,
-        future: _ctl.exerciseHistory(name),
+        name: ex.name,
+        future: _ctl.exerciseHistory(
+          name: ex.name,
+          exerciseId: ex.exerciseId,
+        ),
       ),
     );
   }
@@ -281,7 +292,13 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       return;
     }
     final v = variants[idx];
-    await _refetchPerfs(exIdx, v.name, v.isTimeBased, v.exerciseId);
+    await _refetchPerfs(
+      exIdx,
+      v.name,
+      v.isTimeBased,
+      v.exerciseId,
+      target: v.isTimeBased ? v.durationSeconds : v.reps,
+    );
   }
 
   Future<void> _openAdd() async {
@@ -324,6 +341,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
         data.name,
         data.isTimeBased,
         data.exerciseId,
+        target: data.isTimeBased ? data.targetSeconds : data.targetReps,
       );
     }
     if (mounted) {

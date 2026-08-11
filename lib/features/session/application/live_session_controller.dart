@@ -694,19 +694,23 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     required String name,
     required bool isTimeBased,
     String? exerciseId,
+    int? target,
   }) {
     return _repo.lastPerfsForExercise(
       name: name,
       isTimeBased: isTimeBased,
       exerciseId: exerciseId,
+      target: target,
       templateId: state.session?.templateId,
     );
   }
 
   /// Full per-exercise history (past sessions, most recent first) for the
   /// history sheet.
-  Future<List<ExerciseHistoryEntry>> exerciseHistory(String name) =>
-      _repo.fetchExerciseHistory(name);
+  Future<List<ExerciseHistoryEntry>> exerciseHistory({
+    required String name,
+    String? exerciseId,
+  }) => _repo.fetchExerciseHistory(name: name, exerciseId: exerciseId);
 
   // ── Internal helpers ───────────────────────────────────────────────────────
 

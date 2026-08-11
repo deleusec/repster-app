@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+// The pure key function, not the `exercise_identity` barrel: a widget has no
+// business pulling in Supabase and Riverpod.
+import 'package:repster/core/exercises/exercise_name_key.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/exercises/domain/catalog_exercise.dart';
 import 'package:repster/i18n/translations.g.dart';
@@ -150,9 +153,13 @@ class _ExerciseNameFieldState extends State<ExerciseNameField> {
     final onSurface = scheme.onSurface;
     final query = widget.controller.text.trim();
     final folded = foldAccents(query);
+    // Compared on the identity key, not on the folded text: offering "create"
+    // for a name the resolver would reuse anyway (`Machine  Dips` next to
+    // `Machine Dips`) promises a new exercise the save would not make.
+    final queryKey = exerciseNameKey(query);
     final exactMatch =
         query.isNotEmpty &&
-        _results.any((e) => foldAccents(e.displayName) == folded);
+        _results.any((e) => exerciseNameKey(e.displayName) == queryKey);
     // Inline fields only offer "create" once a search resolved for this exact
     // query, so nothing flashes before results are known. Sheets keep the
     // immediate behavior.
@@ -336,6 +343,12 @@ class _ExerciseNameFieldState extends State<ExerciseNameField> {
 
 /// Builds a name's spans, highlighting the portion matching [foldedQuery]
 /// (case- and accent-insensitive comparison).
+///
+/// Folding is **not** length-preserving — `ß`→`ss`, `œ`→`oe`, `ĳ`→`ij` each
+/// grow by one, a combining mark disappears — so an offset found in the folded
+/// cannot index the original. Every folded position is mapped back to the
+/// character it came from, which is what keeps the highlight on the right
+/// letters in a name like `Hüftstoß`.
 List<TextSpan> _highlightSpans(
   String name,
   String foldedQuery,
@@ -343,13 +356,19 @@ List<TextSpan> _highlightSpans(
   TextStyle highlight,
 ) {
   if (foldedQuery.isEmpty) return [TextSpan(text: name, style: base)];
-  final foldedName = foldAccents(name);
-  final idx = foldedName.indexOf(foldedQuery);
+  final folded = StringBuffer();
+  // folded offset → offset in `name`, plus a closing sentinel.
+  final origin = <int>[];
+  for (var i = 0; i < name.length; i++) {
+    final piece = foldAccents(name[i]);
+    folded.write(piece);
+    origin.addAll(List.filled(piece.length, i));
+  }
+  origin.add(name.length);
+  final idx = folded.toString().indexOf(foldedQuery);
   if (idx < 0) return [TextSpan(text: name, style: base)];
-  // Folding is 1:1 for common French accents; clamp for safety in case an
-  // expansion (œ→oe) shifts the indices.
-  final start = idx.clamp(0, name.length);
-  final end = (idx + foldedQuery.length).clamp(start, name.length);
+  final start = origin[idx];
+  final end = origin[(idx + foldedQuery.length).clamp(0, origin.length - 1)];
   return [
     if (start > 0) TextSpan(text: name.substring(0, start), style: base),
     TextSpan(text: name.substring(start, end), style: highlight),

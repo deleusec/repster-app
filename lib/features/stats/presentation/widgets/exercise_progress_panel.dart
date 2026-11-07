@@ -8,6 +8,7 @@ import 'package:repster/features/stats/domain/stats_data.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_drawer_sheet.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/stat_panel.dart';
 
 /// Per-exercise progression: picker + estimated 1RM (Epley) curve with
@@ -301,42 +302,35 @@ class _PickerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                    color: selected ? scheme.primary : onSurface,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                t.stats.sessionsCount(n: sessions),
+    return Pressable(
+      onTap: onTap,
+      scale: 0.98,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 12,
-                  color: onSurface.withValues(alpha: 0.4),
+                  fontSize: 14,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                  color: selected ? scheme.glow : scheme.textPrimary,
                 ),
               ),
-              if (selected) ...[
-                const SizedBox(width: 10),
-                Icon(LucideIcons.check, size: 16, color: scheme.primary),
-              ],
+            ),
+            const SizedBox(width: 10),
+            Text(
+              t.stats.sessionsCount(n: sessions),
+              style: TextStyle(fontSize: 12, color: scheme.textTertiary),
+            ),
+            if (selected) ...[
+              const SizedBox(width: 10),
+              Icon(LucideIcons.check, size: 16, color: scheme.glow),
             ],
-          ),
+          ],
         ),
       ),
     );
@@ -382,7 +376,7 @@ class _Chart extends StatelessWidget {
             _Stat(
               label: t.stats.exercise.oneRmMax,
               value: '${best.estimatedOneRm.round()} kg',
-              color: scheme.primary,
+              color: scheme.glow,
             ),
             const SizedBox(width: 20),
             _Stat(
@@ -423,7 +417,7 @@ class _Chart extends StatelessWidget {
                   spots: spots,
                   isCurved: true,
                   preventCurveOverShooting: true,
-                  color: scheme.primary,
+                  color: scheme.glow,
                   barWidth: 2.5,
                   isStrokeCapRound: true,
                   dotData: FlDotData(
@@ -432,13 +426,13 @@ class _Chart extends StatelessWidget {
                           radius: isPr[index] ? 4.5 : 2.5,
                           color: isPr[index]
                               ? AppColors.accentAmber
-                              : scheme.primary,
+                              : scheme.glow,
                           strokeColor: Colors.transparent,
                         ),
                   ),
                   belowBarData: BarAreaData(
                     show: true,
-                    color: scheme.primary.withValues(alpha: 0.15),
+                    color: scheme.glow.withValues(alpha: 0.14),
                   ),
                 ),
               ],

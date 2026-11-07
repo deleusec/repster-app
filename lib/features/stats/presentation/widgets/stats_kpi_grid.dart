@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
-import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/stats/domain/stats_data.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/icon_chip.dart';
 
 /// 2×2 grid of range KPIs, each with its change (delta) vs the previous
@@ -28,7 +29,7 @@ class StatsKpiGrid extends StatelessWidget {
                 label: t.stats.kpi.sessions,
                 value: '${kpis.sessions}',
                 delta: kpis.sessionsDelta,
-                tint: scheme.primary,
+                tint: scheme.glow,
               ),
             ),
             const SizedBox(width: 10),
@@ -112,10 +113,8 @@ class _KpiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    return Container(
+    return EdgeLitSurface(
       padding: const EdgeInsets.all(14),
-      decoration: scheme.translucentCard,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -132,20 +131,18 @@ class _KpiCard extends StatelessWidget {
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: AppText.statValue.copyWith(
               fontSize: 20,
-              fontWeight: FontWeight.w800,
               letterSpacing: -0.5,
-              color: onSurface,
+              color: scheme.textPrimary,
             ),
           ),
-          const SizedBox(height: 1),
+          const SizedBox(height: 2),
           Text(
             label,
-            style: TextStyle(
+            style: AppText.caption.copyWith(
               fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: onSurface.withValues(alpha: 0.5),
+              color: scheme.textSecondary,
             ),
           ),
         ],
@@ -162,11 +159,11 @@ class _DeltaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     final up = delta >= 0;
     final color = moreIsBetter
         ? (up ? AppColors.accentEmerald : AppColors.accentRose)
-        : onSurface.withValues(alpha: 0.5);
+        : scheme.textSecondary;
     final pct = (delta.abs() * 100).round();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),

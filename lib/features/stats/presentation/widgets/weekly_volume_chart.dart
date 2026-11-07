@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/stats/domain/stats_data.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
@@ -65,7 +66,7 @@ class WeeklyVolumeChart extends StatelessWidget {
                                 width: 10,
                                 // The running week is drawn lighter: it is
                                 // incomplete, not a collapse.
-                                color: scheme.primary.withValues(
+                                color: scheme.glow.withValues(
                                   alpha: weeks[i].isInProgress ? 0.35 : 0.85,
                                 ),
                                 borderRadius: const BorderRadius.vertical(

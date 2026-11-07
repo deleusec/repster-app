@@ -3,9 +3,11 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/history/domain/history_stats.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/icon_chip.dart';
 
 /// History summary banner: session count, cumulative volume (emerald accent)
@@ -18,43 +20,39 @@ class HistoryStatsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final divider = scheme.hairline;
 
-    return Container(
+    return EdgeLitSurface(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: scheme.translucentCard,
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Expanded(
-              child: _Stat(
-                icon: LucideIcons.dumbbell,
-                value: '${stats.sessionCount}',
-                label: t.history.panel.sessions,
-                tint: scheme.primary,
-              ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _Stat(
+              icon: LucideIcons.dumbbell,
+              value: '${stats.sessionCount}',
+              label: t.history.panel.sessions,
+              tint: scheme.glow,
             ),
-            _VDivider(color: divider),
-            Expanded(
-              child: _Stat(
-                icon: LucideIcons.trendingUp,
-                value: formatTonnage(stats.totalTonnageKg),
-                label: t.history.panel.volume,
-                tint: AppColors.accentEmerald,
-                valueColor: AppColors.accentEmerald,
-              ),
+          ),
+          _VDivider(color: scheme.hairline),
+          Expanded(
+            child: _Stat(
+              icon: LucideIcons.trendingUp,
+              value: formatTonnage(stats.totalTonnageKg),
+              label: t.history.panel.volume,
+              tint: AppColors.accentEmerald,
+              valueColor: AppColors.accentEmerald,
             ),
-            _VDivider(color: divider),
-            Expanded(
-              child: _Stat(
-                icon: LucideIcons.clock,
-                value: formatDuration(stats.totalDurationSeconds),
-                label: t.history.panel.time,
-                tint: AppColors.accentOrange,
-              ),
+          ),
+          _VDivider(color: scheme.hairline),
+          Expanded(
+            child: _Stat(
+              icon: LucideIcons.clock,
+              value: formatDuration(stats.totalDurationSeconds),
+              label: t.history.panel.time,
+              tint: AppColors.accentOrange,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -66,7 +64,8 @@ class _VDivider extends StatelessWidget {
   final Color color;
 
   @override
-  Widget build(BuildContext context) => Container(width: 1, color: color);
+  Widget build(BuildContext context) =>
+      Container(width: 1, height: 64, color: color);
 }
 
 class _Stat extends StatelessWidget {
@@ -86,7 +85,7 @@ class _Stat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -96,20 +95,18 @@ class _Stat extends StatelessWidget {
           value,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
+          style: AppText.statValue.copyWith(
             fontSize: 18,
-            fontWeight: FontWeight.w800,
             letterSpacing: -0.5,
-            color: valueColor ?? onSurface,
+            color: valueColor ?? scheme.textPrimary,
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: 3),
         Text(
           label,
-          style: TextStyle(
+          style: AppText.caption.copyWith(
             fontSize: 11,
-            fontWeight: FontWeight.w500,
-            color: onSurface.withValues(alpha: 0.5),
+            color: scheme.textSecondary,
           ),
         ),
       ],

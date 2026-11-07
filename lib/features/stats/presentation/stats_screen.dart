@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/stats/application/stats_controller.dart';
 import 'package:repster/features/stats/domain/stats_data.dart';
@@ -17,6 +18,7 @@ import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
 import 'package:repster/shared/widgets/empty_state.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
 
 class StatsScreen extends ConsumerWidget {
@@ -124,26 +126,20 @@ class _StrengthDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     return Row(
       children: [
         Text(
           t.stats.strength.title,
-          style: AppText.sectionLabel.copyWith(
-            color: onSurface.withValues(alpha: 0.75),
-          ),
+          style: AppText.sectionLabel.copyWith(color: scheme.textSecondary),
         ),
         const SizedBox(width: 10),
         Text(
           t.stats.strength.scope,
-          style: AppText.caption.copyWith(
-            color: onSurface.withValues(alpha: 0.45),
-          ),
+          style: AppText.caption.copyWith(color: scheme.textTertiary),
         ),
         const SizedBox(width: 12),
-        Expanded(
-          child: Container(height: 1, color: onSurface.withValues(alpha: 0.12)),
-        ),
+        Expanded(child: Container(height: 1, color: scheme.hairline)),
       ],
     );
   }
@@ -157,13 +153,13 @@ class _RangePills extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: onSurface.withValues(alpha: 0.04),
+        color: scheme.onSurface.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(AppRadius.pill),
-        border: Border.all(color: onSurface.withValues(alpha: 0.07)),
+        border: Border.all(color: scheme.onSurface.withValues(alpha: 0.08)),
       ),
       child: Row(
         children: [
@@ -195,9 +191,9 @@ class _RangeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return GestureDetector(
+    return Pressable(
       onTap: onTap,
-      behavior: HitTestBehavior.opaque,
+      scale: 0.96,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -211,9 +207,7 @@ class _RangeTab extends StatelessWidget {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: selected
-                ? scheme.onPrimary
-                : scheme.onSurface.withValues(alpha: 0.6),
+            color: selected ? scheme.onPrimary : scheme.textSecondary,
           ),
         ),
       ),

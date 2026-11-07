@@ -5,16 +5,22 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/l10n/muscle_group_l10n.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// History session card: group badge, name + date/time, metrics
 /// (duration / emerald volume / sets), tags, and a delete bar with inline
 /// confirmation.
+///
+/// The body is the press that opens the session; the bar below has its own,
+/// so a tap on "delete" never scales the whole card.
 class HistorySessionCard extends StatefulWidget {
   const HistorySessionCard({
     required this.summary,
@@ -37,61 +43,50 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
     final s = widget.summary;
     final group = s.tags.isNotEmpty ? s.tags.first : MuscleGroup.custom;
     final divider = scheme.hairline;
 
-    return DecoratedBox(
-      decoration: scheme.translucentCard,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        // Material inside the clip: otherwise InkWell hover/splash bleeds past
-        // the rounded corners (painted on the ancestor Material) on web.
-        child: Material(
-          type: MaterialType.transparency,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              InkWell(
-                onTap: widget.onTap,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MuscleGroupBadge(group: group, size: 44, fontSize: 22),
-                      const SizedBox(width: 12),
-                      Expanded(child: _content(scheme)),
-                      const SizedBox(width: 8),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Icon(
-                          LucideIcons.chevronRight,
-                          size: 18,
-                          color: onSurface.withValues(alpha: 0.3),
-                        ),
-                      ),
-                    ],
+    return EdgeLitSurface(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Pressable(
+            onTap: widget.onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MuscleGroupBadge(group: group, size: 44, fontSize: 22),
+                  const SizedBox(width: 12),
+                  Expanded(child: _content(scheme)),
+                  const SizedBox(width: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Icon(
+                      LucideIcons.chevronRight,
+                      size: 18,
+                      color: scheme.textTertiary,
+                    ),
                   ),
-                ),
+                ],
               ),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border(top: BorderSide(color: divider)),
-                ),
-                child: SizedBox(height: 44, child: _actionBar(scheme, divider)),
-              ),
-            ],
+            ),
           ),
-        ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: divider)),
+            ),
+            child: SizedBox(height: 44, child: _actionBar(scheme, divider)),
+          ),
+        ],
       ),
     );
   }
 
   Widget _content(ColorScheme scheme) {
-    final onSurface = scheme.onSurface;
     final s = widget.summary;
     final tags = s.tags.take(3).toList(growable: false);
     return Column(
@@ -101,31 +96,22 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
           s.templateName,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
+          style: AppText.cardTitle.copyWith(
             letterSpacing: -0.2,
-            color: onSurface,
+            color: scheme.textPrimary,
           ),
         ),
         const SizedBox(height: 4),
         Row(
           children: [
-            Icon(
-              LucideIcons.calendar,
-              size: 12,
-              color: onSurface.withValues(alpha: 0.4),
-            ),
+            Icon(LucideIcons.calendar, size: 12, color: scheme.textTertiary),
             const SizedBox(width: 5),
             Expanded(
               child: Text(
                 sessionStamp(s.startedAt),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: onSurface.withValues(alpha: 0.45),
-                ),
+                style: AppText.caption.copyWith(color: scheme.textSecondary),
               ),
             ),
           ],
@@ -136,7 +122,7 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
             _Metric(
               icon: LucideIcons.timer,
               value: formatDuration(s.durationSeconds),
-              color: onSurface.withValues(alpha: 0.75),
+              color: scheme.textSecondary,
             ),
             const SizedBox(width: 14),
             _Metric(
@@ -148,7 +134,7 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
             _Metric(
               icon: LucideIcons.repeat,
               value: '${s.totalSets}',
-              color: onSurface.withValues(alpha: 0.75),
+              color: scheme.textSecondary,
             ),
           ],
         ),
@@ -165,12 +151,11 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
   }
 
   Widget _actionBar(ColorScheme scheme, Color divider) {
-    final onSurface = scheme.onSurface;
     if (!_confirming) {
       return _BarButton(
         icon: LucideIcons.trash2,
         label: t.common.actions.delete,
-        color: onSurface.withValues(alpha: 0.5),
+        color: scheme.textSecondary,
         onTap: () => setState(() => _confirming = true),
       );
     }
@@ -181,7 +166,7 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
           child: _BarButton(
             icon: LucideIcons.x,
             label: t.common.actions.cancel,
-            color: onSurface.withValues(alpha: 0.6),
+            color: scheme.textSecondary,
             onTap: () => setState(() => _confirming = false),
           ),
         ),
@@ -217,8 +202,9 @@ class _BarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Pressable(
       onTap: onTap,
+      scale: 0.94,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -226,8 +212,7 @@ class _BarButton extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             label,
-            style: TextStyle(
-              fontSize: 12,
+            style: AppText.caption.copyWith(
               fontWeight: FontWeight.w600,
               color: color,
             ),
@@ -254,9 +239,9 @@ class _Metric extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           value,
-          style: TextStyle(
-            fontSize: 12,
+          style: AppText.caption.copyWith(
             fontWeight: FontWeight.w600,
+            fontFeatures: const [FontFeature.tabularFigures()],
             color: color,
           ),
         ),
@@ -276,7 +261,7 @@ class _TagPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.15),
+        color: accent.withValues(alpha: 0.14),
         borderRadius: BorderRadius.circular(AppRadius.pill),
       ),
       child: Text(

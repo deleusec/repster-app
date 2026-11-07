@@ -13,6 +13,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 import 'package:repster/core/theme/app_theme.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
@@ -354,8 +356,10 @@ Future<void> _shoot(
 
 void main() {
   if (_out.isEmpty) return;
-  setUpAll(() {
+  setUpAll(() async {
     LocaleSettings.setLocaleSync(AppLocale.fr);
+    await initializeDateFormatting('fr');
+    Intl.defaultLocale = 'fr';
   });
 
   final common = <Override>[

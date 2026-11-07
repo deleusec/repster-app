@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/dashboard/application/dashboard_controller.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
 import 'package:repster/features/history/application/history_controller.dart';
@@ -23,6 +24,7 @@ import 'package:repster/shared/widgets/edge_bleed.dart';
 import 'package:repster/shared/widgets/empty_state.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
 
 class HistoryScreen extends ConsumerStatefulWidget {
@@ -274,36 +276,33 @@ class _Pill extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final onSurface = scheme.onSurface;
-    final c = accent ?? scheme.primary;
+    final c = accent ?? scheme.glow;
     final bg = selected
-        ? c.withValues(alpha: 0.18)
+        ? c.withValues(alpha: 0.16)
         : onSurface.withValues(alpha: 0.04);
     final border = selected
         ? c.withValues(alpha: 0.45)
-        : onSurface.withValues(alpha: 0.08);
-    final fg = selected ? c : onSurface.withValues(alpha: 0.6);
+        : onSurface.withValues(alpha: 0.10);
+    final fg = selected ? c : scheme.textSecondary;
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-        onTap: onTap,
-        child: Container(
-          height: double.infinity,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          decoration: BoxDecoration(
-            color: bg,
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            border: Border.all(color: border),
-          ),
-          child: Text(
-            count == null ? label : '$label · $count',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: fg,
-            ),
+    return Pressable(
+      onTap: onTap,
+      scale: 0.94,
+      child: Container(
+        height: double.infinity,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(AppRadius.pill),
+          border: Border.all(color: border),
+        ),
+        child: Text(
+          count == null ? label : '$label · $count',
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: fg,
           ),
         ),
       ),
@@ -319,25 +318,19 @@ class _GroupHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     return Row(
       children: [
         Text(
           label.toUpperCase(),
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.2,
-            color: onSurface.withValues(alpha: 0.45),
-          ),
+          style: AppText.sectionLabel.copyWith(color: scheme.textSecondary),
         ),
         const SizedBox(width: 8),
         Text(
           '$count',
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            color: onSurface.withValues(alpha: 0.3),
+          style: AppText.sectionLabel.copyWith(
+            letterSpacing: 0,
+            color: scheme.textTertiary,
           ),
         ),
       ],
@@ -350,16 +343,13 @@ class _NoResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24),
         child: Text(
           t.history.noResult,
-          style: TextStyle(
-            fontSize: 14,
-            color: onSurface.withValues(alpha: 0.4),
-          ),
+          style: AppText.body.copyWith(color: scheme.textTertiary),
         ),
       ),
     );

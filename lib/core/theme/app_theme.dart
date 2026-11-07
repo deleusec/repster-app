@@ -92,18 +92,7 @@ class AppTheme {
     return base.copyWith(
       textTheme: _textTheme(base.textTheme, scheme.onSurface, muted),
 
-      // A pushed page slides in from the edge on iOS and fades forward
-      // elsewhere — both quiet; neither is Material's zoom.
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
-          TargetPlatform.linux: FadeForwardsPageTransitionsBuilder(),
-          TargetPlatform.windows: FadeForwardsPageTransitionsBuilder(),
-          TargetPlatform.fuchsia: FadeForwardsPageTransitionsBuilder(),
-        },
-      ),
+      pageTransitionsTheme: _pageTransitions,
 
       appBarTheme: AppBarTheme(
         backgroundColor: scheme.surface.withValues(alpha: 0.85),
@@ -343,6 +332,23 @@ class AppTheme {
       progressIndicatorTheme: ProgressIndicatorThemeData(color: scheme.primary),
     );
   }
+
+  /// A pushed page slides in from the edge on iOS and macOS and fades
+  /// forward everywhere else — both quiet; neither is Material's zoom.
+  ///
+  /// The iOS and macOS builders are taken from the framework's own defaults
+  /// rather than named: `CupertinoPageTransitionsBuilder` moved from the
+  /// material library to the cupertino one in Flutter 3.47, and Vercel builds
+  /// with whatever `stable` is that day.
+  static final PageTransitionsTheme _pageTransitions = PageTransitionsTheme(
+    builders: {
+      ...const PageTransitionsTheme().builders,
+      TargetPlatform.android: const FadeForwardsPageTransitionsBuilder(),
+      TargetPlatform.linux: const FadeForwardsPageTransitionsBuilder(),
+      TargetPlatform.windows: const FadeForwardsPageTransitionsBuilder(),
+      TargetPlatform.fuchsia: const FadeForwardsPageTransitionsBuilder(),
+    },
+  );
 
   static TextTheme _textTheme(TextTheme base, Color fg, Color muted) {
     return base.copyWith(

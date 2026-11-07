@@ -14,6 +14,8 @@ Future<void> _pump(
   WidgetTester tester, {
   required double width,
   bool hasHistory = true,
+  Consistency? consistency,
+  DateTime? now,
 }) async {
   tester.view.physicalSize = Size(width, 900);
   tester.view.devicePixelRatio = 1;
@@ -25,8 +27,9 @@ Future<void> _pump(
           padding: const EdgeInsets.all(16),
           children: [
             ConsistencyPanel(
-              consistency: _consistency(),
+              consistency: consistency ?? _consistency(),
               hasHistory: hasHistory,
+              now: now,
             ),
           ],
         ),
@@ -44,6 +47,18 @@ Finder _cells() => find.descendant(
   of: find.byKey(heatmapGridKey),
   matching: find.byType(Container),
 );
+
+/// Cells painted as a trained day: anything but the empty grey or the
+/// transparent future.
+int _litCells(WidgetTester tester) {
+  final primary = ThemeData().colorScheme.primary;
+  var lit = 0;
+  for (final container in tester.widgetList<Container>(_cells())) {
+    final color = (container.decoration as BoxDecoration?)?.color;
+    if (color != null && color.withValues(alpha: 1) == primary) lit++;
+  }
+  return lit;
+}
 
 void main() {
   group('heatmap layout', () {
@@ -76,6 +91,24 @@ void main() {
       final narrow = _gridWidth(tester);
       await _pump(tester, width: 700);
       expect(_gridWidth(tester), greaterThan(narrow));
+    });
+  });
+
+  group('across a daylight-saving change', () {
+    // Winter time starts 2026-10-25. Viewed after it, days trained before it
+    // used to show grey: the cells were stepped with Durations and sat at
+    // 01:00, missing the midnight keys. Only observable under a DST timezone.
+    testWidgets('still lights the days trained before the change', (
+      tester,
+    ) async {
+      final now = DateTime(2026, 11, 7, 10);
+      final consistency = Consistency.fromDates([
+        DateTime(2026, 10, 14, 18),
+        DateTime(2026, 10, 20, 7),
+        DateTime(2026, 11, 3, 19),
+      ], now: now);
+      await _pump(tester, width: 390, consistency: consistency, now: now);
+      expect(_litCells(tester), 3);
     });
   });
 

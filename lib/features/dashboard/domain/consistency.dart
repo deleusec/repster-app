@@ -23,9 +23,7 @@ class Consistency {
   factory Consistency.fromDates(List<DateTime> dates, {DateTime? now}) {
     final reference = now ?? DateTime.now();
     final today = dayKey(reference);
-    final start = mondayOf(
-      today,
-    ).subtract(const Duration(days: 7 * (kHeatmapWeeks - 1)));
+    final start = addDays(mondayOf(today), -7 * (kHeatmapWeeks - 1));
 
     final dayCounts = <DateTime, int>{};
     DateTime? earliest;
@@ -109,8 +107,15 @@ class Consistency {
 
   static DateTime mondayOf(DateTime d) {
     final day = dayKey(d);
-    return day.subtract(Duration(days: day.weekday - 1));
+    return addDays(day, 1 - day.weekday);
   }
+
+  /// [n] calendar days after (or before, if negative) [day], at local
+  /// midnight. Never `add(Duration(days: n))`: a Duration is a count of
+  /// seconds, so across a daylight-saving change the result lands at 01:00 or
+  /// 23:00 and no longer matches a [dayKey].
+  static DateTime addDays(DateTime day, int n) =>
+      DateTime(day.year, day.month, day.day + n);
 
   /// Monday→Sunday week index, computed in UTC on the date only so it is
   /// insensitive to timezone and DST.

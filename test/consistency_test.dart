@@ -36,6 +36,46 @@ void main() {
     expect(c.sessionsPerWeek, greaterThan(2.5));
   });
 
+  group('day arithmetic', () {
+    // Europe switches to winter time on 2026-10-25. A Duration of n days is
+    // n × 24 h, so stepping across that date with one used to land at 01:00
+    // and miss every midnight key — the heatmap went blank for all days
+    // before the change. Only observable under a timezone with DST.
+    test('addDays lands on local midnight across a DST change', () {
+      final monday = DateTime(2026, 11, 2);
+      final start = Consistency.addDays(monday, -7 * (kHeatmapWeeks - 1));
+      expect(start, DateTime(2026, 7, 6));
+      for (var n = 0; n < 7 * kHeatmapWeeks; n++) {
+        final day = Consistency.addDays(start, n);
+        expect(day, Consistency.dayKey(day), reason: 'day $n');
+      }
+      expect(Consistency.addDays(start, 7 * (kHeatmapWeeks - 1)), monday);
+    });
+
+    test('mondayOf returns the Monday at midnight', () {
+      expect(
+        Consistency.mondayOf(DateTime(2026, 11, 7, 18)),
+        DateTime(2026, 11, 2),
+      );
+      expect(
+        Consistency.mondayOf(DateTime(2026, 11, 2, 3)),
+        DateTime(2026, 11, 2),
+      );
+    });
+
+    test('a session on the first day of the window is kept', () {
+      final now = DateTime(2026, 11, 7);
+      final first = Consistency.addDays(
+        Consistency.mondayOf(now),
+        -7 * (kHeatmapWeeks - 1),
+      );
+      final c = Consistency.fromDates([
+        first.add(const Duration(hours: 9)),
+      ], now: now);
+      expect(c.dayCounts[first], 1);
+    });
+  });
+
   group('streaks', () {
     test('counts consecutive trained weeks up to this one', () {
       final c = _from([_daysAgo(1), _daysAgo(8), _daysAgo(15)]);

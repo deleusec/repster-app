@@ -336,6 +336,46 @@ void main() {
     });
   });
 
+  group('weekly volume across a daylight-saving change', () {
+    // Winter time starts 2026-10-25. Stepping weeks back with Durations used
+    // to land the earlier Mondays at 01:00, so their tonnage was never found
+    // and the chart read zero before the change. Only observable under a DST
+    // timezone.
+    test('keeps the tonnage of the weeks before the change', () {
+      final now = DateTime(2026, 11, 7, 10);
+      final sessions = [
+        for (final day in [
+          DateTime(2026, 10, 14, 18),
+          DateTime(2026, 10, 20, 7),
+          DateTime(2026, 11, 3, 19),
+        ])
+          WorkoutSession(
+            id: 's-$day',
+            templateId: 't',
+            templateName: 'Push',
+            startedAt: day,
+            duration: 3600,
+            exercises: [
+              _exercise(sets: [_set(weight: 50)]),
+            ],
+            tags: const [],
+            notes: '',
+          ),
+      ];
+      final stats = StatsData.compute(
+        all: sessions,
+        range: StatsRange.last4Weeks,
+        now: now,
+      );
+      final loaded = stats.weeklyVolume.where((w) => w.tonnageKg > 0);
+      expect(loaded.map((w) => w.weekStart), [
+        DateTime(2026, 10, 12),
+        DateTime(2026, 10, 19),
+        DateTime(2026, 11, 2),
+      ]);
+    });
+  });
+
   group('strength trend', () {
     ExerciseProgress progress(List<(int daysAgo, double oneRm)> points) =>
         ExerciseProgress(

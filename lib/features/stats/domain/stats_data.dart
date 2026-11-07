@@ -364,7 +364,7 @@ class StatsData {
     return [
       for (var i = weeks - 1; i >= 0; i--)
         () {
-          final start = thisWeek.subtract(Duration(days: 7 * i));
+          final start = Consistency.addDays(thisWeek, -7 * i);
           return WeeklyVolume(
             weekStart: start,
             tonnageKg: byWeek[start] ?? 0,
@@ -515,8 +515,5 @@ class StatsData {
     );
   }
 
-  static DateTime _mondayOf(DateTime d) {
-    final day = DateTime(d.year, d.month, d.day);
-    return day.subtract(Duration(days: day.weekday - 1));
-  }
+  static DateTime _mondayOf(DateTime d) => Consistency.mondayOf(d);
 }

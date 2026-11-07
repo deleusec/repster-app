@@ -16,10 +16,14 @@ class ConsistencyPanel extends StatelessWidget {
   const ConsistencyPanel({
     required this.consistency,
     this.hasHistory = true,
+    this.now,
     super.key,
   });
 
   final Consistency consistency;
+
+  /// Reference date for the grid; defaults to the current time.
+  final DateTime? now;
 
   /// Whether the user has ever completed a session. Distinguishes "nothing yet"
   /// from "nothing in the last four months" — the second is a real gap worth
@@ -54,7 +58,11 @@ class ConsistencyPanel extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                _Heatmap(dayCounts: c.dayCounts, primary: scheme.primary),
+                _Heatmap(
+                  dayCounts: c.dayCounts,
+                  primary: scheme.primary,
+                  today: Consistency.dayKey(now ?? DateTime.now()),
+                ),
               ],
             )
           : const _NotYet(),
@@ -119,19 +127,22 @@ class _Mini extends StatelessWidget {
 }
 
 class _Heatmap extends StatelessWidget {
-  const _Heatmap({required this.dayCounts, required this.primary});
+  const _Heatmap({
+    required this.dayCounts,
+    required this.primary,
+    required this.today,
+  });
 
   final Map<DateTime, int> dayCounts;
   final Color primary;
+  final DateTime today;
 
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final thisMonday = today.subtract(Duration(days: today.weekday - 1));
-    final start = thisMonday.subtract(
-      const Duration(days: 7 * (kHeatmapWeeks - 1)),
+    final start = Consistency.addDays(
+      Consistency.mondayOf(today),
+      -7 * (kHeatmapWeeks - 1),
     );
 
     Color cellColor(int count, {required bool future}) {
@@ -167,7 +178,7 @@ class _Heatmap extends StatelessWidget {
                         if (d > 0) SizedBox(height: gap),
                         Builder(
                           builder: (_) {
-                            final day = start.add(Duration(days: 7 * w + d));
+                            final day = Consistency.addDays(start, 7 * w + d);
                             final future = day.isAfter(today);
                             final count = dayCounts[day] ?? 0;
                             return Container(

@@ -29,13 +29,25 @@ abstract final class AppText {
     fontWeight: FontWeight.w800,
     letterSpacing: -0.6,
     height: 1,
+    fontFeatures: [FontFeature.tabularFigures()],
   );
 
-  /// Stat tile / KPI value. PWA `text-[22px] font-black`.
+  /// Hero card title (the next session's name): the biggest text on the
+  /// home page after the greeting.
+  static const heroTitle = TextStyle(
+    fontSize: 26,
+    fontWeight: FontWeight.w800,
+    letterSpacing: -0.6,
+    height: 1.1,
+  );
+
+  /// Stat tile / KPI value. PWA `text-[22px] font-black`. Tabular figures so
+  /// a row of values lines up and a ticking number does not jitter.
   static const statValue = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.w800,
     height: 1,
+    fontFeatures: [FontFeature.tabularFigures()],
   );
 
   // ── Titles (w700) ──────────────────────────────────────────────────────

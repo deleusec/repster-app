@@ -78,6 +78,30 @@ class AppColors {
 
   /// `violet-400` — "Other" category in the contact form.
   static const Color accentViolet = Color(0xFFA78BFA);
+
+  /// `rose-500` — the brand as *light*: glows, live dots, heat-map cells,
+  /// button halos. The primary (rose-800) is right for a filled button, but
+  /// spread thin over black it reads as mud rather than light.
+  static const Color roseGlow = Color(0xFFF43F5E);
+}
+
+/// The three text tones of the dark UI. Every secondary text on a page should
+/// be one of these, not an ad-hoc alpha: with one tone per role the pages read
+/// as one voice instead of eight shades of grey.
+extension AppTones on ColorScheme {
+  /// Titles, values, names.
+  Color get textPrimary => onSurface.withValues(alpha: 0.95);
+
+  /// Supporting copy, meta lines, labels that carry meaning.
+  Color get textSecondary => onSurface.withValues(alpha: 0.55);
+
+  /// Hints, units, eyebrows, decorative glyphs.
+  Color get textTertiary => onSurface.withValues(alpha: 0.35);
+
+  /// The colour that *lights* a surface (glows, halos). See
+  /// [AppColors.roseGlow].
+  Color get glow =>
+      brightness == Brightness.dark ? AppColors.roseGlow : primary;
 }
 
 /// Spacing scale (Tailwind's 4px baseline as used by the PWA).

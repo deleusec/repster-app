@@ -1,17 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/dashboard/presentation/widgets/hero_cta_card.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
+import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
+import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 
 Template _template() => Template(
   id: 't',
   name: 'Push',
   description: '',
   tags: const [MuscleGroup.chest],
-  slots: const <TemplateSlot>[],
+  slots: const [
+    TemplateSlot(
+      slotId: 's0',
+      order: 0,
+      supersetWithNext: false,
+      variants: [
+        TemplateExercise(
+          id: 'e0',
+          name: 'Bench',
+          sets: 4,
+          reps: 8,
+          tempo: '3-1-2-0',
+          restTime: 120,
+          notes: '',
+          order: 0,
+        ),
+      ],
+    ),
+  ],
   isActive: true,
   createdAt: DateTime(2026),
   updatedAt: DateTime(2026),
@@ -49,18 +71,22 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('shares the card radius used across the page', (tester) async {
+  testWidgets("is lit in the suggested template's muscle colour", (
+    tester,
+  ) async {
     await _pump(tester, suggested: _template());
-    final decorated = tester.widget<DecoratedBox>(
-      find
-          .descendant(
-            of: find.byType(HeroCtaCard),
-            matching: find.byType(DecoratedBox),
-          )
-          .first,
+    final surface = tester.widget<EdgeLitSurface>(
+      find.descendant(
+        of: find.byType(HeroCtaCard),
+        matching: find.byType(EdgeLitSurface),
+      ),
     );
-    final decoration = decorated.decoration as BoxDecoration;
-    expect(decoration.borderRadius, BorderRadius.circular(16));
-    expect(decoration.gradient, isNull);
+    expect(surface.accent, MuscleGroup.chest.accent);
+    expect(surface.radius, AppRadius.sheet);
+  });
+
+  testWidgets('says how long the session should take', (tester) async {
+    await _pump(tester, suggested: _template());
+    expect(find.textContaining('min'), findsOneWidget);
   });
 }

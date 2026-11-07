@@ -13,9 +13,11 @@ class StaggeredList {
   final bool enabled;
   int _index = 0;
 
-  static const int _maxSteps = 12;
-  static const int _stepMs = 50;
-  static const Duration _duration = Duration(milliseconds: 320);
+  // Short steps and a hard cap: the page should be fully there within half a
+  // second, a settle rather than a parade.
+  static const int _maxSteps = 8;
+  static const int _stepMs = 40;
+  static const Duration _duration = Duration(milliseconds: 380);
 
   Widget wrap(Widget child) {
     if (!enabled) return child;
@@ -25,10 +27,10 @@ class StaggeredList {
         .animate(delay: (step * _stepMs).ms)
         .fadeIn(duration: _duration)
         .slideY(
-          begin: 0.07,
+          begin: 0.05,
           end: 0,
           duration: _duration,
-          curve: Curves.easeOutCubic,
+          curve: Curves.easeOutQuint,
         );
   }
 }

@@ -80,11 +80,30 @@ class AppTheme {
       fontFamily: _fontFamily,
       scaffoldBackgroundColor: scheme.surface,
       canvasColor: scheme.surface,
-      splashFactory: InkRipple.splashFactory,
+      // No ink ripple anywhere: a pressed control tints, like the PWA's
+      // `active:bg-white/[0.04]`, and the design-system widgets scale down
+      // instead (see `Pressable`).
+      splashFactory: NoSplash.splashFactory,
+      splashColor: Colors.transparent,
+      highlightColor: scheme.onSurface.withValues(alpha: 0.04),
+      hoverColor: scheme.onSurface.withValues(alpha: 0.03),
     );
 
     return base.copyWith(
       textTheme: _textTheme(base.textTheme, scheme.onSurface, muted),
+
+      // A pushed page slides in from the edge on iOS and fades forward
+      // elsewhere — both quiet; neither is Material's zoom.
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.linux: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.windows: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.fuchsia: FadeForwardsPageTransitionsBuilder(),
+        },
+      ),
 
       appBarTheme: AppBarTheme(
         backgroundColor: scheme.surface.withValues(alpha: 0.85),
@@ -295,9 +314,7 @@ class AppTheme {
           if (states.contains(WidgetState.selected)) return scheme.primary;
           return null;
         }),
-        todayBorder: BorderSide(
-          color: scheme.primary.withValues(alpha: 0.5),
-        ),
+        todayBorder: BorderSide(color: scheme.primary.withValues(alpha: 0.5)),
         yearStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         yearShape: WidgetStatePropertyAll(
           RoundedRectangleBorder(

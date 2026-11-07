@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:repster/core/i18n/locale_sync.dart';
 import 'package:repster/core/root_scaffold_messenger.dart';
 import 'package:repster/core/router/app_router.dart';
+import 'package:repster/core/theme/app_scroll_behavior.dart';
 import 'package:repster/core/theme/app_theme.dart';
 import 'package:repster/i18n/translations.g.dart';
 
@@ -30,6 +31,7 @@ class RepsterApp extends ConsumerWidget {
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.dark, // PWA forces dark via <html class="dark">
       routerConfig: router,
+      scrollBehavior: const AppScrollBehavior(),
       locale: translationProvider.flutterLocale,
       supportedLocales: AppLocaleUtils.supportedLocales,
       localizationsDelegates: const [

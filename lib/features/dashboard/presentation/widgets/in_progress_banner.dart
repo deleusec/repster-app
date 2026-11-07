@@ -13,6 +13,7 @@ import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/app_dialog.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/soft_glow.dart';
 
 /// In-progress session banner — a gradient hero card with a pulsing LIVE dot,
@@ -55,7 +56,7 @@ class _InProgressBannerState extends ConsumerState<InProgressBanner> {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final primary = scheme.primary;
+    final primary = scheme.glow;
     final onSurface = scheme.onSurface;
     final info = widget.info;
 
@@ -185,38 +186,37 @@ class _DiscardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
     final fg = onSurface.withValues(alpha: 0.5);
-    return Material(
-      color: onSurface.withValues(alpha: 0.05),
-      borderRadius: BorderRadius.circular(AppRadius.xxl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xxl),
-        onTap: onTap,
-        child: Container(
-          height: 36,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (loading)
-                SizedBox(
-                  width: 14,
-                  height: 14,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: fg),
-                )
-              else
-                Icon(LucideIcons.x, size: 15, color: fg),
-              const SizedBox(width: 6),
-              Text(
-                t.dashboard.inProgress.discard,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: fg,
-                ),
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        height: 36,
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: onSurface.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(AppRadius.xxl),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (loading)
+              SizedBox(
+                width: 14,
+                height: 14,
+                child: CircularProgressIndicator(strokeWidth: 2, color: fg),
+              )
+            else
+              Icon(LucideIcons.x, size: 15, color: fg),
+            const SizedBox(width: 6),
+            Text(
+              t.dashboard.inProgress.discard,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: fg,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

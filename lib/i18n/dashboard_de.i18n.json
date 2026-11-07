@@ -23,7 +23,8 @@
     "start": "Einheit starten",
     "emptyTitle": "Erstelle deine erste Vorlage",
     "emptyMessage": "Richte deine Übungen ein und los geht’s.",
-    "create": "Vorlage erstellen"
+    "create": "Vorlage erstellen",
+    "duration": "≈ {{n}} Min"
   },
   "recent": {
     "emptyTitle": "Starte deine erste Einheit!",
@@ -47,7 +48,13 @@
     "weekCount": {
       "one": "Woche",
       "other": "Wochen"
-    }
+    },
+    "streakLabel": {
+      "one": "Woche\nin Folge",
+      "other": "Wochen\nin Folge"
+    },
+    "sessionsWeek": "Einheiten\ndiese Woche",
+    "volumeWeek": "Volumen\ndiese Woche"
   },
   "streakBadge": {
     "one": "{{n}} Woche in Folge",

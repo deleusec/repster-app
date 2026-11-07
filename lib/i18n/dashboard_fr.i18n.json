@@ -23,7 +23,8 @@
     "start": "Démarrer la séance",
     "emptyTitle": "Crée ton premier template",
     "emptyMessage": "Configure tes exercices et c’est parti.",
-    "create": "Créer un template"
+    "create": "Créer un template",
+    "duration": "≈ {{n}} min"
   },
   "recent": {
     "emptyTitle": "Lance ta première séance !",
@@ -47,7 +48,13 @@
     "weekCount": {
       "one": "semaine",
       "other": "semaines"
-    }
+    },
+    "streakLabel": {
+      "one": "semaine\nde suite",
+      "other": "semaines\nde suite"
+    },
+    "sessionsWeek": "séances\ncette semaine",
+    "volumeWeek": "volume\ncette semaine"
   },
   "streakBadge": {
     "one": "{{n}} semaine de suite",

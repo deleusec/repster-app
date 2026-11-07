@@ -23,7 +23,8 @@
     "start": "Start session",
     "emptyTitle": "Create your first template",
     "emptyMessage": "Set up your exercises and off you go.",
-    "create": "Create a template"
+    "create": "Create a template",
+    "duration": "≈ {{n}} min"
   },
   "recent": {
     "emptyTitle": "Start your first session!",
@@ -47,7 +48,13 @@
     "weekCount": {
       "one": "week",
       "other": "weeks"
-    }
+    },
+    "streakLabel": {
+      "one": "week\nin a row",
+      "other": "weeks\nin a row"
+    },
+    "sessionsWeek": "sessions\nthis week",
+    "volumeWeek": "volume\nthis week"
   },
   "streakBadge": {
     "one": "{{n}} week streak",

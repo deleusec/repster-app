@@ -6,6 +6,7 @@ import 'package:heroicons/heroicons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Scaffold with bottom navigation, used by the
 /// `StatefulShellRoute.indexedStack` app shell. Each tab's stack is preserved
@@ -148,11 +149,9 @@ class _TabItem extends StatelessWidget {
                 : Colors.transparent,
             borderRadius: borderRadius,
           ),
-          child: InkWell(
+          child: Pressable(
             onTap: onTap,
-            borderRadius: borderRadius,
-            splashColor: scheme.primary.withValues(alpha: 0.08),
-            highlightColor: Colors.transparent,
+            scale: 0.92,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

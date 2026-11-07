@@ -23,7 +23,8 @@
     "start": "Empezar sesión",
     "emptyTitle": "Crea tu primera plantilla",
     "emptyMessage": "Configura tus ejercicios y a por ello.",
-    "create": "Crear una plantilla"
+    "create": "Crear una plantilla",
+    "duration": "≈ {{n}} min"
   },
   "recent": {
     "emptyTitle": "¡Inicia tu primera sesión!",
@@ -47,7 +48,13 @@
     "weekCount": {
       "one": "semana",
       "other": "semanas"
-    }
+    },
+    "streakLabel": {
+      "one": "semana\nseguida",
+      "other": "semanas\nseguidas"
+    },
+    "sessionsWeek": "sesiones\nesta semana",
+    "volumeWeek": "volumen\nesta semana"
   },
   "streakBadge": {
     "one": "{{n}} semana seguida",

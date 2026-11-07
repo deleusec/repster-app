@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
+import 'package:repster/features/templates/domain/template_duration.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_button.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 
-/// Call-to-action card for the next session. When a template is suggested it
-/// offers to start it; otherwise it invites the user to create a first one.
+/// The home page's one bold element: the next session, ready to start.
 ///
-/// Wears the page's standard card surface ([AppSurfaces.translucentCard]), so
-/// it shares its radius, fill and border weight with the cards around it.
+/// It is the only surface on the page with a colour of its own — the muscle
+/// group's, pooled in the corner, with a trace of rose below — so the home
+/// page changes mood with what you train next: orange before a push day,
+/// blue before a pull, green before legs. Everything around it stays grey.
+///
+/// When there is nothing to suggest yet, the same card invites the user to
+/// create a first template, lit in rose.
 class HeroCtaCard extends StatelessWidget {
   const HeroCtaCard({
     required this.suggested,
@@ -30,18 +37,21 @@ class HeroCtaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
+    final template = suggested;
+    final group = template == null || template.tags.isEmpty
+        ? MuscleGroup.custom
+        : template.tags.first;
 
-    return DecoratedBox(
-      decoration: scheme.translucentCard,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: suggested != null
-              ? _withTemplate(context, suggested!, onSurface)
-              : _empty(context, onSurface),
-        ),
+    return EdgeLitSurface(
+      radius: AppRadius.sheet,
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
+      accent: template == null ? scheme.glow : group.accent,
+      accentSecondary: template == null ? null : scheme.glow,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: template != null
+            ? _withTemplate(context, template, group)
+            : _empty(context),
       ),
     );
   }
@@ -49,57 +59,46 @@ class HeroCtaCard extends StatelessWidget {
   List<Widget> _withTemplate(
     BuildContext context,
     Template template,
-    Color onSurface,
+    MuscleGroup group,
   ) {
-    final group = template.tags.isNotEmpty
-        ? template.tags.first
-        : MuscleGroup.custom;
+    final scheme = Theme.of(context).colorScheme;
     final count = template.primaryExercises.length;
+    final minutes = (estimateTemplateSeconds(template) / 60).round();
+    final meta = [
+      t.dashboard.exerciseCount(n: count),
+      if (minutes > 0) t.dashboard.hero.duration(n: minutes),
+    ].join(' · ');
+
     return [
-      // Only over a real suggestion: there is no "next session" to announce
-      // when the user has no template yet.
-      Text(
-        t.dashboard.hero.eyebrow,
-        style: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 1.8,
-          color: onSurface.withValues(alpha: 0.35),
-        ),
-      ),
-      const SizedBox(height: 14),
       Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MuscleGroupBadge(group: group, size: 44, fontSize: 22),
-          const SizedBox(width: 12),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  template.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: onSurface,
-                  ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Text(
+                t.dashboard.hero.eyebrow,
+                style: AppText.microLabel.copyWith(
+                  letterSpacing: 1.8,
+                  fontWeight: FontWeight.w600,
+                  color: scheme.textTertiary,
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  t.dashboard.exerciseCount(n: count),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: onSurface.withValues(alpha: 0.40),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
+          MuscleGroupBadge(group: group),
         ],
       ),
-      const SizedBox(height: 16),
+      const SizedBox(height: 4),
+      Text(
+        template.name,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: AppText.heroTitle.copyWith(color: scheme.textPrimary),
+      ),
+      const SizedBox(height: 6),
+      Text(meta, style: AppText.body.copyWith(color: scheme.textSecondary)),
+      const SizedBox(height: 18),
       AppButton(
         label: t.dashboard.hero.start,
         // Filled play, matching the PWA (Lucide's font glyph is outline-only,
@@ -114,25 +113,19 @@ class HeroCtaCard extends StatelessWidget {
     ];
   }
 
-  List<Widget> _empty(BuildContext context, Color onSurface) {
+  List<Widget> _empty(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return [
       Text(
         t.dashboard.hero.emptyTitle,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-          color: onSurface,
-        ),
+        style: AppText.title.copyWith(color: scheme.textPrimary),
       ),
       const SizedBox(height: 4),
       Text(
         t.dashboard.hero.emptyMessage,
-        style: TextStyle(
-          fontSize: 12,
-          color: onSurface.withValues(alpha: 0.40),
-        ),
+        style: AppText.body.copyWith(color: scheme.textSecondary),
       ),
-      const SizedBox(height: 16),
+      const SizedBox(height: 18),
       AppButton(
         label: t.dashboard.hero.create,
         icon: LucideIcons.zap,

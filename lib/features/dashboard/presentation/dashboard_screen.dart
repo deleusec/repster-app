@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/dashboard/application/dashboard_controller.dart';
 import 'package:repster/features/dashboard/domain/dashboard_data.dart';
 import 'package:repster/features/dashboard/domain/weekly_stats.dart';
@@ -21,6 +22,7 @@ import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/animation/staggered_list.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
 import 'package:repster/shared/widgets/edge_bleed.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 
 class DashboardScreen extends ConsumerWidget {
@@ -72,22 +74,24 @@ class _DashboardBody extends ConsumerWidget {
         const SizedBox(height: 20),
         if (data.inProgress != null) ...[
           stagger.wrap(InProgressBanner(info: data.inProgress!)),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
         ],
-        stagger.wrap(WeeklyStatsPanel(stats: stats)),
-        const SizedBox(height: 20),
-        stagger.wrap(
-          ConsistencyPanel(
-            consistency: data.consistency,
-            hasHistory: data.recentSessions.isNotEmpty,
-          ),
-        ),
-        const SizedBox(height: 20),
+        // The one action first: the next session, then the week in figures,
+        // then the longer view.
         stagger.wrap(
           HeroCtaCard(
             suggested: data.suggestedTemplate,
             onStart: (t) => startTemplateSession(context, ref, t.id),
             onCreate: () => context.go(Routes.templateNew),
+          ),
+        ),
+        const SizedBox(height: 22),
+        stagger.wrap(WeeklyStatsPanel(stats: stats)),
+        const SizedBox(height: 22),
+        stagger.wrap(
+          ConsistencyPanel(
+            consistency: data.consistency,
+            hasHistory: data.recentSessions.isNotEmpty,
           ),
         ),
         const SizedBox(height: 24),
@@ -131,22 +135,15 @@ class _TemplatesCarousel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     if (data.activeTemplates.isEmpty) {
       return Row(
         children: [
-          Icon(
-            LucideIcons.dumbbell,
-            size: 16,
-            color: onSurface.withValues(alpha: 0.30),
-          ),
+          Icon(LucideIcons.dumbbell, size: 16, color: scheme.textTertiary),
           const SizedBox(width: 8),
           Text(
             t.dashboard.templates.empty,
-            style: TextStyle(
-              fontSize: 14,
-              color: onSurface.withValues(alpha: 0.30),
-            ),
+            style: AppText.body.copyWith(color: scheme.textTertiary),
           ),
         ],
       );
@@ -185,38 +182,25 @@ class _RecentEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    return Container(
+    return EdgeLitSurface(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: scheme.primary.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: scheme.primary.withValues(alpha: 0.15)),
-      ),
       child: Column(
         children: [
           Icon(
             LucideIcons.award,
             size: 28,
-            color: scheme.primary.withValues(alpha: 0.50),
+            color: scheme.glow.withValues(alpha: 0.6),
           ),
           const SizedBox(height: 10),
           Text(
             t.dashboard.recent.emptyTitle,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: onSurface,
-            ),
+            style: AppText.bodyStrong.copyWith(color: scheme.textPrimary),
           ),
           const SizedBox(height: 4),
           Text(
             t.dashboard.recent.emptyMessage,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12,
-              color: onSurface.withValues(alpha: 0.35),
-            ),
+            style: AppText.caption.copyWith(color: scheme.textSecondary),
           ),
         ],
       ),

@@ -678,6 +678,7 @@ class _Translations$dashboard$hero$de extends Translations$dashboard$hero$en {
 	@override String get emptyTitle => 'Erstelle deine erste Vorlage';
 	@override String get emptyMessage => 'Richte deine Übungen ein und los geht’s.';
 	@override String get create => 'Vorlage erstellen';
+	@override String duration({required Object n}) => '≈ ${n} Min';
 }
 
 // Path: dashboard.recent
@@ -723,6 +724,12 @@ class _Translations$dashboard$stats$de extends Translations$dashboard$stats$en {
 		one: 'Woche',
 		other: 'Wochen',
 	);
+	@override String streakLabel({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n,
+		one: 'Woche\nin Folge',
+		other: 'Wochen\nin Folge',
+	);
+	@override String get sessionsWeek => 'Einheiten\ndiese Woche';
+	@override String get volumeWeek => 'Volumen\ndiese Woche';
 }
 
 // Path: dashboard.consistency
@@ -1854,6 +1861,7 @@ extension on TranslationsDe {
 			'dashboard.hero.emptyTitle' => 'Erstelle deine erste Vorlage',
 			'dashboard.hero.emptyMessage' => 'Richte deine Übungen ein und los geht’s.',
 			'dashboard.hero.create' => 'Vorlage erstellen',
+			'dashboard.hero.duration' => ({required Object n}) => '≈ ${n} Min',
 			'dashboard.recent.emptyTitle' => 'Starte deine erste Einheit!',
 			'dashboard.recent.emptyMessage' => 'Wähle eine Vorlage und los geht’s.',
 			'dashboard.recent.tonnage' => 'Tonnage',
@@ -1869,6 +1877,9 @@ extension on TranslationsDe {
 			'dashboard.stats.streak' => 'Serie',
 			'dashboard.stats.thisWeek' => 'diese Wo.',
 			'dashboard.stats.weekCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: 'Woche', other: 'Wochen', ), 
+			'dashboard.stats.streakLabel' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: 'Woche\nin Folge', other: 'Wochen\nin Folge', ), 
+			'dashboard.stats.sessionsWeek' => 'Einheiten\ndiese Woche',
+			'dashboard.stats.volumeWeek' => 'Volumen\ndiese Woche',
 			'dashboard.streakBadge' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} Woche in Folge', other: '${n} Wochen in Folge', ), 
 			'dashboard.consistency.title' => 'Beständigkeit',
 			'dashboard.consistency.trainingDays' => 'aktive Tage',
@@ -2211,12 +2222,12 @@ extension on TranslationsDe {
 			'templates.list.deleteError' => 'Löschen fehlgeschlagen.',
 			'templates.list.copySuffix' => '(Kopie)',
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} Übung', other: '${n} Übungen', ), 
+			_ => null,
+		} ?? switch (path) {
 			'templates.card.details' => 'Details',
 			'templates.card.copy' => 'Kopieren',
 			'templates.card.deleteShort' => 'Löschen',
 			'templates.card.activate' => 'Aktivieren',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.deactivate' => 'Deaktivieren',
 			'templates.detail.title' => 'Vorlage',
 			'templates.detail.noExercises' => 'Keine Übungen in dieser Vorlage.',

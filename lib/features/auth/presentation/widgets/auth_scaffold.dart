@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/shared/widgets/soft_glow.dart';
+
 /// Shared layout for all auth screens — dark background with two decorative
 /// glows.
 ///
@@ -30,11 +33,10 @@ class AuthScaffold extends StatelessWidget {
             right: 0,
             child: IgnorePointer(
               child: Center(
-                child: _Glow(
-                  width: 480,
-                  height: 380,
+                child: SoftGlow(
+                  size: 400,
                   blur: 90,
-                  color: scheme.primary.withValues(alpha: 0.12),
+                  color: scheme.glow.withValues(alpha: 0.11),
                 ),
               ),
             ),
@@ -46,11 +48,10 @@ class AuthScaffold extends StatelessWidget {
               right: 0,
               child: IgnorePointer(
                 child: Center(
-                  child: _Glow(
-                    width: 280,
-                    height: 180,
+                  child: SoftGlow(
+                    size: 220,
                     blur: 70,
-                    color: scheme.primary.withValues(alpha: 0.06),
+                    color: scheme.glow.withValues(alpha: 0.05),
                   ),
                 ),
               ),
@@ -81,35 +82,6 @@ class AuthScaffold extends StatelessWidget {
               },
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Blurred circle used as a decorative glow.
-class _Glow extends StatelessWidget {
-  const _Glow({
-    required this.width,
-    required this.height,
-    required this.blur,
-    required this.color,
-  });
-
-  final double width;
-  final double height;
-  final double blur;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(width / 2)),
-        boxShadow: [
-          BoxShadow(color: color, blurRadius: blur, spreadRadius: blur / 2),
         ],
       ),
     );

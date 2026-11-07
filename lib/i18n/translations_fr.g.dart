@@ -678,6 +678,7 @@ class _Translations$dashboard$hero$fr extends Translations$dashboard$hero$en {
 	@override String get emptyTitle => 'Crée ton premier template';
 	@override String get emptyMessage => 'Configure tes exercices et c’est parti.';
 	@override String get create => 'Créer un template';
+	@override String duration({required Object n}) => '≈ ${n} min';
 }
 
 // Path: dashboard.recent
@@ -723,6 +724,12 @@ class _Translations$dashboard$stats$fr extends Translations$dashboard$stats$en {
 		one: 'semaine',
 		other: 'semaines',
 	);
+	@override String streakLabel({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
+		one: 'semaine\nde suite',
+		other: 'semaines\nde suite',
+	);
+	@override String get sessionsWeek => 'séances\ncette semaine';
+	@override String get volumeWeek => 'volume\ncette semaine';
 }
 
 // Path: dashboard.consistency
@@ -1854,6 +1861,7 @@ extension on TranslationsFr {
 			'dashboard.hero.emptyTitle' => 'Crée ton premier template',
 			'dashboard.hero.emptyMessage' => 'Configure tes exercices et c’est parti.',
 			'dashboard.hero.create' => 'Créer un template',
+			'dashboard.hero.duration' => ({required Object n}) => '≈ ${n} min',
 			'dashboard.recent.emptyTitle' => 'Lance ta première séance !',
 			'dashboard.recent.emptyMessage' => 'Choisis un template et c’est parti.',
 			'dashboard.recent.tonnage' => 'tonnage',
@@ -1869,6 +1877,9 @@ extension on TranslationsFr {
 			'dashboard.stats.streak' => 'Streak',
 			'dashboard.stats.thisWeek' => 'cette sem.',
 			'dashboard.stats.weekCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: 'semaine', other: 'semaines', ), 
+			'dashboard.stats.streakLabel' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: 'semaine\nde suite', other: 'semaines\nde suite', ), 
+			'dashboard.stats.sessionsWeek' => 'séances\ncette semaine',
+			'dashboard.stats.volumeWeek' => 'volume\ncette semaine',
 			'dashboard.streakBadge' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} semaine de suite', other: '${n} semaines de suite', ), 
 			'dashboard.consistency.title' => 'Consistance',
 			'dashboard.consistency.trainingDays' => 'jours actifs',
@@ -2211,12 +2222,12 @@ extension on TranslationsFr {
 			'templates.list.deleteError' => 'Suppression impossible.',
 			'templates.list.copySuffix' => '(copie)',
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} exercice', other: '${n} exercices', ), 
+			_ => null,
+		} ?? switch (path) {
 			'templates.card.details' => 'Détails',
 			'templates.card.copy' => 'Copier',
 			'templates.card.deleteShort' => 'Suppr.',
 			'templates.card.activate' => 'Activer',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.deactivate' => 'Désactiver',
 			'templates.detail.title' => 'Template',
 			'templates.detail.noExercises' => 'Aucun exercice dans ce template.',

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/dashboard/presentation/widgets/streak_badge.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Dashboard header: contextual greeting, first name in large type, an
 /// optional streak badge and a tappable avatar.
@@ -22,7 +25,6 @@ class DashboardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
     final hour = DateTime.now().hour;
     final greeting = hour < 12
         ? t.dashboard.greeting.morning
@@ -42,11 +44,10 @@ class DashboardHeader extends StatelessWidget {
             children: [
               Text(
                 greeting.toUpperCase(),
-                style: TextStyle(
-                  fontSize: 10,
+                style: AppText.microLabel.copyWith(
                   fontWeight: FontWeight.w600,
                   letterSpacing: 2,
-                  color: onSurface.withValues(alpha: 0.35),
+                  color: scheme.textTertiary,
                 ),
               ),
               const SizedBox(height: 4),
@@ -54,13 +55,7 @@ class DashboardHeader extends StatelessWidget {
                 name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.6,
-                  height: 1,
-                  color: onSurface,
-                ),
+                style: AppText.display.copyWith(color: scheme.textPrimary),
               ),
               if (streakWeeks >= 2) ...[
                 const SizedBox(height: 10),
@@ -86,17 +81,19 @@ class _Avatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     const radius = 14.0;
-    return GestureDetector(
+    return Pressable(
       onTap: onTap,
+      scale: 0.94,
       child: Container(
         width: 48,
         height: 48,
         decoration: BoxDecoration(
           color: scheme.surfaceContainerHigh,
           borderRadius: BorderRadius.circular(radius),
+          border: Border.all(color: scheme.onSurface.withValues(alpha: 0.08)),
           boxShadow: [
             BoxShadow(
-              color: scheme.primary.withValues(alpha: 0.20),
+              color: scheme.glow.withValues(alpha: 0.22),
               blurRadius: 16,
               offset: const Offset(0, 6),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/dashboard/domain/consistency.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/stat_panel.dart';
@@ -60,7 +61,7 @@ class ConsistencyPanel extends StatelessWidget {
                 const SizedBox(height: 16),
                 _Heatmap(
                   dayCounts: c.dayCounts,
-                  primary: scheme.primary,
+                  primary: scheme.glow,
                   today: Consistency.dayKey(now ?? DateTime.now()),
                 ),
               ],
@@ -147,9 +148,9 @@ class _Heatmap extends StatelessWidget {
 
     Color cellColor(int count, {required bool future}) {
       if (future) return Colors.transparent;
-      if (count <= 0) return onSurface.withValues(alpha: 0.05);
-      if (count == 1) return primary.withValues(alpha: 0.45);
-      return primary.withValues(alpha: 0.85);
+      if (count <= 0) return onSurface.withValues(alpha: 0.045);
+      if (count == 1) return primary.withValues(alpha: 0.5);
+      return primary.withValues(alpha: 0.9);
     }
 
     return LayoutBuilder(

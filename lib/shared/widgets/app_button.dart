@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 enum AppButtonVariant { primary, secondary, ghost, destructive, outline }
 
@@ -10,7 +11,9 @@ enum AppButtonSize { sm, md, lg }
 /// outline) and sizes (sm / md / lg). Equivalent to shadcn's `<Button>`.
 ///
 /// Handles the [loading] state (spinner + disabled) and [icon] (before the
-/// label).
+/// label). Presses scale the button down; the primary variant casts a rose
+/// halo (the PWA's `shadow-lg shadow-primary/25`) so the one action on a card
+/// is also the one thing on it that glows.
 class AppButton extends StatelessWidget {
   const AppButton({
     required this.label,
@@ -55,7 +58,7 @@ class AppButton extends StatelessWidget {
     final (bg, fg, borderColor) = switch (variant) {
       AppButtonVariant.primary => (scheme.primary, scheme.onPrimary, null),
       AppButtonVariant.secondary => (
-        scheme.surfaceContainerHigh,
+        scheme.onSurface.withValues(alpha: 0.08),
         scheme.onSurface,
         null,
       ),
@@ -67,6 +70,11 @@ class AppButton extends StatelessWidget {
         scheme.outline,
       ),
     };
+
+    final halo =
+        variant == AppButtonVariant.primary &&
+        size != AppButtonSize.sm &&
+        !isDisabled;
 
     final child = Row(
       mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
@@ -105,26 +113,32 @@ class AppButton extends StatelessWidget {
       ],
     );
 
-    final button = Material(
-      color: bg.withValues(alpha: isDisabled ? 0.5 : 1.0),
-      borderRadius: BorderRadius.circular(AppRadius.xxl),
-      child: InkWell(
-        onTap: isDisabled ? null : onPressed,
-        borderRadius: BorderRadius.circular(AppRadius.xxl),
-        child: Container(
-          height: height,
-          padding: EdgeInsets.symmetric(horizontal: hPad),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.xxl),
-            border: borderColor != null ? Border.all(color: borderColor) : null,
-          ),
-          alignment: Alignment.center,
-          child: DefaultTextStyle.merge(
-            style: TextStyle(color: fg),
-            child: IconTheme.merge(
-              data: IconThemeData(color: fg, size: fontSize + 4),
-              child: child,
-            ),
+    final button = Pressable(
+      onTap: isDisabled ? null : onPressed,
+      haptic: variant == AppButtonVariant.primary,
+      child: Container(
+        height: height,
+        padding: EdgeInsets.symmetric(horizontal: hPad),
+        decoration: BoxDecoration(
+          color: bg.withValues(alpha: bg.a * (isDisabled ? 0.5 : 1.0)),
+          borderRadius: BorderRadius.circular(AppRadius.xxl),
+          border: borderColor != null ? Border.all(color: borderColor) : null,
+          boxShadow: halo
+              ? [
+                  BoxShadow(
+                    color: scheme.glow.withValues(alpha: 0.28),
+                    blurRadius: 18,
+                    offset: const Offset(0, 6),
+                  ),
+                ]
+              : null,
+        ),
+        alignment: Alignment.center,
+        child: DefaultTextStyle.merge(
+          style: TextStyle(color: fg),
+          child: IconTheme.merge(
+            data: IconThemeData(color: fg, size: fontSize + 4),
+            child: child,
           ),
         ),
       ),

@@ -23,7 +23,8 @@
     "start": "Inizia la sessione",
     "emptyTitle": "Crea il tuo primo modello",
     "emptyMessage": "Configura i tuoi esercizi e via.",
-    "create": "Crea un modello"
+    "create": "Crea un modello",
+    "duration": "≈ {{n}} min"
   },
   "recent": {
     "emptyTitle": "Inizia la tua prima sessione!",
@@ -47,7 +48,13 @@
     "weekCount": {
       "one": "settimana",
       "other": "settimane"
-    }
+    },
+    "streakLabel": {
+      "one": "settimana\ndi fila",
+      "other": "settimane\ndi fila"
+    },
+    "sessionsWeek": "sessioni\nquesta settimana",
+    "volumeWeek": "volume\nquesta settimana"
   },
   "streakBadge": {
     "one": "{{n}} settimana di fila",

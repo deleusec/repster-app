@@ -1071,6 +1071,9 @@ class Translations$dashboard$hero$en {
 
 	/// en: 'Create a template'
 	String get create => 'Create a template';
+
+	/// en: '≈ {{n}} min'
+	String duration({required Object n}) => '≈ ${n} min';
 }
 
 // Path: dashboard.recent
@@ -1146,6 +1149,18 @@ class Translations$dashboard$stats$en {
 		one: 'week',
 		other: 'weeks',
 	);
+
+	/// en: '(one) {week in a row} (other) {weeks in a row}'
+	String streakLabel({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: 'week\nin a row',
+		other: 'weeks\nin a row',
+	);
+
+	/// en: 'sessions this week'
+	String get sessionsWeek => 'sessions\nthis week';
+
+	/// en: 'volume this week'
+	String get volumeWeek => 'volume\nthis week';
 }
 
 // Path: dashboard.consistency
@@ -2993,6 +3008,7 @@ extension on Translations {
 			'dashboard.hero.emptyTitle' => 'Create your first template',
 			'dashboard.hero.emptyMessage' => 'Set up your exercises and off you go.',
 			'dashboard.hero.create' => 'Create a template',
+			'dashboard.hero.duration' => ({required Object n}) => '≈ ${n} min',
 			'dashboard.recent.emptyTitle' => 'Start your first session!',
 			'dashboard.recent.emptyMessage' => 'Pick a template and off you go.',
 			'dashboard.recent.tonnage' => 'tonnage',
@@ -3008,6 +3024,9 @@ extension on Translations {
 			'dashboard.stats.streak' => 'Streak',
 			'dashboard.stats.thisWeek' => 'this wk',
 			'dashboard.stats.weekCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'week', other: 'weeks', ), 
+			'dashboard.stats.streakLabel' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'week\nin a row', other: 'weeks\nin a row', ), 
+			'dashboard.stats.sessionsWeek' => 'sessions\nthis week',
+			'dashboard.stats.volumeWeek' => 'volume\nthis week',
 			'dashboard.streakBadge' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} week streak', other: '${n} weeks streak', ), 
 			'dashboard.consistency.title' => 'Consistency',
 			'dashboard.consistency.trainingDays' => 'active days',
@@ -3349,12 +3368,12 @@ extension on Translations {
 			'templates.list.deleted' => 'Session deleted.',
 			'templates.list.deleteError' => 'Deletion failed.',
 			'templates.list.copySuffix' => '(copy)',
+			_ => null,
+		} ?? switch (path) {
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} exercise', other: '${n} exercises', ), 
 			'templates.card.details' => 'Details',
 			'templates.card.copy' => 'Copy',
 			'templates.card.deleteShort' => 'Delete',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.activate' => 'Activate',
 			'templates.card.deactivate' => 'Deactivate',
 			'templates.detail.title' => 'Template',

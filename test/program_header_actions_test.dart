@@ -7,6 +7,7 @@ import 'package:repster/features/templates/application/templates_controller.dart
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/presentation/templates_screen.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 class _OneTemplate extends TemplatesController {
   @override
@@ -26,7 +27,7 @@ class _OneTemplate extends TemplatesController {
 
 /// Width of the tappable box behind a header chip label.
 Size _chipSize(WidgetTester tester, String label) => tester.getSize(
-  find.ancestor(of: find.text(label), matching: find.byType(InkWell)).first,
+  find.ancestor(of: find.text(label), matching: find.byType(Pressable)).first,
 );
 
 Future<void> _pump(WidgetTester tester) async {
@@ -41,10 +42,7 @@ Future<void> _pump(WidgetTester tester) async {
   await tester.pumpWidget(
     ProviderScope(
       overrides: [templatesControllerProvider.overrideWith(_OneTemplate.new)],
-      child: MaterialApp(
-        theme: AppTheme.dark(),
-        home: const TemplatesScreen(),
-      ),
+      child: MaterialApp(theme: AppTheme.dark(), home: const TemplatesScreen()),
     ),
   );
   await tester.pumpAndSettle();

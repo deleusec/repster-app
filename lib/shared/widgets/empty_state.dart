@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
+import 'package:repster/shared/widgets/app_button.dart';
+
 /// Standard empty state — icon, title, short message and optional CTA.
 class EmptyState extends StatelessWidget {
   const EmptyState({
@@ -29,38 +33,35 @@ class EmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: scheme.surfaceContainerHigh,
+                color: scheme.onSurface.withValues(alpha: 0.05),
                 shape: BoxShape.circle,
+                border: Border.all(
+                  color: scheme.onSurface.withValues(alpha: 0.08),
+                ),
               ),
-              child: Icon(
-                icon,
-                size: 32,
-                color: scheme.onSurface.withValues(alpha: 0.5),
-              ),
+              child: Icon(icon, size: 32, color: scheme.textSecondary),
             ),
           if (icon != null) const SizedBox(height: 20),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: AppText.title.copyWith(
               fontSize: 18,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.3,
+              color: scheme.textPrimary,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: scheme.onSurface.withValues(alpha: 0.6),
+            style: AppText.body.copyWith(
               height: 1.4,
+              color: scheme.textSecondary,
             ),
           ),
           if (actionLabel != null && onAction != null) ...[
             const SizedBox(height: 20),
-            FilledButton(onPressed: onAction, child: Text(actionLabel!)),
+            AppButton(label: actionLabel!, onPressed: onAction),
           ],
         ],
       ),

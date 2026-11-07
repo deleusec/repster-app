@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/shared/l10n/muscle_group_l10n.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Colored badge for a muscle group, using the group's accent color for both
 /// the background tint and the label.
@@ -60,14 +61,6 @@ class MuscleGroupChip extends StatelessWidget {
     );
 
     if (onTap == null) return chip;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(10),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
-        child: chip,
-      ),
-    );
+    return Pressable(onTap: onTap, scale: 0.94, child: chip);
   }
 }

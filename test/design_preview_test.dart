@@ -307,6 +307,7 @@ Future<void> _shoot(
   Widget screen,
   List<Override> overrides, {
   double height = 844,
+  Future<void> Function(WidgetTester)? act,
 }) async {
   tester.view.physicalSize = Size(390 * 3, height * 3);
   tester.view.devicePixelRatio = 3;
@@ -338,6 +339,10 @@ Future<void> _shoot(
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 1500));
   await tester.pump(const Duration(milliseconds: 1500));
+  if (act != null) {
+    await act(tester);
+    await tester.pump(const Duration(milliseconds: 1500));
+  }
   await tester.runAsync(() async {
     final boundary =
         key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
@@ -374,6 +379,18 @@ void main() {
   });
   testWidgets('templates', (t) async {
     await _shoot(t, 'templates', const TemplatesScreen(), common, height: 1100);
+  });
+  testWidgets('templates manage', (tester) async {
+    await _shoot(
+      tester,
+      'templates_manage',
+      const TemplatesScreen(),
+      common,
+      height: 1100,
+      act: (w) async {
+        await w.tap(find.text(t.templates.list.manage));
+      },
+    );
   });
   testWidgets('history', (t) async {
     await _shoot(t, 'history', const HistoryScreen(), common, height: 1300);

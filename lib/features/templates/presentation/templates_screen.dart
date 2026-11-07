@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/session/presentation/start_session.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/presentation/widgets/template_list_card.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/animation/staggered_list.dart';
 import 'package:repster/shared/l10n/muscle_group_l10n.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
@@ -19,6 +21,7 @@ import 'package:repster/shared/widgets/edge_bleed.dart';
 import 'package:repster/shared/widgets/empty_state.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
 
 /// `emerald-600` — "Done" button in manage mode.
@@ -210,8 +213,8 @@ class _ProgramHeader extends StatelessWidget {
   }
 }
 
-/// Small chip-button for header actions (avoids ButtonStyleButton in the AppBar
-/// toolbar). Filled (background) or outline variant.
+/// Small chip-button for header actions. Filled (background, with the
+/// brand's halo) or outline variant.
 class _HeaderChip extends StatelessWidget {
   const _HeaderChip({
     required this.icon,
@@ -220,6 +223,7 @@ class _HeaderChip extends StatelessWidget {
     required this.onTap,
     this.background,
     this.border,
+    this.halo = false,
   });
 
   final IconData icon;
@@ -228,44 +232,52 @@ class _HeaderChip extends StatelessWidget {
   final VoidCallback onTap;
   final Color? background;
   final Color? border;
+  final bool halo;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: background ?? Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.controlSm),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppRadius.controlSm),
-        child: Container(
-          height: 36,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.controlSm),
-            border: border != null ? Border.all(color: border!) : null,
-          ),
-          // Centred rather than min-width: the chip is stretched to the
-          // widest of the pair, so its content has to sit in the middle of
-          // the box instead of hugging the left edge.
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 15, color: foreground),
-              const SizedBox(width: 6),
-              Flexible(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: foreground,
+    final glow = Theme.of(context).colorScheme.glow;
+    return Pressable(
+      onTap: onTap,
+      scale: 0.94,
+      child: Container(
+        height: 36,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: background,
+          borderRadius: BorderRadius.circular(AppRadius.controlSm),
+          border: border != null ? Border.all(color: border!) : null,
+          boxShadow: halo
+              ? [
+                  BoxShadow(
+                    color: glow.withValues(alpha: 0.25),
+                    blurRadius: 14,
+                    offset: const Offset(0, 4),
                   ),
+                ]
+              : null,
+        ),
+        // Centred rather than min-width: the chip is stretched to the
+        // widest of the pair, so its content has to sit in the middle of
+        // the box instead of hugging the left edge.
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 15, color: foreground),
+            const SizedBox(width: 6),
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: foreground,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -334,6 +346,7 @@ class _NormalList extends StatelessWidget {
           label: t.templates.list.newAction,
           foreground: scheme.onPrimary,
           background: scheme.primary,
+          halo: true,
           onTap: onNew,
         ),
       ],
@@ -391,6 +404,7 @@ class _NormalList extends StatelessWidget {
         if (active.any((t) => t.tags.contains(g))) g,
     ];
 
+    final stagger = StaggeredList();
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: ListView(
@@ -414,38 +428,28 @@ class _NormalList extends StatelessWidget {
               child: Center(
                 child: Text(
                   t.templates.list.noResult,
-                  style: TextStyle(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.4),
-                  ),
+                  style: AppText.body.copyWith(color: scheme.textTertiary),
                 ),
               ),
             )
           else
-            for (var i = 0; i < filtered.length; i++)
+            for (final template in filtered)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child:
-                    TemplateListCard(
-                          template: filtered[i],
-                          manageMode: false,
-                          confirmingDelete: confirmDeleteId == filtered[i].id,
-                          onStart: () => onStart(filtered[i]),
-                          onEdit: () => onEdit(filtered[i]),
-                          onDetails: () => onDetails(filtered[i]),
-                          onDuplicate: () => onDuplicate(filtered[i]),
-                          onRequestDelete: () => onRequestDelete(filtered[i]),
-                          onDelete: () => onDelete(filtered[i]),
-                          onToggleActive: () {},
-                        )
-                        .animate(delay: (i * 50).ms)
-                        .fadeIn(duration: 300.ms)
-                        .slideY(
-                          begin: 0.06,
-                          end: 0,
-                          curve: Curves.easeOutCubic,
-                        ),
+                child: stagger.wrap(
+                  TemplateListCard(
+                    template: template,
+                    manageMode: false,
+                    confirmingDelete: confirmDeleteId == template.id,
+                    onStart: () => onStart(template),
+                    onEdit: () => onEdit(template),
+                    onDetails: () => onDetails(template),
+                    onDuplicate: () => onDuplicate(template),
+                    onRequestDelete: () => onRequestDelete(template),
+                    onDelete: () => onDelete(template),
+                    onToggleActive: () {},
+                  ),
+                ),
               ),
         ],
       ),
@@ -465,18 +469,10 @@ class _SearchBar extends StatelessWidget {
     return Container(
       height: 48,
       padding: const EdgeInsets.symmetric(horizontal: 14),
-      decoration: BoxDecoration(
-        color: onSurface.withValues(alpha: 0.04),
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: onSurface.withValues(alpha: 0.07)),
-      ),
+      decoration: scheme.controlSurface,
       child: Row(
         children: [
-          Icon(
-            LucideIcons.search,
-            size: 18,
-            color: onSurface.withValues(alpha: 0.45),
-          ),
+          Icon(LucideIcons.search, size: 18, color: scheme.textTertiary),
           const SizedBox(width: 10),
           Expanded(
             child: TextField(
@@ -493,10 +489,7 @@ class _SearchBar extends StatelessWidget {
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 hintText: t.templates.list.searchHint,
-                hintStyle: TextStyle(
-                  fontSize: 14,
-                  color: onSurface.withValues(alpha: 0.4),
-                ),
+                hintStyle: AppText.body.copyWith(color: scheme.textTertiary),
               ),
             ),
           ),
@@ -504,18 +497,18 @@ class _SearchBar extends StatelessWidget {
             valueListenable: controller,
             builder: (context, value, _) {
               if (value.text.isEmpty) return const SizedBox.shrink();
-              return GestureDetector(
+              return Pressable(
                 onTap: () {
                   controller.clear();
                   onChanged('');
                 },
-                behavior: HitTestBehavior.opaque,
+                scale: 0.85,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Icon(
                     LucideIcons.x,
                     size: 18,
-                    color: onSurface.withValues(alpha: 0.45),
+                    color: scheme.textSecondary,
                   ),
                 ),
               );
@@ -601,29 +594,26 @@ class _Pill extends StatelessWidget {
       border = scheme.primary;
     } else {
       bg = scheme.onSurface.withValues(alpha: 0.04);
-      fg = scheme.onSurface.withValues(alpha: 0.6);
+      fg = scheme.textSecondary;
       border = scheme.onSurface.withValues(alpha: 0.10);
     }
-    return Material(
-      color: bg,
-      borderRadius: BorderRadius.circular(AppRadius.pill),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            border: Border.all(color: border),
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: fg,
-            ),
+    return Pressable(
+      onTap: onTap,
+      scale: 0.94,
+      child: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(AppRadius.pill),
+          border: Border.all(color: border),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: fg,
           ),
         ),
       ),
@@ -704,7 +694,7 @@ class _ManageList extends StatelessWidget {
                 child: Icon(
                   LucideIcons.gripVertical,
                   size: 20,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.glow,
                 ),
               ),
             ),
@@ -721,24 +711,22 @@ class _ManageHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final glow = scheme.glow;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: scheme.primary.withValues(alpha: 0.10),
+        color: glow.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: scheme.primary.withValues(alpha: 0.25)),
+        border: Border.all(color: glow.withValues(alpha: 0.22)),
       ),
       child: Row(
         children: [
-          Icon(LucideIcons.slidersHorizontal, size: 16, color: scheme.primary),
+          Icon(LucideIcons.slidersHorizontal, size: 16, color: glow),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               t.templates.list.manageHint,
-              style: TextStyle(
-                fontSize: 12,
-                color: scheme.primary.withValues(alpha: 0.8),
-              ),
+              style: AppText.caption.copyWith(color: scheme.textSecondary),
             ),
           ),
         ],

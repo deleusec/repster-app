@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/l10n/muscle_group_l10n.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Template card in the list (Templates page): group thumbnail, name +
 /// description + tags + exercise count, and — depending on the mode — either an
 /// action bar (Edit / Details / Copy / Delete) or a drag handle plus an
 /// active/inactive toggle.
+///
+/// The card body is the "start" control: pressing it scales the whole card.
+/// The action bar below has its own, smaller presses so the two never fight.
 class TemplateListCard extends StatelessWidget {
   const TemplateListCard({
     required this.template,
@@ -43,49 +50,31 @@ class TemplateListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
     final active = template.isActive;
 
-    final card = DecoratedBox(
-      decoration: BoxDecoration(
-        color: onSurface.withValues(alpha: active ? 0.03 : 0.015),
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(
-          color: onSurface.withValues(alpha: active ? 0.07 : 0.04),
-        ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        // Transparent Material inside the clip: otherwise the InkWell
-        // hover/splash effects paint on the ancestor Material and bleed past the
-        // rounded corners (visible on web hover).
-        child: Material(
-          type: MaterialType.transparency,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+    final card = EdgeLitSurface(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  if (manageMode && dragHandle != null) dragHandle!,
-                  Expanded(child: _content(context, scheme)),
-                  if (manageMode) _toggle(scheme),
-                ],
-              ),
-              if (!manageMode) _actionsBar(context, scheme),
+              if (manageMode && dragHandle != null) dragHandle!,
+              Expanded(child: _content(context, scheme)),
+              if (manageMode) _toggle(scheme),
             ],
           ),
-        ),
+          if (!manageMode) _actionsBar(context, scheme),
+        ],
       ),
     );
 
     if (!active && manageMode) {
-      return Opacity(opacity: 0.5, child: card);
+      return Opacity(opacity: 0.45, child: card);
     }
     return card;
   }
 
   Widget _content(BuildContext context, ColorScheme scheme) {
-    final onSurface = scheme.onSurface;
     final group = template.tags.isNotEmpty
         ? template.tags.first
         : MuscleGroup.custom;
@@ -93,109 +82,98 @@ class TemplateListCard extends StatelessWidget {
     final tags = template.tags.take(3).toList(growable: false);
     final extra = template.tags.length - tags.length;
 
-    return InkWell(
-      onTap: manageMode ? null : onStart,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MuscleGroupBadge(group: group, size: 44, fontSize: 22),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+    final body = Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MuscleGroupBadge(group: group, size: 44, fontSize: 22),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  template.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppText.cardTitle.copyWith(color: scheme.textPrimary),
+                ),
+                if (template.description.isNotEmpty) ...[
+                  const SizedBox(height: 2),
                   Text(
-                    template.name,
+                    template.description,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: onSurface.withValues(
-                        alpha: template.isActive || !manageMode ? 1 : 0.5,
-                      ),
+                    style: AppText.caption.copyWith(
+                      color: scheme.textSecondary,
                     ),
                   ),
-                  if (template.description.isNotEmpty) ...[
-                    const SizedBox(height: 2),
+                ],
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    for (final t in tags) _TagPill(group: t),
+                    if (extra > 0)
+                      Text(
+                        '+$extra',
+                        style: AppText.caption.copyWith(
+                          color: scheme.textTertiary,
+                        ),
+                      ),
                     Text(
-                      template.description,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: onSurface.withValues(alpha: 0.5),
+                      '· ${t.templates.card.exerciseCount(n: count)}',
+                      style: AppText.caption.copyWith(
+                        color: scheme.textTertiary,
                       ),
                     ),
                   ],
-                  const SizedBox(height: 6),
-                  Wrap(
-                    spacing: 6,
-                    runSpacing: 4,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      for (final t in tags) _TagPill(group: t),
-                      if (extra > 0)
-                        Text(
-                          '+$extra',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: onSurface.withValues(alpha: 0.5),
-                          ),
-                        ),
-                      Text(
-                        '· ${t.templates.card.exerciseCount(n: count)}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: onSurface.withValues(alpha: 0.5),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            if (!manageMode) ...[
-              const SizedBox(width: 8),
-              Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: Icon(
-                  Icons.play_arrow_rounded,
-                  size: 18,
-                  color: scheme.primary,
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+          if (!manageMode) ...[
+            const SizedBox(width: 10),
+            _PlayMark(color: scheme.primary),
           ],
-        ),
+        ],
       ),
     );
+
+    if (manageMode) return body;
+    return Pressable(onTap: onStart, haptic: true, child: body);
   }
 
   Widget _toggle(ColorScheme scheme) {
+    final active = template.isActive;
     return Padding(
-      padding: const EdgeInsets.only(right: 16, left: 4),
-      child: IconButton(
-        onPressed: onToggleActive,
-        visualDensity: VisualDensity.compact,
-        tooltip: template.isActive
+      padding: const EdgeInsets.only(right: 12),
+      child: Tooltip(
+        message: active
             ? t.templates.card.deactivate
             : t.templates.card.activate,
-        icon: Icon(
-          template.isActive ? LucideIcons.circleCheck : LucideIcons.circle,
-          size: 22,
-          color: template.isActive
-              ? scheme.primary
-              : scheme.onSurface.withValues(alpha: 0.45),
+        child: Pressable(
+          onTap: onToggleActive,
+          scale: 0.9,
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: Icon(
+              active ? LucideIcons.circleCheck : LucideIcons.circle,
+              size: 22,
+              color: active ? scheme.glow : scheme.textTertiary,
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _actionsBar(BuildContext context, ColorScheme scheme) {
-    final divider = scheme.onSurface.withValues(alpha: 0.07);
+    final divider = scheme.hairline;
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: divider)),
@@ -229,14 +207,12 @@ class TemplateListCard extends StatelessWidget {
                 label: t.common.actions.confirm,
                 onTap: onDelete,
                 danger: true,
-                active: true,
               )
             else
               _ActionButton(
                 icon: LucideIcons.trash2,
                 label: t.templates.card.deleteShort,
                 onTap: onRequestDelete,
-                danger: true,
               ),
           ],
         ),
@@ -245,6 +221,27 @@ class TemplateListCard extends StatelessWidget {
   }
 
   Widget _vDivider(Color color) => Container(width: 1, color: color);
+}
+
+/// The start affordance: a filled play in a disc of the brand's light.
+class _PlayMark extends StatelessWidget {
+  const _PlayMark({required this.color});
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final glow = Theme.of(context).colorScheme.glow;
+    return Container(
+      width: 32,
+      height: 32,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: glow.withValues(alpha: 0.14),
+      ),
+      child: Icon(Icons.play_arrow_rounded, size: 20, color: glow),
+    );
+  }
 }
 
 class _TagPill extends StatelessWidget {
@@ -257,7 +254,7 @@ class _TagPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.15),
+        color: accent.withValues(alpha: 0.14),
         borderRadius: BorderRadius.circular(AppRadius.pill),
       ),
       child: Text(
@@ -278,24 +275,23 @@ class _ActionButton extends StatelessWidget {
     required this.label,
     required this.onTap,
     this.danger = false,
-    this.active = false,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+
+  /// The armed delete: red, so the second tap knows what it is confirming.
   final bool danger;
-  final bool active;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final color = (danger && active)
-        ? scheme.error
-        : scheme.onSurface.withValues(alpha: 0.55);
+    final color = danger ? scheme.error : scheme.textSecondary;
     return Expanded(
-      child: InkWell(
+      child: Pressable(
         onTap: onTap,
+        scale: 0.94,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -303,8 +299,7 @@ class _ActionButton extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 12,
+              style: AppText.caption.copyWith(
                 fontWeight: FontWeight.w600,
                 color: color,
               ),

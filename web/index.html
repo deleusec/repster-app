@@ -18,16 +18,16 @@
   <meta name="description" content="Repster — carnet de bord pour séances de musculation">
 
   <!--
-    Status bar: "black" keeps iOS laying the page out below an opaque bar.
-    "black-translucent" would let it run under the bar (the band goes away),
-    but switching it on a phone whose home-screen icon was pinned with the
-    old value produced a hidden header and offset taps. Flip it back only
-    together with a fresh pin, and read the diagnostic line under the
-    settings version first (repsterDiag below).
+    Installed on iOS, the page runs under the status bar (black-translucent +
+    viewport-fit=cover) instead of below a black band; the app pads its own
+    content by the insets measured below. iOS reads this meta when the icon
+    is pinned, never after: an icon pinned under the old "black" value keeps
+    an opaque bar, a page 47 pt shorter than the screen, and taps offset by
+    that much. Re-pin the app after changing it.
   -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Repster">
   <meta name="theme-color" content="#010101">
   <meta name="format-detection" content="telephone=no">
@@ -119,16 +119,44 @@
   <script id="splash-screen-script">
     // Safe-area insets in CSS pixels, read by the app at startup and on every
     // layout change (see lib/core/web/safe_area_web.dart).
+    //
+    // env(safe-area-inset-*) is the source when WebKit fills it in. A pinned
+    // iOS app has been seen reporting zeros while still running edge to edge
+    // at the bottom, so when every value is zero the insets are inferred from
+    // the screen instead: the status bar height on iPhones with a notch or
+    // Dynamic Island is 47 (844/926 pt tall) or 59 (852/932 pt), the home
+    // indicator takes 34, and both only apply to the part of the screen the
+    // page actually covers.
+    var standalone = window.navigator.standalone === true;
+    window.repsterSafeAreaSource = "env";
     window.repsterSafeArea = function () {
       var probe = document.getElementById("safe-area-probe");
-      if (!probe) return [0, 0, 0, 0];
-      var cs = getComputedStyle(probe);
-      return [
-        parseFloat(cs.paddingTop) || 0,
-        parseFloat(cs.paddingRight) || 0,
-        parseFloat(cs.paddingBottom) || 0,
-        parseFloat(cs.paddingLeft) || 0,
-      ];
+      var env = [0, 0, 0, 0];
+      if (probe) {
+        var cs = getComputedStyle(probe);
+        env = [
+          parseFloat(cs.paddingTop) || 0,
+          parseFloat(cs.paddingRight) || 0,
+          parseFloat(cs.paddingBottom) || 0,
+          parseFloat(cs.paddingLeft) || 0,
+        ];
+      }
+      if (env[0] || env[1] || env[2] || env[3] || !standalone) {
+        window.repsterSafeAreaSource = "env";
+        return env;
+      }
+      var sh = screen.height, sw = screen.width;
+      var portrait = window.innerHeight >= window.innerWidth;
+      var tall = Math.max(sh, sw);
+      var notch = tall >= 780;
+      if (!notch || !portrait) {
+        window.repsterSafeAreaSource = "guess-flat";
+        return [0, 0, 0, 0];
+      }
+      var bar = (tall === 852 || tall === 932 || tall === 874 || tall === 956) ? 59 : 47;
+      var coversTop = window.innerHeight >= sh - 1;
+      window.repsterSafeAreaSource = coversTop ? "guess-full" : "guess-below-bar";
+      return [coversTop ? bar : 0, 0, 34, 0];
     };
 
     // Everything the app needs to know about the host it runs in, as one
@@ -140,7 +168,7 @@
         "shell=2",
         "standalone=" + (window.navigator.standalone === true ? 1 : 0),
         "display=" + (window.matchMedia("(display-mode: standalone)").matches ? "standalone" : "browser"),
-        "env=" + sa.join("/"),
+        "insets=" + sa.join("/") + "(" + window.repsterSafeAreaSource + ")",
         "bar=" + (meta ? meta.content : "none"),
         "win=" + window.innerWidth + "x" + window.innerHeight,
         "screen=" + screen.width + "x" + screen.height,

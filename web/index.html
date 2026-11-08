@@ -18,13 +18,16 @@
   <meta name="description" content="Repster — carnet de bord pour séances de musculation">
 
   <!--
-    Installed on iOS, the page runs under the status bar (black-translucent +
-    viewport-fit=cover) instead of below a black band. The app then pads its
-    own content by the safe-area insets, measured below and handed to Flutter.
+    Status bar: "black" keeps iOS laying the page out below an opaque bar.
+    "black-translucent" would let it run under the bar (the band goes away),
+    but switching it on a phone whose home-screen icon was pinned with the
+    old value produced a hidden header and offset taps. Flip it back only
+    together with a fresh pin, and read the diagnostic line under the
+    settings version first (repsterDiag below).
   -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Repster">
   <meta name="theme-color" content="#010101">
   <meta name="format-detection" content="telephone=no">

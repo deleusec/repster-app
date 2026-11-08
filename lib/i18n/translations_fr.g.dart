@@ -1849,7 +1849,6 @@ class _Translations$templates$detail$fr extends Translations$templates$detail$en
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Template';
 	@override String get noExercises => 'Aucun exercice dans ce template.';
 	@override String get superset => 'Superset';
 	@override String setsCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
@@ -1859,10 +1858,6 @@ class _Translations$templates$detail$fr extends Translations$templates$detail$en
 	@override String seconds({required Object n}) => '${n} s';
 	@override String tempo({required Object value}) => 'Tempo ${value}';
 	@override String rest({required Object n}) => 'Repos ${n}s';
-	@override String variantsMore({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
-		one: '+${n} variante',
-		other: '+${n} variantes',
-	);
 	@override String get start => 'Démarrer la séance';
 }
 
@@ -3041,14 +3036,12 @@ extension on TranslationsFr {
 			'templates.card.deleteShort' => 'Suppr.',
 			'templates.card.activate' => 'Activer',
 			'templates.card.deactivate' => 'Désactiver',
-			'templates.detail.title' => 'Template',
 			'templates.detail.noExercises' => 'Aucun exercice dans ce template.',
 			'templates.detail.superset' => 'Superset',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} série', other: '${n} séries', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',
 			'templates.detail.rest' => ({required Object n}) => 'Repos ${n}s',
-			'templates.detail.variantsMore' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '+${n} variante', other: '+${n} variantes', ), 
 			'templates.detail.start' => 'Démarrer la séance',
 			'templates.editor.newTitle' => 'Nouvelle séance',
 			'templates.editor.editTitle' => 'Modifier la séance',

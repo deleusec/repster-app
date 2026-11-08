@@ -41,7 +41,6 @@
     "deactivate": "Disattiva"
   },
   "detail": {
-    "title": "Modello",
     "noExercises": "Nessun esercizio in questo modello.",
     "superset": "Superserie",
     "setsCount": {
@@ -51,10 +50,6 @@
     "seconds": "{{n}} s",
     "tempo": "Tempo {{value}}",
     "rest": "Riposo {{n}}s",
-    "variantsMore": {
-      "one": "+{{n}} variante",
-      "other": "+{{n}} varianti"
-    },
     "start": "Avvia la sessione"
   },
   "editor": {

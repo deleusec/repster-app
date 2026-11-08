@@ -1849,7 +1849,6 @@ class _Translations$templates$detail$de extends Translations$templates$detail$en
 	final TranslationsDe _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Vorlage';
 	@override String get noExercises => 'Keine Übungen in dieser Vorlage.';
 	@override String get superset => 'Supersatz';
 	@override String setsCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n,
@@ -1859,10 +1858,6 @@ class _Translations$templates$detail$de extends Translations$templates$detail$en
 	@override String seconds({required Object n}) => '${n} s';
 	@override String tempo({required Object value}) => 'Tempo ${value}';
 	@override String rest({required Object n}) => 'Pause ${n}s';
-	@override String variantsMore({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n,
-		one: '+${n} Variante',
-		other: '+${n} Varianten',
-	);
 	@override String get start => 'Einheit starten';
 }
 
@@ -3041,14 +3036,12 @@ extension on TranslationsDe {
 			'templates.card.deleteShort' => 'Löschen',
 			'templates.card.activate' => 'Aktivieren',
 			'templates.card.deactivate' => 'Deaktivieren',
-			'templates.detail.title' => 'Vorlage',
 			'templates.detail.noExercises' => 'Keine Übungen in dieser Vorlage.',
 			'templates.detail.superset' => 'Supersatz',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} Satz', other: '${n} Sätze', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',
 			'templates.detail.rest' => ({required Object n}) => 'Pause ${n}s',
-			'templates.detail.variantsMore' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '+${n} Variante', other: '+${n} Varianten', ), 
 			'templates.detail.start' => 'Einheit starten',
 			'templates.editor.newTitle' => 'Neue Einheit',
 			'templates.editor.editTitle' => 'Einheit bearbeiten',

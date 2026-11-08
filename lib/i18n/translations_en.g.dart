@@ -2782,9 +2782,6 @@ class Translations$templates$detail$en {
 
 	// Translations
 
-	/// en: 'Template'
-	String get title => 'Template';
-
 	/// en: 'No exercises in this template.'
 	String get noExercises => 'No exercises in this template.';
 
@@ -2805,12 +2802,6 @@ class Translations$templates$detail$en {
 
 	/// en: 'Rest {{n}}s'
 	String rest({required Object n}) => 'Rest ${n}s';
-
-	/// en: '(one) {+{{n}} variant} (other) {+{{n}} variants}'
-	String variantsMore({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		one: '+${n} variant',
-		other: '+${n} variants',
-	);
 
 	/// en: 'Start session'
 	String get start => 'Start session';
@@ -4172,14 +4163,12 @@ extension on Translations {
 			'templates.card.deleteShort' => 'Delete',
 			'templates.card.activate' => 'Activate',
 			'templates.card.deactivate' => 'Deactivate',
-			'templates.detail.title' => 'Template',
 			'templates.detail.noExercises' => 'No exercises in this template.',
 			'templates.detail.superset' => 'Superset',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} set', other: '${n} sets', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',
 			'templates.detail.rest' => ({required Object n}) => 'Rest ${n}s',
-			'templates.detail.variantsMore' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '+${n} variant', other: '+${n} variants', ), 
 			'templates.detail.start' => 'Start session',
 			'templates.editor.newTitle' => 'New session',
 			'templates.editor.editTitle' => 'Edit session',

@@ -1849,7 +1849,6 @@ class _Translations$templates$detail$it extends Translations$templates$detail$en
 	final TranslationsIt _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Modello';
 	@override String get noExercises => 'Nessun esercizio in questo modello.';
 	@override String get superset => 'Superserie';
 	@override String setsCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n,
@@ -1859,10 +1858,6 @@ class _Translations$templates$detail$it extends Translations$templates$detail$en
 	@override String seconds({required Object n}) => '${n} s';
 	@override String tempo({required Object value}) => 'Tempo ${value}';
 	@override String rest({required Object n}) => 'Riposo ${n}s';
-	@override String variantsMore({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n,
-		one: '+${n} variante',
-		other: '+${n} varianti',
-	);
 	@override String get start => 'Avvia la sessione';
 }
 
@@ -3041,14 +3036,12 @@ extension on TranslationsIt {
 			'templates.card.deleteShort' => 'Elim.',
 			'templates.card.activate' => 'Attiva',
 			'templates.card.deactivate' => 'Disattiva',
-			'templates.detail.title' => 'Modello',
 			'templates.detail.noExercises' => 'Nessun esercizio in questo modello.',
 			'templates.detail.superset' => 'Superserie',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} serie', other: '${n} serie', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',
 			'templates.detail.rest' => ({required Object n}) => 'Riposo ${n}s',
-			'templates.detail.variantsMore' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '+${n} variante', other: '+${n} varianti', ), 
 			'templates.detail.start' => 'Avvia la sessione',
 			'templates.editor.newTitle' => 'Nuova sessione',
 			'templates.editor.editTitle' => 'Modifica sessione',

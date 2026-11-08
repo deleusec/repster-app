@@ -41,7 +41,6 @@
     "deactivate": "Deaktivieren"
   },
   "detail": {
-    "title": "Vorlage",
     "noExercises": "Keine Übungen in dieser Vorlage.",
     "superset": "Supersatz",
     "setsCount": {
@@ -51,10 +50,6 @@
     "seconds": "{{n}} s",
     "tempo": "Tempo {{value}}",
     "rest": "Pause {{n}}s",
-    "variantsMore": {
-      "one": "+{{n}} Variante",
-      "other": "+{{n}} Varianten"
-    },
     "start": "Einheit starten"
   },
   "editor": {

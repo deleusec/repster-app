@@ -41,7 +41,6 @@
     "deactivate": "Desactivar"
   },
   "detail": {
-    "title": "Plantilla",
     "noExercises": "No hay ejercicios en esta plantilla.",
     "superset": "Superserie",
     "setsCount": {
@@ -51,10 +50,6 @@
     "seconds": "{{n}} s",
     "tempo": "Tempo {{value}}",
     "rest": "Descanso {{n}}s",
-    "variantsMore": {
-      "one": "+{{n}} variante",
-      "other": "+{{n}} variantes"
-    },
     "start": "Iniciar sesión"
   },
   "editor": {

@@ -41,7 +41,6 @@
     "deactivate": "Deactivate"
   },
   "detail": {
-    "title": "Template",
     "noExercises": "No exercises in this template.",
     "superset": "Superset",
     "setsCount": {
@@ -51,10 +50,6 @@
     "seconds": "{{n}} s",
     "tempo": "Tempo {{value}}",
     "rest": "Rest {{n}}s",
-    "variantsMore": {
-      "one": "+{{n}} variant",
-      "other": "+{{n}} variants"
-    },
     "start": "Start session"
   },
   "editor": {

@@ -41,6 +41,7 @@ import 'package:repster/features/templates/application/templates_controller.dart
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
+import 'package:repster/features/templates/presentation/template_detail_screen.dart';
 import 'package:repster/features/templates/presentation/template_edit_screen.dart';
 import 'package:repster/features/templates/presentation/templates_screen.dart';
 import 'package:repster/i18n/translations.g.dart';
@@ -57,24 +58,45 @@ final _user = AuthUser(
   goal: AuthUserGoal.values.first,
 );
 
-TemplateSlot _slot(int i, String name, {int sets = 4, int reps = 8}) =>
-    TemplateSlot(
-      slotId: 's$i',
+TemplateSlot _slot(
+  int i,
+  String name, {
+  int sets = 4,
+  int reps = 8,
+  bool superset = false,
+  String? variant,
+  String notes = '',
+  int? holdSeconds,
+}) => TemplateSlot(
+  slotId: 's$i',
+  order: i,
+  supersetWithNext: superset,
+  variants: [
+    TemplateExercise(
+      id: 'e$i',
+      name: name,
+      sets: sets,
+      reps: reps,
+      tempo: '3-1-2-0',
+      restTime: 120,
+      notes: notes,
       order: i,
-      supersetWithNext: false,
-      variants: [
-        TemplateExercise(
-          id: 'e$i',
-          name: name,
-          sets: sets,
-          reps: reps,
-          tempo: '3-1-2-0',
-          restTime: 120,
-          notes: '',
-          order: i,
-        ),
-      ],
-    );
+      isTimeBased: holdSeconds != null,
+      durationSeconds: holdSeconds,
+    ),
+    if (variant != null)
+      TemplateExercise(
+        id: 'e${i}b',
+        name: variant,
+        sets: sets,
+        reps: reps,
+        tempo: '3-1-2-0',
+        restTime: 120,
+        notes: '',
+        order: i,
+      ),
+  ],
+);
 
 const _emojiByName = {
   'Push': FluentEmojis.fire,
@@ -95,13 +117,30 @@ Template _tpl(String id, String name, List<String> ex) => Template(
 );
 
 final _templates = [
-  _tpl('t1', 'Push', [
-    'Développé couché',
-    'Développé incliné haltères',
-    'Dips',
-    'Élévations latérales',
-    'Extension triceps poulie',
-  ]),
+  Template(
+    id: 't1',
+    name: 'Push',
+    description:
+        'Push A orienté force : top single puis back-off au développé couché, '
+        'haut des pectoraux, deltoïdes latéraux et triceps.',
+    emoji: FluentEmojis.fire,
+    slots: [
+      _slot(0, 'Développé couché', variant: 'Développé couché haltères'),
+      _slot(1, 'Développé incliné haltères', sets: 3, reps: 10, superset: true),
+      _slot(2, 'Dips', sets: 3, reps: 12),
+      _slot(
+        3,
+        'Élévations latérales',
+        reps: 15,
+        notes: 'Coudes hauts, pas de balancement.',
+      ),
+      _slot(4, 'Extension triceps poulie', sets: 3, reps: 12),
+      _slot(5, 'Gainage', sets: 3, holdSeconds: 45),
+    ],
+    isActive: true,
+    createdAt: DateTime(2026, 3),
+    updatedAt: DateTime(2026, 10),
+  ),
   _tpl('t2', 'Pull', [
     'Tractions',
     'Rowing barre',
@@ -389,6 +428,15 @@ void main() {
       act: (w) async {
         await w.tap(find.text(t.templates.list.manage));
       },
+    );
+  });
+  testWidgets('template detail', (t) async {
+    await _shoot(
+      t,
+      'template_detail',
+      const TemplateDetailScreen(id: 't1'),
+      common,
+      height: 1300,
     );
   });
   testWidgets('template edit', (t) async {

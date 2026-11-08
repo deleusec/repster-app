@@ -1849,7 +1849,6 @@ class _Translations$templates$detail$es extends Translations$templates$detail$en
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Plantilla';
 	@override String get noExercises => 'No hay ejercicios en esta plantilla.';
 	@override String get superset => 'Superserie';
 	@override String setsCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n,
@@ -1859,10 +1858,6 @@ class _Translations$templates$detail$es extends Translations$templates$detail$en
 	@override String seconds({required Object n}) => '${n} s';
 	@override String tempo({required Object value}) => 'Tempo ${value}';
 	@override String rest({required Object n}) => 'Descanso ${n}s';
-	@override String variantsMore({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n,
-		one: '+${n} variante',
-		other: '+${n} variantes',
-	);
 	@override String get start => 'Iniciar sesión';
 }
 
@@ -3041,14 +3036,12 @@ extension on TranslationsEs {
 			'templates.card.deleteShort' => 'Elim.',
 			'templates.card.activate' => 'Activar',
 			'templates.card.deactivate' => 'Desactivar',
-			'templates.detail.title' => 'Plantilla',
 			'templates.detail.noExercises' => 'No hay ejercicios en esta plantilla.',
 			'templates.detail.superset' => 'Superserie',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} serie', other: '${n} series', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',
 			'templates.detail.tempo' => ({required Object value}) => 'Tempo ${value}',
 			'templates.detail.rest' => ({required Object n}) => 'Descanso ${n}s',
-			'templates.detail.variantsMore' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '+${n} variante', other: '+${n} variantes', ), 
 			'templates.detail.start' => 'Iniciar sesión',
 			'templates.editor.newTitle' => 'Nueva sesión',
 			'templates.editor.editTitle' => 'Editar sesión',

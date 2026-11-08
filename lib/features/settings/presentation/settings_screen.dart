@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -587,9 +588,16 @@ class _VersionFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
+    // On the web the safe-area insets come from a measurement the page
+    // makes (see `measuredSafeArea`); showing the result here is how we
+    // check it on a real phone without a debugger attached.
+    final padding = MediaQuery.paddingOf(context);
+    final insets = kIsWeb
+        ? ' · insets ${padding.top.round()}/${padding.bottom.round()}'
+        : '';
     return Center(
       child: Text(
-        t.settings.version,
+        '${t.settings.version}$insets',
         style: TextStyle(
           fontSize: 10,
           color: onSurface.withValues(alpha: 0.15),

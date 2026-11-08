@@ -8,9 +8,35 @@ import 'package:flutter/widgets.dart';
 @JS('repsterSafeArea')
 external JSArray<JSNumber>? _repsterSafeArea();
 
+/// `navigator.standalone`: true only for an iOS home-screen web app.
+@JS('navigator.standalone')
+external JSBoolean? get _navigatorStandalone;
+
+/// The bottom inset an iOS home-screen app gets when the page reports none.
+/// Installed from Safari the app runs edge to edge, so a zero here means
+/// WebKit did not expose `env(safe-area-inset-bottom)`, not that there is
+/// no home indicator; this is the floor the tab bar used to carry.
+const double _iosStandaloneBottomFloor = 20;
+
+bool get _isIosStandalone {
+  try {
+    return _navigatorStandalone?.toDart ?? false;
+  } on Object {
+    return false;
+  }
+}
+
 /// The insets the page measures, or zero when the shell does not provide
 /// the hook (an old cached `index.html`, a test host).
 EdgeInsets measuredSafeArea() {
+  final probed = _probed();
+  if (!_isIosStandalone || probed.bottom >= _iosStandaloneBottomFloor) {
+    return probed;
+  }
+  return probed.copyWith(bottom: _iosStandaloneBottomFloor);
+}
+
+EdgeInsets _probed() {
   final JSArray<JSNumber>? raw;
   try {
     raw = _repsterSafeArea();

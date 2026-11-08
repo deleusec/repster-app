@@ -5,7 +5,6 @@ import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
 import 'package:repster/features/stats/domain/stats_data.dart';
 import 'package:repster/features/stats/domain/stats_range.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 
 final _now = DateTime(2026, 7, 26, 12);
 
@@ -44,7 +43,6 @@ WorkoutExercise _exercise({
 WorkoutSession _session({
   List<WorkoutExercise> exercises = const [],
   int daysAgo = 1,
-  List<MuscleGroup> tags = const [],
   String name = 'Push',
 }) => WorkoutSession(
   id: 's-$daysAgo-$name',
@@ -53,7 +51,6 @@ WorkoutSession _session({
   startedAt: _now.subtract(Duration(days: daysAgo)),
   duration: 3600,
   exercises: exercises,
-  tags: tags,
   notes: '',
 );
 
@@ -290,52 +287,6 @@ void main() {
     });
   });
 
-  group('muscle load', () {
-    test('counts the sessions tagged with each group', () {
-      final data = _compute([
-        _session(daysAgo: 2, tags: [MuscleGroup.chest, MuscleGroup.triceps]),
-        _session(daysAgo: 5, name: 'Push 2', tags: [MuscleGroup.chest]),
-      ]);
-      int sessionsOf(MuscleGroup g) =>
-          data.muscleLoads.firstWhere((l) => l.group == g).sessions;
-      expect(sessionsOf(MuscleGroup.chest), 2);
-      expect(sessionsOf(MuscleGroup.triceps), 1);
-    });
-
-    test('keeps a group the exercises alone would have dropped', () {
-      // The real reason this reads tags: `exercises.muscle_groups` is empty for
-      // every personal exercise, which is most of what people actually log.
-      final data = _compute([
-        _session(
-          tags: [MuscleGroup.abs],
-          exercises: [
-            _exercise(name: 'Crunch poulie haute', sets: [_set()]),
-          ],
-        ),
-      ]);
-      expect(data.muscleLoads.map((l) => l.group), [MuscleGroup.abs]);
-    });
-
-    test('reports how long since a group was last trained', () {
-      final data = _compute([
-        _session(daysAgo: 3, tags: [MuscleGroup.back]),
-      ]);
-      expect(data.muscleLoads.single.daysSinceLast, 3);
-    });
-
-    test('keeps a group out of range, at zero sessions', () {
-      final data = _compute([
-        _session(daysAgo: 2, tags: [MuscleGroup.chest]),
-        _session(daysAgo: 200, name: 'Legs', tags: [MuscleGroup.quads]),
-      ]);
-      final quads = data.muscleLoads.firstWhere(
-        (l) => l.group == MuscleGroup.quads,
-      );
-      expect(quads.sessions, 0);
-      expect(quads.daysSinceLast, 200);
-    });
-  });
-
   group('weekly volume across a daylight-saving change', () {
     // Winter time starts 2026-10-25. Stepping weeks back with Durations used
     // to land the earlier Mondays at 01:00, so their tonnage was never found
@@ -358,7 +309,6 @@ void main() {
             exercises: [
               _exercise(sets: [_set(weight: 50)]),
             ],
-            tags: const [],
             notes: '',
           ),
       ];

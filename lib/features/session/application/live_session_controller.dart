@@ -117,7 +117,6 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         startedAt: startedAt,
         duration: 0,
         exercises: filled,
-        tags: template.tags,
         notes: '',
       );
 
@@ -715,9 +714,8 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         id: template.id,
         name: template.name,
         description: template.description,
-        tags: template.tags,
         slots: slots,
-        emoji: template.displayEmoji,
+        emoji: template.emoji,
       );
       // The dashboard carousel holds its own copy of the templates.
       ref

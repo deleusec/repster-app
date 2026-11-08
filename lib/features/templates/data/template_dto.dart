@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:repster/core/emoji/fluent_emoji.dart';
+import 'package:repster/core/emoji/legacy_tags.dart';
 import 'package:repster/core/exercises/exercise_display_name.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
@@ -65,8 +65,9 @@ class TemplateDto {
       id: row['id'] as String,
       name: row['name'] as String,
       description: row['description'] as String? ?? '',
-      tags: MuscleGroup.listFromDb(row['tags'] as List<dynamic>?),
-      emoji: FluentEmoji.fromKey(row['emoji'] as String?),
+      emoji:
+          FluentEmoji.fromKey(row['emoji'] as String?) ??
+          legacyEmojiForTags(row['tags'] as List<dynamic>?),
       slots: slots,
       isActive: (row['is_active'] as bool?) ?? true,
       createdAt: DateTime.parse(row['created_at'] as String),

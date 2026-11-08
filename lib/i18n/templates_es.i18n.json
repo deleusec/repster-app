@@ -71,11 +71,6 @@
     "description": "Descripción (opcional)",
     "descriptionHint": "Describe tu sesión…",
     "emoji": "Imagen",
-    "muscleGroups": "Grupos musculares",
-    "selectedCount": {
-      "one": "{{n}} seleccionado",
-      "other": "{{n}} seleccionados"
-    },
     "exerciseName": "Nombre del ejercicio",
     "exerciseNameHint": "ej.: Press de banca",
     "type": "Tipo",

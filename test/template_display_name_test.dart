@@ -60,10 +60,10 @@ void main() {
     test('personal exercises keep their canonical name', () {
       // No `exercise_names` rows: this is the shape of a user's own exercise.
       expect(
-        _name(
-          {'name': 'Hack squat', 'exercise_names': <dynamic>[]},
-          locale: 'fr',
-        ),
+        _name({
+          'name': 'Hack squat',
+          'exercise_names': <dynamic>[],
+        }, locale: 'fr'),
         'Hack squat',
       );
       // And the shape before the join was widened, so old callers still map.

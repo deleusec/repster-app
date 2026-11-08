@@ -8,7 +8,6 @@
     "other": "{{n}} séances"
   },
   "deleteError": "Échec de la suppression.",
-  "noResult": "Aucune séance pour ce groupe",
   "groups": {
     "thisWeek": "Cette semaine",
     "lastWeek": "Semaine dernière",

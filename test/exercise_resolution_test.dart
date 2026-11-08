@@ -140,10 +140,7 @@ void main() {
       // would be rejected as a duplicate and take the whole save down.
       final result = plan(['Machine Dips', 'machine  dips']);
       expect(result.toCreate, hasLength(1));
-      expect(result.toCreate.values.single, [
-        'Machine Dips',
-        'machine  dips',
-      ]);
+      expect(result.toCreate.values.single, ['Machine Dips', 'machine  dips']);
     });
 
     test('names are trimmed and deduplicated', () {
@@ -172,10 +169,7 @@ void main() {
         catalog: _catalog,
         own: {exerciseNameKey('machine dips'): 'mine'},
       );
-      expect(result.resolved, {
-        'Panca piana': 'bench',
-        'Machine Dips': 'mine',
-      });
+      expect(result.resolved, {'Panca piana': 'bench', 'Machine Dips': 'mine'});
       expect(result.toCreate.keys, ['Hack squat']);
     });
   });

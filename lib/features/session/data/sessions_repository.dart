@@ -59,8 +59,7 @@ class SessionsRepository {
             'user_id': _userId,
             'template_id': template.id,
             'template_name': template.name,
-            'tags': template.tags.map((t) => t.toDb()).toList(),
-            'emoji': template.emoji?.key,
+            'emoji': template.emoji.key,
             'started_at': DateTime.now().toUtc().toIso8601String(),
           })
           .select('id')

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 
 import 'package:repster/core/theme/app_theme.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
@@ -16,7 +17,7 @@ class _OneTemplate extends TemplatesController {
       id: 't1',
       name: 'Push Day',
       description: '',
-      tags: const [],
+      emoji: FluentEmojis.fire,
       slots: const [],
       createdAt: DateTime(2026),
       updatedAt: DateTime(2026),

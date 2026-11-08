@@ -13,7 +13,6 @@ WorkoutSession _session({int duration = 4276, String name = 'Foundation'}) {
     startedAt: DateTime(2026, 7, 25, 9, 38),
     duration: duration,
     exercises: const [],
-    tags: const [],
     notes: 'Bonne séance',
   );
 }

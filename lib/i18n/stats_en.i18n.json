@@ -54,16 +54,6 @@
     "perMonth": "{{value}} %/month",
     "plateauHint": "Try fewer reps at a heavier load, or swap the movement."
   },
-  "muscleBalance": {
-    "title": "Muscle balance",
-    "neglected": "— not trained for {{days}} d {{emoji}}",
-    "since": {
-      "none": "–",
-      "today": "today",
-      "yesterday": "yesterday",
-      "daysShort": "{{n}}d"
-    }
-  },
   "records": {
     "title": "Records",
     "bestSession": "Best session",

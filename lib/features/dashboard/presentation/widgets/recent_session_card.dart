@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/session_mark.dart';
 
 /// Recent session row: group thumbnail, name + date·duration, and the
@@ -21,16 +19,13 @@ class RecentSessionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final group = summary.tags.isNotEmpty
-        ? summary.tags.first
-        : MuscleGroup.custom;
 
     return EdgeLitSurface(
       onTap: onTap,
       padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
       child: Row(
         children: [
-          SessionMark(emoji: summary.displayEmoji, accent: group.accent),
+          SessionMark(emoji: summary.emoji),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

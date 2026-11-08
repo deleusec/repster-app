@@ -57,13 +57,11 @@ class ExerciseResolver {
   /// Routed through [resolve] rather than inserting directly, so it inherits
   /// the same deduplication and the same recovery.
   Future<String> idForUnnamed() async {
-    final id = (await resolve(const [kUnnamedExerciseName]))[
-      kUnnamedExerciseName
-    ];
+    final id = (await resolve(const [
+      kUnnamedExerciseName,
+    ]))[kUnnamedExerciseName];
     if (id == null) {
-      throw const UnexpectedException(
-        'Could not resolve the unnamed exercise',
-      );
+      throw const UnexpectedException('Could not resolve the unnamed exercise');
     }
     return id;
   }
@@ -88,8 +86,7 @@ class ExerciseResolver {
           .select('id, name');
       return {
         for (final row in inserted)
-          if (row['name'] case final String name)
-            name: row['id'] as String,
+          if (row['name'] case final String name) name: row['id'] as String,
       };
     } on sb.PostgrestException catch (e, st) {
       if (e.code != _uniqueViolation) rethrow;

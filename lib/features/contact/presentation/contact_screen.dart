@@ -416,7 +416,6 @@ class _CategoryButton extends StatelessWidget {
   }
 }
 
-
 class _SuccessView extends StatelessWidget {
   const _SuccessView({required this.onBack, required this.category});
 

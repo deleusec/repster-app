@@ -48,7 +48,6 @@ class TranslationsIt extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$goals$it goals = _Translations$goals$it._(_root);
 	@override late final _Translations$history$it history = _Translations$history$it._(_root);
 	@override late final _Translations$legal$it legal = _Translations$legal$it._(_root);
-	@override late final _Translations$muscleGroups$it muscleGroups = _Translations$muscleGroups$it._(_root);
 	@override late final _Translations$nav$it nav = _Translations$nav$it._(_root);
 	@override late final _Translations$profile$it profile = _Translations$profile$it._(_root);
 	@override late final _Translations$session$it session = _Translations$session$it._(_root);
@@ -85,7 +84,6 @@ class _Translations$common$it extends Translations$common$en {
 
 	// Translations
 	@override late final _Translations$common$actions$it actions = _Translations$common$actions$it._(_root);
-	@override String get all => 'Tutti';
 	@override String get unnamed => '(senza nome)';
 	@override late final _Translations$common$units$it units = _Translations$common$units$it._(_root);
 	@override late final _Translations$common$date$it date = _Translations$common$date$it._(_root);
@@ -617,7 +615,6 @@ class _Translations$history$it extends Translations$history$en {
 		other: '${n} sessioni',
 	);
 	@override String get deleteError => 'Eliminazione non riuscita.';
-	@override String get noResult => 'Nessuna sessione per questo gruppo';
 	@override late final _Translations$history$groups$it groups = _Translations$history$groups$it._(_root);
 	@override late final _Translations$history$panel$it panel = _Translations$history$panel$it._(_root);
 	@override late final _Translations$history$detail$it detail = _Translations$history$detail$it._(_root);
@@ -631,28 +628,6 @@ class _Translations$legal$it extends Translations$legal$en {
 
 	// Translations
 	@override String get onlyInEnglish => 'Questo documento è disponibile solo in inglese.';
-}
-
-// Path: muscleGroups
-class _Translations$muscleGroups$it extends Translations$muscleGroups$en {
-	_Translations$muscleGroups$it._(TranslationsIt root) : this._root = root, super.internal(root);
-
-	final TranslationsIt _root; // ignore: unused_field
-
-	// Translations
-	@override String get chest => 'Pettorali';
-	@override String get back => 'Schiena';
-	@override String get shoulders => 'Spalle';
-	@override String get biceps => 'Bicipiti';
-	@override String get triceps => 'Tricipiti';
-	@override String get forearms => 'Avambracci';
-	@override String get quads => 'Quadricipiti';
-	@override String get hamstrings => 'Femorali';
-	@override String get glutes => 'Glutei';
-	@override String get calves => 'Polpacci';
-	@override String get abs => 'Addominali';
-	@override String get custom => 'Altro';
-	@override late final _Translations$muscleGroups$sections$it sections = _Translations$muscleGroups$sections$it._(_root);
 }
 
 // Path: nav
@@ -762,7 +737,6 @@ class _Translations$stats$it extends Translations$stats$en {
 	@override late final _Translations$stats$kpi$it kpi = _Translations$stats$kpi$it._(_root);
 	@override late final _Translations$stats$weeklyVolume$it weeklyVolume = _Translations$stats$weeklyVolume$it._(_root);
 	@override late final _Translations$stats$exercise$it exercise = _Translations$stats$exercise$it._(_root);
-	@override late final _Translations$stats$muscleBalance$it muscleBalance = _Translations$stats$muscleBalance$it._(_root);
 	@override late final _Translations$stats$records$it records = _Translations$stats$records$it._(_root);
 	@override late final _Translations$stats$strength$it strength = _Translations$stats$strength$it._(_root);
 }
@@ -1256,20 +1230,6 @@ class _Translations$history$detail$it extends Translations$history$detail$en {
 	@override late final _Translations$history$detail$edit$it edit = _Translations$history$detail$edit$it._(_root);
 }
 
-// Path: muscleGroups.sections
-class _Translations$muscleGroups$sections$it extends Translations$muscleGroups$sections$en {
-	_Translations$muscleGroups$sections$it._(TranslationsIt root) : this._root = root, super.internal(root);
-
-	final TranslationsIt _root; // ignore: unused_field
-
-	// Translations
-	@override String get chestBack => 'Petto e schiena';
-	@override String get shouldersArms => 'Spalle e braccia';
-	@override String get legsGlutes => 'Gambe e glutei';
-	@override String get abs => 'Addominali';
-	@override String get other => 'Altro';
-}
-
 // Path: profile.editSheet
 class _Translations$profile$editSheet$it extends Translations$profile$editSheet$en {
 	_Translations$profile$editSheet$it._(TranslationsIt root) : this._root = root, super.internal(root);
@@ -1287,7 +1247,6 @@ class _Translations$profile$sections$it extends Translations$profile$sections$en
 	final TranslationsIt _root; // ignore: unused_field
 
 	// Translations
-	@override String get favoriteMuscleGroup => 'Gruppo muscolare preferito';
 	@override String get badges => 'Badge';
 }
 
@@ -1802,18 +1761,6 @@ class _Translations$stats$exercise$it extends Translations$stats$exercise$en {
 	@override String get plateauHint => 'Prova meno reps con più carico, o cambia esercizio.';
 }
 
-// Path: stats.muscleBalance
-class _Translations$stats$muscleBalance$it extends Translations$stats$muscleBalance$en {
-	_Translations$stats$muscleBalance$it._(TranslationsIt root) : this._root = root, super.internal(root);
-
-	final TranslationsIt _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Equilibrio muscolare';
-	@override String neglected({required Object days, required Object emoji}) => '— non allenato da ${days} g ${emoji}';
-	@override late final _Translations$stats$muscleBalance$since$it since = _Translations$stats$muscleBalance$since$it._(_root);
-}
-
 // Path: stats.records
 class _Translations$stats$records$it extends Translations$stats$records$en {
 	_Translations$stats$records$it._(TranslationsIt root) : this._root = root, super.internal(root);
@@ -1946,11 +1893,6 @@ class _Translations$templates$fields$it extends Translations$templates$fields$en
 	@override String get description => 'Descrizione (opzionale)';
 	@override String get descriptionHint => 'Descrivi la tua sessione…';
 	@override String get emoji => 'Immagine';
-	@override String get muscleGroups => 'Gruppi muscolari';
-	@override String selectedCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n,
-		one: '${n} selezionato',
-		other: '${n} selezionati',
-	);
 	@override String get exerciseName => 'Nome dell’esercizio';
 	@override String get exerciseNameHint => 'es.: Panca piana';
 	@override String get type => 'Tipo';
@@ -2158,19 +2100,6 @@ class _Translations$stats$range$all$it extends Translations$stats$range$all$en {
 	@override String get short => 'Tutto';
 }
 
-// Path: stats.muscleBalance.since
-class _Translations$stats$muscleBalance$since$it extends Translations$stats$muscleBalance$since$en {
-	_Translations$stats$muscleBalance$since$it._(TranslationsIt root) : this._root = root, super.internal(root);
-
-	final TranslationsIt _root; // ignore: unused_field
-
-	// Translations
-	@override String get none => '–';
-	@override String get today => 'oggi';
-	@override String get yesterday => 'ieri';
-	@override String daysShort({required Object n}) => '${n}g';
-}
-
 /// The flat map containing all translations for locale <it>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -2269,7 +2198,6 @@ extension on TranslationsIt {
 			'common.actions.done' => 'Fatto',
 			'common.actions.next' => 'Avanti',
 			'common.actions.back' => 'Indietro',
-			'common.all' => 'Tutti',
 			'common.unnamed' => '(senza nome)',
 			'common.units.reps' => 'rip.',
 			'common.date.justNow' => 'proprio ora',
@@ -2691,9 +2619,9 @@ extension on TranslationsIt {
 			'emoji.labels.lollipop' => 'Lecca-lecca',
 			'emoji.labels.pizza' => 'Pizza',
 			'emoji.labels.hamburger' => 'Hamburger',
+			'emoji.labels.french-fries' => 'Patatine fritte',
 			_ => null,
 		} ?? switch (path) {
-			'emoji.labels.french-fries' => 'Patatine fritte',
 			'emoji.labels.taco' => 'Taco',
 			'emoji.labels.sushi' => 'Sushi',
 			'emoji.labels.fork-and-knife' => 'Posate',
@@ -2804,7 +2732,6 @@ extension on TranslationsIt {
 			'history.emptyMessage' => 'Avvia la tua prima sessione dalla schermata principale — comparirà qui.',
 			'history.sessionCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} sessione', other: '${n} sessioni', ), 
 			'history.deleteError' => 'Eliminazione non riuscita.',
-			'history.noResult' => 'Nessuna sessione per questo gruppo',
 			'history.groups.thisWeek' => 'Questa settimana',
 			'history.groups.lastWeek' => 'Settimana scorsa',
 			'history.groups.weeksAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} settimana fa', other: '${n} settimane fa', ), 
@@ -2842,23 +2769,6 @@ extension on TranslationsIt {
 			'history.detail.edit.nameRequired' => 'Il titolo è obbligatorio.',
 			'history.detail.edit.dateFormat' => 'd MMMM y',
 			'legal.onlyInEnglish' => 'Questo documento è disponibile solo in inglese.',
-			'muscleGroups.chest' => 'Pettorali',
-			'muscleGroups.back' => 'Schiena',
-			'muscleGroups.shoulders' => 'Spalle',
-			'muscleGroups.biceps' => 'Bicipiti',
-			'muscleGroups.triceps' => 'Tricipiti',
-			'muscleGroups.forearms' => 'Avambracci',
-			'muscleGroups.quads' => 'Quadricipiti',
-			'muscleGroups.hamstrings' => 'Femorali',
-			'muscleGroups.glutes' => 'Glutei',
-			'muscleGroups.calves' => 'Polpacci',
-			'muscleGroups.abs' => 'Addominali',
-			'muscleGroups.custom' => 'Altro',
-			'muscleGroups.sections.chestBack' => 'Petto e schiena',
-			'muscleGroups.sections.shouldersArms' => 'Spalle e braccia',
-			'muscleGroups.sections.legsGlutes' => 'Gambe e glutei',
-			'muscleGroups.sections.abs' => 'Addominali',
-			'muscleGroups.sections.other' => 'Altro',
 			'nav.home' => 'Home',
 			'nav.program' => 'Programma',
 			'nav.history' => 'Cronologia',
@@ -2869,7 +2779,6 @@ extension on TranslationsIt {
 			'profile.defaultName' => 'Atleta',
 			'profile.since' => ({required Object month}) => 'Dal ${month}',
 			'profile.editSheet.title' => 'Modifica profilo',
-			'profile.sections.favoriteMuscleGroup' => 'Gruppo muscolare preferito',
 			'profile.sections.badges' => 'Badge',
 			'profile.stats.sessions' => 'Sessioni',
 			'profile.stats.tonnage' => 'Tonnellaggio',
@@ -3096,12 +3005,6 @@ extension on TranslationsIt {
 			'stats.exercise.trendRegressing' => 'In calo',
 			'stats.exercise.perMonth' => ({required Object value}) => '${value} %/mese',
 			'stats.exercise.plateauHint' => 'Prova meno reps con più carico, o cambia esercizio.',
-			'stats.muscleBalance.title' => 'Equilibrio muscolare',
-			'stats.muscleBalance.neglected' => ({required Object days, required Object emoji}) => '— non allenato da ${days} g ${emoji}',
-			'stats.muscleBalance.since.none' => '–',
-			'stats.muscleBalance.since.today' => 'oggi',
-			'stats.muscleBalance.since.yesterday' => 'ieri',
-			'stats.muscleBalance.since.daysShort' => ({required Object n}) => '${n}g',
 			'stats.records.title' => 'Record',
 			'stats.records.bestSession' => 'Miglior sessione',
 			'stats.records.heaviestLift' => 'Carico massimo',
@@ -3158,8 +3061,6 @@ extension on TranslationsIt {
 			'templates.fields.description' => 'Descrizione (opzionale)',
 			'templates.fields.descriptionHint' => 'Descrivi la tua sessione…',
 			'templates.fields.emoji' => 'Immagine',
-			'templates.fields.muscleGroups' => 'Gruppi muscolari',
-			'templates.fields.selectedCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('it'))(n, one: '${n} selezionato', other: '${n} selezionati', ), 
 			'templates.fields.exerciseName' => 'Nome dell’esercizio',
 			'templates.fields.exerciseNameHint' => 'es.: Panca piana',
 			'templates.fields.type' => 'Tipo',

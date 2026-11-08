@@ -54,16 +54,6 @@
     "perMonth": "{{value}} %/Monat",
     "plateauHint": "Weniger Wdh. mit mehr Gewicht, oder Übung wechseln."
   },
-  "muscleBalance": {
-    "title": "Muskelbalance",
-    "neglected": "— seit {{days}} T. nicht trainiert {{emoji}}",
-    "since": {
-      "none": "–",
-      "today": "heute",
-      "yesterday": "gestern",
-      "daysShort": "{{n}}T"
-    }
-  },
   "records": {
     "title": "Rekorde",
     "bestSession": "Beste Einheit",

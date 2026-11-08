@@ -3,21 +3,19 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_text.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_duration.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/session_mark.dart';
 
 /// The home page's one bold element: the next session, ready to start.
 ///
-/// It is the only surface on the page with a colour of its own — the muscle
-/// group's, pooled in the corner, with a trace of rose below — so the home
-/// page changes mood with what you train next: orange before a push day,
-/// blue before a pull, green before legs. Everything around it stays grey.
+/// It is the only surface on the page with a colour of its own — the
+/// session emoji's, pooled in the corner, with a trace of rose below — so the
+/// home page changes mood with what you train next: a flame lights it orange,
+/// a moon yellow, a mountain green. Everything around it stays grey.
 ///
 /// When there is nothing to suggest yet, the same card invites the user to
 /// create a first template, lit in rose.
@@ -39,29 +37,22 @@ class HeroCtaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final template = suggested;
-    final group = template == null || template.tags.isEmpty
-        ? MuscleGroup.custom
-        : template.tags.first;
 
     return EdgeLitSurface(
       radius: AppRadius.sheet,
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
-      accent: template == null ? scheme.glow : group.accent,
+      accent: template == null ? scheme.glow : template.emoji.color,
       accentSecondary: template == null ? null : scheme.glow,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: template != null
-            ? _withTemplate(context, template, group)
+            ? _withTemplate(context, template)
             : _empty(context),
       ),
     );
   }
 
-  List<Widget> _withTemplate(
-    BuildContext context,
-    Template template,
-    MuscleGroup group,
-  ) {
+  List<Widget> _withTemplate(BuildContext context, Template template) {
     final scheme = Theme.of(context).colorScheme;
     final count = template.primaryExercises.length;
     final minutes = (estimateTemplateSeconds(template) / 60).round();
@@ -87,11 +78,7 @@ class HeroCtaCard extends StatelessWidget {
               ),
             ),
           ),
-          SessionMark(
-            emoji: template.displayEmoji,
-            accent: group.accent,
-            size: 44,
-          ),
+          SessionMark(emoji: template.emoji, size: 44),
         ],
       ),
       const SizedBox(height: 4),

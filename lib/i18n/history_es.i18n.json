@@ -8,7 +8,6 @@
     "other": "{{n}} sesiones"
   },
   "deleteError": "Error al eliminar.",
-  "noResult": "Sin sesiones para este grupo",
   "groups": {
     "thisWeek": "Esta semana",
     "lastWeek": "Semana pasada",

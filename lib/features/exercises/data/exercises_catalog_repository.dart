@@ -26,11 +26,7 @@ class ExercisesCatalogRepository {
     try {
       final rows = await _client.rpc<List<dynamic>>(
         'search_exercises',
-        params: {
-          'p_query': query.trim(),
-          'p_locale': locale,
-          'p_limit': limit,
-        },
+        params: {'p_query': query.trim(), 'p_locale': locale, 'p_limit': limit},
       );
       return rows
           .cast<Map<String, dynamic>>()

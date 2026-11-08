@@ -13,7 +13,6 @@ import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
 import 'package:repster/features/stats/application/stats_controller.dart';
 import 'package:repster/features/templates/data/templates_repository.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
@@ -65,7 +64,6 @@ class _FakeTemplatesRepo extends Fake implements TemplatesRepository {
     required String id,
     required String name,
     required String description,
-    required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
     required FluentEmoji emoji,
   }) async {
@@ -126,7 +124,6 @@ WorkoutSession _session(List<WorkoutExercise> exercises) => WorkoutSession(
   startedAt: DateTime(2026, 1, 1, 10),
   duration: 0,
   exercises: exercises,
-  tags: const [],
   notes: '',
 );
 
@@ -676,7 +673,7 @@ void main() {
       id: 'tpl-1',
       name: 'Push Day',
       description: '',
-      tags: const [],
+      emoji: FluentEmojis.fire,
       isActive: true,
       createdAt: DateTime(2026),
       updatedAt: DateTime(2026),

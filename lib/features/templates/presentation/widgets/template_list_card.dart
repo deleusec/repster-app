@@ -4,17 +4,14 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/core/theme/app_text.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/i18n/translations.g.dart';
-import 'package:repster/shared/l10n/muscle_group_l10n.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/session_mark.dart';
 
-/// Template card in the list (Templates page): group thumbnail, name +
-/// description + tags + exercise count, and — depending on the mode — either an
+/// Template card in the list (Templates page): emoji thumbnail, name +
+/// description + exercise count, and — depending on the mode — either an
 /// action bar (Edit / Details / Copy / Delete) or a drag handle plus an
 /// active/inactive toggle.
 ///
@@ -76,23 +73,14 @@ class TemplateListCard extends StatelessWidget {
   }
 
   Widget _content(BuildContext context, ColorScheme scheme) {
-    final group = template.tags.isNotEmpty
-        ? template.tags.first
-        : MuscleGroup.custom;
     final count = template.primaryExercises.length;
-    final tags = template.tags.take(3).toList(growable: false);
-    final extra = template.tags.length - tags.length;
 
     final body = Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SessionMark(
-            emoji: template.displayEmoji,
-            accent: group.accent,
-            size: 44,
-          ),
+          SessionMark(emoji: template.emoji, size: 44),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -115,27 +103,10 @@ class TemplateListCard extends StatelessWidget {
                     ),
                   ),
                 ],
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 4,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    for (final t in tags) _TagPill(group: t),
-                    if (extra > 0)
-                      Text(
-                        '+$extra',
-                        style: AppText.caption.copyWith(
-                          color: scheme.textTertiary,
-                        ),
-                      ),
-                    Text(
-                      '· ${t.templates.card.exerciseCount(n: count)}',
-                      style: AppText.caption.copyWith(
-                        color: scheme.textTertiary,
-                      ),
-                    ),
-                  ],
+                const SizedBox(height: 6),
+                Text(
+                  t.templates.card.exerciseCount(n: count),
+                  style: AppText.caption.copyWith(color: scheme.textTertiary),
                 ),
               ],
             ),
@@ -245,31 +216,6 @@ class _PlayMark extends StatelessWidget {
         color: glow.withValues(alpha: 0.14),
       ),
       child: Icon(Icons.play_arrow_rounded, size: 20, color: glow),
-    );
-  }
-}
-
-class _TagPill extends StatelessWidget {
-  const _TagPill({required this.group});
-  final MuscleGroup group;
-
-  @override
-  Widget build(BuildContext context) {
-    final accent = group.accent;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-      ),
-      child: Text(
-        group.localizedLabel,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: accent,
-        ),
-      ),
     );
   }
 }

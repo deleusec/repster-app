@@ -49,7 +49,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$goals$en goals = Translations$goals$en.internal(_root);
 	late final Translations$history$en history = Translations$history$en.internal(_root);
 	late final Translations$legal$en legal = Translations$legal$en.internal(_root);
-	late final Translations$muscleGroups$en muscleGroups = Translations$muscleGroups$en.internal(_root);
 	late final Translations$nav$en nav = Translations$nav$en.internal(_root);
 	late final Translations$profile$en profile = Translations$profile$en.internal(_root);
 	late final Translations$session$en session = Translations$session$en.internal(_root);
@@ -93,9 +92,6 @@ class Translations$common$en {
 	String get appName => 'Repster';
 
 	late final Translations$common$actions$en actions = Translations$common$actions$en.internal(_root);
-
-	/// en: 'All'
-	String get all => 'All';
 
 	/// en: '(unnamed)'
 	String get unnamed => '(unnamed)';
@@ -680,9 +676,6 @@ class Translations$history$en {
 	/// en: 'Delete failed.'
 	String get deleteError => 'Delete failed.';
 
-	/// en: 'No sessions for this group'
-	String get noResult => 'No sessions for this group';
-
 	late final Translations$history$groups$en groups = Translations$history$groups$en.internal(_root);
 	late final Translations$history$panel$en panel = Translations$history$panel$en.internal(_root);
 	late final Translations$history$detail$en detail = Translations$history$detail$en.internal(_root);
@@ -698,53 +691,6 @@ class Translations$legal$en {
 
 	/// en: 'This document is available in English only.'
 	String get onlyInEnglish => 'This document is available in English only.';
-}
-
-// Path: muscleGroups
-class Translations$muscleGroups$en {
-	Translations$muscleGroups$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Chest'
-	String get chest => 'Chest';
-
-	/// en: 'Back'
-	String get back => 'Back';
-
-	/// en: 'Shoulders'
-	String get shoulders => 'Shoulders';
-
-	/// en: 'Biceps'
-	String get biceps => 'Biceps';
-
-	/// en: 'Triceps'
-	String get triceps => 'Triceps';
-
-	/// en: 'Forearms'
-	String get forearms => 'Forearms';
-
-	/// en: 'Quads'
-	String get quads => 'Quads';
-
-	/// en: 'Hamstrings'
-	String get hamstrings => 'Hamstrings';
-
-	/// en: 'Glutes'
-	String get glutes => 'Glutes';
-
-	/// en: 'Calves'
-	String get calves => 'Calves';
-
-	/// en: 'Abs'
-	String get abs => 'Abs';
-
-	/// en: 'Other'
-	String get custom => 'Other';
-
-	late final Translations$muscleGroups$sections$en sections = Translations$muscleGroups$sections$en.internal(_root);
 }
 
 // Path: nav
@@ -906,7 +852,6 @@ class Translations$stats$en {
 	late final Translations$stats$kpi$en kpi = Translations$stats$kpi$en.internal(_root);
 	late final Translations$stats$weeklyVolume$en weeklyVolume = Translations$stats$weeklyVolume$en.internal(_root);
 	late final Translations$stats$exercise$en exercise = Translations$stats$exercise$en.internal(_root);
-	late final Translations$stats$muscleBalance$en muscleBalance = Translations$stats$muscleBalance$en.internal(_root);
 	late final Translations$stats$records$en records = Translations$stats$records$en.internal(_root);
 	late final Translations$stats$strength$en strength = Translations$stats$strength$en.internal(_root);
 }
@@ -1754,30 +1699,6 @@ class Translations$history$detail$en {
 	late final Translations$history$detail$edit$en edit = Translations$history$detail$edit$en.internal(_root);
 }
 
-// Path: muscleGroups.sections
-class Translations$muscleGroups$sections$en {
-	Translations$muscleGroups$sections$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Chest & Back'
-	String get chestBack => 'Chest & Back';
-
-	/// en: 'Shoulders & Arms'
-	String get shouldersArms => 'Shoulders & Arms';
-
-	/// en: 'Legs & Glutes'
-	String get legsGlutes => 'Legs & Glutes';
-
-	/// en: 'Abs'
-	String get abs => 'Abs';
-
-	/// en: 'Other'
-	String get other => 'Other';
-}
-
 // Path: profile.editSheet
 class Translations$profile$editSheet$en {
 	Translations$profile$editSheet$en.internal(this._root);
@@ -1797,9 +1718,6 @@ class Translations$profile$sections$en {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Favorite muscle group'
-	String get favoriteMuscleGroup => 'Favorite muscle group';
 
 	/// en: 'Badges'
 	String get badges => 'Badges';
@@ -2703,23 +2621,6 @@ class Translations$stats$exercise$en {
 	String get plateauHint => 'Try fewer reps at a heavier load, or swap the movement.';
 }
 
-// Path: stats.muscleBalance
-class Translations$stats$muscleBalance$en {
-	Translations$stats$muscleBalance$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Muscle balance'
-	String get title => 'Muscle balance';
-
-	/// en: '— not trained for {{days}} d {{emoji}}'
-	String neglected({required Object days, required Object emoji}) => '— not trained for ${days} d ${emoji}';
-
-	late final Translations$stats$muscleBalance$since$en since = Translations$stats$muscleBalance$since$en.internal(_root);
-}
-
 // Path: stats.records
 class Translations$stats$records$en {
 	Translations$stats$records$en.internal(this._root);
@@ -2964,15 +2865,6 @@ class Translations$templates$fields$en {
 
 	/// en: 'Picture'
 	String get emoji => 'Picture';
-
-	/// en: 'Muscle groups'
-	String get muscleGroups => 'Muscle groups';
-
-	/// en: '(one) {{{n}} selected} (other) {{{n}} selected}'
-	String selectedCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		one: '${n} selected',
-		other: '${n} selected',
-	);
 
 	/// en: 'Exercise name'
 	String get exerciseName => 'Exercise name';
@@ -3338,27 +3230,6 @@ class Translations$stats$range$all$en {
 	String get short => 'All';
 }
 
-// Path: stats.muscleBalance.since
-class Translations$stats$muscleBalance$since$en {
-	Translations$stats$muscleBalance$since$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: '–'
-	String get none => '–';
-
-	/// en: 'today'
-	String get today => 'today';
-
-	/// en: 'yesterday'
-	String get yesterday => 'yesterday';
-
-	/// en: '{{n}}d'
-	String daysShort({required Object n}) => '${n}d';
-}
-
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -3458,7 +3329,6 @@ extension on Translations {
 			'common.actions.done' => 'Done',
 			'common.actions.next' => 'Next',
 			'common.actions.back' => 'Back',
-			'common.all' => 'All',
 			'common.unnamed' => '(unnamed)',
 			'common.units.reps' => 'reps',
 			'common.date.justNow' => 'just now',
@@ -3879,9 +3749,9 @@ extension on Translations {
 			'emoji.labels.popcorn' => 'Popcorn',
 			'emoji.labels.lollipop' => 'Lollipop',
 			'emoji.labels.pizza' => 'Pizza',
+			'emoji.labels.hamburger' => 'Hamburger',
 			_ => null,
 		} ?? switch (path) {
-			'emoji.labels.hamburger' => 'Hamburger',
 			'emoji.labels.french-fries' => 'French fries',
 			'emoji.labels.taco' => 'Taco',
 			'emoji.labels.sushi' => 'Sushi',
@@ -3993,7 +3863,6 @@ extension on Translations {
 			'history.emptyMessage' => 'Start your first session from the home screen — it will show up here.',
 			'history.sessionCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} session', other: '${n} sessions', ), 
 			'history.deleteError' => 'Delete failed.',
-			'history.noResult' => 'No sessions for this group',
 			'history.groups.thisWeek' => 'This week',
 			'history.groups.lastWeek' => 'Last week',
 			'history.groups.weeksAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} week ago', other: '${n} weeks ago', ), 
@@ -4031,23 +3900,6 @@ extension on Translations {
 			'history.detail.edit.nameRequired' => 'A title is required.',
 			'history.detail.edit.dateFormat' => 'MMMM d, y',
 			'legal.onlyInEnglish' => 'This document is available in English only.',
-			'muscleGroups.chest' => 'Chest',
-			'muscleGroups.back' => 'Back',
-			'muscleGroups.shoulders' => 'Shoulders',
-			'muscleGroups.biceps' => 'Biceps',
-			'muscleGroups.triceps' => 'Triceps',
-			'muscleGroups.forearms' => 'Forearms',
-			'muscleGroups.quads' => 'Quads',
-			'muscleGroups.hamstrings' => 'Hamstrings',
-			'muscleGroups.glutes' => 'Glutes',
-			'muscleGroups.calves' => 'Calves',
-			'muscleGroups.abs' => 'Abs',
-			'muscleGroups.custom' => 'Other',
-			'muscleGroups.sections.chestBack' => 'Chest & Back',
-			'muscleGroups.sections.shouldersArms' => 'Shoulders & Arms',
-			'muscleGroups.sections.legsGlutes' => 'Legs & Glutes',
-			'muscleGroups.sections.abs' => 'Abs',
-			'muscleGroups.sections.other' => 'Other',
 			'nav.home' => 'Home',
 			'nav.program' => 'Program',
 			'nav.history' => 'History',
@@ -4058,7 +3910,6 @@ extension on Translations {
 			'profile.defaultName' => 'Athlete',
 			'profile.since' => ({required Object month}) => 'Since ${month}',
 			'profile.editSheet.title' => 'Edit profile',
-			'profile.sections.favoriteMuscleGroup' => 'Favorite muscle group',
 			'profile.sections.badges' => 'Badges',
 			'profile.stats.sessions' => 'Sessions',
 			'profile.stats.tonnage' => 'Tonnage',
@@ -4285,12 +4136,6 @@ extension on Translations {
 			'stats.exercise.trendRegressing' => 'Losing ground',
 			'stats.exercise.perMonth' => ({required Object value}) => '${value} %/month',
 			'stats.exercise.plateauHint' => 'Try fewer reps at a heavier load, or swap the movement.',
-			'stats.muscleBalance.title' => 'Muscle balance',
-			'stats.muscleBalance.neglected' => ({required Object days, required Object emoji}) => '— not trained for ${days} d ${emoji}',
-			'stats.muscleBalance.since.none' => '–',
-			'stats.muscleBalance.since.today' => 'today',
-			'stats.muscleBalance.since.yesterday' => 'yesterday',
-			'stats.muscleBalance.since.daysShort' => ({required Object n}) => '${n}d',
 			'stats.records.title' => 'Records',
 			'stats.records.bestSession' => 'Best session',
 			'stats.records.heaviestLift' => 'Heaviest lift',
@@ -4347,8 +4192,6 @@ extension on Translations {
 			'templates.fields.description' => 'Description (optional)',
 			'templates.fields.descriptionHint' => 'Describe your session…',
 			'templates.fields.emoji' => 'Picture',
-			'templates.fields.muscleGroups' => 'Muscle groups',
-			'templates.fields.selectedCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} selected', other: '${n} selected', ), 
 			'templates.fields.exerciseName' => 'Exercise name',
 			'templates.fields.exerciseNameHint' => 'e.g. Bench press',
 			'templates.fields.type' => 'Type',

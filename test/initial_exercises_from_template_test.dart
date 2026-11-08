@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/session/data/sessions_repository.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
 import 'package:repster/features/templates/domain/template.dart';
@@ -11,7 +12,7 @@ Template _template(List<TemplateExercise> primaries) {
     id: 't1',
     name: 'Foundation',
     description: '',
-    tags: const [],
+    emoji: FluentEmojis.fire,
     isActive: true,
     createdAt: now,
     updatedAt: now,

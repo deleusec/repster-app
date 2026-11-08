@@ -13,7 +13,6 @@ import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/app_card.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
-import 'package:repster/shared/widgets/muscle_group_chip.dart';
 import 'package:repster/shared/widgets/page_header.dart';
 
 class TemplateDetailScreen extends ConsumerWidget {
@@ -72,17 +71,6 @@ class _Body extends ConsumerWidget {
                     color: scheme.onSurface.withValues(alpha: 0.7),
                     height: 1.4,
                   ),
-                ),
-              ],
-              if (template.tags.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  children: [
-                    for (final t in template.tags)
-                      MuscleGroupChip(group: t, dense: true),
-                  ],
                 ),
               ],
               const SizedBox(height: 20),

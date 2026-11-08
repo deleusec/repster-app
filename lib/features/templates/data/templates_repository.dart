@@ -5,7 +5,6 @@ import 'package:repster/core/exercises/exercise_identity.dart';
 import 'package:repster/core/supabase/postgrest_error_x.dart';
 import 'package:repster/core/supabase/supabase_providers.dart';
 import 'package:repster/features/templates/data/template_dto.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
 import 'package:repster/i18n/translations.g.dart';
@@ -88,7 +87,6 @@ template_exercises (
   Future<String> create({
     required String name,
     required String description,
-    required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
     required FluentEmoji emoji,
   }) async {
@@ -103,7 +101,6 @@ template_exercises (
             'description': description.trim().isEmpty
                 ? null
                 : description.trim(),
-            'tags': tags.map((t) => t.toDb()).toList(),
             'emoji': emoji.key,
             'position': nextPosition,
           })
@@ -124,7 +121,6 @@ template_exercises (
     required String id,
     required String name,
     required String description,
-    required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
     required FluentEmoji emoji,
   }) async {
@@ -137,7 +133,6 @@ template_exercises (
             'description': description.trim().isEmpty
                 ? null
                 : description.trim(),
-            'tags': tags.map((t) => t.toDb()).toList(),
             'emoji': emoji.key,
           })
           .eq('id', id)
@@ -181,9 +176,8 @@ template_exercises (
       return await create(
         name: '${source.name} ${t.templates.list.copySuffix}',
         description: source.description,
-        tags: source.tags,
         slots: newSlots,
-        emoji: source.displayEmoji,
+        emoji: source.emoji,
       );
     } on Object catch (e, st) {
       throw mapSupabaseError(e, st);

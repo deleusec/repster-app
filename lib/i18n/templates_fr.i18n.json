@@ -71,11 +71,6 @@
     "description": "Description (optionnel)",
     "descriptionHint": "Décris ta séance…",
     "emoji": "Image",
-    "muscleGroups": "Groupes musculaires",
-    "selectedCount": {
-      "one": "{{n}} sélectionné",
-      "other": "{{n}} sélectionnés"
-    },
     "exerciseName": "Nom de l’exercice",
     "exerciseNameHint": "ex : Développé couché",
     "type": "Type",

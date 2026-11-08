@@ -38,7 +38,6 @@ import 'package:repster/features/settings/presentation/settings_screen.dart';
 import 'package:repster/features/stats/application/stats_controller.dart';
 import 'package:repster/features/stats/presentation/stats_screen.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
@@ -77,18 +76,18 @@ TemplateSlot _slot(int i, String name, {int sets = 4, int reps = 8}) =>
       ],
     );
 
-Template _tpl(
-  String id,
-  String name,
-  List<MuscleGroup> tags,
-  List<String> ex, {
-  FluentEmoji? emoji,
-}) => Template(
+const _emojiByName = {
+  'Push': FluentEmojis.fire,
+  'Pull': FluentEmojis.crescentMoon,
+  'Legs': FluentEmojis.mountain,
+  'Upper': FluentEmojis.shield,
+};
+
+Template _tpl(String id, String name, List<String> ex) => Template(
   id: id,
   name: name,
   description: '',
-  tags: tags,
-  emoji: emoji,
+  emoji: _emojiByName[name] ?? FluentEmojis.brick,
   slots: [for (var i = 0; i < ex.length; i++) _slot(i, ex[i])],
   isActive: true,
   createdAt: DateTime(2026, 3),
@@ -96,55 +95,43 @@ Template _tpl(
 );
 
 final _templates = [
-  _tpl(
-    't1',
-    'Push',
-    [MuscleGroup.chest, MuscleGroup.shoulders, MuscleGroup.triceps],
-    [
-      'Développé couché',
-      'Développé incliné haltères',
-      'Dips',
-      'Élévations latérales',
-      'Extension triceps poulie',
-    ],
-    emoji: FluentEmojis.fire,
-  ),
-  _tpl(
-    't2',
-    'Pull',
-    [MuscleGroup.back, MuscleGroup.biceps],
-    [
-      'Tractions',
-      'Rowing barre',
-      'Tirage horizontal',
-      'Curl haltères',
-      'Face pull',
-    ],
-  ),
-  _tpl(
-    't3',
-    'Legs',
-    [MuscleGroup.quads, MuscleGroup.hamstrings, MuscleGroup.glutes],
-    ['Squat', 'Soulevé de terre roumain', 'Presse', 'Leg curl', 'Mollets'],
-  ),
-  _tpl(
-    't4',
-    'Upper',
-    [MuscleGroup.chest, MuscleGroup.back],
-    ['Développé militaire', 'Tractions lestées', 'Dips', 'Rowing'],
-  ),
-  _tpl(
-    't5',
-    'Core & mobilité',
-    [MuscleGroup.abs],
-    ['Planche', 'Relevés de jambes', 'Pallof press'],
-  ),
+  _tpl('t1', 'Push', [
+    'Développé couché',
+    'Développé incliné haltères',
+    'Dips',
+    'Élévations latérales',
+    'Extension triceps poulie',
+  ]),
+  _tpl('t2', 'Pull', [
+    'Tractions',
+    'Rowing barre',
+    'Tirage horizontal',
+    'Curl haltères',
+    'Face pull',
+  ]),
+  _tpl('t3', 'Legs', [
+    'Squat',
+    'Soulevé de terre roumain',
+    'Presse',
+    'Leg curl',
+    'Mollets',
+  ]),
+  _tpl('t4', 'Upper', [
+    'Développé militaire',
+    'Tractions lestées',
+    'Dips',
+    'Rowing',
+  ]),
+  _tpl('t5', 'Core & mobilité', [
+    'Planche',
+    'Relevés de jambes',
+    'Pallof press',
+  ]),
 ];
 
 WorkoutSessionSummary _sum(
   int i,
   String name,
-  List<MuscleGroup> tags,
   int daysAgo,
   double tonnage,
   int minutes,
@@ -156,18 +143,18 @@ WorkoutSessionSummary _sum(
   durationSeconds: minutes * 60,
   totalTonnageKg: tonnage,
   totalSets: 18,
-  tags: tags,
+  emoji: _emojiByName[name] ?? FluentEmojis.brick,
 );
 
 final _sessions = [
-  _sum(1, 'Push', [MuscleGroup.chest, MuscleGroup.triceps], 0, 6420, 58),
-  _sum(2, 'Legs', [MuscleGroup.quads, MuscleGroup.glutes], 2, 9850, 71),
-  _sum(3, 'Pull', [MuscleGroup.back, MuscleGroup.biceps], 4, 5210, 55),
-  _sum(4, 'Push', [MuscleGroup.chest], 7, 6100, 60),
-  _sum(5, 'Upper', [MuscleGroup.chest, MuscleGroup.back], 9, 7300, 64),
-  _sum(6, 'Legs', [MuscleGroup.quads], 11, 9400, 69),
-  _sum(7, 'Pull', [MuscleGroup.back], 14, 5000, 52),
-  _sum(8, 'Push', [MuscleGroup.chest], 16, 5900, 57),
+  _sum(1, 'Push', 0, 6420, 58),
+  _sum(2, 'Legs', 2, 9850, 71),
+  _sum(3, 'Pull', 4, 5210, 55),
+  _sum(4, 'Push', 7, 6100, 60),
+  _sum(5, 'Upper', 9, 7300, 64),
+  _sum(6, 'Legs', 11, 9400, 69),
+  _sum(7, 'Pull', 14, 5000, 52),
+  _sum(8, 'Push', 16, 5900, 57),
 ];
 
 List<DateTime> _dates() {
@@ -211,11 +198,6 @@ List<WorkoutSession> _fullSessions() {
         templateName: ['Push', 'Pull', 'Legs'][kind],
         startedAt: _now.subtract(Duration(days: i * 3 + 1)),
         duration: 3600,
-        tags: [
-          [MuscleGroup.chest, MuscleGroup.triceps],
-          [MuscleGroup.back, MuscleGroup.biceps],
-          [MuscleGroup.quads, MuscleGroup.glutes],
-        ][kind],
         notes: '',
         exercises: [
           _wex(

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 
 import 'package:repster/features/dashboard/domain/next_session.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
@@ -9,7 +10,7 @@ Template _template(String id) => Template(
   id: id,
   name: id.toUpperCase(),
   description: '',
-  tags: const [],
+  emoji: FluentEmojis.fire,
   slots: const <TemplateSlot>[],
   isActive: true,
   createdAt: DateTime(2026),
@@ -24,7 +25,7 @@ WorkoutSessionSummary _session(String? templateId) => WorkoutSessionSummary(
   durationSeconds: 3600,
   totalTonnageKg: 1000,
   totalSets: 12,
-  tags: const [],
+  emoji: FluentEmojis.fire,
 );
 
 void main() {

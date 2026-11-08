@@ -2,7 +2,6 @@ import 'package:repster/core/exercises/exercise_display_name.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 
 /// Maps a DB row to a full [WorkoutSession] (with exercises + sets) from a
 /// `workout_sessions` row joined with `session_exercises` / `session_sets`.
@@ -36,7 +35,6 @@ class WorkoutSessionDto {
       startedAt: DateTime.parse(row['started_at'] as String),
       duration: (row['duration_seconds'] as int?) ?? 0,
       exercises: exercises,
-      tags: MuscleGroup.listFromDb(row['tags'] as List<dynamic>?),
       notes: row['notes'] as String? ?? '',
     );
   }

@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 
 part 'catalog_exercise.freezed.dart';
 
@@ -16,7 +15,6 @@ class CatalogExercise with _$CatalogExercise {
     required String id,
     required String displayName,
     required bool isCertified,
-    @Default(<MuscleGroup>[]) List<MuscleGroup> muscleGroups,
     String? category,
     String? matchedVia,
   }) = _CatalogExercise;

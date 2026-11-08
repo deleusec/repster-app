@@ -71,11 +71,6 @@
     "description": "Beschreibung (optional)",
     "descriptionHint": "Beschreibe deine Einheit…",
     "emoji": "Bild",
-    "muscleGroups": "Muskelgruppen",
-    "selectedCount": {
-      "one": "{{n}} ausgewählt",
-      "other": "{{n}} ausgewählt"
-    },
     "exerciseName": "Name der Übung",
     "exerciseNameHint": "z. B. Bankdrücken",
     "type": "Typ",

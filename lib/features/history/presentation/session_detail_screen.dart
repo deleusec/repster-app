@@ -18,7 +18,6 @@ import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
 import 'package:repster/shared/widgets/back_nav_bar.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
-import 'package:repster/shared/widgets/muscle_group_chip.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
 import 'package:repster/shared/widgets/section_label.dart';
 
@@ -142,21 +141,6 @@ class _BodyState extends ConsumerState<_Body> {
             ],
           ),
         ),
-
-        // ── Tags ──────────────────────────────────────────────────────────
-        if (session.tags.isNotEmpty) ...[
-          const SizedBox(height: 14),
-          stagger.wrap(
-            Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              children: [
-                for (final tag in session.tags)
-                  MuscleGroupChip(group: tag, dense: true),
-              ],
-            ),
-          ),
-        ],
 
         // ── Per-exercise breakdown ────────────────────────────────────────
         const SizedBox(height: 24),

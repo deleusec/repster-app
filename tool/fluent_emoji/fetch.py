@@ -13,6 +13,7 @@ lists the keys they are missing.
 """
 
 import argparse
+import colorsys
 import json
 import re
 import subprocess
@@ -103,6 +104,27 @@ def convert(src: Path, dest: Path) -> None:
     im.save(dest, "WEBP", quality=90, method=6, alpha_quality=100)
 
 
+def tint_of(path: Path) -> int:
+    """The colour that lights a card behind this emoji: the mean of its opaque
+    pixels, pushed to a vivid saturation and a readable lightness so a dark
+    gorilla and a white moon both tint the surface, as the muscle-group
+    accents used to."""
+    im = Image.open(path).convert("RGBA")
+    opaque = [(r, g, b) for r, g, b, a in im.getdata() if a > 200]
+    if not opaque:
+        return 0xFFA1A1AA
+    # The vivid pixels decide the hue (a snow-capped mountain is green and
+    # brown, not the grey its average says); a mostly grey image stays grey.
+    vivid = [c for c in opaque if colorsys.rgb_to_hls(*(v / 255 for v in c))[2] > 0.3]
+    if len(vivid) < len(opaque) * 0.08:
+        return 0xFFA1A1AA
+    n = len(vivid)
+    r, g, b = (sum(c[i] for c in vivid) / n / 255 for i in range(3))
+    h, l, s = colorsys.rgb_to_hls(r, g, b)
+    r, g, b = colorsys.hls_to_rgb(h, min(max(l, 0.58), 0.68), max(s, 0.75))
+    return 0xFF000000 | (round(r * 255) << 16) | (round(g * 255) << 8) | round(b * 255)
+
+
 ORDINALS = {"1st": "first", "2nd": "second", "3rd": "third"}
 
 
@@ -123,8 +145,9 @@ def write_catalog(entries: list[tuple[str, str, str]]) -> None:
         "abstract final class FluentEmojis {",
     ]
     for key, group, _ in entries:
+        tint = tint_of(ASSETS / f"{key}.webp")
         lines.append(
-            f"  static const {ident_of(key)} = FluentEmoji._('{key}', FluentEmojiGroup.{group});"
+            f"  static const {ident_of(key)} = FluentEmoji._('{key}', FluentEmojiGroup.{group}, 0x{tint:08X});"
         )
     lines += ["}", "", "const List<FluentEmoji> _catalog = [", ]
     for key, _, _ in entries:

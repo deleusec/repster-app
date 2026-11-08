@@ -26,9 +26,7 @@ class DeleteAccountScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 80),
             children: [
-              BackNavBar(
-                onBack: () => context.canPop() ? context.pop() : null,
-              ),
+              BackNavBar(onBack: () => context.canPop() ? context.pop() : null),
               const SizedBox(height: 28),
               const LegalHeader(
                 title: 'Delete Your Account',

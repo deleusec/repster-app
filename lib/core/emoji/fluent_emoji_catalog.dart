@@ -9,992 +9,1992 @@ abstract final class FluentEmojis {
   static const personLiftingWeights = FluentEmoji._(
     'person-lifting-weights',
     FluentEmojiGroup.sport,
+    0xFFE49C44,
   );
   static const manLiftingWeights = FluentEmoji._(
     'man-lifting-weights',
     FluentEmojiGroup.sport,
+    0xFFE4E344,
   );
   static const womanLiftingWeights = FluentEmoji._(
     'woman-lifting-weights',
     FluentEmojiGroup.sport,
+    0xFFE49644,
   );
   static const flexedBiceps = FluentEmoji._(
     'flexed-biceps',
     FluentEmojiGroup.sport,
+    0xFFF8BA43,
   );
   static const boxingGlove = FluentEmoji._(
     'boxing-glove',
     FluentEmojiGroup.sport,
+    0xFFE44475,
   );
   static const martialArtsUniform = FluentEmoji._(
     'martial-arts-uniform',
     FluentEmojiGroup.sport,
+    0xFFA1A1AA,
   );
   static const personWrestling = FluentEmoji._(
     'person-wrestling',
     FluentEmojiGroup.sport,
+    0xFFEE9C39,
   );
   static const personRunning = FluentEmoji._(
     'person-running',
     FluentEmojiGroup.sport,
+    0xFFF1A243,
   );
   static const manRunning = FluentEmoji._(
     'man-running',
     FluentEmojiGroup.sport,
+    0xFFE4B744,
   );
   static const womanRunning = FluentEmoji._(
     'woman-running',
     FluentEmojiGroup.sport,
+    0xFFE49E45,
   );
   static const runningShoe = FluentEmoji._(
     'running-shoe',
     FluentEmojiGroup.sport,
+    0xFFAE70EB,
   );
   static const runningShirt = FluentEmoji._(
     'running-shirt',
     FluentEmojiGroup.sport,
+    0xFFB4E444,
   );
   static const hikingBoot = FluentEmoji._(
     'hiking-boot',
     FluentEmojiGroup.sport,
+    0xFFE8A55B,
   );
   static const personWalking = FluentEmoji._(
     'person-walking',
     FluentEmojiGroup.sport,
+    0xFFEE993A,
   );
   static const personClimbing = FluentEmoji._(
     'person-climbing',
     FluentEmojiGroup.sport,
+    0xFFE49A44,
   );
   static const personBiking = FluentEmoji._(
     'person-biking',
     FluentEmojiGroup.sport,
+    0xFFE47644,
   );
   static const personMountainBiking = FluentEmoji._(
     'person-mountain-biking',
     FluentEmojiGroup.sport,
+    0xFF52E444,
   );
-  static const bicycle = FluentEmoji._('bicycle', FluentEmojiGroup.sport);
+  static const bicycle = FluentEmoji._(
+    'bicycle',
+    FluentEmojiGroup.sport,
+    0xFFEB709B,
+  );
   static const personSwimming = FluentEmoji._(
     'person-swimming',
     FluentEmojiGroup.sport,
+    0xFF49ADE5,
   );
   static const personSurfing = FluentEmoji._(
     'person-surfing',
     FluentEmojiGroup.sport,
+    0xFFE85F6A,
   );
   static const personRowingBoat = FluentEmoji._(
     'person-rowing-boat',
     FluentEmojiGroup.sport,
+    0xFF44E0E4,
   );
-  static const canoe = FluentEmoji._('canoe', FluentEmojiGroup.sport);
+  static const canoe = FluentEmoji._(
+    'canoe',
+    FluentEmojiGroup.sport,
+    0xFF657FE9,
+  );
   static const personInLotusPosition = FluentEmoji._(
     'person-in-lotus-position',
     FluentEmojiGroup.sport,
+    0xFFF1A337,
   );
-  static const lotus = FluentEmoji._('lotus', FluentEmojiGroup.sport);
+  static const lotus = FluentEmoji._(
+    'lotus',
+    FluentEmojiGroup.sport,
+    0xFFEA6D97,
+  );
   static const personCartwheeling = FluentEmoji._(
     'person-cartwheeling',
     FluentEmojiGroup.sport,
+    0xFFECA23D,
   );
   static const personJuggling = FluentEmoji._(
     'person-juggling',
     FluentEmojiGroup.sport,
+    0xFFE7A755,
   );
   static const personBouncingBall = FluentEmoji._(
     'person-bouncing-ball',
     FluentEmojiGroup.sport,
+    0xFFEB9043,
   );
   static const personPlayingHandball = FluentEmoji._(
     'person-playing-handball',
     FluentEmojiGroup.sport,
+    0xFFED953B,
   );
   static const personPlayingWaterPolo = FluentEmoji._(
     'person-playing-water-polo',
     FluentEmojiGroup.sport,
+    0xFF4CADE5,
   );
   static const personFencing = FluentEmoji._(
     'person-fencing',
     FluentEmojiGroup.sport,
+    0xFFA1A1AA,
   );
   static const personGolfing = FluentEmoji._(
     'person-golfing',
     FluentEmojiGroup.sport,
+    0xFFE98F3F,
   );
   static const horseRacing = FluentEmoji._(
     'horse-racing',
     FluentEmojiGroup.sport,
+    0xFF44E49B,
   );
-  static const skier = FluentEmoji._('skier', FluentEmojiGroup.sport);
+  static const skier = FluentEmoji._(
+    'skier',
+    FluentEmojiGroup.sport,
+    0xFFE5664A,
+  );
   static const snowboarder = FluentEmoji._(
     'snowboarder',
     FluentEmojiGroup.sport,
+    0xFF70A7EB,
   );
-  static const iceSkate = FluentEmoji._('ice-skate', FluentEmojiGroup.sport);
+  static const iceSkate = FluentEmoji._(
+    'ice-skate',
+    FluentEmojiGroup.sport,
+    0xFFA970EB,
+  );
   static const rollerSkate = FluentEmoji._(
     'roller-skate',
     FluentEmojiGroup.sport,
+    0xFFF26884,
   );
-  static const skateboard = FluentEmoji._('skateboard', FluentEmojiGroup.sport);
-  static const basketball = FluentEmoji._('basketball', FluentEmojiGroup.sport);
+  static const skateboard = FluentEmoji._(
+    'skateboard',
+    FluentEmojiGroup.sport,
+    0xFFE44E44,
+  );
+  static const basketball = FluentEmoji._(
+    'basketball',
+    FluentEmojiGroup.sport,
+    0xFFE56646,
+  );
   static const soccerBall = FluentEmoji._(
     'soccer-ball',
     FluentEmojiGroup.sport,
+    0xFF6F8FEC,
   );
   static const americanFootball = FluentEmoji._(
     'american-football',
     FluentEmojiGroup.sport,
+    0xFFE44466,
   );
   static const rugbyFootball = FluentEmoji._(
     'rugby-football',
     FluentEmojiGroup.sport,
+    0xFFFC9A57,
   );
-  static const tennis = FluentEmoji._('tennis', FluentEmojiGroup.sport);
-  static const volleyball = FluentEmoji._('volleyball', FluentEmojiGroup.sport);
-  static const baseball = FluentEmoji._('baseball', FluentEmojiGroup.sport);
-  static const pingPong = FluentEmoji._('ping-pong', FluentEmojiGroup.sport);
-  static const badminton = FluentEmoji._('badminton', FluentEmojiGroup.sport);
+  static const tennis = FluentEmoji._(
+    'tennis',
+    FluentEmojiGroup.sport,
+    0xFFE6517A,
+  );
+  static const volleyball = FluentEmoji._(
+    'volleyball',
+    FluentEmojiGroup.sport,
+    0xFFB370EB,
+  );
+  static const baseball = FluentEmoji._(
+    'baseball',
+    FluentEmojiGroup.sport,
+    0xFFEB70DD,
+  );
+  static const pingPong = FluentEmoji._(
+    'ping-pong',
+    FluentEmojiGroup.sport,
+    0xFFE54A96,
+  );
+  static const badminton = FluentEmoji._(
+    'badminton',
+    FluentEmojiGroup.sport,
+    0xFF4A85E5,
+  );
   static const fieldHockey = FluentEmoji._(
     'field-hockey',
     FluentEmojiGroup.sport,
+    0xFFEB7094,
   );
-  static const iceHockey = FluentEmoji._('ice-hockey', FluentEmojiGroup.sport);
-  static const bowling = FluentEmoji._('bowling', FluentEmojiGroup.sport);
+  static const iceHockey = FluentEmoji._(
+    'ice-hockey',
+    FluentEmojiGroup.sport,
+    0xFFEB7097,
+  );
+  static const bowling = FluentEmoji._(
+    'bowling',
+    FluentEmojiGroup.sport,
+    0xFFBA6BEA,
+  );
   static const flyingDisc = FluentEmoji._(
     'flying-disc',
     FluentEmojiGroup.sport,
+    0xFF5CCDF8,
   );
   static const bowAndArrow = FluentEmoji._(
     'bow-and-arrow',
     FluentEmojiGroup.sport,
+    0xFFEB9070,
   );
-  static const bullseye = FluentEmoji._('bullseye', FluentEmojiGroup.sport);
-  static const pool8Ball = FluentEmoji._('pool-8-ball', FluentEmojiGroup.sport);
-  static const parachute = FluentEmoji._('parachute', FluentEmojiGroup.sport);
-  static const trophy = FluentEmoji._('trophy', FluentEmojiGroup.sport);
+  static const bullseye = FluentEmoji._(
+    'bullseye',
+    FluentEmojiGroup.sport,
+    0xFFE444B1,
+  );
+  static const pool8Ball = FluentEmoji._(
+    'pool-8-ball',
+    FluentEmojiGroup.sport,
+    0xFF9344E4,
+  );
+  static const parachute = FluentEmoji._(
+    'parachute',
+    FluentEmojiGroup.sport,
+    0xFFE4B144,
+  );
+  static const trophy = FluentEmoji._(
+    'trophy',
+    FluentEmojiGroup.sport,
+    0xFFE7A654,
+  );
   static const sportsMedal = FluentEmoji._(
     'sports-medal',
     FluentEmojiGroup.sport,
+    0xFFE89260,
   );
   static const firstPlaceMedal = FluentEmoji._(
     '1st-place-medal',
     FluentEmojiGroup.sport,
+    0xFFE5914A,
   );
   static const secondPlaceMedal = FluentEmoji._(
     '2nd-place-medal',
     FluentEmojiGroup.sport,
+    0xFF7087EB,
   );
   static const thirdPlaceMedal = FluentEmoji._(
     '3rd-place-medal',
     FluentEmojiGroup.sport,
+    0xFFE44489,
   );
   static const militaryMedal = FluentEmoji._(
     'military-medal',
     FluentEmojiGroup.sport,
+    0xFFE8915C,
   );
   static const chequeredFlag = FluentEmoji._(
     'chequered-flag',
     FluentEmojiGroup.sport,
+    0xFFB670EB,
   );
   static const triangularFlag = FluentEmoji._(
     'triangular-flag',
     FluentEmojiGroup.sport,
+    0xFFED647A,
   );
-  static const stadium = FluentEmoji._('stadium', FluentEmojiGroup.sport);
-  static const stopwatch = FluentEmoji._('stopwatch', FluentEmojiGroup.sport);
+  static const stadium = FluentEmoji._(
+    'stadium',
+    FluentEmojiGroup.sport,
+    0xFFEA6C82,
+  );
+  static const stopwatch = FluentEmoji._(
+    'stopwatch',
+    FluentEmojiGroup.sport,
+    0xFFB244E4,
+  );
   static const timerClock = FluentEmoji._(
     'timer-clock',
     FluentEmojiGroup.sport,
+    0xFF48ACE5,
   );
   static const alarmClock = FluentEmoji._(
     'alarm-clock',
     FluentEmojiGroup.sport,
+    0xFFEB7075,
   );
   static const hourglassNotDone = FluentEmoji._(
     'hourglass-not-done',
     FluentEmojiGroup.sport,
+    0xFFEBE970,
   );
-  static const leg = FluentEmoji._('leg', FluentEmojiGroup.body);
-  static const foot = FluentEmoji._('foot', FluentEmojiGroup.body);
+  static const leg = FluentEmoji._('leg', FluentEmojiGroup.body, 0xFFF8C149);
+  static const foot = FluentEmoji._('foot', FluentEmojiGroup.body, 0xFFF9C148);
   static const anatomicalHeart = FluentEmoji._(
     'anatomical-heart',
     FluentEmojiGroup.body,
+    0xFFE755A6,
   );
-  static const lungs = FluentEmoji._('lungs', FluentEmojiGroup.body);
-  static const bone = FluentEmoji._('bone', FluentEmojiGroup.body);
-  static const brain = FluentEmoji._('brain', FluentEmojiGroup.body);
-  static const footprints = FluentEmoji._('footprints', FluentEmojiGroup.body);
-  static const eyes = FluentEmoji._('eyes', FluentEmojiGroup.body);
-  static const raisedFist = FluentEmoji._('raised-fist', FluentEmojiGroup.body);
+  static const lungs = FluentEmoji._(
+    'lungs',
+    FluentEmojiGroup.body,
+    0xFFEB709B,
+  );
+  static const bone = FluentEmoji._('bone', FluentEmojiGroup.body, 0xFFB770EB);
+  static const brain = FluentEmoji._(
+    'brain',
+    FluentEmojiGroup.body,
+    0xFFF764B6,
+  );
+  static const footprints = FluentEmoji._(
+    'footprints',
+    FluentEmojiGroup.body,
+    0xFF9544E4,
+  );
+  static const eyes = FluentEmoji._('eyes', FluentEmojiGroup.body, 0xFFB670EB);
+  static const raisedFist = FluentEmoji._(
+    'raised-fist',
+    FluentEmojiGroup.body,
+    0xFFF7B039,
+  );
   static const oncomingFist = FluentEmoji._(
     'oncoming-fist',
     FluentEmojiGroup.body,
+    0xFFFBBA40,
   );
   static const leftFacingFist = FluentEmoji._(
     'left-facing-fist',
     FluentEmojiGroup.body,
+    0xFFF2B636,
   );
   static const rightFacingFist = FluentEmoji._(
     'right-facing-fist',
     FluentEmojiGroup.body,
+    0xFFF3B534,
   );
-  static const thumbsUp = FluentEmoji._('thumbs-up', FluentEmojiGroup.body);
+  static const thumbsUp = FluentEmoji._(
+    'thumbs-up',
+    FluentEmojiGroup.body,
+    0xFFF7B541,
+  );
   static const clappingHands = FluentEmoji._(
     'clapping-hands',
     FluentEmojiGroup.body,
+    0xFFF3B33E,
   );
   static const raisingHands = FluentEmoji._(
     'raising-hands',
     FluentEmojiGroup.body,
+    0xFFF3B743,
   );
-  static const heartHands = FluentEmoji._('heart-hands', FluentEmojiGroup.body);
-  static const handshake = FluentEmoji._('handshake', FluentEmojiGroup.body);
+  static const heartHands = FluentEmoji._(
+    'heart-hands',
+    FluentEmojiGroup.body,
+    0xFFFBBB49,
+  );
+  static const handshake = FluentEmoji._(
+    'handshake',
+    FluentEmojiGroup.body,
+    0xFFFBBF46,
+  );
   static const foldedHands = FluentEmoji._(
     'folded-hands',
     FluentEmojiGroup.body,
+    0xFFE7596F,
   );
   static const victoryHand = FluentEmoji._(
     'victory-hand',
     FluentEmojiGroup.body,
+    0xFFFCBD3A,
   );
-  static const okHand = FluentEmoji._('ok-hand', FluentEmojiGroup.body);
-  static const wavingHand = FluentEmoji._('waving-hand', FluentEmojiGroup.body);
+  static const okHand = FluentEmoji._(
+    'ok-hand',
+    FluentEmojiGroup.body,
+    0xFFF9C03A,
+  );
+  static const wavingHand = FluentEmoji._(
+    'waving-hand',
+    FluentEmojiGroup.body,
+    0xFFECB448,
+  );
   static const pinchedFingers = FluentEmoji._(
     'pinched-fingers',
     FluentEmojiGroup.body,
+    0xFFFBBE3E,
   );
   static const signOfTheHorns = FluentEmoji._(
     'sign-of-the-horns',
     FluentEmojiGroup.body,
+    0xFFF6B238,
   );
   static const callMeHand = FluentEmoji._(
     'call-me-hand',
     FluentEmojiGroup.body,
+    0xFFF8B138,
   );
   static const crossedFingers = FluentEmoji._(
     'crossed-fingers',
     FluentEmojiGroup.body,
+    0xFFF5B138,
   );
   static const loveYouGesture = FluentEmoji._(
     'love-you-gesture',
     FluentEmojiGroup.body,
+    0xFFF9B939,
   );
   static const sweatDroplets = FluentEmoji._(
     'sweat-droplets',
     FluentEmojiGroup.body,
+    0xFF60C2FB,
   );
-  static const zzz = FluentEmoji._('zzz', FluentEmojiGroup.body);
+  static const zzz = FluentEmoji._('zzz', FluentEmojiGroup.body, 0xFF4AA4F6);
   static const personStanding = FluentEmoji._(
     'person-standing',
     FluentEmojiGroup.body,
+    0xFFF18D37,
   );
   static const personKneeling = FluentEmoji._(
     'person-kneeling',
     FluentEmojiGroup.body,
+    0xFFE9983F,
   );
-  static const fire = FluentEmoji._('fire', FluentEmojiGroup.energy);
+  static const fire = FluentEmoji._(
+    'fire',
+    FluentEmojiGroup.energy,
+    0xFFF5853F,
+  );
   static const highVoltage = FluentEmoji._(
     'high-voltage',
     FluentEmojiGroup.energy,
+    0xFFFD904D,
   );
-  static const collision = FluentEmoji._('collision', FluentEmojiGroup.energy);
-  static const dizzy = FluentEmoji._('dizzy', FluentEmojiGroup.energy);
-  static const sparkles = FluentEmoji._('sparkles', FluentEmojiGroup.energy);
-  static const star = FluentEmoji._('star', FluentEmojiGroup.energy);
+  static const collision = FluentEmoji._(
+    'collision',
+    FluentEmojiGroup.energy,
+    0xFFE44449,
+  );
+  static const dizzy = FluentEmoji._(
+    'dizzy',
+    FluentEmojiGroup.energy,
+    0xFFFDC850,
+  );
+  static const sparkles = FluentEmoji._(
+    'sparkles',
+    FluentEmojiGroup.energy,
+    0xFFFBB15F,
+  );
+  static const star = FluentEmoji._(
+    'star',
+    FluentEmojiGroup.energy,
+    0xFFF1C237,
+  );
   static const shootingStar = FluentEmoji._(
     'shooting-star',
     FluentEmojiGroup.energy,
+    0xFFE4B444,
   );
-  static const rocket = FluentEmoji._('rocket', FluentEmojiGroup.energy);
+  static const rocket = FluentEmoji._(
+    'rocket',
+    FluentEmojiGroup.energy,
+    0xFFEB7093,
+  );
   static const flyingSaucer = FluentEmoji._(
     'flying-saucer',
     FluentEmojiGroup.energy,
+    0xFFC6EA6E,
   );
   static const hundredPoints = FluentEmoji._(
     'hundred-points',
     FluentEmojiGroup.energy,
+    0xFFF53368,
   );
   static const checkMarkButton = FluentEmoji._(
     'check-mark-button',
     FluentEmojiGroup.energy,
+    0xFF44E48A,
   );
-  static const battery = FluentEmoji._('battery', FluentEmojiGroup.energy);
-  static const lightBulb = FluentEmoji._('light-bulb', FluentEmojiGroup.energy);
-  static const bomb = FluentEmoji._('bomb', FluentEmojiGroup.energy);
-  static const fireworks = FluentEmoji._('fireworks', FluentEmojiGroup.energy);
+  static const battery = FluentEmoji._(
+    'battery',
+    FluentEmojiGroup.energy,
+    0xFFAAEB70,
+  );
+  static const lightBulb = FluentEmoji._(
+    'light-bulb',
+    FluentEmojiGroup.energy,
+    0xFFFDC95B,
+  );
+  static const bomb = FluentEmoji._(
+    'bomb',
+    FluentEmojiGroup.energy,
+    0xFFCC44E4,
+  );
+  static const fireworks = FluentEmoji._(
+    'fireworks',
+    FluentEmojiGroup.energy,
+    0xFFD944E4,
+  );
   static const partyPopper = FluentEmoji._(
     'party-popper',
     FluentEmojiGroup.energy,
+    0xFFE444A2,
   );
   static const confettiBall = FluentEmoji._(
     'confetti-ball',
     FluentEmojiGroup.energy,
+    0xFFE48944,
   );
   static const mirrorBall = FluentEmoji._(
     'mirror-ball',
     FluentEmojiGroup.energy,
+    0xFFA1A1AA,
   );
-  static const crown = FluentEmoji._('crown', FluentEmojiGroup.energy);
-  static const gemStone = FluentEmoji._('gem-stone', FluentEmojiGroup.energy);
-  static const shield = FluentEmoji._('shield', FluentEmojiGroup.energy);
+  static const crown = FluentEmoji._(
+    'crown',
+    FluentEmojiGroup.energy,
+    0xFFE89B61,
+  );
+  static const gemStone = FluentEmoji._(
+    'gem-stone',
+    FluentEmojiGroup.energy,
+    0xFF41A4E7,
+  );
+  static const shield = FluentEmoji._(
+    'shield',
+    FluentEmojiGroup.energy,
+    0xFF46A2F0,
+  );
   static const crossedSwords = FluentEmoji._(
     'crossed-swords',
     FluentEmojiGroup.energy,
+    0xFF7344E4,
   );
-  static const infinity = FluentEmoji._('infinity', FluentEmojiGroup.energy);
-  static const skull = FluentEmoji._('skull', FluentEmojiGroup.energy);
+  static const infinity = FluentEmoji._(
+    'infinity',
+    FluentEmojiGroup.energy,
+    0xFF4E9DF5,
+  );
+  static const skull = FluentEmoji._(
+    'skull',
+    FluentEmojiGroup.energy,
+    0xFFC070EB,
+  );
   static const skullAndCrossbones = FluentEmoji._(
     'skull-and-crossbones',
     FluentEmojiGroup.energy,
+    0xFFBE70EB,
   );
-  static const ghost = FluentEmoji._('ghost', FluentEmojiGroup.energy);
-  static const alien = FluentEmoji._('alien', FluentEmojiGroup.energy);
-  static const robot = FluentEmoji._('robot', FluentEmojiGroup.energy);
+  static const ghost = FluentEmoji._(
+    'ghost',
+    FluentEmojiGroup.energy,
+    0xFFEB70DD,
+  );
+  static const alien = FluentEmoji._(
+    'alien',
+    FluentEmojiGroup.energy,
+    0xFF77E964,
+  );
+  static const robot = FluentEmoji._(
+    'robot',
+    FluentEmojiGroup.energy,
+    0xFFE754BF,
+  );
   static const pileOfPoo = FluentEmoji._(
     'pile-of-poo',
     FluentEmojiGroup.energy,
+    0xFFE44457,
   );
-  static const magicWand = FluentEmoji._('magic-wand', FluentEmojiGroup.energy);
+  static const magicWand = FluentEmoji._(
+    'magic-wand',
+    FluentEmojiGroup.energy,
+    0xFFE47244,
+  );
   static const crystalBall = FluentEmoji._(
     'crystal-ball',
     FluentEmojiGroup.energy,
+    0xFFEB707D,
   );
   static const grinningFace = FluentEmoji._(
     'grinning-face',
     FluentEmojiGroup.faces,
+    0xFFEA946E,
   );
   static const grinningFaceWithBigEyes = FluentEmoji._(
     'grinning-face-with-big-eyes',
     FluentEmojiGroup.faces,
+    0xFFEA906C,
   );
   static const grinningFaceWithSmilingEyes = FluentEmoji._(
     'grinning-face-with-smiling-eyes',
     FluentEmojiGroup.faces,
+    0xFFE9915D,
   );
   static const beamingFaceWithSmilingEyes = FluentEmoji._(
     'beaming-face-with-smiling-eyes',
     FluentEmojiGroup.faces,
+    0xFFF2AD69,
   );
   static const grinningSquintingFace = FluentEmoji._(
     'grinning-squinting-face',
     FluentEmojiGroup.faces,
+    0xFFE8895F,
   );
   static const grinningFaceWithSweat = FluentEmoji._(
     'grinning-face-with-sweat',
     FluentEmojiGroup.faces,
+    0xFFE8835B,
   );
   static const faceWithTearsOfJoy = FluentEmoji._(
     'face-with-tears-of-joy',
     FluentEmojiGroup.faces,
+    0xFFE8735C,
   );
   static const rollingOnTheFloorLaughing = FluentEmoji._(
     'rolling-on-the-floor-laughing',
     FluentEmojiGroup.faces,
+    0xFFE8615D,
   );
   static const smilingFaceWithSmilingEyes = FluentEmoji._(
     'smiling-face-with-smiling-eyes',
     FluentEmojiGroup.faces,
+    0xFFF2A74F,
   );
   static const smilingFaceWithHalo = FluentEmoji._(
     'smiling-face-with-halo',
     FluentEmojiGroup.faces,
+    0xFFE69C51,
   );
   static const smilingFaceWithHearts = FluentEmoji._(
     'smiling-face-with-hearts',
     FluentEmojiGroup.faces,
+    0xFFEC8A50,
   );
   static const smilingFaceWithHeartEyes = FluentEmoji._(
     'smiling-face-with-heart-eyes',
     FluentEmojiGroup.faces,
+    0xFFE87861,
   );
   static const starStruck = FluentEmoji._(
     'star-struck',
     FluentEmojiGroup.faces,
+    0xFFE85F67,
   );
   static const faceBlowingAKiss = FluentEmoji._(
     'face-blowing-a-kiss',
     FluentEmojiGroup.faces,
+    0xFFEB9B53,
   );
   static const faceSavoringFood = FluentEmoji._(
     'face-savoring-food',
     FluentEmojiGroup.faces,
+    0xFFF09F4C,
   );
   static const faceWithTongue = FluentEmoji._(
     'face-with-tongue',
     FluentEmojiGroup.faces,
+    0xFFF3A166,
   );
   static const winkingFace = FluentEmoji._(
     'winking-face',
     FluentEmojiGroup.faces,
+    0xFFEB9E5E,
   );
   static const winkingFaceWithTongue = FluentEmoji._(
     'winking-face-with-tongue',
     FluentEmojiGroup.faces,
+    0xFFEE9C5E,
   );
-  static const zanyFace = FluentEmoji._('zany-face', FluentEmojiGroup.faces);
+  static const zanyFace = FluentEmoji._(
+    'zany-face',
+    FluentEmojiGroup.faces,
+    0xFFEC896F,
+  );
   static const moneyMouthFace = FluentEmoji._(
     'money-mouth-face',
     FluentEmojiGroup.faces,
+    0xFFE5AC4A,
   );
   static const huggingFace = FluentEmoji._(
     'hugging-face',
     FluentEmojiGroup.faces,
+    0xFFF2AC46,
   );
   static const faceWithHandOverMouth = FluentEmoji._(
     'face-with-hand-over-mouth',
     FluentEmojiGroup.faces,
+    0xFFF4B048,
   );
   static const faceWithPeekingEye = FluentEmoji._(
     'face-with-peeking-eye',
     FluentEmojiGroup.faces,
+    0xFFF2AB4E,
   );
   static const shushingFace = FluentEmoji._(
     'shushing-face',
     FluentEmojiGroup.faces,
+    0xFFF6B657,
   );
   static const thinkingFace = FluentEmoji._(
     'thinking-face',
     FluentEmojiGroup.faces,
+    0xFFF2B453,
   );
   static const salutingFace = FluentEmoji._(
     'saluting-face',
     FluentEmojiGroup.faces,
+    0xFFF5B058,
   );
   static const zipperMouthFace = FluentEmoji._(
     'zipper-mouth-face',
     FluentEmojiGroup.faces,
+    0xFFF2AE68,
   );
   static const faceWithRaisedEyebrow = FluentEmoji._(
     'face-with-raised-eyebrow',
     FluentEmojiGroup.faces,
+    0xFFF3AF5A,
   );
   static const neutralFace = FluentEmoji._(
     'neutral-face',
     FluentEmojiGroup.faces,
+    0xFFF6B15A,
   );
   static const unamusedFace = FluentEmoji._(
     'unamused-face',
     FluentEmojiGroup.faces,
+    0xFFF2AE54,
   );
   static const smirkingFace = FluentEmoji._(
     'smirking-face',
     FluentEmojiGroup.faces,
+    0xFFF2AE55,
   );
   static const droolingFace = FluentEmoji._(
     'drooling-face',
     FluentEmojiGroup.faces,
+    0xFFE69651,
   );
   static const sleepingFace = FluentEmoji._(
     'sleeping-face',
     FluentEmojiGroup.faces,
+    0xFFE9AC55,
   );
   static const faceWithMedicalMask = FluentEmoji._(
     'face-with-medical-mask',
     FluentEmojiGroup.faces,
+    0xFFEBA070,
   );
-  static const hotFace = FluentEmoji._('hot-face', FluentEmojiGroup.faces);
-  static const coldFace = FluentEmoji._('cold-face', FluentEmojiGroup.faces);
-  static const woozyFace = FluentEmoji._('woozy-face', FluentEmojiGroup.faces);
+  static const hotFace = FluentEmoji._(
+    'hot-face',
+    FluentEmojiGroup.faces,
+    0xFFE97C67,
+  );
+  static const coldFace = FluentEmoji._(
+    'cold-face',
+    FluentEmojiGroup.faces,
+    0xFF746DEE,
+  );
+  static const woozyFace = FluentEmoji._(
+    'woozy-face',
+    FluentEmojiGroup.faces,
+    0xFFEEAC57,
+  );
   static const faceWithSpiralEyes = FluentEmoji._(
     'face-with-spiral-eyes',
     FluentEmojiGroup.faces,
+    0xFFE49A44,
   );
   static const explodingHead = FluentEmoji._(
     'exploding-head',
     FluentEmojiGroup.faces,
+    0xFFEBA170,
   );
   static const cowboyHatFace = FluentEmoji._(
     'cowboy-hat-face',
     FluentEmojiGroup.faces,
+    0xFFE86E5B,
   );
   static const partyingFace = FluentEmoji._(
     'partying-face',
     FluentEmojiGroup.faces,
+    0xFFE69753,
   );
   static const disguisedFace = FluentEmoji._(
     'disguised-face',
     FluentEmojiGroup.faces,
+    0xFFE69752,
   );
   static const smilingFaceWithSunglasses = FluentEmoji._(
     'smiling-face-with-sunglasses',
     FluentEmojiGroup.faces,
+    0xFFE46F44,
   );
-  static const nerdFace = FluentEmoji._('nerd-face', FluentEmojiGroup.faces);
+  static const nerdFace = FluentEmoji._(
+    'nerd-face',
+    FluentEmojiGroup.faces,
+    0xFFE99466,
+  );
   static const faceWithMonocle = FluentEmoji._(
     'face-with-monocle',
     FluentEmojiGroup.faces,
+    0xFFECA35C,
   );
   static const slightlySmilingFace = FluentEmoji._(
     'slightly-smiling-face',
     FluentEmojiGroup.faces,
+    0xFFF5B05B,
   );
   static const upsideDownFace = FluentEmoji._(
     'upside-down-face',
     FluentEmojiGroup.faces,
+    0xFFF4B45A,
   );
   static const meltingFace = FluentEmoji._(
     'melting-face',
     FluentEmojiGroup.faces,
+    0xFFF6B450,
   );
   static const flushedFace = FluentEmoji._(
     'flushed-face',
     FluentEmojiGroup.faces,
+    0xFFF3AD63,
   );
   static const pleadingFace = FluentEmoji._(
     'pleading-face',
     FluentEmojiGroup.faces,
+    0xFFEFAA51,
   );
   static const faceHoldingBackTears = FluentEmoji._(
     'face-holding-back-tears',
     FluentEmojiGroup.faces,
+    0xFFE7A455,
   );
   static const loudlyCryingFace = FluentEmoji._(
     'loudly-crying-face',
     FluentEmojiGroup.faces,
+    0xFFE8745C,
   );
   static const faceScreamingInFear = FluentEmoji._(
     'face-screaming-in-fear',
     FluentEmojiGroup.faces,
+    0xFFEAA56A,
   );
   static const downcastFaceWithSweat = FluentEmoji._(
     'downcast-face-with-sweat',
     FluentEmojiGroup.faces,
+    0xFFE7A757,
   );
-  static const wearyFace = FluentEmoji._('weary-face', FluentEmojiGroup.faces);
-  static const tiredFace = FluentEmoji._('tired-face', FluentEmojiGroup.faces);
+  static const wearyFace = FluentEmoji._(
+    'weary-face',
+    FluentEmojiGroup.faces,
+    0xFFE78D5A,
+  );
+  static const tiredFace = FluentEmoji._(
+    'tired-face',
+    FluentEmojiGroup.faces,
+    0xFFE78C59,
+  );
   static const yawningFace = FluentEmoji._(
     'yawning-face',
     FluentEmojiGroup.faces,
+    0xFFEEA749,
   );
   static const faceWithSteamFromNose = FluentEmoji._(
     'face-with-steam-from-nose',
     FluentEmojiGroup.faces,
+    0xFFEBAD70,
   );
-  static const angryFace = FluentEmoji._('angry-face', FluentEmojiGroup.faces);
+  static const angryFace = FluentEmoji._(
+    'angry-face',
+    FluentEmojiGroup.faces,
+    0xFFF2B35D,
+  );
   static const smilingFaceWithHorns = FluentEmoji._(
     'smiling-face-with-horns',
     FluentEmojiGroup.faces,
+    0xFFAB44E4,
   );
   static const angryFaceWithHorns = FluentEmoji._(
     'angry-face-with-horns',
     FluentEmojiGroup.faces,
+    0xFFAB44E4,
   );
-  static const redHeart = FluentEmoji._('red-heart', FluentEmojiGroup.hearts);
+  static const redHeart = FluentEmoji._(
+    'red-heart',
+    FluentEmojiGroup.hearts,
+    0xFFF33567,
+  );
   static const orangeHeart = FluentEmoji._(
     'orange-heart',
     FluentEmojiGroup.hearts,
+    0xFFFB764A,
   );
   static const yellowHeart = FluentEmoji._(
     'yellow-heart',
     FluentEmojiGroup.hearts,
+    0xFFFBBB44,
   );
   static const greenHeart = FluentEmoji._(
     'green-heart',
     FluentEmojiGroup.hearts,
+    0xFF44E499,
   );
-  static const blueHeart = FluentEmoji._('blue-heart', FluentEmojiGroup.hearts);
+  static const blueHeart = FluentEmoji._(
+    'blue-heart',
+    FluentEmojiGroup.hearts,
+    0xFF4077F7,
+  );
   static const purpleHeart = FluentEmoji._(
     'purple-heart',
     FluentEmojiGroup.hearts,
+    0xFF9835F3,
   );
   static const blackHeart = FluentEmoji._(
     'black-heart',
     FluentEmojiGroup.hearts,
+    0xFF9344E4,
   );
   static const whiteHeart = FluentEmoji._(
     'white-heart',
     FluentEmojiGroup.hearts,
+    0xFFB270EB,
   );
-  static const pinkHeart = FluentEmoji._('pink-heart', FluentEmojiGroup.hearts);
+  static const pinkHeart = FluentEmoji._(
+    'pink-heart',
+    FluentEmojiGroup.hearts,
+    0xFFF64CA1,
+  );
   static const sparklingHeart = FluentEmoji._(
     'sparkling-heart',
     FluentEmojiGroup.hearts,
+    0xFFF34560,
   );
   static const growingHeart = FluentEmoji._(
     'growing-heart',
     FluentEmojiGroup.hearts,
+    0xFFF665AE,
   );
   static const beatingHeart = FluentEmoji._(
     'beating-heart',
     FluentEmojiGroup.hearts,
+    0xFFF13768,
   );
   static const revolvingHearts = FluentEmoji._(
     'revolving-hearts',
     FluentEmojiGroup.hearts,
+    0xFFF13766,
   );
-  static const twoHearts = FluentEmoji._('two-hearts', FluentEmojiGroup.hearts);
+  static const twoHearts = FluentEmoji._(
+    'two-hearts',
+    FluentEmojiGroup.hearts,
+    0xFFF13767,
+  );
   static const heartOnFire = FluentEmoji._(
     'heart-on-fire',
     FluentEmojiGroup.hearts,
+    0xFFF3616A,
   );
   static const mendingHeart = FluentEmoji._(
     'mending-heart',
     FluentEmojiGroup.hearts,
+    0xFFE93F6D,
   );
   static const brokenHeart = FluentEmoji._(
     'broken-heart',
     FluentEmojiGroup.hearts,
+    0xFFF6356D,
   );
   static const heartWithArrow = FluentEmoji._(
     'heart-with-arrow',
     FluentEmojiGroup.hearts,
+    0xFFE74176,
   );
   static const heartWithRibbon = FluentEmoji._(
     'heart-with-ribbon',
     FluentEmojiGroup.hearts,
+    0xFFF06951,
   );
-  static const gorilla = FluentEmoji._('gorilla', FluentEmojiGroup.animals);
-  static const lion = FluentEmoji._('lion', FluentEmojiGroup.animals);
-  static const tiger = FluentEmoji._('tiger', FluentEmojiGroup.animals);
-  static const leopard = FluentEmoji._('leopard', FluentEmojiGroup.animals);
-  static const bear = FluentEmoji._('bear', FluentEmojiGroup.animals);
+  static const gorilla = FluentEmoji._(
+    'gorilla',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
+  static const lion = FluentEmoji._(
+    'lion',
+    FluentEmojiGroup.animals,
+    0xFFE48E45,
+  );
+  static const tiger = FluentEmoji._(
+    'tiger',
+    FluentEmojiGroup.animals,
+    0xFFEF7350,
+  );
+  static const leopard = FluentEmoji._(
+    'leopard',
+    FluentEmojiGroup.animals,
+    0xFFF2A543,
+  );
+  static const bear = FluentEmoji._(
+    'bear',
+    FluentEmojiGroup.animals,
+    0xFFE44844,
+  );
   static const polarBear = FluentEmoji._(
     'polar-bear',
     FluentEmojiGroup.animals,
+    0xFF9B70EB,
   );
-  static const ox = FluentEmoji._('ox', FluentEmojiGroup.animals);
+  static const ox = FluentEmoji._('ox', FluentEmojiGroup.animals, 0xFFE44444);
   static const waterBuffalo = FluentEmoji._(
     'water-buffalo',
     FluentEmojiGroup.animals,
+    0xFFA1A1AA,
   );
-  static const bison = FluentEmoji._('bison', FluentEmojiGroup.animals);
-  static const cow = FluentEmoji._('cow', FluentEmojiGroup.animals);
+  static const bison = FluentEmoji._(
+    'bison',
+    FluentEmojiGroup.animals,
+    0xFFE45044,
+  );
+  static const cow = FluentEmoji._('cow', FluentEmojiGroup.animals, 0xFFEB70DF);
   static const rhinoceros = FluentEmoji._(
     'rhinoceros',
     FluentEmojiGroup.animals,
+    0xFFA1A1AA,
   );
-  static const elephant = FluentEmoji._('elephant', FluentEmojiGroup.animals);
+  static const elephant = FluentEmoji._(
+    'elephant',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
   static const hippopotamus = FluentEmoji._(
     'hippopotamus',
     FluentEmojiGroup.animals,
+    0xFFA1A1AA,
   );
-  static const mammoth = FluentEmoji._('mammoth', FluentEmojiGroup.animals);
-  static const horse = FluentEmoji._('horse', FluentEmojiGroup.animals);
-  static const zebra = FluentEmoji._('zebra', FluentEmojiGroup.animals);
-  static const giraffe = FluentEmoji._('giraffe', FluentEmojiGroup.animals);
-  static const camel = FluentEmoji._('camel', FluentEmojiGroup.animals);
-  static const deer = FluentEmoji._('deer', FluentEmojiGroup.animals);
-  static const ram = FluentEmoji._('ram', FluentEmojiGroup.animals);
-  static const goat = FluentEmoji._('goat', FluentEmojiGroup.animals);
-  static const pig = FluentEmoji._('pig', FluentEmojiGroup.animals);
-  static const wolf = FluentEmoji._('wolf', FluentEmojiGroup.animals);
-  static const fox = FluentEmoji._('fox', FluentEmojiGroup.animals);
-  static const dog = FluentEmoji._('dog', FluentEmojiGroup.animals);
-  static const cat = FluentEmoji._('cat', FluentEmojiGroup.animals);
-  static const blackCat = FluentEmoji._('black-cat', FluentEmojiGroup.animals);
-  static const monkey = FluentEmoji._('monkey', FluentEmojiGroup.animals);
+  static const mammoth = FluentEmoji._(
+    'mammoth',
+    FluentEmojiGroup.animals,
+    0xFFE45044,
+  );
+  static const horse = FluentEmoji._(
+    'horse',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
+  static const zebra = FluentEmoji._(
+    'zebra',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
+  static const giraffe = FluentEmoji._(
+    'giraffe',
+    FluentEmojiGroup.animals,
+    0xFFE48C44,
+  );
+  static const camel = FluentEmoji._(
+    'camel',
+    FluentEmojiGroup.animals,
+    0xFFE99465,
+  );
+  static const deer = FluentEmoji._(
+    'deer',
+    FluentEmojiGroup.animals,
+    0xFFE68F53,
+  );
+  static const ram = FluentEmoji._('ram', FluentEmojiGroup.animals, 0xFFEB8A70);
+  static const goat = FluentEmoji._(
+    'goat',
+    FluentEmojiGroup.animals,
+    0xFFE47D44,
+  );
+  static const pig = FluentEmoji._('pig', FluentEmojiGroup.animals, 0xFFFA618B);
+  static const wolf = FluentEmoji._(
+    'wolf',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
+  static const fox = FluentEmoji._('fox', FluentEmojiGroup.animals, 0xFFEE9058);
+  static const dog = FluentEmoji._('dog', FluentEmojiGroup.animals, 0xFFEB9B70);
+  static const cat = FluentEmoji._('cat', FluentEmojiGroup.animals, 0xFFEBA170);
+  static const blackCat = FluentEmoji._(
+    'black-cat',
+    FluentEmojiGroup.animals,
+    0xFF7F44E4,
+  );
+  static const monkey = FluentEmoji._(
+    'monkey',
+    FluentEmojiGroup.animals,
+    0xFFE44484,
+  );
   static const seeNoEvilMonkey = FluentEmoji._(
     'see-no-evil-monkey',
     FluentEmojiGroup.animals,
+    0xFFE4446B,
   );
-  static const kangaroo = FluentEmoji._('kangaroo', FluentEmojiGroup.animals);
-  static const rabbit = FluentEmoji._('rabbit', FluentEmojiGroup.animals);
-  static const hedgehog = FluentEmoji._('hedgehog', FluentEmojiGroup.animals);
-  static const koala = FluentEmoji._('koala', FluentEmojiGroup.animals);
-  static const panda = FluentEmoji._('panda', FluentEmojiGroup.animals);
-  static const sloth = FluentEmoji._('sloth', FluentEmojiGroup.animals);
-  static const otter = FluentEmoji._('otter', FluentEmojiGroup.animals);
-  static const seal = FluentEmoji._('seal', FluentEmojiGroup.animals);
-  static const bat = FluentEmoji._('bat', FluentEmojiGroup.animals);
-  static const eagle = FluentEmoji._('eagle', FluentEmojiGroup.animals);
-  static const owl = FluentEmoji._('owl', FluentEmojiGroup.animals);
-  static const rooster = FluentEmoji._('rooster', FluentEmojiGroup.animals);
-  static const chicken = FluentEmoji._('chicken', FluentEmojiGroup.animals);
+  static const kangaroo = FluentEmoji._(
+    'kangaroo',
+    FluentEmojiGroup.animals,
+    0xFFEB9F70,
+  );
+  static const rabbit = FluentEmoji._(
+    'rabbit',
+    FluentEmojiGroup.animals,
+    0xFFEB70C5,
+  );
+  static const hedgehog = FluentEmoji._(
+    'hedgehog',
+    FluentEmojiGroup.animals,
+    0xFFE87A60,
+  );
+  static const koala = FluentEmoji._(
+    'koala',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
+  static const panda = FluentEmoji._(
+    'panda',
+    FluentEmojiGroup.animals,
+    0xFFAB70EB,
+  );
+  static const sloth = FluentEmoji._(
+    'sloth',
+    FluentEmojiGroup.animals,
+    0xFFEB9B70,
+  );
+  static const otter = FluentEmoji._(
+    'otter',
+    FluentEmojiGroup.animals,
+    0xFFE44A44,
+  );
+  static const seal = FluentEmoji._(
+    'seal',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
+  static const bat = FluentEmoji._('bat', FluentEmojiGroup.animals, 0xFFE46744);
+  static const eagle = FluentEmoji._(
+    'eagle',
+    FluentEmojiGroup.animals,
+    0xFFE8855D,
+  );
+  static const owl = FluentEmoji._('owl', FluentEmojiGroup.animals, 0xFFE79156);
+  static const rooster = FluentEmoji._(
+    'rooster',
+    FluentEmojiGroup.animals,
+    0xFFE55C4C,
+  );
+  static const chicken = FluentEmoji._(
+    'chicken',
+    FluentEmojiGroup.animals,
+    0xFFEB7098,
+  );
   static const babyChick = FluentEmoji._(
     'baby-chick',
     FluentEmojiGroup.animals,
+    0xFFFEBF5B,
   );
-  static const duck = FluentEmoji._('duck', FluentEmojiGroup.animals);
-  static const swan = FluentEmoji._('swan', FluentEmojiGroup.animals);
-  static const flamingo = FluentEmoji._('flamingo', FluentEmojiGroup.animals);
-  static const peacock = FluentEmoji._('peacock', FluentEmojiGroup.animals);
-  static const parrot = FluentEmoji._('parrot', FluentEmojiGroup.animals);
-  static const dove = FluentEmoji._('dove', FluentEmojiGroup.animals);
-  static const penguin = FluentEmoji._('penguin', FluentEmojiGroup.animals);
-  static const shark = FluentEmoji._('shark', FluentEmojiGroup.animals);
-  static const whale = FluentEmoji._('whale', FluentEmojiGroup.animals);
-  static const dolphin = FluentEmoji._('dolphin', FluentEmojiGroup.animals);
-  static const octopus = FluentEmoji._('octopus', FluentEmojiGroup.animals);
-  static const fish = FluentEmoji._('fish', FluentEmojiGroup.animals);
+  static const duck = FluentEmoji._(
+    'duck',
+    FluentEmojiGroup.animals,
+    0xFFC2E444,
+  );
+  static const swan = FluentEmoji._(
+    'swan',
+    FluentEmojiGroup.animals,
+    0xFFCB70EB,
+  );
+  static const flamingo = FluentEmoji._(
+    'flamingo',
+    FluentEmojiGroup.animals,
+    0xFFEB70A1,
+  );
+  static const peacock = FluentEmoji._(
+    'peacock',
+    FluentEmojiGroup.animals,
+    0xFF4DE69B,
+  );
+  static const parrot = FluentEmoji._(
+    'parrot',
+    FluentEmojiGroup.animals,
+    0xFFE75A66,
+  );
+  static const dove = FluentEmoji._(
+    'dove',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
+  static const penguin = FluentEmoji._(
+    'penguin',
+    FluentEmojiGroup.animals,
+    0xFFD860E8,
+  );
+  static const shark = FluentEmoji._(
+    'shark',
+    FluentEmojiGroup.animals,
+    0xFFA1A1AA,
+  );
+  static const whale = FluentEmoji._(
+    'whale',
+    FluentEmojiGroup.animals,
+    0xFF60B2FB,
+  );
+  static const dolphin = FluentEmoji._(
+    'dolphin',
+    FluentEmojiGroup.animals,
+    0xFF4DBFFD,
+  );
+  static const octopus = FluentEmoji._(
+    'octopus',
+    FluentEmojiGroup.animals,
+    0xFFF47167,
+  );
+  static const fish = FluentEmoji._(
+    'fish',
+    FluentEmojiGroup.animals,
+    0xFF4CA8F8,
+  );
   static const tropicalFish = FluentEmoji._(
     'tropical-fish',
     FluentEmojiGroup.animals,
+    0xFF689CE9,
   );
-  static const crab = FluentEmoji._('crab', FluentEmojiGroup.animals);
-  static const lobster = FluentEmoji._('lobster', FluentEmojiGroup.animals);
-  static const shrimp = FluentEmoji._('shrimp', FluentEmojiGroup.animals);
-  static const turtle = FluentEmoji._('turtle', FluentEmojiGroup.animals);
-  static const crocodile = FluentEmoji._('crocodile', FluentEmojiGroup.animals);
-  static const snake = FluentEmoji._('snake', FluentEmojiGroup.animals);
-  static const frog = FluentEmoji._('frog', FluentEmojiGroup.animals);
-  static const tRex = FluentEmoji._('t-rex', FluentEmojiGroup.animals);
-  static const sauropod = FluentEmoji._('sauropod', FluentEmojiGroup.animals);
-  static const dragon = FluentEmoji._('dragon', FluentEmojiGroup.animals);
-  static const unicorn = FluentEmoji._('unicorn', FluentEmojiGroup.animals);
-  static const butterfly = FluentEmoji._('butterfly', FluentEmojiGroup.animals);
-  static const honeybee = FluentEmoji._('honeybee', FluentEmojiGroup.animals);
-  static const scorpion = FluentEmoji._('scorpion', FluentEmojiGroup.animals);
-  static const cutOfMeat = FluentEmoji._('cut-of-meat', FluentEmojiGroup.food);
+  static const crab = FluentEmoji._(
+    'crab',
+    FluentEmojiGroup.animals,
+    0xFFFC3B8C,
+  );
+  static const lobster = FluentEmoji._(
+    'lobster',
+    FluentEmojiGroup.animals,
+    0xFFE44457,
+  );
+  static const shrimp = FluentEmoji._(
+    'shrimp',
+    FluentEmojiGroup.animals,
+    0xFFEA5A4B,
+  );
+  static const turtle = FluentEmoji._(
+    'turtle',
+    FluentEmojiGroup.animals,
+    0xFF44E485,
+  );
+  static const crocodile = FluentEmoji._(
+    'crocodile',
+    FluentEmojiGroup.animals,
+    0xFF44E4AA,
+  );
+  static const snake = FluentEmoji._(
+    'snake',
+    FluentEmojiGroup.animals,
+    0xFF44E4A7,
+  );
+  static const frog = FluentEmoji._(
+    'frog',
+    FluentEmojiGroup.animals,
+    0xFFADE653,
+  );
+  static const tRex = FluentEmoji._(
+    't-rex',
+    FluentEmojiGroup.animals,
+    0xFF44E4A2,
+  );
+  static const sauropod = FluentEmoji._(
+    'sauropod',
+    FluentEmojiGroup.animals,
+    0xFF44E4AF,
+  );
+  static const dragon = FluentEmoji._(
+    'dragon',
+    FluentEmojiGroup.animals,
+    0xFF44E47E,
+  );
+  static const unicorn = FluentEmoji._(
+    'unicorn',
+    FluentEmojiGroup.animals,
+    0xFFB468F2,
+  );
+  static const butterfly = FluentEmoji._(
+    'butterfly',
+    FluentEmojiGroup.animals,
+    0xFFE4445D,
+  );
+  static const honeybee = FluentEmoji._(
+    'honeybee',
+    FluentEmojiGroup.animals,
+    0xFFE5704C,
+  );
+  static const scorpion = FluentEmoji._(
+    'scorpion',
+    FluentEmojiGroup.animals,
+    0xFFE4448F,
+  );
+  static const cutOfMeat = FluentEmoji._(
+    'cut-of-meat',
+    FluentEmojiGroup.food,
+    0xFFEB7078,
+  );
   static const meatOnBone = FluentEmoji._(
     'meat-on-bone',
     FluentEmojiGroup.food,
+    0xFFE45244,
   );
-  static const poultryLeg = FluentEmoji._('poultry-leg', FluentEmojiGroup.food);
-  static const bacon = FluentEmoji._('bacon', FluentEmojiGroup.food);
-  static const egg = FluentEmoji._('egg', FluentEmojiGroup.food);
-  static const cookedRice = FluentEmoji._('cooked-rice', FluentEmojiGroup.food);
+  static const poultryLeg = FluentEmoji._(
+    'poultry-leg',
+    FluentEmojiGroup.food,
+    0xFFE97E63,
+  );
+  static const bacon = FluentEmoji._(
+    'bacon',
+    FluentEmojiGroup.food,
+    0xFFF46777,
+  );
+  static const egg = FluentEmoji._('egg', FluentEmojiGroup.food, 0xFFE48644);
+  static const cookedRice = FluentEmoji._(
+    'cooked-rice',
+    FluentEmojiGroup.food,
+    0xFFE54B74,
+  );
   static const steamingBowl = FluentEmoji._(
     'steaming-bowl',
     FluentEmojiGroup.food,
+    0xFFE44455,
   );
-  static const greenSalad = FluentEmoji._('green-salad', FluentEmojiGroup.food);
-  static const broccoli = FluentEmoji._('broccoli', FluentEmojiGroup.food);
-  static const avocado = FluentEmoji._('avocado', FluentEmojiGroup.food);
-  static const banana = FluentEmoji._('banana', FluentEmojiGroup.food);
-  static const redApple = FluentEmoji._('red-apple', FluentEmojiGroup.food);
-  static const greenApple = FluentEmoji._('green-apple', FluentEmojiGroup.food);
-  static const pear = FluentEmoji._('pear', FluentEmojiGroup.food);
-  static const peach = FluentEmoji._('peach', FluentEmojiGroup.food);
-  static const cherries = FluentEmoji._('cherries', FluentEmojiGroup.food);
-  static const strawberry = FluentEmoji._('strawberry', FluentEmojiGroup.food);
+  static const greenSalad = FluentEmoji._(
+    'green-salad',
+    FluentEmojiGroup.food,
+    0xFFE4B744,
+  );
+  static const broccoli = FluentEmoji._(
+    'broccoli',
+    FluentEmojiGroup.food,
+    0xFF44E4AC,
+  );
+  static const avocado = FluentEmoji._(
+    'avocado',
+    FluentEmojiGroup.food,
+    0xFF9CE444,
+  );
+  static const banana = FluentEmoji._(
+    'banana',
+    FluentEmojiGroup.food,
+    0xFFFABE4C,
+  );
+  static const redApple = FluentEmoji._(
+    'red-apple',
+    FluentEmojiGroup.food,
+    0xFFE4445A,
+  );
+  static const greenApple = FluentEmoji._(
+    'green-apple',
+    FluentEmojiGroup.food,
+    0xFFB6E444,
+  );
+  static const pear = FluentEmoji._('pear', FluentEmojiGroup.food, 0xFFE4E144);
+  static const peach = FluentEmoji._(
+    'peach',
+    FluentEmojiGroup.food,
+    0xFFF48758,
+  );
+  static const cherries = FluentEmoji._(
+    'cherries',
+    FluentEmojiGroup.food,
+    0xFFE44448,
+  );
+  static const strawberry = FluentEmoji._(
+    'strawberry',
+    FluentEmojiGroup.food,
+    0xFFE44445,
+  );
   static const blueberries = FluentEmoji._(
     'blueberries',
     FluentEmojiGroup.food,
+    0xFF7A44E4,
   );
-  static const grapes = FluentEmoji._('grapes', FluentEmojiGroup.food);
-  static const watermelon = FluentEmoji._('watermelon', FluentEmojiGroup.food);
-  static const pineapple = FluentEmoji._('pineapple', FluentEmojiGroup.food);
-  static const mango = FluentEmoji._('mango', FluentEmojiGroup.food);
-  static const kiwiFruit = FluentEmoji._('kiwi-fruit', FluentEmojiGroup.food);
-  static const lemon = FluentEmoji._('lemon', FluentEmojiGroup.food);
-  static const coconut = FluentEmoji._('coconut', FluentEmojiGroup.food);
-  static const carrot = FluentEmoji._('carrot', FluentEmojiGroup.food);
-  static const potato = FluentEmoji._('potato', FluentEmojiGroup.food);
-  static const tomato = FluentEmoji._('tomato', FluentEmojiGroup.food);
-  static const bellPepper = FluentEmoji._('bell-pepper', FluentEmojiGroup.food);
-  static const hotPepper = FluentEmoji._('hot-pepper', FluentEmojiGroup.food);
-  static const eggplant = FluentEmoji._('eggplant', FluentEmojiGroup.food);
-  static const bread = FluentEmoji._('bread', FluentEmojiGroup.food);
-  static const croissant = FluentEmoji._('croissant', FluentEmojiGroup.food);
+  static const grapes = FluentEmoji._(
+    'grapes',
+    FluentEmojiGroup.food,
+    0xFF9344E4,
+  );
+  static const watermelon = FluentEmoji._(
+    'watermelon',
+    FluentEmojiGroup.food,
+    0xFFE75559,
+  );
+  static const pineapple = FluentEmoji._(
+    'pineapple',
+    FluentEmojiGroup.food,
+    0xFFE8AB5C,
+  );
+  static const mango = FluentEmoji._(
+    'mango',
+    FluentEmojiGroup.food,
+    0xFFF0AC4C,
+  );
+  static const kiwiFruit = FluentEmoji._(
+    'kiwi-fruit',
+    FluentEmojiGroup.food,
+    0xFFC3E444,
+  );
+  static const lemon = FluentEmoji._(
+    'lemon',
+    FluentEmojiGroup.food,
+    0xFFF4CD4D,
+  );
+  static const coconut = FluentEmoji._(
+    'coconut',
+    FluentEmojiGroup.food,
+    0xFFE4444A,
+  );
+  static const carrot = FluentEmoji._(
+    'carrot',
+    FluentEmojiGroup.food,
+    0xFFE4A244,
+  );
+  static const potato = FluentEmoji._(
+    'potato',
+    FluentEmojiGroup.food,
+    0xFFEA986E,
+  );
+  static const tomato = FluentEmoji._(
+    'tomato',
+    FluentEmojiGroup.food,
+    0xFFE44544,
+  );
+  static const bellPepper = FluentEmoji._(
+    'bell-pepper',
+    FluentEmojiGroup.food,
+    0xFF6EE444,
+  );
+  static const hotPepper = FluentEmoji._(
+    'hot-pepper',
+    FluentEmojiGroup.food,
+    0xFFE44744,
+  );
+  static const eggplant = FluentEmoji._(
+    'eggplant',
+    FluentEmojiGroup.food,
+    0xFF6949E9,
+  );
+  static const bread = FluentEmoji._(
+    'bread',
+    FluentEmojiGroup.food,
+    0xFFE69E52,
+  );
+  static const croissant = FluentEmoji._(
+    'croissant',
+    FluentEmojiGroup.food,
+    0xFFE8985B,
+  );
   static const glassOfMilk = FluentEmoji._(
     'glass-of-milk',
     FluentEmojiGroup.food,
+    0xFF70B2EB,
   );
   static const hotBeverage = FluentEmoji._(
     'hot-beverage',
     FluentEmojiGroup.food,
+    0xFFA670EB,
   );
-  static const honeyPot = FluentEmoji._('honey-pot', FluentEmojiGroup.food);
+  static const honeyPot = FluentEmoji._(
+    'honey-pot',
+    FluentEmojiGroup.food,
+    0xFFE48744,
+  );
   static const chocolateBar = FluentEmoji._(
     'chocolate-bar',
     FluentEmojiGroup.food,
+    0xFFE44465,
   );
-  static const cookie = FluentEmoji._('cookie', FluentEmojiGroup.food);
-  static const doughnut = FluentEmoji._('doughnut', FluentEmojiGroup.food);
-  static const iceCream = FluentEmoji._('ice-cream', FluentEmojiGroup.food);
+  static const cookie = FluentEmoji._(
+    'cookie',
+    FluentEmojiGroup.food,
+    0xFFEA966E,
+  );
+  static const doughnut = FluentEmoji._(
+    'doughnut',
+    FluentEmojiGroup.food,
+    0xFFE45844,
+  );
+  static const iceCream = FluentEmoji._(
+    'ice-cream',
+    FluentEmojiGroup.food,
+    0xFF8370EB,
+  );
   static const birthdayCake = FluentEmoji._(
     'birthday-cake',
     FluentEmojiGroup.food,
+    0xFFEBA770,
   );
-  static const pancakes = FluentEmoji._('pancakes', FluentEmojiGroup.food);
-  static const popcorn = FluentEmoji._('popcorn', FluentEmojiGroup.food);
-  static const lollipop = FluentEmoji._('lollipop', FluentEmojiGroup.food);
-  static const pizza = FluentEmoji._('pizza', FluentEmojiGroup.food);
-  static const hamburger = FluentEmoji._('hamburger', FluentEmojiGroup.food);
+  static const pancakes = FluentEmoji._(
+    'pancakes',
+    FluentEmojiGroup.food,
+    0xFFE49B44,
+  );
+  static const popcorn = FluentEmoji._(
+    'popcorn',
+    FluentEmojiGroup.food,
+    0xFFEB7099,
+  );
+  static const lollipop = FluentEmoji._(
+    'lollipop',
+    FluentEmojiGroup.food,
+    0xFFEB70A8,
+  );
+  static const pizza = FluentEmoji._(
+    'pizza',
+    FluentEmojiGroup.food,
+    0xFFFBA960,
+  );
+  static const hamburger = FluentEmoji._(
+    'hamburger',
+    FluentEmojiGroup.food,
+    0xFFE89F5F,
+  );
   static const frenchFries = FluentEmoji._(
     'french-fries',
     FluentEmojiGroup.food,
+    0xFFE6524D,
   );
-  static const taco = FluentEmoji._('taco', FluentEmojiGroup.food);
-  static const sushi = FluentEmoji._('sushi', FluentEmojiGroup.food);
+  static const taco = FluentEmoji._('taco', FluentEmojiGroup.food, 0xFFE5B44C);
+  static const sushi = FluentEmoji._(
+    'sushi',
+    FluentEmojiGroup.food,
+    0xFFEA6D6F,
+  );
   static const forkAndKnife = FluentEmoji._(
     'fork-and-knife',
     FluentEmojiGroup.food,
+    0xFFA1A1AA,
   );
   static const bottleWithPoppingCork = FluentEmoji._(
     'bottle-with-popping-cork',
     FluentEmojiGroup.food,
+    0xFFD3E444,
   );
   static const clinkingGlasses = FluentEmoji._(
     'clinking-glasses',
     FluentEmojiGroup.food,
+    0xFF98EB70,
   );
-  static const wineGlass = FluentEmoji._('wine-glass', FluentEmojiGroup.food);
-  static const beerMug = FluentEmoji._('beer-mug', FluentEmojiGroup.food);
+  static const wineGlass = FluentEmoji._(
+    'wine-glass',
+    FluentEmojiGroup.food,
+    0xFFCB70EB,
+  );
+  static const beerMug = FluentEmoji._(
+    'beer-mug',
+    FluentEmojiGroup.food,
+    0xFFEBAD70,
+  );
   static const tropicalDrink = FluentEmoji._(
     'tropical-drink',
     FluentEmojiGroup.food,
+    0xFFEAA86C,
   );
-  static const sun = FluentEmoji._('sun', FluentEmojiGroup.nature);
+  static const sun = FluentEmoji._('sun', FluentEmojiGroup.nature, 0xFFF3A835);
   static const sunWithFace = FluentEmoji._(
     'sun-with-face',
     FluentEmojiGroup.nature,
+    0xFFECA53C,
   );
-  static const sunrise = FluentEmoji._('sunrise', FluentEmojiGroup.nature);
+  static const sunrise = FluentEmoji._(
+    'sunrise',
+    FluentEmojiGroup.nature,
+    0xFFE7705A,
+  );
   static const sunriseOverMountains = FluentEmoji._(
     'sunrise-over-mountains',
     FluentEmojiGroup.nature,
+    0xFFE4B044,
   );
-  static const sunset = FluentEmoji._('sunset', FluentEmojiGroup.nature);
-  static const cloud = FluentEmoji._('cloud', FluentEmojiGroup.nature);
+  static const sunset = FluentEmoji._(
+    'sunset',
+    FluentEmojiGroup.nature,
+    0xFFE46F44,
+  );
+  static const cloud = FluentEmoji._(
+    'cloud',
+    FluentEmojiGroup.nature,
+    0xFF8670EB,
+  );
   static const cloudWithRain = FluentEmoji._(
     'cloud-with-rain',
     FluentEmojiGroup.nature,
+    0xFF6660FB,
   );
   static const cloudWithLightning = FluentEmoji._(
     'cloud-with-lightning',
     FluentEmojiGroup.nature,
+    0xFF6444E4,
   );
   static const cloudWithLightningAndRain = FluentEmoji._(
     'cloud-with-lightning-and-rain',
     FluentEmojiGroup.nature,
+    0xFF5F44E4,
   );
-  static const snowflake = FluentEmoji._('snowflake', FluentEmojiGroup.nature);
-  static const rainbow = FluentEmoji._('rainbow', FluentEmojiGroup.nature);
+  static const snowflake = FluentEmoji._(
+    'snowflake',
+    FluentEmojiGroup.nature,
+    0xFF48A9F5,
+  );
+  static const rainbow = FluentEmoji._(
+    'rainbow',
+    FluentEmojiGroup.nature,
+    0xFFE98063,
+  );
   static const crescentMoon = FluentEmoji._(
     'crescent-moon',
     FluentEmojiGroup.nature,
+    0xFFF8BD61,
   );
-  static const fullMoon = FluentEmoji._('full-moon', FluentEmojiGroup.nature);
+  static const fullMoon = FluentEmoji._(
+    'full-moon',
+    FluentEmojiGroup.nature,
+    0xFFEAB767,
+  );
   static const nightWithStars = FluentEmoji._(
     'night-with-stars',
     FluentEmojiGroup.nature,
+    0xFFE444D6,
   );
-  static const milkyWay = FluentEmoji._('milky-way', FluentEmojiGroup.nature);
-  static const mountain = FluentEmoji._('mountain', FluentEmojiGroup.nature);
+  static const milkyWay = FluentEmoji._(
+    'milky-way',
+    FluentEmojiGroup.nature,
+    0xFF4499E4,
+  );
+  static const mountain = FluentEmoji._(
+    'mountain',
+    FluentEmojiGroup.nature,
+    0xFF44E480,
+  );
   static const snowCappedMountain = FluentEmoji._(
     'snow-capped-mountain',
     FluentEmojiGroup.nature,
+    0xFF44E476,
   );
-  static const volcano = FluentEmoji._('volcano', FluentEmojiGroup.nature);
+  static const volcano = FluentEmoji._(
+    'volcano',
+    FluentEmojiGroup.nature,
+    0xFFE4447A,
+  );
   static const desertIsland = FluentEmoji._(
     'desert-island',
     FluentEmojiGroup.nature,
+    0xFFD8E444,
   );
   static const beachWithUmbrella = FluentEmoji._(
     'beach-with-umbrella',
     FluentEmojiGroup.nature,
+    0xFFE98C68,
   );
-  static const waterWave = FluentEmoji._('water-wave', FluentEmojiGroup.nature);
-  static const droplet = FluentEmoji._('droplet', FluentEmojiGroup.nature);
-  static const tornado = FluentEmoji._('tornado', FluentEmojiGroup.nature);
-  static const palmTree = FluentEmoji._('palm-tree', FluentEmojiGroup.nature);
-  static const cactus = FluentEmoji._('cactus', FluentEmojiGroup.nature);
-  static const seedling = FluentEmoji._('seedling', FluentEmojiGroup.nature);
+  static const waterWave = FluentEmoji._(
+    'water-wave',
+    FluentEmojiGroup.nature,
+    0xFF52A4F2,
+  );
+  static const droplet = FluentEmoji._(
+    'droplet',
+    FluentEmojiGroup.nature,
+    0xFF66ADF5,
+  );
+  static const tornado = FluentEmoji._(
+    'tornado',
+    FluentEmojiGroup.nature,
+    0xFFA1A1AA,
+  );
+  static const palmTree = FluentEmoji._(
+    'palm-tree',
+    FluentEmojiGroup.nature,
+    0xFFB7E444,
+  );
+  static const cactus = FluentEmoji._(
+    'cactus',
+    FluentEmojiGroup.nature,
+    0xFF48E444,
+  );
+  static const seedling = FluentEmoji._(
+    'seedling',
+    FluentEmojiGroup.nature,
+    0xFFADE444,
+  );
   static const fourLeafClover = FluentEmoji._(
     'four-leaf-clover',
     FluentEmojiGroup.nature,
+    0xFF44E495,
   );
-  static const sunflower = FluentEmoji._('sunflower', FluentEmojiGroup.nature);
-  static const rose = FluentEmoji._('rose', FluentEmojiGroup.nature);
-  static const tulip = FluentEmoji._('tulip', FluentEmojiGroup.nature);
+  static const sunflower = FluentEmoji._(
+    'sunflower',
+    FluentEmojiGroup.nature,
+    0xFFE4B844,
+  );
+  static const rose = FluentEmoji._(
+    'rose',
+    FluentEmojiGroup.nature,
+    0xFFE44A44,
+  );
+  static const tulip = FluentEmoji._(
+    'tulip',
+    FluentEmojiGroup.nature,
+    0xFFE546A2,
+  );
   static const cherryBlossom = FluentEmoji._(
     'cherry-blossom',
     FluentEmojiGroup.nature,
+    0xFFFB608B,
   );
-  static const mapleLeaf = FluentEmoji._('maple-leaf', FluentEmojiGroup.nature);
+  static const mapleLeaf = FluentEmoji._(
+    'maple-leaf',
+    FluentEmojiGroup.nature,
+    0xFFF13F83,
+  );
   static const globeShowingEuropeAfrica = FluentEmoji._(
     'globe-showing-europe-africa',
     FluentEmojiGroup.nature,
+    0xFF44C5E4,
   );
   static const globeWithMeridians = FluentEmoji._(
     'globe-with-meridians',
     FluentEmojiGroup.nature,
+    0xFF5AC2F7,
   );
-  static const house = FluentEmoji._('house', FluentEmojiGroup.places);
-  static const cityscape = FluentEmoji._('cityscape', FluentEmojiGroup.places);
-  static const tent = FluentEmoji._('tent', FluentEmojiGroup.places);
+  static const house = FluentEmoji._(
+    'house',
+    FluentEmojiGroup.places,
+    0xFFE6904E,
+  );
+  static const cityscape = FluentEmoji._(
+    'cityscape',
+    FluentEmojiGroup.places,
+    0xFF51A2E6,
+  );
+  static const tent = FluentEmoji._(
+    'tent',
+    FluentEmojiGroup.places,
+    0xFF6AE444,
+  );
   static const hotSprings = FluentEmoji._(
     'hot-springs',
     FluentEmojiGroup.places,
+    0xFFF65F4F,
   );
-  static const worldMap = FluentEmoji._('world-map', FluentEmojiGroup.places);
-  static const compass = FluentEmoji._('compass', FluentEmojiGroup.places);
-  static const airplane = FluentEmoji._('airplane', FluentEmojiGroup.places);
+  static const worldMap = FluentEmoji._(
+    'world-map',
+    FluentEmojiGroup.places,
+    0xFF44B2E4,
+  );
+  static const compass = FluentEmoji._(
+    'compass',
+    FluentEmojiGroup.places,
+    0xFFE5A148,
+  );
+  static const airplane = FluentEmoji._(
+    'airplane',
+    FluentEmojiGroup.places,
+    0xFF6D93EA,
+  );
   static const automobile = FluentEmoji._(
     'automobile',
     FluentEmojiGroup.places,
+    0xFFE444A3,
   );
-  static const racingCar = FluentEmoji._('racing-car', FluentEmojiGroup.places);
+  static const racingCar = FluentEmoji._(
+    'racing-car',
+    FluentEmojiGroup.places,
+    0xFFE4444B,
+  );
   static const motorcycle = FluentEmoji._(
     'motorcycle',
     FluentEmojiGroup.places,
+    0xFFE44477,
   );
-  static const sailboat = FluentEmoji._('sailboat', FluentEmojiGroup.places);
-  static const gear = FluentEmoji._('gear', FluentEmojiGroup.objects);
-  static const hammer = FluentEmoji._('hammer', FluentEmojiGroup.objects);
-  static const wrench = FluentEmoji._('wrench', FluentEmojiGroup.objects);
+  static const sailboat = FluentEmoji._(
+    'sailboat',
+    FluentEmojiGroup.places,
+    0xFFEA7069,
+  );
+  static const gear = FluentEmoji._(
+    'gear',
+    FluentEmojiGroup.objects,
+    0xFFA170EB,
+  );
+  static const hammer = FluentEmoji._(
+    'hammer',
+    FluentEmojiGroup.objects,
+    0xFFE444B8,
+  );
+  static const wrench = FluentEmoji._(
+    'wrench',
+    FluentEmojiGroup.objects,
+    0xFF9F70EB,
+  );
   static const hammerAndWrench = FluentEmoji._(
     'hammer-and-wrench',
     FluentEmojiGroup.objects,
+    0xFFD86DEA,
   );
-  static const brick = FluentEmoji._('brick', FluentEmojiGroup.objects);
+  static const brick = FluentEmoji._(
+    'brick',
+    FluentEmojiGroup.objects,
+    0xFFEF6F48,
+  );
   static const puzzlePiece = FluentEmoji._(
     'puzzle-piece',
     FluentEmojiGroup.objects,
+    0xFFA6EB70,
   );
-  static const gameDie = FluentEmoji._('game-die', FluentEmojiGroup.objects);
-  static const joystick = FluentEmoji._('joystick', FluentEmojiGroup.objects);
+  static const gameDie = FluentEmoji._(
+    'game-die',
+    FluentEmojiGroup.objects,
+    0xFFCD5DE8,
+  );
+  static const joystick = FluentEmoji._(
+    'joystick',
+    FluentEmojiGroup.objects,
+    0xFFE444B5,
+  );
   static const videoGame = FluentEmoji._(
     'video-game',
     FluentEmojiGroup.objects,
+    0xFF7C44E4,
   );
-  static const headphone = FluentEmoji._('headphone', FluentEmojiGroup.objects);
+  static const headphone = FluentEmoji._(
+    'headphone',
+    FluentEmojiGroup.objects,
+    0xFFA1A1AA,
+  );
   static const musicalNote = FluentEmoji._(
     'musical-note',
     FluentEmojiGroup.objects,
+    0xFFA1A1AA,
   );
   static const musicalNotes = FluentEmoji._(
     'musical-notes',
     FluentEmojiGroup.objects,
+    0xFFA1A1AA,
   );
-  static const guitar = FluentEmoji._('guitar', FluentEmojiGroup.objects);
-  static const calendar = FluentEmoji._('calendar', FluentEmojiGroup.objects);
+  static const guitar = FluentEmoji._(
+    'guitar',
+    FluentEmojiGroup.objects,
+    0xFFEA6D9F,
+  );
+  static const calendar = FluentEmoji._(
+    'calendar',
+    FluentEmojiGroup.objects,
+    0xFF708CEB,
+  );
   static const mobilePhone = FluentEmoji._(
     'mobile-phone',
     FluentEmojiGroup.objects,
+    0xFF8444E4,
   );
-  static const laptop = FluentEmoji._('laptop', FluentEmojiGroup.objects);
-  static const clipboard = FluentEmoji._('clipboard', FluentEmojiGroup.objects);
-  static const memo = FluentEmoji._('memo', FluentEmojiGroup.objects);
-  static const pencil = FluentEmoji._('pencil', FluentEmojiGroup.objects);
+  static const laptop = FluentEmoji._(
+    'laptop',
+    FluentEmojiGroup.objects,
+    0xFF51CEF5,
+  );
+  static const clipboard = FluentEmoji._(
+    'clipboard',
+    FluentEmojiGroup.objects,
+    0xFFEB8A70,
+  );
+  static const memo = FluentEmoji._(
+    'memo',
+    FluentEmojiGroup.objects,
+    0xFFE8805F,
+  );
+  static const pencil = FluentEmoji._(
+    'pencil',
+    FluentEmojiGroup.objects,
+    0xFFF58461,
+  );
   static const chartIncreasing = FluentEmoji._(
     'chart-increasing',
     FluentEmojiGroup.objects,
+    0xFF7089EB,
   );
-  static const barChart = FluentEmoji._('bar-chart', FluentEmojiGroup.objects);
+  static const barChart = FluentEmoji._(
+    'bar-chart',
+    FluentEmojiGroup.objects,
+    0xFF52B2E6,
+  );
   static const balanceScale = FluentEmoji._(
     'balance-scale',
     FluentEmojiGroup.objects,
+    0xFFF9BF5F,
   );
-  static const books = FluentEmoji._('books', FluentEmojiGroup.objects);
-  static const openBook = FluentEmoji._('open-book', FluentEmojiGroup.objects);
+  static const books = FluentEmoji._(
+    'books',
+    FluentEmojiGroup.objects,
+    0xFF44E4C1,
+  );
+  static const openBook = FluentEmoji._(
+    'open-book',
+    FluentEmojiGroup.objects,
+    0xFF709FEB,
+  );
   static const graduationCap = FluentEmoji._(
     'graduation-cap',
     FluentEmojiGroup.objects,
+    0xFFE4446E,
   );
-  static const moneyBag = FluentEmoji._('money-bag', FluentEmojiGroup.objects);
-  static const coin = FluentEmoji._('coin', FluentEmojiGroup.objects);
-  static const locked = FluentEmoji._('locked', FluentEmojiGroup.objects);
-  static const unlocked = FluentEmoji._('unlocked', FluentEmojiGroup.objects);
-  static const key = FluentEmoji._('key', FluentEmojiGroup.objects);
-  static const dna = FluentEmoji._('dna', FluentEmojiGroup.objects);
-  static const pill = FluentEmoji._('pill', FluentEmojiGroup.objects);
+  static const moneyBag = FluentEmoji._(
+    'money-bag',
+    FluentEmojiGroup.objects,
+    0xFFE49B44,
+  );
+  static const coin = FluentEmoji._(
+    'coin',
+    FluentEmojiGroup.objects,
+    0xFFF5AF43,
+  );
+  static const locked = FluentEmoji._(
+    'locked',
+    FluentEmojiGroup.objects,
+    0xFFF1A452,
+  );
+  static const unlocked = FluentEmoji._(
+    'unlocked',
+    FluentEmojiGroup.objects,
+    0xFFEFA454,
+  );
+  static const key = FluentEmoji._('key', FluentEmojiGroup.objects, 0xFFF9C248);
+  static const dna = FluentEmoji._('dna', FluentEmojiGroup.objects, 0xFF9444E4);
+  static const pill = FluentEmoji._(
+    'pill',
+    FluentEmojiGroup.objects,
+    0xFFEF6666,
+  );
   static const stethoscope = FluentEmoji._(
     'stethoscope',
     FluentEmojiGroup.objects,
+    0xFF4452E4,
   );
   static const adhesiveBandage = FluentEmoji._(
     'adhesive-bandage',
     FluentEmojiGroup.objects,
+    0xFF40B1F0,
   );
   static const speechBalloon = FluentEmoji._(
     'speech-balloon',
     FluentEmojiGroup.objects,
+    0xFF9A70EB,
   );
   static const thoughtBalloon = FluentEmoji._(
     'thought-balloon',
     FluentEmojiGroup.objects,
+    0xFF9970EB,
   );
 }
 

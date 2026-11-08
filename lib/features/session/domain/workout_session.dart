@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:repster/features/session/domain/workout_exercise.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 
 part 'workout_session.freezed.dart';
 part 'workout_session.g.dart';
@@ -15,7 +14,6 @@ class WorkoutSession with _$WorkoutSession {
     required DateTime startedAt,
     required int duration,
     required List<WorkoutExercise> exercises,
-    required List<MuscleGroup> tags,
     required String notes,
   }) = _WorkoutSession;
 

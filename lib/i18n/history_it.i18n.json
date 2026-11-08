@@ -8,7 +8,6 @@
     "other": "{{n}} sessioni"
   },
   "deleteError": "Eliminazione non riuscita.",
-  "noResult": "Nessuna sessione per questo gruppo",
   "groups": {
     "thisWeek": "Questa settimana",
     "lastWeek": "Settimana scorsa",

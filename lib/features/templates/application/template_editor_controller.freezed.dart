@@ -19,7 +19,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TemplateEditorState {
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  List<MuscleGroup> get tags => throw _privateConstructorUsedError;
   List<TemplateSlot> get slots => throw _privateConstructorUsedError;
   FluentEmoji get emoji => throw _privateConstructorUsedError;
 
@@ -40,7 +39,6 @@ abstract class $TemplateEditorStateCopyWith<$Res> {
   $Res call({
     String name,
     String description,
-    List<MuscleGroup> tags,
     List<TemplateSlot> slots,
     FluentEmoji emoji,
   });
@@ -63,7 +61,6 @@ class _$TemplateEditorStateCopyWithImpl<$Res, $Val extends TemplateEditorState>
   $Res call({
     Object? name = null,
     Object? description = null,
-    Object? tags = null,
     Object? slots = null,
     Object? emoji = null,
   }) {
@@ -77,10 +74,6 @@ class _$TemplateEditorStateCopyWithImpl<$Res, $Val extends TemplateEditorState>
                 ? _value.description
                 : description // ignore: cast_nullable_to_non_nullable
                       as String,
-            tags: null == tags
-                ? _value.tags
-                : tags // ignore: cast_nullable_to_non_nullable
-                      as List<MuscleGroup>,
             slots: null == slots
                 ? _value.slots
                 : slots // ignore: cast_nullable_to_non_nullable
@@ -107,7 +100,6 @@ abstract class _$$TemplateEditorStateImplCopyWith<$Res>
   $Res call({
     String name,
     String description,
-    List<MuscleGroup> tags,
     List<TemplateSlot> slots,
     FluentEmoji emoji,
   });
@@ -129,7 +121,6 @@ class __$$TemplateEditorStateImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? description = null,
-    Object? tags = null,
     Object? slots = null,
     Object? emoji = null,
   }) {
@@ -143,10 +134,6 @@ class __$$TemplateEditorStateImplCopyWithImpl<$Res>
             ? _value.description
             : description // ignore: cast_nullable_to_non_nullable
                   as String,
-        tags: null == tags
-            ? _value._tags
-            : tags // ignore: cast_nullable_to_non_nullable
-                  as List<MuscleGroup>,
         slots: null == slots
             ? _value._slots
             : slots // ignore: cast_nullable_to_non_nullable
@@ -166,25 +153,15 @@ class _$TemplateEditorStateImpl extends _TemplateEditorState {
   const _$TemplateEditorStateImpl({
     required this.name,
     required this.description,
-    required final List<MuscleGroup> tags,
     required final List<TemplateSlot> slots,
     required this.emoji,
-  }) : _tags = tags,
-       _slots = slots,
+  }) : _slots = slots,
        super._();
 
   @override
   final String name;
   @override
   final String description;
-  final List<MuscleGroup> _tags;
-  @override
-  List<MuscleGroup> get tags {
-    if (_tags is EqualUnmodifiableListView) return _tags;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tags);
-  }
-
   final List<TemplateSlot> _slots;
   @override
   List<TemplateSlot> get slots {
@@ -198,7 +175,7 @@ class _$TemplateEditorStateImpl extends _TemplateEditorState {
 
   @override
   String toString() {
-    return 'TemplateEditorState(name: $name, description: $description, tags: $tags, slots: $slots, emoji: $emoji)';
+    return 'TemplateEditorState(name: $name, description: $description, slots: $slots, emoji: $emoji)';
   }
 
   @override
@@ -209,7 +186,6 @@ class _$TemplateEditorStateImpl extends _TemplateEditorState {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            const DeepCollectionEquality().equals(other._tags, _tags) &&
             const DeepCollectionEquality().equals(other._slots, _slots) &&
             (identical(other.emoji, emoji) || other.emoji == emoji));
   }
@@ -219,7 +195,6 @@ class _$TemplateEditorStateImpl extends _TemplateEditorState {
     runtimeType,
     name,
     description,
-    const DeepCollectionEquality().hash(_tags),
     const DeepCollectionEquality().hash(_slots),
     emoji,
   );
@@ -240,7 +215,6 @@ abstract class _TemplateEditorState extends TemplateEditorState {
   const factory _TemplateEditorState({
     required final String name,
     required final String description,
-    required final List<MuscleGroup> tags,
     required final List<TemplateSlot> slots,
     required final FluentEmoji emoji,
   }) = _$TemplateEditorStateImpl;
@@ -250,8 +224,6 @@ abstract class _TemplateEditorState extends TemplateEditorState {
   String get name;
   @override
   String get description;
-  @override
-  List<MuscleGroup> get tags;
   @override
   List<TemplateSlot> get slots;
   @override

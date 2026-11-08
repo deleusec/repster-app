@@ -18,11 +18,7 @@ void main() {
         child: MaterialApp(
           theme: AppTheme.dark(),
           home: Scaffold(
-            body: EmojiField(
-              value: FluentEmojis.fire,
-              accent: Colors.orange,
-              onChanged: picks.add,
-            ),
+            body: EmojiField(value: FluentEmojis.fire, onChanged: picks.add),
           ),
         ),
       ),

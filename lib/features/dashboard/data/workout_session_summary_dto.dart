@@ -1,6 +1,6 @@
 import 'package:repster/core/emoji/fluent_emoji.dart';
+import 'package:repster/core/emoji/legacy_tags.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 
 /// Maps a DB row → [WorkoutSessionSummary]. Aggregates tonnage, time under
 /// tension and completed set count from the nested `session_exercises` /
@@ -44,8 +44,9 @@ class WorkoutSessionSummaryDto {
       totalTonnageKg: tonnage,
       timeUnderTensionSec: tensionSec,
       totalSets: totalSets,
-      tags: MuscleGroup.listFromDb(row['tags'] as List<dynamic>?),
-      emoji: FluentEmoji.fromKey(row['emoji'] as String?),
+      emoji:
+          FluentEmoji.fromKey(row['emoji'] as String?) ??
+          legacyEmojiForTags(row['tags'] as List<dynamic>?),
     );
   }
 }

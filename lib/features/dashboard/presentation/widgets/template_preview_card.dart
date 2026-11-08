@@ -3,11 +3,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_text.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/session_mark.dart';
 
@@ -29,9 +27,6 @@ class TemplatePreviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final group = template.tags.isNotEmpty
-        ? template.tags.first
-        : MuscleGroup.custom;
     final count = template.primaryExercises.length;
 
     return SizedBox(
@@ -42,11 +37,7 @@ class TemplatePreviewCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SessionMark(
-              emoji: template.displayEmoji,
-              accent: group.accent,
-              size: 36,
-            ),
+            SessionMark(emoji: template.emoji, size: 36),
             const SizedBox(height: 10),
             Text(
               template.name,

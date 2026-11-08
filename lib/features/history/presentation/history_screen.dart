@@ -13,18 +13,13 @@ import 'package:repster/features/history/domain/history_stats.dart';
 import 'package:repster/features/history/presentation/widgets/history_session_card.dart';
 import 'package:repster/features/history/presentation/widgets/history_stats_panel.dart';
 import 'package:repster/features/stats/application/stats_controller.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/animation/staggered_list.dart';
-import 'package:repster/shared/l10n/muscle_group_l10n.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
-import 'package:repster/shared/widgets/edge_bleed.dart';
 import 'package:repster/shared/widgets/empty_state.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
-import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
 
 class HistoryScreen extends ConsumerStatefulWidget {
@@ -35,7 +30,6 @@ class HistoryScreen extends ConsumerStatefulWidget {
 }
 
 class _HistoryScreenState extends ConsumerState<HistoryScreen> {
-  MuscleGroup? _tagFilter;
   bool _animateOnNextBuild = true;
 
   @override
@@ -73,22 +67,8 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       );
     }
 
-    final filter = _tagFilter;
-    final filtered = filter == null
-        ? all
-        : all.where((s) => s.tags.contains(filter)).toList(growable: false);
-    final stats = HistoryStats.fromSessions(filtered);
-    final groups = _grouped(filtered, DateTime.now());
-
-    final counts = <MuscleGroup, int>{};
-    for (final s in all) {
-      for (final g in s.tags) {
-        counts[g] = (counts[g] ?? 0) + 1;
-      }
-    }
-    final groupOrder = MuscleGroup.values
-        .where(counts.containsKey)
-        .toList(growable: false);
+    final stats = HistoryStats.fromSessions(all);
+    final groups = _grouped(all, DateTime.now());
 
     final animate = _animateOnNextBuild;
     if (animate) {
@@ -98,7 +78,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     }
     final stagger = StaggeredList(enabled: animate);
 
-    final count = filtered.length;
+    final count = all.length;
     final children = <Widget>[
       stagger.wrap(
         ScreenHeader(
@@ -109,50 +89,30 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       const SizedBox(height: 18),
       stagger.wrap(HistoryStatsPanel(stats: stats)),
       const SizedBox(height: 16),
-      if (groupOrder.isNotEmpty) ...[
-        stagger.wrap(
-          _FilterPills(
-            groups: groupOrder,
-            counts: counts,
-            selected: _tagFilter,
-            onSelect: (g) => setState(() {
-              _tagFilter = g;
-              _animateOnNextBuild = true;
-            }),
-          ),
-        ),
-        const SizedBox(height: 4),
-      ],
     ];
 
-    if (groups.isEmpty) {
+    for (final group in groups) {
       children
-        ..add(const SizedBox(height: 40))
-        ..add(const _NoResult());
-    } else {
-      for (final group in groups) {
-        children
-          ..add(const SizedBox(height: 14))
-          ..add(
-            stagger.wrap(
-              _GroupHeader(label: group.label, count: group.items.length),
-            ),
-          )
-          ..add(const SizedBox(height: 10));
-        for (final s in group.items) {
-          children.add(
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: stagger.wrap(
-                HistorySessionCard(
-                  summary: s,
-                  onTap: () => context.push(Routes.sessionDetail(s.id)),
-                  onDelete: () => _delete(s.id),
-                ),
+        ..add(const SizedBox(height: 14))
+        ..add(
+          stagger.wrap(
+            _GroupHeader(label: group.label, count: group.items.length),
+          ),
+        )
+        ..add(const SizedBox(height: 10));
+      for (final s in group.items) {
+        children.add(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: stagger.wrap(
+              HistorySessionCard(
+                summary: s,
+                onTap: () => context.push(Routes.sessionDetail(s.id)),
+                onDelete: () => _delete(s.id),
               ),
             ),
-          );
-        }
+          ),
+        );
       }
     }
 
@@ -213,103 +173,6 @@ class _Group {
   final List<WorkoutSessionSummary> items;
 }
 
-class _FilterPills extends StatelessWidget {
-  const _FilterPills({
-    required this.groups,
-    required this.counts,
-    required this.selected,
-    required this.onSelect,
-  });
-
-  final List<MuscleGroup> groups;
-  final Map<MuscleGroup, int> counts;
-  final MuscleGroup? selected;
-  final ValueChanged<MuscleGroup?> onSelect;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 34,
-      child: EdgeBleed(
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          children: [
-            _Pill(
-              label: t.common.all,
-              selected: selected == null,
-              onTap: () => onSelect(null),
-            ),
-            for (final g in groups) ...[
-              const SizedBox(width: 8),
-              _Pill(
-                label: g.localizedLabel,
-                count: counts[g],
-                accent: g.accent,
-                selected: selected == g,
-                onTap: () => onSelect(selected == g ? null : g),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Pill extends StatelessWidget {
-  const _Pill({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-    this.count,
-    this.accent,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-  final int? count;
-  final Color? accent;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    final c = accent ?? scheme.glow;
-    final bg = selected
-        ? c.withValues(alpha: 0.16)
-        : onSurface.withValues(alpha: 0.04);
-    final border = selected
-        ? c.withValues(alpha: 0.45)
-        : onSurface.withValues(alpha: 0.10);
-    final fg = selected ? c : scheme.textSecondary;
-
-    return Pressable(
-      onTap: onTap,
-      scale: 0.94,
-      child: Container(
-        height: double.infinity,
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        decoration: BoxDecoration(
-          color: bg,
-          borderRadius: BorderRadius.circular(AppRadius.pill),
-          border: Border.all(color: border),
-        ),
-        child: Text(
-          count == null ? label : '$label · $count',
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: fg,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _GroupHeader extends StatelessWidget {
   const _GroupHeader({required this.label, required this.count});
 
@@ -334,24 +197,6 @@ class _GroupHeader extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _NoResult extends StatelessWidget {
-  const _NoResult();
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Text(
-          t.history.noResult,
-          style: AppText.body.copyWith(color: scheme.textTertiary),
-        ),
-      ),
     );
   }
 }

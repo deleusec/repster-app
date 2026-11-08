@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/dashboard/presentation/widgets/hero_cta_card.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
+import 'package:repster/shared/widgets/session_mark.dart';
 
 Template _template() => Template(
   id: 't',
   name: 'Push',
   description: '',
-  tags: const [MuscleGroup.chest],
+  emoji: FluentEmojis.fire,
   slots: const [
     TemplateSlot(
       slotId: 's0',
@@ -81,7 +81,7 @@ void main() {
         matching: find.byType(EdgeLitSurface),
       ),
     );
-    expect(surface.accent, MuscleGroup.chest.accent);
+    expect(surface.accent, FluentEmojis.fire.color);
     expect(surface.radius, AppRadius.sheet);
   });
 

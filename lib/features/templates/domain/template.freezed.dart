@@ -20,16 +20,14 @@ mixin _$Template {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  List<MuscleGroup> get tags => throw _privateConstructorUsedError;
   List<TemplateSlot> get slots => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
-  /// The picture chosen for the session. `null` on rows older than the
-  /// picker or written by the PWA: [displayEmoji] then falls back on the
-  /// first muscle group's.
-  FluentEmoji? get emoji => throw _privateConstructorUsedError;
+  /// The session's picture. Rows older than the picker get one from their
+  /// legacy muscle-group tags when read (`legacyEmojiForTags`).
+  FluentEmoji get emoji => throw _privateConstructorUsedError;
 
   /// Create a copy of Template
   /// with the given fields replaced by the non-null parameter values.
@@ -47,12 +45,11 @@ abstract class $TemplateCopyWith<$Res> {
     String id,
     String name,
     String description,
-    List<MuscleGroup> tags,
     List<TemplateSlot> slots,
     bool isActive,
     DateTime createdAt,
     DateTime updatedAt,
-    FluentEmoji? emoji,
+    FluentEmoji emoji,
   });
 }
 
@@ -74,12 +71,11 @@ class _$TemplateCopyWithImpl<$Res, $Val extends Template>
     Object? id = null,
     Object? name = null,
     Object? description = null,
-    Object? tags = null,
     Object? slots = null,
     Object? isActive = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? emoji = freezed,
+    Object? emoji = null,
   }) {
     return _then(
       _value.copyWith(
@@ -95,10 +91,6 @@ class _$TemplateCopyWithImpl<$Res, $Val extends Template>
                 ? _value.description
                 : description // ignore: cast_nullable_to_non_nullable
                       as String,
-            tags: null == tags
-                ? _value.tags
-                : tags // ignore: cast_nullable_to_non_nullable
-                      as List<MuscleGroup>,
             slots: null == slots
                 ? _value.slots
                 : slots // ignore: cast_nullable_to_non_nullable
@@ -115,10 +107,10 @@ class _$TemplateCopyWithImpl<$Res, $Val extends Template>
                 ? _value.updatedAt
                 : updatedAt // ignore: cast_nullable_to_non_nullable
                       as DateTime,
-            emoji: freezed == emoji
+            emoji: null == emoji
                 ? _value.emoji
                 : emoji // ignore: cast_nullable_to_non_nullable
-                      as FluentEmoji?,
+                      as FluentEmoji,
           )
           as $Val,
     );
@@ -138,12 +130,11 @@ abstract class _$$TemplateImplCopyWith<$Res>
     String id,
     String name,
     String description,
-    List<MuscleGroup> tags,
     List<TemplateSlot> slots,
     bool isActive,
     DateTime createdAt,
     DateTime updatedAt,
-    FluentEmoji? emoji,
+    FluentEmoji emoji,
   });
 }
 
@@ -164,12 +155,11 @@ class __$$TemplateImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? description = null,
-    Object? tags = null,
     Object? slots = null,
     Object? isActive = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? emoji = freezed,
+    Object? emoji = null,
   }) {
     return _then(
       _$TemplateImpl(
@@ -185,10 +175,6 @@ class __$$TemplateImplCopyWithImpl<$Res>
             ? _value.description
             : description // ignore: cast_nullable_to_non_nullable
                   as String,
-        tags: null == tags
-            ? _value._tags
-            : tags // ignore: cast_nullable_to_non_nullable
-                  as List<MuscleGroup>,
         slots: null == slots
             ? _value._slots
             : slots // ignore: cast_nullable_to_non_nullable
@@ -205,10 +191,10 @@ class __$$TemplateImplCopyWithImpl<$Res>
             ? _value.updatedAt
             : updatedAt // ignore: cast_nullable_to_non_nullable
                   as DateTime,
-        emoji: freezed == emoji
+        emoji: null == emoji
             ? _value.emoji
             : emoji // ignore: cast_nullable_to_non_nullable
-                  as FluentEmoji?,
+                  as FluentEmoji,
       ),
     );
   }
@@ -221,14 +207,12 @@ class _$TemplateImpl extends _Template {
     required this.id,
     required this.name,
     required this.description,
-    required final List<MuscleGroup> tags,
     required final List<TemplateSlot> slots,
     required this.isActive,
     required this.createdAt,
     required this.updatedAt,
-    this.emoji,
-  }) : _tags = tags,
-       _slots = slots,
+    required this.emoji,
+  }) : _slots = slots,
        super._();
 
   @override
@@ -237,14 +221,6 @@ class _$TemplateImpl extends _Template {
   final String name;
   @override
   final String description;
-  final List<MuscleGroup> _tags;
-  @override
-  List<MuscleGroup> get tags {
-    if (_tags is EqualUnmodifiableListView) return _tags;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tags);
-  }
-
   final List<TemplateSlot> _slots;
   @override
   List<TemplateSlot> get slots {
@@ -260,15 +236,14 @@ class _$TemplateImpl extends _Template {
   @override
   final DateTime updatedAt;
 
-  /// The picture chosen for the session. `null` on rows older than the
-  /// picker or written by the PWA: [displayEmoji] then falls back on the
-  /// first muscle group's.
+  /// The session's picture. Rows older than the picker get one from their
+  /// legacy muscle-group tags when read (`legacyEmojiForTags`).
   @override
-  final FluentEmoji? emoji;
+  final FluentEmoji emoji;
 
   @override
   String toString() {
-    return 'Template(id: $id, name: $name, description: $description, tags: $tags, slots: $slots, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, emoji: $emoji)';
+    return 'Template(id: $id, name: $name, description: $description, slots: $slots, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, emoji: $emoji)';
   }
 
   @override
@@ -280,7 +255,6 @@ class _$TemplateImpl extends _Template {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            const DeepCollectionEquality().equals(other._tags, _tags) &&
             const DeepCollectionEquality().equals(other._slots, _slots) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
@@ -297,7 +271,6 @@ class _$TemplateImpl extends _Template {
     id,
     name,
     description,
-    const DeepCollectionEquality().hash(_tags),
     const DeepCollectionEquality().hash(_slots),
     isActive,
     createdAt,
@@ -319,12 +292,11 @@ abstract class _Template extends Template {
     required final String id,
     required final String name,
     required final String description,
-    required final List<MuscleGroup> tags,
     required final List<TemplateSlot> slots,
     required final bool isActive,
     required final DateTime createdAt,
     required final DateTime updatedAt,
-    final FluentEmoji? emoji,
+    required final FluentEmoji emoji,
   }) = _$TemplateImpl;
   const _Template._() : super._();
 
@@ -335,8 +307,6 @@ abstract class _Template extends Template {
   @override
   String get description;
   @override
-  List<MuscleGroup> get tags;
-  @override
   List<TemplateSlot> get slots;
   @override
   bool get isActive;
@@ -345,11 +315,10 @@ abstract class _Template extends Template {
   @override
   DateTime get updatedAt;
 
-  /// The picture chosen for the session. `null` on rows older than the
-  /// picker or written by the PWA: [displayEmoji] then falls back on the
-  /// first muscle group's.
+  /// The session's picture. Rows older than the picker get one from their
+  /// legacy muscle-group tags when read (`legacyEmojiForTags`).
   @override
-  FluentEmoji? get emoji;
+  FluentEmoji get emoji;
 
   /// Create a copy of Template
   /// with the given fields replaced by the non-null parameter values.

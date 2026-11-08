@@ -334,17 +334,9 @@ class _CloseButton extends StatelessWidget {
 /// The form control: the exact mark the cards will show, its name, and a
 /// "change" affordance. Tapping opens [showEmojiPicker].
 class EmojiField extends StatelessWidget {
-  const EmojiField({
-    required this.value,
-    required this.accent,
-    required this.onChanged,
-    super.key,
-  });
+  const EmojiField({required this.value, required this.onChanged, super.key});
 
   final FluentEmoji value;
-
-  /// Tint behind the mark: the first muscle group's, as on the cards.
-  final Color accent;
   final ValueChanged<FluentEmoji> onChanged;
 
   Future<void> _open(BuildContext context) async {
@@ -364,7 +356,7 @@ class EmojiField extends StatelessWidget {
         decoration: scheme.controlSurface,
         child: Row(
           children: [
-            SessionMark(emoji: value, accent: accent, radius: 10),
+            SessionMark(emoji: value, radius: 10),
             const SizedBox(width: 12),
             Expanded(
               child: Text(

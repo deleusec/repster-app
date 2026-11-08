@@ -71,11 +71,6 @@
     "description": "Descrizione (opzionale)",
     "descriptionHint": "Descrivi la tua sessione…",
     "emoji": "Immagine",
-    "muscleGroups": "Gruppi muscolari",
-    "selectedCount": {
-      "one": "{{n}} selezionato",
-      "other": "{{n}} selezionati"
-    },
     "exerciseName": "Nome dell’esercizio",
     "exerciseNameHint": "es.: Panca piana",
     "type": "Tipo",

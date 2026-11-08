@@ -20,7 +20,6 @@ mixin _$CatalogExercise {
   String get id => throw _privateConstructorUsedError;
   String get displayName => throw _privateConstructorUsedError;
   bool get isCertified => throw _privateConstructorUsedError;
-  List<MuscleGroup> get muscleGroups => throw _privateConstructorUsedError;
   String? get category => throw _privateConstructorUsedError;
   String? get matchedVia => throw _privateConstructorUsedError;
 
@@ -42,7 +41,6 @@ abstract class $CatalogExerciseCopyWith<$Res> {
     String id,
     String displayName,
     bool isCertified,
-    List<MuscleGroup> muscleGroups,
     String? category,
     String? matchedVia,
   });
@@ -66,7 +64,6 @@ class _$CatalogExerciseCopyWithImpl<$Res, $Val extends CatalogExercise>
     Object? id = null,
     Object? displayName = null,
     Object? isCertified = null,
-    Object? muscleGroups = null,
     Object? category = freezed,
     Object? matchedVia = freezed,
   }) {
@@ -84,10 +81,6 @@ class _$CatalogExerciseCopyWithImpl<$Res, $Val extends CatalogExercise>
                 ? _value.isCertified
                 : isCertified // ignore: cast_nullable_to_non_nullable
                       as bool,
-            muscleGroups: null == muscleGroups
-                ? _value.muscleGroups
-                : muscleGroups // ignore: cast_nullable_to_non_nullable
-                      as List<MuscleGroup>,
             category: freezed == category
                 ? _value.category
                 : category // ignore: cast_nullable_to_non_nullable
@@ -115,7 +108,6 @@ abstract class _$$CatalogExerciseImplCopyWith<$Res>
     String id,
     String displayName,
     bool isCertified,
-    List<MuscleGroup> muscleGroups,
     String? category,
     String? matchedVia,
   });
@@ -138,7 +130,6 @@ class __$$CatalogExerciseImplCopyWithImpl<$Res>
     Object? id = null,
     Object? displayName = null,
     Object? isCertified = null,
-    Object? muscleGroups = null,
     Object? category = freezed,
     Object? matchedVia = freezed,
   }) {
@@ -156,10 +147,6 @@ class __$$CatalogExerciseImplCopyWithImpl<$Res>
             ? _value.isCertified
             : isCertified // ignore: cast_nullable_to_non_nullable
                   as bool,
-        muscleGroups: null == muscleGroups
-            ? _value._muscleGroups
-            : muscleGroups // ignore: cast_nullable_to_non_nullable
-                  as List<MuscleGroup>,
         category: freezed == category
             ? _value.category
             : category // ignore: cast_nullable_to_non_nullable
@@ -180,11 +167,9 @@ class _$CatalogExerciseImpl extends _CatalogExercise {
     required this.id,
     required this.displayName,
     required this.isCertified,
-    final List<MuscleGroup> muscleGroups = const <MuscleGroup>[],
     this.category,
     this.matchedVia,
-  }) : _muscleGroups = muscleGroups,
-       super._();
+  }) : super._();
 
   @override
   final String id;
@@ -192,15 +177,6 @@ class _$CatalogExerciseImpl extends _CatalogExercise {
   final String displayName;
   @override
   final bool isCertified;
-  final List<MuscleGroup> _muscleGroups;
-  @override
-  @JsonKey()
-  List<MuscleGroup> get muscleGroups {
-    if (_muscleGroups is EqualUnmodifiableListView) return _muscleGroups;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_muscleGroups);
-  }
-
   @override
   final String? category;
   @override
@@ -208,7 +184,7 @@ class _$CatalogExerciseImpl extends _CatalogExercise {
 
   @override
   String toString() {
-    return 'CatalogExercise(id: $id, displayName: $displayName, isCertified: $isCertified, muscleGroups: $muscleGroups, category: $category, matchedVia: $matchedVia)';
+    return 'CatalogExercise(id: $id, displayName: $displayName, isCertified: $isCertified, category: $category, matchedVia: $matchedVia)';
   }
 
   @override
@@ -221,10 +197,6 @@ class _$CatalogExerciseImpl extends _CatalogExercise {
                 other.displayName == displayName) &&
             (identical(other.isCertified, isCertified) ||
                 other.isCertified == isCertified) &&
-            const DeepCollectionEquality().equals(
-              other._muscleGroups,
-              _muscleGroups,
-            ) &&
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.matchedVia, matchedVia) ||
@@ -237,7 +209,6 @@ class _$CatalogExerciseImpl extends _CatalogExercise {
     id,
     displayName,
     isCertified,
-    const DeepCollectionEquality().hash(_muscleGroups),
     category,
     matchedVia,
   );
@@ -259,7 +230,6 @@ abstract class _CatalogExercise extends CatalogExercise {
     required final String id,
     required final String displayName,
     required final bool isCertified,
-    final List<MuscleGroup> muscleGroups,
     final String? category,
     final String? matchedVia,
   }) = _$CatalogExerciseImpl;
@@ -271,8 +241,6 @@ abstract class _CatalogExercise extends CatalogExercise {
   String get displayName;
   @override
   bool get isCertified;
-  @override
-  List<MuscleGroup> get muscleGroups;
   @override
   String? get category;
   @override

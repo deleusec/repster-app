@@ -9,18 +9,14 @@ import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/session/presentation/start_session.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/presentation/widgets/template_list_card.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/animation/staggered_list.dart';
-import 'package:repster/shared/l10n/muscle_group_l10n.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
-import 'package:repster/shared/widgets/edge_bleed.dart';
 import 'package:repster/shared/widgets/empty_state.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
 
@@ -37,7 +33,6 @@ class TemplatesScreen extends ConsumerStatefulWidget {
 class _TemplatesScreenState extends ConsumerState<TemplatesScreen> {
   final _searchController = TextEditingController();
   String _search = '';
-  MuscleGroup? _tagFilter;
   bool _manageMode = false;
   String? _confirmDeleteId;
 
@@ -57,7 +52,6 @@ class _TemplatesScreenState extends ConsumerState<TemplatesScreen> {
       _ordered = List.of(all);
       _search = '';
       _searchController.clear();
-      _tagFilter = null;
       _confirmDeleteId = null;
     });
   }
@@ -140,12 +134,9 @@ class _TemplatesScreenState extends ConsumerState<TemplatesScreen> {
                 templates: list,
                 subtitle: _subtitle(list),
                 search: _search,
-                tagFilter: _tagFilter,
                 searchController: _searchController,
                 confirmDeleteId: _confirmDeleteId,
                 onSearch: (v) => setState(() => _search = v),
-                onTagFilter: (g) =>
-                    setState(() => _tagFilter = _tagFilter == g ? null : g),
                 onRefresh: () =>
                     ref.read(templatesControllerProvider.notifier).refresh(),
                 onStart: (t) => startTemplateSession(context, ref, t.id),
@@ -291,11 +282,9 @@ class _NormalList extends StatelessWidget {
     required this.templates,
     required this.subtitle,
     required this.search,
-    required this.tagFilter,
     required this.searchController,
     required this.confirmDeleteId,
     required this.onSearch,
-    required this.onTagFilter,
     required this.onRefresh,
     required this.onStart,
     required this.onEdit,
@@ -310,11 +299,9 @@ class _NormalList extends StatelessWidget {
   final List<Template> templates;
   final String subtitle;
   final String search;
-  final MuscleGroup? tagFilter;
   final TextEditingController searchController;
   final String? confirmDeleteId;
   final ValueChanged<String> onSearch;
-  final ValueChanged<MuscleGroup> onTagFilter;
   final Future<void> Function() onRefresh;
   final ValueChanged<Template> onStart;
   final ValueChanged<Template> onEdit;
@@ -392,17 +379,8 @@ class _NormalList extends StatelessWidget {
 
     final q = search.trim().toLowerCase();
     final filtered = active
-        .where((t) {
-          final matchesSearch = q.isEmpty || t.name.toLowerCase().contains(q);
-          final matchesTag = tagFilter == null || t.tags.contains(tagFilter);
-          return matchesSearch && matchesTag;
-        })
+        .where((t) => q.isEmpty || t.name.toLowerCase().contains(q))
         .toList(growable: false);
-
-    final usedTags = [
-      for (final g in MuscleGroup.values)
-        if (active.any((t) => t.tags.contains(g))) g,
-    ];
 
     final stagger = StaggeredList();
     return RefreshIndicator(
@@ -413,14 +391,6 @@ class _NormalList extends StatelessWidget {
           header,
           const SizedBox(height: 16),
           _SearchBar(controller: searchController, onChanged: onSearch),
-          if (usedTags.isNotEmpty) ...[
-            const SizedBox(height: 12),
-            _FilterPills(
-              usedTags: usedTags,
-              selected: tagFilter,
-              onSelect: onTagFilter,
-            ),
-          ],
           const SizedBox(height: 16),
           if (filtered.isEmpty)
             Padding(
@@ -515,107 +485,6 @@ class _SearchBar extends StatelessWidget {
             },
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _FilterPills extends StatelessWidget {
-  const _FilterPills({
-    required this.usedTags,
-    required this.selected,
-    required this.onSelect,
-  });
-
-  final List<MuscleGroup> usedTags;
-  final MuscleGroup? selected;
-  final ValueChanged<MuscleGroup> onSelect;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 34,
-      child: EdgeBleed(
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: usedTags.length + 1,
-          separatorBuilder: (_, _) => const SizedBox(width: 8),
-          itemBuilder: (context, i) {
-            if (i == 0) {
-              return _Pill(
-                label: t.common.all,
-                active: selected == null,
-                onTap: () {
-                  if (selected != null) onSelect(selected!);
-                },
-              );
-            }
-            final g = usedTags[i - 1];
-            return _Pill(
-              label: '${g.emoji} ${g.localizedLabel}',
-              active: selected == g,
-              accent: g.accent,
-              onTap: () => onSelect(g),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class _Pill extends StatelessWidget {
-  const _Pill({
-    required this.label,
-    required this.active,
-    required this.onTap,
-    this.accent,
-  });
-
-  final String label;
-  final bool active;
-  final VoidCallback onTap;
-  final Color? accent;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final Color bg;
-    final Color fg;
-    final Color border;
-    if (active && accent != null) {
-      bg = accent!.withValues(alpha: 0.15);
-      fg = accent!;
-      border = accent!.withValues(alpha: 0.6);
-    } else if (active) {
-      bg = scheme.primary;
-      fg = scheme.onPrimary;
-      border = scheme.primary;
-    } else {
-      bg = scheme.onSurface.withValues(alpha: 0.04);
-      fg = scheme.textSecondary;
-      border = scheme.onSurface.withValues(alpha: 0.10);
-    }
-    return Pressable(
-      onTap: onTap,
-      scale: 0.94,
-      child: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        decoration: BoxDecoration(
-          color: bg,
-          borderRadius: BorderRadius.circular(AppRadius.pill),
-          border: Border.all(color: border),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: fg,
-          ),
-        ),
       ),
     );
   }

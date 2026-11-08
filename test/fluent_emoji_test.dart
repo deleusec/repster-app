@@ -3,11 +3,10 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:repster/core/emoji/fluent_emoji.dart';
+import 'package:repster/core/emoji/legacy_tags.dart';
 import 'package:repster/features/dashboard/data/workout_session_summary_dto.dart';
 import 'package:repster/features/templates/application/template_editor_controller.dart';
 import 'package:repster/features/templates/data/template_dto.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
-import 'package:repster/features/templates/domain/session_emoji.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/l10n/fluent_emoji_l10n.dart';
@@ -74,17 +73,14 @@ void main() {
     });
   });
 
-  group('sessionEmoji', () {
-    test('prefers the chosen emoji, else the first group, else custom', () {
-      expect(
-        sessionEmoji(FluentEmojis.gorilla, [MuscleGroup.chest]),
-        FluentEmojis.gorilla,
-      );
-      expect(
-        sessionEmoji(null, [MuscleGroup.glutes, MuscleGroup.chest]),
-        MuscleGroup.glutes.fluentEmoji,
-      );
-      expect(sessionEmoji(null, []), MuscleGroup.custom.fluentEmoji);
+  group('legacyEmojiForTags', () {
+    test('maps the first legacy tag, else the old "custom" target', () {
+      expect(legacyEmojiForTags(['glutes', 'chest']), FluentEmojis.peach);
+      expect(legacyEmojiForTags(['chest']), FluentEmojis.shield);
+      expect(legacyEmojiForTags(['custom']), FluentEmojis.bullseye);
+      expect(legacyEmojiForTags(['bogus']), FluentEmojis.bullseye);
+      expect(legacyEmojiForTags([]), FluentEmojis.bullseye);
+      expect(legacyEmojiForTags(null), FluentEmojis.bullseye);
     });
   });
 
@@ -100,10 +96,8 @@ void main() {
         'template_exercises': <dynamic>[],
       };
       expect(TemplateDto.fromRow(row('fire')).emoji, FluentEmojis.fire);
-      final legacy = TemplateDto.fromRow(row(null));
-      expect(legacy.emoji, isNull);
-      expect(legacy.displayEmoji, MuscleGroup.back.fluentEmoji);
-      expect(TemplateDto.fromRow(row('gone')).emoji, isNull);
+      expect(TemplateDto.fromRow(row(null)).emoji, FluentEmojis.eagle);
+      expect(TemplateDto.fromRow(row('gone')).emoji, FluentEmojis.eagle);
     });
 
     test('WorkoutSessionSummaryDto carries the snapshot', () {
@@ -116,7 +110,6 @@ void main() {
         'session_exercises': <dynamic>[],
       });
       expect(summary.emoji, FluentEmojis.trophy);
-      expect(summary.displayEmoji, FluentEmojis.trophy);
     });
   });
 
@@ -125,20 +118,20 @@ void main() {
       expect(TemplateEditorState.empty().emoji, kDefaultSessionEmoji);
     });
 
-    test('hydrating an old template materialises its fallback', () {
+    test('hydrating keeps the template emoji', () {
       final template = Template(
         id: 't',
         name: 'Legs',
         description: '',
-        tags: const [MuscleGroup.quads],
         slots: const [],
         isActive: true,
         createdAt: DateTime(2026),
         updatedAt: DateTime(2026),
+        emoji: FluentEmojis.mountain,
       );
       expect(
         TemplateEditorState.fromTemplate(template).emoji,
-        MuscleGroup.quads.fluentEmoji,
+        FluentEmojis.mountain,
       );
     });
   });

@@ -10,7 +10,6 @@ import 'package:repster/features/history/application/history_controller.dart';
 import 'package:repster/features/profile/domain/profile_stats.dart';
 import 'package:repster/features/profile/presentation/widgets/profile_badges_section.dart';
 import 'package:repster/features/profile/presentation/widgets/profile_edit_form.dart';
-import 'package:repster/features/profile/presentation/widgets/profile_favorite_card.dart';
 import 'package:repster/features/profile/presentation/widgets/profile_identity_hero.dart';
 import 'package:repster/features/profile/presentation/widgets/profile_stats_row.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
@@ -74,12 +73,6 @@ class _ProfileView extends ConsumerWidget {
         const SizedBox(height: 28),
         stagger.wrap(ProfileStatsRow(stats: stats)),
         const SizedBox(height: 24),
-        if (stats.favorite != null) ...[
-          stagger.wrap(SectionLabel(t.profile.sections.favoriteMuscleGroup)),
-          const SizedBox(height: 12),
-          stagger.wrap(ProfileFavoriteCard(favorite: stats.favorite!)),
-          const SizedBox(height: 24),
-        ],
         stagger.wrap(
           SectionLabel(t.profile.sections.badges, icon: LucideIcons.award),
         ),

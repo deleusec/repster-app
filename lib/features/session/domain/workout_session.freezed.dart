@@ -27,7 +27,6 @@ mixin _$WorkoutSession {
   DateTime get startedAt => throw _privateConstructorUsedError;
   int get duration => throw _privateConstructorUsedError;
   List<WorkoutExercise> get exercises => throw _privateConstructorUsedError;
-  List<MuscleGroup> get tags => throw _privateConstructorUsedError;
   String get notes => throw _privateConstructorUsedError;
 
   /// Serializes this WorkoutSession to a JSON map.
@@ -54,7 +53,6 @@ abstract class $WorkoutSessionCopyWith<$Res> {
     DateTime startedAt,
     int duration,
     List<WorkoutExercise> exercises,
-    List<MuscleGroup> tags,
     String notes,
   });
 }
@@ -80,7 +78,6 @@ class _$WorkoutSessionCopyWithImpl<$Res, $Val extends WorkoutSession>
     Object? startedAt = null,
     Object? duration = null,
     Object? exercises = null,
-    Object? tags = null,
     Object? notes = null,
   }) {
     return _then(
@@ -109,10 +106,6 @@ class _$WorkoutSessionCopyWithImpl<$Res, $Val extends WorkoutSession>
                 ? _value.exercises
                 : exercises // ignore: cast_nullable_to_non_nullable
                       as List<WorkoutExercise>,
-            tags: null == tags
-                ? _value.tags
-                : tags // ignore: cast_nullable_to_non_nullable
-                      as List<MuscleGroup>,
             notes: null == notes
                 ? _value.notes
                 : notes // ignore: cast_nullable_to_non_nullable
@@ -139,7 +132,6 @@ abstract class _$$WorkoutSessionImplCopyWith<$Res>
     DateTime startedAt,
     int duration,
     List<WorkoutExercise> exercises,
-    List<MuscleGroup> tags,
     String notes,
   });
 }
@@ -164,7 +156,6 @@ class __$$WorkoutSessionImplCopyWithImpl<$Res>
     Object? startedAt = null,
     Object? duration = null,
     Object? exercises = null,
-    Object? tags = null,
     Object? notes = null,
   }) {
     return _then(
@@ -193,10 +184,6 @@ class __$$WorkoutSessionImplCopyWithImpl<$Res>
             ? _value._exercises
             : exercises // ignore: cast_nullable_to_non_nullable
                   as List<WorkoutExercise>,
-        tags: null == tags
-            ? _value._tags
-            : tags // ignore: cast_nullable_to_non_nullable
-                  as List<MuscleGroup>,
         notes: null == notes
             ? _value.notes
             : notes // ignore: cast_nullable_to_non_nullable
@@ -216,10 +203,8 @@ class _$WorkoutSessionImpl extends _WorkoutSession {
     required this.startedAt,
     required this.duration,
     required final List<WorkoutExercise> exercises,
-    required final List<MuscleGroup> tags,
     required this.notes,
   }) : _exercises = exercises,
-       _tags = tags,
        super._();
 
   factory _$WorkoutSessionImpl.fromJson(Map<String, dynamic> json) =>
@@ -243,20 +228,12 @@ class _$WorkoutSessionImpl extends _WorkoutSession {
     return EqualUnmodifiableListView(_exercises);
   }
 
-  final List<MuscleGroup> _tags;
-  @override
-  List<MuscleGroup> get tags {
-    if (_tags is EqualUnmodifiableListView) return _tags;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tags);
-  }
-
   @override
   final String notes;
 
   @override
   String toString() {
-    return 'WorkoutSession(id: $id, templateId: $templateId, templateName: $templateName, startedAt: $startedAt, duration: $duration, exercises: $exercises, tags: $tags, notes: $notes)';
+    return 'WorkoutSession(id: $id, templateId: $templateId, templateName: $templateName, startedAt: $startedAt, duration: $duration, exercises: $exercises, notes: $notes)';
   }
 
   @override
@@ -277,7 +254,6 @@ class _$WorkoutSessionImpl extends _WorkoutSession {
               other._exercises,
               _exercises,
             ) &&
-            const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.notes, notes) || other.notes == notes));
   }
 
@@ -291,7 +267,6 @@ class _$WorkoutSessionImpl extends _WorkoutSession {
     startedAt,
     duration,
     const DeepCollectionEquality().hash(_exercises),
-    const DeepCollectionEquality().hash(_tags),
     notes,
   );
 
@@ -320,7 +295,6 @@ abstract class _WorkoutSession extends WorkoutSession {
     required final DateTime startedAt,
     required final int duration,
     required final List<WorkoutExercise> exercises,
-    required final List<MuscleGroup> tags,
     required final String notes,
   }) = _$WorkoutSessionImpl;
   const _WorkoutSession._() : super._();
@@ -340,8 +314,6 @@ abstract class _WorkoutSession extends WorkoutSession {
   int get duration;
   @override
   List<WorkoutExercise> get exercises;
-  @override
-  List<MuscleGroup> get tags;
   @override
   String get notes;
 

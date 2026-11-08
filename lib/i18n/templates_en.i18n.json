@@ -71,11 +71,6 @@
     "description": "Description (optional)",
     "descriptionHint": "Describe your session…",
     "emoji": "Picture",
-    "muscleGroups": "Muscle groups",
-    "selectedCount": {
-      "one": "{{n}} selected",
-      "other": "{{n}} selected"
-    },
     "exerciseName": "Exercise name",
     "exerciseNameHint": "e.g. Bench press",
     "type": "Type",

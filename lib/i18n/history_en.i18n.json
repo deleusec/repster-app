@@ -8,7 +8,6 @@
     "other": "{{n}} sessions"
   },
   "deleteError": "Delete failed.",
-  "noResult": "No sessions for this group",
   "groups": {
     "thisWeek": "This week",
     "lastWeek": "Last week",

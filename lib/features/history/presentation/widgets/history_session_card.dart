@@ -7,17 +7,14 @@ import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/i18n/translations.g.dart';
-import 'package:repster/shared/l10n/muscle_group_l10n.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/session_mark.dart';
 
-/// History session card: group badge, name + date/time, metrics
-/// (duration / emerald volume / sets), tags, and a delete bar with inline
+/// History session card: emoji badge, name + date/time, metrics
+/// (duration / emerald volume / sets), and a delete bar with inline
 /// confirmation.
 ///
 /// The body is the press that opens the session; the bar below has its own,
@@ -45,7 +42,6 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final s = widget.summary;
-    final group = s.tags.isNotEmpty ? s.tags.first : MuscleGroup.custom;
     final divider = scheme.hairline;
 
     return EdgeLitSurface(
@@ -60,11 +56,7 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SessionMark(
-                    emoji: s.displayEmoji,
-                    accent: group.accent,
-                    size: 44,
-                  ),
+                  SessionMark(emoji: s.emoji, size: 44),
                   const SizedBox(width: 12),
                   Expanded(child: _content(scheme)),
                   const SizedBox(width: 8),
@@ -93,7 +85,6 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
 
   Widget _content(ColorScheme scheme) {
     final s = widget.summary;
-    final tags = s.tags.take(3).toList(growable: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -143,14 +134,6 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
             ),
           ],
         ),
-        if (tags.isNotEmpty) ...[
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: [for (final t in tags) _TagPill(group: t)],
-          ),
-        ],
       ],
     );
   }
@@ -251,32 +234,6 @@ class _Metric extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _TagPill extends StatelessWidget {
-  const _TagPill({required this.group});
-
-  final MuscleGroup group;
-
-  @override
-  Widget build(BuildContext context) {
-    final accent = group.accent;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-      ),
-      child: Text(
-        group.localizedLabel,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: accent,
-        ),
-      ),
     );
   }
 }

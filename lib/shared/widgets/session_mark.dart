@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:repster/core/emoji/fluent_emoji.dart';
 
+/// [FluentEmoji.tint] as a Flutter colour.
+extension FluentEmojiColor on FluentEmoji {
+  Color get color => Color(tint);
+}
+
 /// A Fluent emoji drawn with no box of its own: [SessionMark] and the picker
 /// cells each draw their own tile around it.
 class FluentEmojiImage extends StatelessWidget {
@@ -26,20 +31,18 @@ class FluentEmojiImage extends StatelessWidget {
 }
 
 /// The recurring thumbnail of a template or session on cards (programme list,
-/// history, dashboard hero): its emoji on a square tinted with the muscle
-/// group's colour. The image takes a little over half the tile, as an emoji
-/// in a chip would.
+/// history, dashboard hero): its emoji on a square tinted with the emoji's
+/// own colour. The image takes a little over half the tile, as an emoji in
+/// a chip would.
 class SessionMark extends StatelessWidget {
   const SessionMark({
     required this.emoji,
-    required this.accent,
     this.size = 40,
     this.radius = 12,
     super.key,
   });
 
   final FluentEmoji emoji;
-  final Color accent;
   final double size;
   final double radius;
 
@@ -50,7 +53,7 @@ class SessionMark extends StatelessWidget {
       height: size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.15),
+        color: emoji.color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(radius),
       ),
       child: FluentEmojiImage(emoji, size: size * 0.58),

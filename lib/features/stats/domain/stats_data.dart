@@ -4,7 +4,6 @@ import 'package:repster/core/exercises/exercise_name_key.dart';
 import 'package:repster/features/dashboard/domain/consistency.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/stats/domain/stats_range.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 
 /// Reps past which Epley stops being a strength estimate. At 20 reps it turns
 /// 50 kg into 83 kg, so an endurance set would read as a strength gain and the
@@ -67,29 +66,6 @@ class WeeklyVolume {
   /// The running week. Its bar is not a drop — it is unfinished, and drawing it
   /// like the others made every Monday look like a collapse.
   final bool isInProgress;
-}
-
-/// Load per muscle group: session count within the range + time since the
-/// last workout (across all ranges).
-///
-/// Counted from the sessions' muscle tags. Crediting the exercises actually
-/// performed would be finer, but `exercises.muscle_groups` is only filled for
-/// the certified catalog — four fifths of a real user's sets run through
-/// personal exercises, which nothing in the app can tag yet. Tags cover
-/// everything, and they are the same source the profile and history read, so
-/// the three screens agree.
-class MuscleLoad {
-  const MuscleLoad({
-    required this.group,
-    required this.sessions,
-    required this.daysSinceLast,
-  });
-
-  final MuscleGroup group;
-
-  /// Sessions in range tagged with this group.
-  final int sessions;
-  final int? daysSinceLast;
 }
 
 /// One progression point for an exercise (best set of a session).
@@ -245,7 +221,6 @@ class StatsData {
   const StatsData({
     required this.kpis,
     required this.weeklyVolume,
-    required this.muscleLoads,
     required this.exercises,
     required this.records,
     this.hasHistory = false,
@@ -278,7 +253,6 @@ class StatsData {
     return StatsData(
       kpis: _kpis(current, previous, hasWindow: window != null),
       weeklyVolume: _weeklyVolume(current, window, now),
-      muscleLoads: _muscleLoads(all, current, now),
       exercises: _exerciseProgress(all),
       records: _records(
         all,
@@ -290,7 +264,6 @@ class StatsData {
 
   final StatKpis kpis;
   final List<WeeklyVolume> weeklyVolume;
-  final List<MuscleLoad> muscleLoads;
   final List<ExerciseProgress> exercises;
   final Records records;
 
@@ -303,7 +276,6 @@ class StatsData {
   static const StatsData empty = StatsData(
     kpis: StatKpis(sessions: 0, volumeKg: 0, sets: 0, avgDurationSec: 0),
     weeklyVolume: [],
-    muscleLoads: [],
     exercises: [],
     records: Records(),
   );
@@ -372,47 +344,6 @@ class StatsData {
           );
         }(),
     ];
-  }
-
-  static List<MuscleLoad> _muscleLoads(
-    List<WorkoutSession> all,
-    List<WorkoutSession> current,
-    DateTime now,
-  ) {
-    final groups = <MuscleGroup>{for (final s in all) ...s.tags};
-    final lastByGroup = <MuscleGroup, DateTime>{};
-    for (final s in all) {
-      for (final g in s.tags) {
-        final cur = lastByGroup[g];
-        if (cur == null || s.startedAt.isAfter(cur)) {
-          lastByGroup[g] = s.startedAt;
-        }
-      }
-    }
-    final sessByGroup = <MuscleGroup, int>{};
-    for (final s in current) {
-      for (final g in s.tags) {
-        sessByGroup.update(g, (v) => v + 1, ifAbsent: () => 1);
-      }
-    }
-    final loads =
-        [
-          for (final g in groups)
-            MuscleLoad(
-              group: g,
-              sessions: sessByGroup[g] ?? 0,
-              daysSinceLast: lastByGroup[g] == null
-                  ? null
-                  : now.difference(lastByGroup[g]!).inDays,
-            ),
-        ]..sort((a, b) {
-          final c = b.sessions.compareTo(a.sessions);
-          if (c != 0) return c;
-          return (a.daysSinceLast ?? 1 << 30).compareTo(
-            b.daysSinceLast ?? 1 << 30,
-          );
-        });
-    return loads;
   }
 
   /// Strength curve per exercise, over the **whole** history: a range-scoped

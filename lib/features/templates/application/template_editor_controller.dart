@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:repster/core/emoji/fluent_emoji.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
-import 'package:repster/features/templates/domain/session_emoji.dart';
+import 'package:repster/core/emoji/legacy_tags.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
@@ -17,7 +16,6 @@ class TemplateEditorState with _$TemplateEditorState {
   const factory TemplateEditorState({
     required String name,
     required String description,
-    required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
     required FluentEmoji emoji,
   }) = _TemplateEditorState;
@@ -27,7 +25,6 @@ class TemplateEditorState with _$TemplateEditorState {
   factory TemplateEditorState.empty() => const TemplateEditorState(
     name: '',
     description: '',
-    tags: [],
     slots: [],
     emoji: kDefaultSessionEmoji,
   );
@@ -35,10 +32,8 @@ class TemplateEditorState with _$TemplateEditorState {
   factory TemplateEditorState.fromTemplate(Template t) => TemplateEditorState(
     name: t.name,
     description: t.description,
-    tags: t.tags,
     slots: t.slots,
-    // What the card shows, so saving an old template persists its fallback.
-    emoji: t.displayEmoji,
+    emoji: t.emoji,
   );
 
   bool get isValid =>
@@ -59,15 +54,6 @@ class TemplateEditorController
   void setName(String v) => state = state.copyWith(name: v);
   void setDescription(String v) => state = state.copyWith(description: v);
   void setEmoji(FluentEmoji e) => state = state.copyWith(emoji: e);
-
-  void toggleTag(MuscleGroup g) {
-    final has = state.tags.contains(g);
-    state = state.copyWith(
-      tags: has
-          ? state.tags.where((t) => t != g).toList(growable: false)
-          : [...state.tags, g],
-    );
-  }
 
   // ── Slots ────────────────────────────────────────────────────────────────
 

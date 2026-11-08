@@ -47,9 +47,7 @@ class TermsScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 80),
             children: [
-              BackNavBar(
-                onBack: () => context.canPop() ? context.pop() : null,
-              ),
+              BackNavBar(onBack: () => context.canPop() ? context.pop() : null),
               const SizedBox(height: 28),
               const LegalHeader(
                 title: 'Terms of Use',
@@ -67,9 +65,7 @@ class TermsScreen extends StatelessWidget {
                 preamble: [
                   Txt('These terms govern your use of '),
                   Bold('Repster', full: true),
-                  Txt(
-                    ', the training-log service published by ',
-                  ),
+                  Txt(', the training-log service published by '),
                   Bold('Aëvon', full: true),
                   Txt(
                     ' as a mobile app (iOS and Android) and as a web app. '

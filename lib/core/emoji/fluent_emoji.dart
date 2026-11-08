@@ -24,12 +24,16 @@ enum FluentEmojiGroup {
 }
 
 class FluentEmoji {
-  const FluentEmoji._(this.key, this.group);
+  const FluentEmoji._(this.key, this.group, this.tint);
 
   /// Kebab-case Fluent name (`person-lifting-weights`): the persisted value
   /// and the asset's file name. Says what the image is, never its use.
   final String key;
   final FluentEmojiGroup group;
+
+  /// ARGB colour that lights a surface behind this emoji (its dominant hue,
+  /// made vivid). Computed by the generator from the image itself.
+  final int tint;
 
   String get assetPath => 'assets/emoji/fluent/$key.webp';
 

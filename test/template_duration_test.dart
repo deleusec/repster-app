@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_duration.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
@@ -38,7 +38,7 @@ Template _template(List<TemplateSlot> slots) => Template(
   id: 't',
   name: 't',
   description: '',
-  tags: const [MuscleGroup.chest],
+  emoji: FluentEmojis.fire,
   slots: slots,
   isActive: true,
   createdAt: DateTime(2026),

@@ -54,16 +54,6 @@
     "perMonth": "{{value}} %/mes",
     "plateauHint": "Prueba menos reps con más carga, o cambia de ejercicio."
   },
-  "muscleBalance": {
-    "title": "Equilibrio muscular",
-    "neglected": "— sin entrenar desde hace {{days}} d {{emoji}}",
-    "since": {
-      "none": "–",
-      "today": "hoy",
-      "yesterday": "ayer",
-      "daysShort": "{{n}}d"
-    }
-  },
   "records": {
     "title": "Récords",
     "bestSession": "Mejor sesión",

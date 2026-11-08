@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/contact/data/contact_request_dto.dart';
 import 'package:repster/features/dashboard/data/in_progress_session_info_dto.dart';
 import 'package:repster/features/dashboard/data/workout_session_summary_dto.dart';
 import 'package:repster/features/session/data/workout_session_dto.dart';
 import 'package:repster/features/templates/data/template_dto.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 
 void main() {
   group('WorkoutSessionSummaryDto.fromRow', () {
-    test('keeps holds out of the tonnage and maps tags', () {
+    test('keeps holds out of the tonnage and reads the legacy tag', () {
       final row = <String, dynamic>{
         'id': 's1',
         'template_name': 'Push',
@@ -50,7 +50,7 @@ void main() {
       // the 10 × 50 kg set.
       expect(summary.totalTonnageKg, 10 * 50);
       expect(summary.timeUnderTensionSec, 30);
-      expect(summary.tags, [MuscleGroup.chest, MuscleGroup.triceps]);
+      expect(summary.emoji, FluentEmojis.shield);
     });
 
     test('defaults on a minimal row', () {
@@ -64,7 +64,7 @@ void main() {
       expect(summary.totalSets, 0);
       expect(summary.totalTonnageKg, 0);
       expect(summary.timeUnderTensionSec, 0);
-      expect(summary.tags, isEmpty);
+      expect(summary.emoji, FluentEmojis.bullseye);
     });
   });
 
@@ -247,7 +247,7 @@ void main() {
 
       final template = TemplateDto.fromRow(row);
       expect(template.description, '');
-      expect(template.tags, [MuscleGroup.chest]);
+      expect(template.emoji, FluentEmojis.shield);
       expect(template.slots, hasLength(2));
 
       // Sorted by min(position): s1 (0) before s2 (1).

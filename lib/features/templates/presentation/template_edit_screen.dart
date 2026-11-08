@@ -11,17 +11,14 @@ import 'package:repster/features/exercises/application/exercises_search.dart';
 import 'package:repster/features/exercises/domain/catalog_exercise.dart';
 import 'package:repster/features/templates/application/template_editor_controller.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/presentation/widgets/emoji_picker_sheet.dart';
-import 'package:repster/features/templates/presentation/widgets/muscle_group_picker.dart';
 import 'package:repster/features/templates/presentation/widgets/slot_editor_card.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
 import 'package:repster/shared/widgets/form_error_box.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
-import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 
 class TemplateEditScreen extends ConsumerStatefulWidget {
   const TemplateEditScreen({this.templateId, super.key});
@@ -91,7 +88,6 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
         final id = await ctl.create(
           name: ed.name,
           description: ed.description,
-          tags: ed.tags,
           slots: ed.slots,
           emoji: ed.emoji,
         );
@@ -102,7 +98,6 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
           id: widget.templateId!,
           name: ed.name,
           description: ed.description,
-          tags: ed.tags,
           slots: ed.slots,
           emoji: ed.emoji,
         );
@@ -174,7 +169,6 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
                 if (_globalError != null) setState(() => _globalError = null);
               },
               onDescription: ctl.setDescription,
-              onToggleTag: ctl.toggleTag,
               onEmoji: ctl.setEmoji,
             ),
             const SizedBox(height: 20),
@@ -329,7 +323,7 @@ class _NavIcon extends StatelessWidget {
   }
 }
 
-// ─── Info card (name / description / groups) ─────────────────────────────────
+// ─── Info card (picture / name / description) ────────────────────────────────
 
 class _InfoCard extends StatelessWidget {
   const _InfoCard({
@@ -338,7 +332,6 @@ class _InfoCard extends StatelessWidget {
     required this.editor,
     required this.onName,
     required this.onDescription,
-    required this.onToggleTag,
     required this.onEmoji,
   });
 
@@ -347,15 +340,11 @@ class _InfoCard extends StatelessWidget {
   final TemplateEditorState editor;
   final ValueChanged<String> onName;
   final ValueChanged<String> onDescription;
-  final ValueChanged<MuscleGroup> onToggleTag;
   final ValueChanged<FluentEmoji> onEmoji;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final accent = editor.tags.isEmpty
-        ? MuscleGroup.custom.accent
-        : editor.tags.first.accent;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: scheme.translucentCard,
@@ -364,7 +353,7 @@ class _InfoCard extends StatelessWidget {
         children: [
           _FieldLabel(t.templates.fields.emoji),
           const SizedBox(height: 6),
-          EmojiField(value: editor.emoji, accent: accent, onChanged: onEmoji),
+          EmojiField(value: editor.emoji, onChanged: onEmoji),
           const SizedBox(height: 14),
           _FieldLabel(t.templates.fields.name),
           const SizedBox(height: 6),
@@ -381,27 +370,6 @@ class _InfoCard extends StatelessWidget {
             hint: t.templates.fields.descriptionHint,
             maxLines: 2,
             onChanged: onDescription,
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _FieldLabel(t.templates.fields.muscleGroups),
-              const Spacer(),
-              if (editor.tags.isNotEmpty)
-                Text(
-                  t.templates.fields.selectedCount(n: editor.tags.length),
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: scheme.primary,
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          MuscleGroupPicker(
-            selected: editor.tags.toSet(),
-            onToggle: onToggleTag,
           ),
         ],
       ),

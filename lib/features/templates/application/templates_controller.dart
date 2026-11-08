@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/dashboard/application/dashboard_controller.dart';
 import 'package:repster/features/templates/data/templates_repository.dart';
-import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
 
@@ -26,14 +25,12 @@ class TemplatesController extends AsyncNotifier<List<Template>> {
   Future<String> create({
     required String name,
     required String description,
-    required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
     required FluentEmoji emoji,
   }) async {
     final id = await _repo.create(
       name: name,
       description: description,
-      tags: tags,
       slots: slots,
       emoji: emoji,
     );
@@ -46,7 +43,6 @@ class TemplatesController extends AsyncNotifier<List<Template>> {
     required String id,
     required String name,
     required String description,
-    required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
     required FluentEmoji emoji,
   }) async {
@@ -54,7 +50,6 @@ class TemplatesController extends AsyncNotifier<List<Template>> {
       id: id,
       name: name,
       description: description,
-      tags: tags,
       slots: slots,
       emoji: emoji,
     );

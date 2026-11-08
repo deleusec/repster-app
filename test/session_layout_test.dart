@@ -50,7 +50,6 @@ LiveSessionState _runningState({bool resting = false}) {
         ],
       ),
     ],
-    tags: const [],
     notes: '',
   );
   return LiveSessionState(

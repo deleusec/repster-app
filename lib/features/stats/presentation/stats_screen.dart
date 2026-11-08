@@ -10,7 +10,6 @@ import 'package:repster/features/stats/domain/stats_data.dart';
 import 'package:repster/features/stats/domain/stats_range.dart';
 import 'package:repster/features/stats/presentation/stats_range_l10n.dart';
 import 'package:repster/features/stats/presentation/widgets/exercise_progress_panel.dart';
-import 'package:repster/features/stats/presentation/widgets/muscle_balance_panel.dart';
 import 'package:repster/features/stats/presentation/widgets/records_panel.dart';
 import 'package:repster/features/stats/presentation/widgets/stats_kpi_grid.dart';
 import 'package:repster/features/stats/presentation/widgets/weekly_volume_chart.dart';
@@ -76,8 +75,6 @@ class _StatsBody extends StatelessWidget {
         StatsKpiGrid(kpis: data.kpis),
         const SizedBox(height: 16),
         WeeklyVolumeChart(weeks: data.weeklyVolume),
-        const SizedBox(height: 16),
-        MuscleBalancePanel(loads: data.muscleLoads),
         // Everything below ignores the range pills on purpose — the label says
         // so, so a four-week filter never reads as "these are my records".
         const SizedBox(height: 24),

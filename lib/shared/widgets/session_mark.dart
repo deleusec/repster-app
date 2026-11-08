@@ -12,16 +12,14 @@ class FluentEmojiImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Decoded at the displayed size (in device pixels) rather than drawn
-    // shrunk from the 128 px source: a large downscale at draw time has no
-    // mipmaps on the web renderer and comes out aliased.
-    final pixels = (size * MediaQuery.devicePixelRatioOf(context)).ceil();
+    // Drawn shrunk from the 128 px source with cubic sampling. Never decode
+    // at a target size (`cacheWidth`) here: WebKit resizes that bitmap with
+    // nearest-neighbour sampling, and the PWA on iOS showed jagged edges.
     return Image.asset(
       emoji.assetPath,
       width: size,
       height: size,
-      cacheWidth: pixels,
-      cacheHeight: pixels,
+      filterQuality: FilterQuality.high,
       excludeFromSemantics: true,
     );
   }

@@ -6,6 +6,7 @@ import 'package:repster/features/session/domain/exercise_history.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_drawer_sheet.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 
 /// Read-only per-exercise history: past sessions grouped by date (most recent
 /// first), each with its completed sets (reps × weight, or held duration).
@@ -208,14 +209,7 @@ class _Loading extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          width: 14,
-          height: 14,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: onSurface.withValues(alpha: 0.4),
-          ),
-        ),
+        AppSpinner(size: 14, color: onSurface.withValues(alpha: 0.4)),
         const SizedBox(width: 10),
         Text(
           t.session.history.loading,

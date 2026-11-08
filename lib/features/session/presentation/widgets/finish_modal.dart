@@ -5,6 +5,7 @@ import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_drawer_sheet.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 
 /// An incomplete exercise listed in the finish modal.
 class IncompleteExercise {
@@ -198,14 +199,7 @@ class _FinishSheetState extends State<_FinishSheet> {
                             ),
                           ),
                           child: _saving
-                              ? const SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
+                              ? const AppSpinner(size: 18, color: Colors.white)
                               : Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

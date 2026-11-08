@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 
 /// The 38×38 square icon button the pushed screens use in their nav bar.
@@ -44,14 +45,7 @@ class NavIconButton extends StatelessWidget {
           border: Border.all(color: onSurface.withValues(alpha: 0.08)),
         ),
         child: busy
-            ? SizedBox(
-                width: 15,
-                height: 15,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: onSurface.withValues(alpha: 0.6),
-                ),
-              )
+            ? AppSpinner(size: 15, color: onSurface.withValues(alpha: 0.6))
             : Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.6)),
       ),
     );

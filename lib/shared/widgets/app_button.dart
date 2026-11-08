@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 
 enum AppButtonVariant { primary, secondary, ghost, destructive, outline }
@@ -81,14 +82,7 @@ class AppButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (loading)
-          SizedBox(
-            width: fontSize + 2,
-            height: fontSize + 2,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: fg.withValues(alpha: 0.8),
-            ),
-          )
+          AppSpinner(size: fontSize + 2, color: fg.withValues(alpha: 0.8))
         else if (icon != null) ...[
           Icon(icon, size: iconSize ?? fontSize + 4),
           const SizedBox(width: 8),

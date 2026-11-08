@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/auth/presentation/widgets/auth_tokens.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 
 /// Full-width primary button for the auth screens (48 px tall, rounded-2xl,
@@ -44,14 +45,7 @@ class AuthPrimaryButton extends StatelessWidget {
           ),
           child: Center(
             child: loading
-                ? SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: scheme.onPrimary,
-                    ),
-                  )
+                ? AppSpinner(size: 18, color: scheme.onPrimary)
                 : Text(
                     label,
                     style: TextStyle(

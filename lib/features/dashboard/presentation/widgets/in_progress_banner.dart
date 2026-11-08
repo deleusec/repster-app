@@ -12,6 +12,7 @@ import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/app_dialog.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/soft_glow.dart';
@@ -200,11 +201,7 @@ class _DiscardButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (loading)
-              SizedBox(
-                width: 14,
-                height: 14,
-                child: CircularProgressIndicator(strokeWidth: 2, color: fg),
-              )
+              AppSpinner(size: 14, color: fg)
             else
               Icon(LucideIcons.x, size: 15, color: fg),
             const SizedBox(width: 6),

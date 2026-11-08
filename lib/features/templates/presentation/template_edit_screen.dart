@@ -15,6 +15,7 @@ import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/presentation/widgets/muscle_group_picker.dart';
 import 'package:repster/features/templates/presentation/widgets/slot_editor_card.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
 import 'package:repster/shared/widgets/form_error_box.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
@@ -268,14 +269,7 @@ class _NavBar extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 alignment: Alignment.center,
                 child: saving
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
+                    ? const AppSpinner(size: 16, color: Colors.white)
                     : Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -523,14 +517,7 @@ class _SaveButton extends StatelessWidget {
           height: 52,
           alignment: Alignment.center,
           child: saving
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    color: Colors.white,
-                  ),
-                )
+              ? const AppSpinner(size: 20, color: Colors.white, stroke: 2.5)
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

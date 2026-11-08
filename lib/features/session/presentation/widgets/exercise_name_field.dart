@@ -10,6 +10,7 @@ import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/exercises/domain/catalog_exercise.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 
 /// "Exercise name" search field with live catalog autocompletion.
 ///
@@ -268,14 +269,7 @@ class _ExerciseNameFieldState extends State<ExerciseNameField> {
         padding: const EdgeInsets.only(top: 12, left: 4),
         child: Row(
           children: [
-            SizedBox(
-              width: 14,
-              height: 14,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: onSurface.withValues(alpha: 0.4),
-              ),
-            ),
+            AppSpinner(size: 14, color: onSurface.withValues(alpha: 0.4)),
             const SizedBox(width: 10),
             Text(
               t.session.search.loading,

@@ -36,6 +36,7 @@ import 'package:repster/features/stats/application/stats_controller.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_button.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/glass_surface.dart';
 import 'package:repster/shared/widgets/pressable.dart';
@@ -433,12 +434,9 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
             message: state.error!,
             onBack: () => context.pop(),
           ),
-          LiveSessionStatus.idle || LiveSessionStatus.loading => const Center(
-            child: CircularProgressIndicator(),
-          ),
-          LiveSessionStatus.finished => const Center(
-            child: CircularProgressIndicator(),
-          ),
+          LiveSessionStatus.idle ||
+          LiveSessionStatus.loading => const AppLoading(),
+          LiveSessionStatus.finished => const AppLoading(),
           LiveSessionStatus.running ||
           LiveSessionStatus.saving => _buildRunning(context, state),
         },

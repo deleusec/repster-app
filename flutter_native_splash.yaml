@@ -19,7 +19,9 @@ flutter_native_splash:
     image: assets/splash/logo_square.png
     image_dark: assets/splash/logo_square.png
 
-  web: true
+  # web/index.html is hand-written (safe-area probe, PWA-style splash):
+  # the generator must not overwrite it.
+  web: false
   ios: true
   android: true
 

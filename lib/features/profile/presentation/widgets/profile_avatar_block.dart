@@ -10,6 +10,7 @@ import 'package:repster/features/auth/application/auth_controller.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_action_sheet.dart';
+import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 
@@ -163,13 +164,10 @@ class _AvatarBlockState extends ConsumerState<ProfileAvatarBlock> {
                     borderRadius: BorderRadius.circular(AppRadius.xxl),
                   ),
                   child: const Center(
-                    child: SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        color: Colors.white,
-                      ),
+                    child: AppSpinner(
+                      size: 22,
+                      color: Colors.white,
+                      stroke: 2.5,
                     ),
                   ),
                 ),

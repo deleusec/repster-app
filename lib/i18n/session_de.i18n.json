@@ -3,7 +3,8 @@
   "continueLabel": "Weiter",
   "error": {
     "startFailed": "Training konnte nicht gestartet werden.",
-    "saveFailed": "Speichern fehlgeschlagen."
+    "saveFailed": "Speichern fehlgeschlagen.",
+    "templateUpdateFailed": "Einheit gespeichert, aber die Vorlage konnte nicht aktualisiert werden."
   },
   "live": {
     "exercisePosition": "Übung {{current}} / {{total}}",
@@ -25,7 +26,9 @@
     "deleteExerciseMessage": {
       "one": "Diese Übung hat bereits {{n}} abgeschlossenen Satz. Er geht verloren.",
       "other": "Diese Übung hat bereits {{n}} abgeschlossene Sätze. Sie gehen verloren."
-    }
+    },
+    "removeSessionOnly": "Nur in dieser Einheit",
+    "removeFromTemplate": "Auch aus der Vorlage"
   },
   "add": {
     "title": "Übung hinzufügen",
@@ -33,7 +36,8 @@
     "addLabel": "Hinzufügen",
     "addToSession": "Zum Training hinzufügen",
     "reps": "Wiederholungen",
-    "time": "Zeit"
+    "time": "Zeit",
+    "addAndTemplate": "Zur Einheit und zur Vorlage hinzufügen"
   },
   "swap": {
     "title": "Übung bearbeiten",
@@ -42,7 +46,8 @@
     "useLabel": "Verwenden",
     "adoptFormat": "Format übernehmen",
     "adoptFormatSummary": "{{summary}} · nach „{{name}}“",
-    "apply": "Für dieses Training anwenden"
+    "apply": "Für dieses Training anwenden",
+    "applyAndTemplate": "Anwenden und Vorlage aktualisieren"
   },
   "variants": {
     "title": "Variante wählen",
@@ -64,7 +69,13 @@
       "one": "{{n}} NICHT BESTÄTIGTER SATZ",
       "other": "{{n}} NICHT BESTÄTIGTE SÄTZE"
     },
-    "incompleteHint": "Du kannst zurückgehen und deine Sätze bestätigen oder trotzdem beenden — nur markierte Sätze werden gespeichert."
+    "incompleteHint": "Du kannst zurückgehen und deine Sätze bestätigen oder trotzdem beenden — nur markierte Sätze werden gespeichert.",
+    "templateLabel": "VORLAGE AKTUALISIEREN",
+    "templateToggle": "„{{name}}“ aktualisieren",
+    "templateHint": "Die während der Einheit markierten Änderungen. Ausschalten, um die Vorlage unverändert zu lassen.",
+    "changeAdded": "{{name}} · hinzugefügt",
+    "changeModified": "{{name}} · geändert",
+    "changeRemoved": "{{name}} · entfernt"
   },
   "timer": {
     "preparation": "BEREIT MACHEN",
@@ -105,7 +116,10 @@
     "otherWorkout": "anderes Workout",
     "targetWasReps": "Ziel war {{n}} Wdh.",
     "targetWasSeconds": "Ziel war {{n}}s",
-    "morePerfs": "+{{n}}"
+    "morePerfs": "+{{n}}",
+    "keptInTemplate": "Geändert · wird in der Vorlage gespeichert",
+    "keptInTemplateWas": "Geändert · wird in der Vorlage gespeichert (vorher: {{name}})",
+    "keepInTemplateAction": "Antippen, um diese Änderung in der Vorlage zu behalten"
   },
   "overview": {
     "title": "Übungen",
@@ -149,7 +163,9 @@
     "rest": "Pause (Sek.)",
     "tempo": "Tempo",
     "notesOptional": "Notizen (optional)",
-    "notesHint": "Technik-Tipps…"
+    "notesHint": "Technik-Tipps…",
+    "keepInTemplate": "Auch in der Vorlage speichern",
+    "keepInTemplateHint": "Standardmäßig gilt die Änderung nur für diese Einheit."
   },
   "toast": {
     "exerciseAdded": "{{name}} zum Training hinzugefügt",

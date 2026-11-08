@@ -45,6 +45,11 @@ class WorkoutExercise with _$WorkoutExercise {
     String? slotId,
     String? originalName,
     @Default(false) bool sessionModified,
+
+    /// The user asked for this exercise, as it now stands, to be written back
+    /// to the template when the session ends. Off by default: a change made
+    /// mid-session is for today only unless said otherwise.
+    @Default(false) bool keepInTemplate,
     List<WorkoutVariant>? variants,
     int? activeVariantIndex,
     String? supersetGroupId,
@@ -58,6 +63,35 @@ class WorkoutExercise with _$WorkoutExercise {
       _$WorkoutExerciseFromJson(json);
 
   bool get inSuperset => supersetGroupId != null;
+
+  /// The template variant this exercise was started from, `null` for an
+  /// exercise added in session.
+  WorkoutVariant? get templateOrigin {
+    final list = variants;
+    if (list == null || list.isEmpty) return null;
+    final idx = (activeVariantIndex ?? 0).clamp(0, list.length - 1);
+    return list[idx];
+  }
+
+  /// Whether the exercise no longer matches its template origin on anything
+  /// the template records: identity, set count, target, rest, tempo, notes.
+  /// An exercise added in session always differs. Loads are never compared —
+  /// the template has none.
+  bool get differsFromTemplate {
+    final origin = templateOrigin;
+    if (origin == null) return true;
+    final originTarget = origin.isTimeBased
+        ? (origin.durationSeconds ?? kDefaultHoldSeconds)
+        : origin.reps;
+    return name != origin.name ||
+        exerciseId != origin.exerciseId ||
+        isTimeBased != origin.isTimeBased ||
+        sets.length != origin.sets ||
+        (currentTarget ?? originTarget) != originTarget ||
+        restTime != origin.restTime ||
+        tempo != origin.tempo ||
+        notes != origin.notes;
+  }
 
   /// Reps (or seconds, for a hold) the exercise is aiming for today, read off
   /// its first set. Ranks its history: a 5-rep day and a 10-rep day on the same

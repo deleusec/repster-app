@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_text.dart';
+import 'package:repster/features/session/application/live_session_controller.dart';
 import 'package:repster/features/session/domain/last_perf.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/i18n/translations.g.dart';
@@ -228,26 +230,80 @@ class ExerciseLastPerfs extends StatelessWidget {
   }
 }
 
-/// "Modified . this session only (was: ...)" tag.
-class ExerciseModifiedTag extends StatelessWidget {
-  const ExerciseModifiedTag({required this.exercise, super.key});
+/// "Modified · this session only (was: …)" tag under the title.
+///
+/// When the exercise actually differs from its template origin, the tag is
+/// also the switch that keeps the change: one tap flips it to "will be saved
+/// to the template", a second tap flips it back. The default is always
+/// session-only.
+class ExerciseModifiedTag extends ConsumerWidget {
+  const ExerciseModifiedTag({
+    required this.exercise,
+    required this.exerciseIndex,
+    super.key,
+  });
 
   final WorkoutExercise exercise;
+  final int exerciseIndex;
 
   @override
-  Widget build(BuildContext context) {
-    if (!exercise.sessionModified) return const SizedBox.shrink();
-    final was = exercise.originalName;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ex = exercise;
+    final differs = ex.differsFromTemplate;
+    if (!ex.sessionModified && !differs) return const SizedBox.shrink();
+    final kept = differs && ex.keepInTemplate;
+    final was = ex.originalName;
+    final color = kept
+        ? Theme.of(context).colorScheme.glow
+        : AppColors.accentAmber.withValues(alpha: 0.8);
+    final label = kept
+        ? (was != null
+              ? t.session.exercise.keptInTemplateWas(name: was)
+              : t.session.exercise.keptInTemplate)
+        : (was != null
+              ? t.session.exercise.modifiedWas(name: was)
+              : t.session.exercise.modified);
+
+    final text = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (differs) ...[
+          Icon(
+            kept ? LucideIcons.bookmarkCheck : LucideIcons.bookmark,
+            size: 13,
+            color: color,
+          ),
+          const SizedBox(width: 5),
+        ],
+        Flexible(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: color,
+            ),
+          ),
+        ),
+      ],
+    );
+
+    if (!differs) {
+      return Padding(padding: const EdgeInsets.only(top: 2), child: text);
+    }
     return Padding(
       padding: const EdgeInsets.only(top: 2),
-      child: Text(
-        was != null
-            ? t.session.exercise.modifiedWas(name: was)
-            : t.session.exercise.modified,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: AppColors.accentAmber.withValues(alpha: 0.8),
+      child: Tooltip(
+        message: t.session.exercise.keepInTemplateAction,
+        child: Pressable(
+          scale: 1,
+          onTap: () => ref
+              .read(liveSessionControllerProvider.notifier)
+              .setKeepInTemplate(exerciseIndex, value: !ex.keepInTemplate),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2),
+            child: text,
+          ),
         ),
       ),
     );

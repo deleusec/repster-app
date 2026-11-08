@@ -15,6 +15,7 @@ class SwapExerciseData {
     required this.restTime,
     required this.notes,
     required this.tempo,
+    required this.keepInTemplate,
     this.exerciseId,
   });
 
@@ -22,6 +23,10 @@ class SwapExerciseData {
   final int restTime;
   final String notes;
   final String tempo;
+
+  /// Whether the change should also be written to the template when the
+  /// session is saved.
+  final bool keepInTemplate;
 
   /// Catalog identity of the picked exercise, `null` when the name was typed
   /// by hand. Drives the history lookup.
@@ -37,6 +42,7 @@ Future<SwapExerciseData?> showSwapDrawer(
   required String currentTempo,
   required Future<List<CatalogExercise>> Function(String query) search,
   String? currentExerciseId,
+  bool currentKeepInTemplate = false,
 }) {
   return AppDrawerSheet.show<SwapExerciseData>(
     context,
@@ -49,6 +55,7 @@ Future<SwapExerciseData?> showSwapDrawer(
       currentTempo: currentTempo,
       search: search,
       currentExerciseId: currentExerciseId,
+      currentKeepInTemplate: currentKeepInTemplate,
     ),
   );
 }
@@ -60,6 +67,7 @@ class _SwapSheet extends StatefulWidget {
     required this.currentNotes,
     required this.currentTempo,
     required this.search,
+    required this.currentKeepInTemplate,
     this.currentExerciseId,
   });
 
@@ -69,6 +77,7 @@ class _SwapSheet extends StatefulWidget {
   final String currentTempo;
   final Future<List<CatalogExercise>> Function(String query) search;
   final String? currentExerciseId;
+  final bool currentKeepInTemplate;
 
   @override
   State<_SwapSheet> createState() => _SwapSheetState();
@@ -84,12 +93,14 @@ class _SwapSheetState extends State<_SwapSheet> {
   /// identity instead of inheriting someone else's history.
   late String _pickedName;
   late String? _pickedId;
+  late bool _keepInTemplate;
 
   @override
   void initState() {
     super.initState();
     _pickedName = widget.currentName;
     _pickedId = widget.currentExerciseId;
+    _keepInTemplate = widget.currentKeepInTemplate;
     _name = TextEditingController(text: widget.currentName);
     _rest = TextEditingController(text: '${widget.currentRestTime}');
     _tempo = TextEditingController(text: widget.currentTempo);
@@ -122,6 +133,7 @@ class _SwapSheetState extends State<_SwapSheet> {
         restTime: int.tryParse(_rest.text.trim()) ?? 0,
         notes: _notes.text.trim(),
         tempo: _tempo.text.trim(),
+        keepInTemplate: _keepInTemplate,
         exerciseId: name == _pickedName ? _pickedId : null,
       ),
     );
@@ -144,13 +156,14 @@ class _SwapSheetState extends State<_SwapSheet> {
               color: onSurface.withValues(alpha: 0.55),
             ),
           ),
-          Text(
-            t.session.swap.sessionOnly,
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.accentAmber.withValues(alpha: 0.85),
+          if (!_keepInTemplate)
+            Text(
+              t.session.swap.sessionOnly,
+              style: TextStyle(
+                fontSize: 12,
+                color: AppColors.accentAmber.withValues(alpha: 0.85),
+              ),
             ),
-          ),
           const SizedBox(height: 16),
           FormFieldLabel(t.session.fields.exerciseName),
           const SizedBox(height: 6),
@@ -173,6 +186,11 @@ class _SwapSheetState extends State<_SwapSheet> {
           FormFieldLabel(t.session.fields.notesOptional),
           const SizedBox(height: 6),
           NotesField(controller: _notes),
+          const SizedBox(height: 14),
+          KeepInTemplateRow(
+            value: _keepInTemplate,
+            onChanged: (v) => setState(() => _keepInTemplate = v),
+          ),
           const SizedBox(height: 20),
           FilledButton(
             onPressed: _apply,
@@ -187,9 +205,15 @@ class _SwapSheetState extends State<_SwapSheet> {
               children: [
                 const Icon(LucideIcons.arrowLeftRight, size: 16),
                 const SizedBox(width: 8),
-                Text(
-                  t.session.swap.apply,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+                Flexible(
+                  child: Text(
+                    _keepInTemplate
+                        ? t.session.swap.applyAndTemplate
+                        : t.session.swap.apply,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
                 ),
               ],
             ),

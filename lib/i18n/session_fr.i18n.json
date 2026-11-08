@@ -3,7 +3,8 @@
   "continueLabel": "Continuer",
   "error": {
     "startFailed": "Impossible de démarrer la séance.",
-    "saveFailed": "Échec de la sauvegarde."
+    "saveFailed": "Échec de la sauvegarde.",
+    "templateUpdateFailed": "Séance enregistrée, mais le template n'a pas pu être mis à jour."
   },
   "live": {
     "exercisePosition": "Exercice {{current}} / {{total}}",
@@ -25,7 +26,9 @@
     "deleteExerciseMessage": {
       "one": "Cet exercice a déjà {{n}} série validée. Elles seront perdues.",
       "other": "Cet exercice a déjà {{n}} séries validées. Elles seront perdues."
-    }
+    },
+    "removeSessionOnly": "Pour cette séance seulement",
+    "removeFromTemplate": "Aussi dans le template"
   },
   "add": {
     "title": "Ajouter un exercice",
@@ -33,7 +36,8 @@
     "addLabel": "Ajouter",
     "addToSession": "Ajouter à la séance",
     "reps": "Répétitions",
-    "time": "Temps"
+    "time": "Temps",
+    "addAndTemplate": "Ajouter à la séance et au template"
   },
   "swap": {
     "title": "Modifier l'exercice",
@@ -42,7 +46,8 @@
     "useLabel": "Utiliser",
     "adoptFormat": "Reprendre le format",
     "adoptFormatSummary": "{{summary}} · d’après « {{name}} »",
-    "apply": "Appliquer pour cette séance"
+    "apply": "Appliquer pour cette séance",
+    "applyAndTemplate": "Appliquer et mettre à jour le template"
   },
   "variants": {
     "title": "Choisir une variante",
@@ -64,7 +69,13 @@
       "one": "{{n}} SÉRIE NON VALIDÉE",
       "other": "{{n}} SÉRIES NON VALIDÉES"
     },
-    "incompleteHint": "Tu peux revenir valider tes séries, ou terminer quand même — seules les séries cochées seront enregistrées."
+    "incompleteHint": "Tu peux revenir valider tes séries, ou terminer quand même — seules les séries cochées seront enregistrées.",
+    "templateLabel": "MISE À JOUR DU TEMPLATE",
+    "templateToggle": "Mettre à jour « {{name}} »",
+    "templateHint": "Les changements marqués pendant la séance. Désactive pour laisser le template tel quel.",
+    "changeAdded": "{{name}} · ajouté",
+    "changeModified": "{{name}} · modifié",
+    "changeRemoved": "{{name}} · retiré"
   },
   "timer": {
     "preparation": "PRÉPARATION",
@@ -105,7 +116,10 @@
     "otherWorkout": "autre séance",
     "targetWasReps": "visait {{n}} reps",
     "targetWasSeconds": "visait {{n}}s",
-    "morePerfs": "+{{n}}"
+    "morePerfs": "+{{n}}",
+    "keptInTemplate": "Modifié · sera enregistré dans le template",
+    "keptInTemplateWas": "Modifié · sera enregistré dans le template (était : {{name}})",
+    "keepInTemplateAction": "Touche pour garder ce changement dans le template"
   },
   "overview": {
     "title": "Exercices",
@@ -149,7 +163,9 @@
     "rest": "Récupération (sec)",
     "tempo": "Tempo",
     "notesOptional": "Notes (optionnel)",
-    "notesHint": "Conseils techniques…"
+    "notesHint": "Conseils techniques…",
+    "keepInTemplate": "Enregistrer aussi dans le template",
+    "keepInTemplateHint": "Par défaut, le changement ne vaut que pour cette séance."
   },
   "toast": {
     "exerciseAdded": "{{name}} ajouté à la séance",

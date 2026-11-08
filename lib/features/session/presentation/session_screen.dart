@@ -240,6 +240,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       currentTempo: ex.tempo,
       search: _search,
       currentExerciseId: ex.exerciseId,
+      currentKeepInTemplate: ex.keepInTemplate,
     );
     if (data == null) return;
     _ctl.updateExerciseMeta(
@@ -249,6 +250,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       notes: data.notes,
       tempo: data.tempo,
       exerciseId: data.exerciseId,
+      keepInTemplate: data.keepInTemplate,
     );
     // Keep the current format; refresh the last-perf ghosts for the new name.
     await _refetchPerfs(
@@ -333,6 +335,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
         isTimeBased: data.isTimeBased,
         slotId: _uuid.v4(),
         sessionModified: true,
+        keepInTemplate: data.keepInTemplate,
       ),
       insertAfter: current,
     );
@@ -356,7 +359,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   // ── Finish / cancel ──────────────────────────────────────────────────────
 
   Future<void> _finish() async {
-    final session = ref.read(liveSessionControllerProvider).session;
+    final state = ref.read(liveSessionControllerProvider);
+    final session = state.session;
     if (session == null) return;
     final completed = session.completedSets;
     if (completed == 0) {
@@ -382,7 +386,10 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       completedSets: completed,
       totalSets: totalSets,
       incomplete: incomplete,
-      onConfirm: (notes) => _ctl.endAndSave(notes),
+      templateName: session.templateName,
+      templateChanges: state.templateChanges,
+      onConfirm: (notes, {required updateTemplate}) =>
+          _ctl.endAndSave(notes, updateTemplate: updateTemplate),
     );
     if (!mounted) return;
     final status = ref.read(liveSessionControllerProvider).status;

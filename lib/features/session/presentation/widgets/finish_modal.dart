@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/features/session/domain/template_merge.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/app_drawer_sheet.dart';
@@ -21,15 +22,19 @@ class IncompleteExercise {
 }
 
 /// Session finish modal: summary (sets + tonnage), warning for uncompleted
-/// sets, notes and confirmation. [onConfirm] performs the save; the modal
-/// shows a spinner then closes if it succeeds.
+/// sets, the template changes flagged during the session (with a switch to
+/// drop them), notes and confirmation. [onConfirm] performs the save; the
+/// modal shows a spinner then closes if it succeeds.
 Future<void> showFinishSheet(
   BuildContext context, {
   required double tonnage,
   required int completedSets,
   required int totalSets,
   required List<IncompleteExercise> incomplete,
-  required Future<bool> Function(String notes) onConfirm,
+  required String templateName,
+  required List<TemplateChange> templateChanges,
+  required Future<bool> Function(String notes, {required bool updateTemplate})
+  onConfirm,
 }) {
   return showGlassSheet<void>(
     context,
@@ -38,6 +43,8 @@ Future<void> showFinishSheet(
       completedSets: completedSets,
       totalSets: totalSets,
       incomplete: incomplete,
+      templateName: templateName,
+      templateChanges: templateChanges,
       onConfirm: onConfirm,
     ),
   );
@@ -49,6 +56,8 @@ class _FinishSheet extends StatefulWidget {
     required this.completedSets,
     required this.totalSets,
     required this.incomplete,
+    required this.templateName,
+    required this.templateChanges,
     required this.onConfirm,
   });
 
@@ -56,7 +65,10 @@ class _FinishSheet extends StatefulWidget {
   final int completedSets;
   final int totalSets;
   final List<IncompleteExercise> incomplete;
-  final Future<bool> Function(String notes) onConfirm;
+  final String templateName;
+  final List<TemplateChange> templateChanges;
+  final Future<bool> Function(String notes, {required bool updateTemplate})
+  onConfirm;
 
   @override
   State<_FinishSheet> createState() => _FinishSheetState();
@@ -66,6 +78,10 @@ class _FinishSheetState extends State<_FinishSheet> {
   final _notes = TextEditingController();
   bool _saving = false;
 
+  /// On by default: every listed change was flagged on purpose during the
+  /// session. The switch is the last chance to back out.
+  bool _updateTemplate = true;
+
   @override
   void dispose() {
     _notes.dispose();
@@ -74,7 +90,10 @@ class _FinishSheetState extends State<_FinishSheet> {
 
   Future<void> _confirm() async {
     setState(() => _saving = true);
-    final ok = await widget.onConfirm(_notes.text);
+    final ok = await widget.onConfirm(
+      _notes.text,
+      updateTemplate: _updateTemplate && widget.templateChanges.isNotEmpty,
+    );
     if (!mounted) return;
     if (ok) {
       Navigator.of(context).pop();
@@ -160,6 +179,17 @@ class _FinishSheetState extends State<_FinishSheet> {
                     _IncompleteWarning(
                       totalMissing: totalMissing,
                       items: widget.incomplete,
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  if (widget.templateChanges.isNotEmpty) ...[
+                    _TemplateChangesPanel(
+                      templateName: widget.templateName,
+                      changes: widget.templateChanges,
+                      enabled: _updateTemplate,
+                      onChanged: _saving
+                          ? null
+                          : (v) => setState(() => _updateTemplate = v),
                     ),
                     const SizedBox(height: 16),
                   ],
@@ -302,6 +332,139 @@ class _IncompleteWarning extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             t.session.finish.incompleteHint,
+            style: TextStyle(
+              fontSize: 11,
+              height: 1.3,
+              color: onSurface.withValues(alpha: 0.45),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// "Template update" panel: the flagged changes, and a switch to keep the
+/// template untouched after all.
+class _TemplateChangesPanel extends StatelessWidget {
+  const _TemplateChangesPanel({
+    required this.templateName,
+    required this.changes,
+    required this.enabled,
+    required this.onChanged,
+  });
+
+  final String templateName;
+  final List<TemplateChange> changes;
+  final bool enabled;
+  final ValueChanged<bool>? onChanged;
+
+  String _label(TemplateChange c) => switch (c.kind) {
+    TemplateChangeKind.added => t.session.finish.changeAdded(name: c.name),
+    TemplateChangeKind.modified => t.session.finish.changeModified(
+      name: c.name,
+    ),
+    TemplateChangeKind.removed => t.session.finish.changeRemoved(name: c.name),
+  };
+
+  IconData _icon(TemplateChange c) => switch (c.kind) {
+    TemplateChangeKind.added => LucideIcons.plus,
+    TemplateChangeKind.modified => LucideIcons.pencil,
+    TemplateChangeKind.removed => LucideIcons.minus,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final onSurface = scheme.onSurface;
+    final accent = enabled ? scheme.glow : onSurface.withValues(alpha: 0.4);
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: accent.withValues(alpha: enabled ? 0.08 : 0.04),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
+        border: Border.all(color: accent.withValues(alpha: 0.25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(LucideIcons.bookmarkCheck, size: 14, color: accent),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  t.session.finish.templateLabel,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.5,
+                    color: accent,
+                  ),
+                ),
+              ),
+              Switch.adaptive(
+                value: enabled,
+                onChanged: onChanged,
+                activeTrackColor: scheme.glow,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            t.session.finish.templateToggle(name: templateName),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: onSurface.withValues(alpha: enabled ? 0.9 : 0.5),
+            ),
+          ),
+          const SizedBox(height: 8),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 132),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  for (final c in changes)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _icon(c),
+                            size: 12,
+                            color: onSurface.withValues(
+                              alpha: enabled ? 0.6 : 0.35,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              _label(c),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: onSurface.withValues(
+                                  alpha: enabled ? 0.75 : 0.45,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            t.session.finish.templateHint,
             style: TextStyle(
               fontSize: 11,
               height: 1.3,

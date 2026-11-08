@@ -919,6 +919,7 @@ class _Translations$session$error$fr extends Translations$session$error$en {
 	// Translations
 	@override String get startFailed => 'Impossible de démarrer la séance.';
 	@override String get saveFailed => 'Échec de la sauvegarde.';
+	@override String get templateUpdateFailed => 'Séance enregistrée, mais le template n\'a pas pu être mis à jour.';
 }
 
 // Path: session.live
@@ -955,6 +956,8 @@ class _Translations$session$confirm$fr extends Translations$session$confirm$en {
 		one: 'Cet exercice a déjà ${n} série validée. Elles seront perdues.',
 		other: 'Cet exercice a déjà ${n} séries validées. Elles seront perdues.',
 	);
+	@override String get removeSessionOnly => 'Pour cette séance seulement';
+	@override String get removeFromTemplate => 'Aussi dans le template';
 }
 
 // Path: session.add
@@ -970,6 +973,7 @@ class _Translations$session$add$fr extends Translations$session$add$en {
 	@override String get addToSession => 'Ajouter à la séance';
 	@override String get reps => 'Répétitions';
 	@override String get time => 'Temps';
+	@override String get addAndTemplate => 'Ajouter à la séance et au template';
 }
 
 // Path: session.swap
@@ -986,6 +990,7 @@ class _Translations$session$swap$fr extends Translations$session$swap$en {
 	@override String get adoptFormat => 'Reprendre le format';
 	@override String adoptFormatSummary({required Object summary, required Object name}) => '${summary} · d’après « ${name} »';
 	@override String get apply => 'Appliquer pour cette séance';
+	@override String get applyAndTemplate => 'Appliquer et mettre à jour le template';
 }
 
 // Path: session.variants
@@ -1022,6 +1027,12 @@ class _Translations$session$finish$fr extends Translations$session$finish$en {
 		other: '${n} SÉRIES NON VALIDÉES',
 	);
 	@override String get incompleteHint => 'Tu peux revenir valider tes séries, ou terminer quand même — seules les séries cochées seront enregistrées.';
+	@override String get templateLabel => 'MISE À JOUR DU TEMPLATE';
+	@override String templateToggle({required Object name}) => 'Mettre à jour « ${name} »';
+	@override String get templateHint => 'Les changements marqués pendant la séance. Désactive pour laisser le template tel quel.';
+	@override String changeAdded({required Object name}) => '${name} · ajouté';
+	@override String changeModified({required Object name}) => '${name} · modifié';
+	@override String changeRemoved({required Object name}) => '${name} · retiré';
 }
 
 // Path: session.timer
@@ -1091,6 +1102,9 @@ class _Translations$session$exercise$fr extends Translations$session$exercise$en
 	@override String targetWasReps({required Object n}) => 'visait ${n} reps';
 	@override String targetWasSeconds({required Object n}) => 'visait ${n}s';
 	@override String morePerfs({required Object n}) => '+${n}';
+	@override String get keptInTemplate => 'Modifié · sera enregistré dans le template';
+	@override String keptInTemplateWas({required Object name}) => 'Modifié · sera enregistré dans le template (était : ${name})';
+	@override String get keepInTemplateAction => 'Touche pour garder ce changement dans le template';
 }
 
 // Path: session.overview
@@ -1184,6 +1198,8 @@ class _Translations$session$fields$fr extends Translations$session$fields$en {
 	@override String get tempo => 'Tempo';
 	@override String get notesOptional => 'Notes (optionnel)';
 	@override String get notesHint => 'Conseils techniques…';
+	@override String get keepInTemplate => 'Enregistrer aussi dans le template';
+	@override String get keepInTemplateHint => 'Par défaut, le changement ne vaut que pour cette séance.';
 }
 
 // Path: session.toast
@@ -2013,6 +2029,7 @@ extension on TranslationsFr {
 			'session.continueLabel' => 'Continuer',
 			'session.error.startFailed' => 'Impossible de démarrer la séance.',
 			'session.error.saveFailed' => 'Échec de la sauvegarde.',
+			'session.error.templateUpdateFailed' => 'Séance enregistrée, mais le template n\'a pas pu être mis à jour.',
 			'session.live.exercisePosition' => ({required Object current, required Object total}) => 'Exercice ${current} / ${total}',
 			'session.live.supersetPosition' => ({required Object current, required Object total}) => 'Superset ${current} / ${total}',
 			'session.live.headerSubtitle' => ({required Object completed, required Object total, required Object time}) => '${completed}/${total} séries · ${time}',
@@ -2028,12 +2045,15 @@ extension on TranslationsFr {
 			'session.confirm.overwriteAndStart' => 'Écraser et démarrer',
 			'session.confirm.deleteExerciseTitle' => ({required Object name}) => 'Supprimer « ${name} » ?',
 			'session.confirm.deleteExerciseMessage' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: 'Cet exercice a déjà ${n} série validée. Elles seront perdues.', other: 'Cet exercice a déjà ${n} séries validées. Elles seront perdues.', ), 
+			'session.confirm.removeSessionOnly' => 'Pour cette séance seulement',
+			'session.confirm.removeFromTemplate' => 'Aussi dans le template',
 			'session.add.title' => 'Ajouter un exercice',
 			'session.add.subtitle' => 'Ajouté uniquement à cette séance, sans toucher au template.',
 			'session.add.addLabel' => 'Ajouter',
 			'session.add.addToSession' => 'Ajouter à la séance',
 			'session.add.reps' => 'Répétitions',
 			'session.add.time' => 'Temps',
+			'session.add.addAndTemplate' => 'Ajouter à la séance et au template',
 			'session.swap.title' => 'Modifier l\'exercice',
 			'session.swap.currently' => ({required Object name}) => 'Actuellement : ${name}',
 			'session.swap.sessionOnly' => 'Ces changements ne s’appliquent qu’à cette séance.',
@@ -2041,6 +2061,7 @@ extension on TranslationsFr {
 			'session.swap.adoptFormat' => 'Reprendre le format',
 			'session.swap.adoptFormatSummary' => ({required Object summary, required Object name}) => '${summary} · d’après « ${name} »',
 			'session.swap.apply' => 'Appliquer pour cette séance',
+			'session.swap.applyAndTemplate' => 'Appliquer et mettre à jour le template',
 			'session.variants.title' => 'Choisir une variante',
 			'session.variants.lockedMessage' => 'Une série est déjà validée — termine l’exercice ou utilise « Échanger » pour ajuster en cours de route.',
 			'session.variants.pickMessage' => 'Sélectionne une variante pour cet emplacement. Elle remplacera l’exercice courant.',
@@ -2056,6 +2077,12 @@ extension on TranslationsFr {
 			'session.finish.confirm' => 'Terminer',
 			'session.finish.unvalidatedSets' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} SÉRIE NON VALIDÉE', other: '${n} SÉRIES NON VALIDÉES', ), 
 			'session.finish.incompleteHint' => 'Tu peux revenir valider tes séries, ou terminer quand même — seules les séries cochées seront enregistrées.',
+			'session.finish.templateLabel' => 'MISE À JOUR DU TEMPLATE',
+			'session.finish.templateToggle' => ({required Object name}) => 'Mettre à jour « ${name} »',
+			'session.finish.templateHint' => 'Les changements marqués pendant la séance. Désactive pour laisser le template tel quel.',
+			'session.finish.changeAdded' => ({required Object name}) => '${name} · ajouté',
+			'session.finish.changeModified' => ({required Object name}) => '${name} · modifié',
+			'session.finish.changeRemoved' => ({required Object name}) => '${name} · retiré',
 			'session.timer.preparation' => 'PRÉPARATION',
 			'session.timer.running' => 'EN COURS',
 			'session.timer.done' => 'TERMINÉ',
@@ -2089,6 +2116,9 @@ extension on TranslationsFr {
 			'session.exercise.targetWasReps' => ({required Object n}) => 'visait ${n} reps',
 			'session.exercise.targetWasSeconds' => ({required Object n}) => 'visait ${n}s',
 			'session.exercise.morePerfs' => ({required Object n}) => '+${n}',
+			'session.exercise.keptInTemplate' => 'Modifié · sera enregistré dans le template',
+			'session.exercise.keptInTemplateWas' => ({required Object name}) => 'Modifié · sera enregistré dans le template (était : ${name})',
+			'session.exercise.keepInTemplateAction' => 'Touche pour garder ce changement dans le template',
 			'session.overview.title' => 'Exercices',
 			'session.overview.current' => 'EN COURS',
 			'session.overview.setsValidated' => ({required Object completed, required Object total}) => '${completed}/${total} séries validées',
@@ -2119,6 +2149,8 @@ extension on TranslationsFr {
 			'session.fields.tempo' => 'Tempo',
 			'session.fields.notesOptional' => 'Notes (optionnel)',
 			'session.fields.notesHint' => 'Conseils techniques…',
+			'session.fields.keepInTemplate' => 'Enregistrer aussi dans le template',
+			'session.fields.keepInTemplateHint' => 'Par défaut, le changement ne vaut que pour cette séance.',
 			'session.toast.exerciseAdded' => ({required Object name}) => '${name} ajouté à la séance',
 			'session.toast.validateOneSet' => 'Valide au moins une série avant de finir.',
 			'session.toast.sessionSaved' => 'Séance enregistrée ! 🎉',
@@ -2206,6 +2238,8 @@ extension on TranslationsFr {
 			'templates.list.newAction' => 'Créer',
 			'templates.list.emptyTitle' => 'Aucune séance',
 			'templates.list.emptyMessage' => 'Crée ta première séance pour composer ton programme.',
+			_ => null,
+		} ?? switch (path) {
 			'templates.list.emptyAction' => 'Créer une séance',
 			'templates.list.emptyActiveTitle' => 'Aucune séance dans le programme',
 			'templates.list.emptyActiveMessage' => 'Active des séances pour les ajouter à ton programme.',
@@ -2222,8 +2256,6 @@ extension on TranslationsFr {
 			'templates.list.deleteError' => 'Suppression impossible.',
 			'templates.list.copySuffix' => '(copie)',
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} exercice', other: '${n} exercices', ), 
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.details' => 'Détails',
 			'templates.card.copy' => 'Copier',
 			'templates.card.deleteShort' => 'Suppr.',

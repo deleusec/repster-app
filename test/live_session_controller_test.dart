@@ -6,10 +6,16 @@ import 'package:repster/features/session/application/live_session_controller.dar
 import 'package:repster/features/session/application/live_session_state.dart';
 import 'package:repster/features/session/data/sessions_repository.dart';
 import 'package:repster/features/session/domain/last_perf.dart';
+import 'package:repster/features/session/domain/template_merge.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
 import 'package:repster/features/stats/application/stats_controller.dart';
+import 'package:repster/features/templates/data/templates_repository.dart';
+import 'package:repster/features/templates/domain/muscle_group.dart';
+import 'package:repster/features/templates/domain/template.dart';
+import 'package:repster/features/templates/domain/template_exercise.dart';
+import 'package:repster/features/templates/domain/template_slot.dart';
 
 // ── Fake repository ──────────────────────────────────────────────────────────
 
@@ -40,6 +46,29 @@ class _FakeSessionsRepo extends Fake implements SessionsRepository {
   @override
   Future<void> syncSnapshot(String sessionId, Map<String, Object?> snap) async {
     syncCount++;
+  }
+}
+
+class _FakeTemplatesRepo extends Fake implements TemplatesRepository {
+  _FakeTemplatesRepo(this.template, {this.updateThrows = false});
+
+  Template template;
+  bool updateThrows;
+  List<TemplateSlot>? updatedSlots;
+
+  @override
+  Future<Template> fetchById(String id) async => template;
+
+  @override
+  Future<void> update({
+    required String id,
+    required String name,
+    required String description,
+    required List<MuscleGroup> tags,
+    required List<TemplateSlot> slots,
+  }) async {
+    if (updateThrows) throw Exception('update boom');
+    updatedSlots = slots;
   }
 }
 
@@ -615,6 +644,189 @@ void main() {
       expect(repo.discardedId, 'sess-1');
       expect(_state(c).status, LiveSessionStatus.idle);
       expect(_state(c).session, isNull);
+    });
+  });
+
+  // Changes made in session are for today unless flagged; flagged ones are
+  // written to the template when the session is saved, never before.
+  group('template write-back', () {
+    const squat = TemplateExercise(
+      id: 'row-squat',
+      name: 'Squat',
+      sets: 3,
+      reps: 10,
+      tempo: '2-0-2-0',
+      restTime: 90,
+      notes: '',
+      order: 0,
+    );
+    const bench = TemplateExercise(
+      id: 'row-bench',
+      name: 'Bench',
+      sets: 3,
+      reps: 10,
+      tempo: '2-0-2-0',
+      restTime: 90,
+      notes: '',
+      order: 1,
+    );
+    final template = Template(
+      id: 'tpl-1',
+      name: 'Push Day',
+      description: '',
+      tags: const [],
+      isActive: true,
+      createdAt: DateTime(2026),
+      updatedAt: DateTime(2026),
+      slots: const [
+        TemplateSlot(
+          slotId: 'slot-a',
+          order: 0,
+          supersetWithNext: false,
+          variants: [squat],
+        ),
+        TemplateSlot(
+          slotId: 'slot-b',
+          order: 1,
+          supersetWithNext: false,
+          variants: [bench],
+        ),
+      ],
+    );
+    WorkoutVariant variantOf(TemplateExercise e) => WorkoutVariant(
+      name: e.name,
+      sets: e.sets,
+      reps: e.reps,
+      tempo: e.tempo,
+      restTime: e.restTime,
+      notes: e.notes,
+    );
+    WorkoutExercise fromTemplate(String id, TemplateExercise e, String slot) =>
+        _ex(
+          id,
+          e.name,
+          sets: [_set('$id-1', completed: true), _set('$id-2'), _set('$id-3')],
+          variants: [variantOf(e)],
+          activeVariantIndex: 0,
+        ).copyWith(slotId: slot);
+
+    test('setKeepInTemplate flags the exercise and syncs', () async {
+      final repo = _FakeSessionsRepo();
+      final (c, ctl) = await _boot(
+        _session([fromTemplate('e1', squat, 'slot-a')]),
+        repo: repo,
+      );
+      ctl.setKeepInTemplate(0, value: true);
+      expect(_state(c).session!.exercises[0].keepInTemplate, isTrue);
+      ctl.setKeepInTemplate(0, value: false);
+      expect(_state(c).session!.exercises[0].keepInTemplate, isFalse);
+    });
+
+    test('removeExercise(fromTemplate) records the slot by its name', () async {
+      final (c, ctl) = await _boot(
+        _session([
+          fromTemplate('e1', squat, 'slot-a'),
+          fromTemplate('e2', bench, 'slot-b'),
+        ]),
+      );
+      ctl.removeExercise(1, fromTemplate: true);
+      expect(_state(c).removedTemplateSlots, {'slot-b': 'Bench'});
+      expect(_state(c).templateChanges.single.kind, TemplateChangeKind.removed);
+    });
+
+    test('removeExercise without the flag touches no slot', () async {
+      final (c, ctl) = await _boot(
+        _session([
+          fromTemplate('e1', squat, 'slot-a'),
+          fromTemplate('e2', bench, 'slot-b'),
+        ]),
+      );
+      ctl.removeExercise(1);
+      expect(_state(c).removedTemplateSlots, isEmpty);
+      expect(_state(c).templateChanges, isEmpty);
+    });
+
+    test('an exercise added in session cannot drop a template slot', () async {
+      final (c, ctl) = await _boot(
+        _session([
+          fromTemplate('e1', squat, 'slot-a'),
+          _ex('e2', 'Curl').copyWith(slotId: 'new-curl'),
+        ]),
+      );
+      ctl.removeExercise(1, fromTemplate: true);
+      expect(_state(c).removedTemplateSlots, isEmpty);
+    });
+
+    test('removed slots survive a resume', () async {
+      final repo = _FakeSessionsRepo();
+      final session = _session([fromTemplate('e1', squat, 'slot-a')]);
+      final snap = _snapshot(session);
+      snap.snapshot['removedTemplateSlots'] = {'slot-b': 'Bench'};
+      final (c, _) = await _boot(session, repo: repo, snapshot: snap);
+      expect(_state(c).removedTemplateSlots, {'slot-b': 'Bench'});
+    });
+
+    test('endAndSave without the option leaves the template alone', () async {
+      final templates = _FakeTemplatesRepo(template);
+      final (_, ctl) = await _boot(
+        _session([fromTemplate('e1', squat, 'slot-a')]),
+        extra: [templatesRepositoryProvider.overrideWithValue(templates)],
+      );
+      ctl
+        ..addSet(0)
+        ..setKeepInTemplate(0, value: true);
+      expect(await ctl.endAndSave(''), isTrue);
+      expect(templates.updatedSlots, isNull);
+    });
+
+    test('endAndSave writes the kept changes to the template', () async {
+      final templates = _FakeTemplatesRepo(template);
+      final (c, ctl) = await _boot(
+        _session([
+          fromTemplate('e1', squat, 'slot-a'),
+          fromTemplate('e2', bench, 'slot-b'),
+        ]),
+        extra: [templatesRepositoryProvider.overrideWithValue(templates)],
+      );
+      ctl
+        ..addSet(0)
+        ..setKeepInTemplate(0, value: true)
+        ..addSet(1)
+        ..removeExercise(1, fromTemplate: true);
+      expect(await ctl.endAndSave('', updateTemplate: true), isTrue);
+      expect(_state(c).status, LiveSessionStatus.finished);
+      expect(_state(c).error, isNull);
+      final slots = templates.updatedSlots!;
+      expect(slots.map((s) => s.slotId), ['slot-a']);
+      expect(slots.single.primary.sets, 4);
+    });
+
+    test('a template failure keeps the saved session, reports it', () async {
+      final repo = _FakeSessionsRepo();
+      final templates = _FakeTemplatesRepo(template, updateThrows: true);
+      final (c, ctl) = await _boot(
+        _session([fromTemplate('e1', squat, 'slot-a')]),
+        repo: repo,
+        extra: [templatesRepositoryProvider.overrideWithValue(templates)],
+      );
+      ctl
+        ..addSet(0)
+        ..setKeepInTemplate(0, value: true);
+      expect(await ctl.endAndSave('', updateTemplate: true), isTrue);
+      expect(repo.savedSession, isNotNull);
+      expect(_state(c).status, LiveSessionStatus.finished);
+      expect(_state(c).error, isNotNull);
+    });
+
+    test('nothing flagged means no template call at all', () async {
+      final templates = _FakeTemplatesRepo(template);
+      final (_, ctl) = await _boot(
+        _session([fromTemplate('e1', squat, 'slot-a')]),
+        extra: [templatesRepositoryProvider.overrideWithValue(templates)],
+      );
+      ctl.addSet(0);
+      expect(await ctl.endAndSave('', updateTemplate: true), isTrue);
+      expect(templates.updatedSlots, isNull);
     });
   });
 

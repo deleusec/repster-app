@@ -1476,6 +1476,9 @@ class Translations$session$error$en {
 
 	/// en: 'Save failed.'
 	String get saveFailed => 'Save failed.';
+
+	/// en: 'Session saved, but the template couldn't be updated.'
+	String get templateUpdateFailed => 'Session saved, but the template couldn\'t be updated.';
 }
 
 // Path: session.live
@@ -1542,6 +1545,12 @@ class Translations$session$confirm$en {
 		one: 'This exercise already has ${n} completed set. It will be lost.',
 		other: 'This exercise already has ${n} completed sets. They will be lost.',
 	);
+
+	/// en: 'This session only'
+	String get removeSessionOnly => 'This session only';
+
+	/// en: 'Also from the template'
+	String get removeFromTemplate => 'Also from the template';
 }
 
 // Path: session.add
@@ -1569,6 +1578,9 @@ class Translations$session$add$en {
 
 	/// en: 'Time'
 	String get time => 'Time';
+
+	/// en: 'Add to session and template'
+	String get addAndTemplate => 'Add to session and template';
 }
 
 // Path: session.swap
@@ -1599,6 +1611,9 @@ class Translations$session$swap$en {
 
 	/// en: 'Apply for this session'
 	String get apply => 'Apply for this session';
+
+	/// en: 'Apply and update the template'
+	String get applyAndTemplate => 'Apply and update the template';
 }
 
 // Path: session.variants
@@ -1665,6 +1680,24 @@ class Translations$session$finish$en {
 
 	/// en: 'You can go back and complete your sets, or finish anyway — only checked sets will be saved.'
 	String get incompleteHint => 'You can go back and complete your sets, or finish anyway — only checked sets will be saved.';
+
+	/// en: 'TEMPLATE UPDATE'
+	String get templateLabel => 'TEMPLATE UPDATE';
+
+	/// en: 'Update “{{name}}”'
+	String templateToggle({required Object name}) => 'Update “${name}”';
+
+	/// en: 'Changes you flagged during the session. Turn it off to keep the template as it is.'
+	String get templateHint => 'Changes you flagged during the session. Turn it off to keep the template as it is.';
+
+	/// en: '{{name}} · added'
+	String changeAdded({required Object name}) => '${name} · added';
+
+	/// en: '{{name}} · modified'
+	String changeModified({required Object name}) => '${name} · modified';
+
+	/// en: '{{name}} · removed'
+	String changeRemoved({required Object name}) => '${name} · removed';
 }
 
 // Path: session.timer
@@ -1800,6 +1833,15 @@ class Translations$session$exercise$en {
 
 	/// en: '+{{n}}'
 	String morePerfs({required Object n}) => '+${n}';
+
+	/// en: 'Modified · will be saved to the template'
+	String get keptInTemplate => 'Modified · will be saved to the template';
+
+	/// en: 'Modified · will be saved to the template (was: {{name}})'
+	String keptInTemplateWas({required Object name}) => 'Modified · will be saved to the template (was: ${name})';
+
+	/// en: 'Tap to keep this change in the template'
+	String get keepInTemplateAction => 'Tap to keep this change in the template';
 }
 
 // Path: session.overview
@@ -1953,6 +1995,12 @@ class Translations$session$fields$en {
 
 	/// en: 'Technique tips…'
 	String get notesHint => 'Technique tips…';
+
+	/// en: 'Also save to the template'
+	String get keepInTemplate => 'Also save to the template';
+
+	/// en: 'By default the change applies to this session only.'
+	String get keepInTemplateHint => 'By default the change applies to this session only.';
 }
 
 // Path: session.toast
@@ -3160,6 +3208,7 @@ extension on Translations {
 			'session.continueLabel' => 'Continue',
 			'session.error.startFailed' => 'Couldn\'t start the session.',
 			'session.error.saveFailed' => 'Save failed.',
+			'session.error.templateUpdateFailed' => 'Session saved, but the template couldn\'t be updated.',
 			'session.live.exercisePosition' => ({required Object current, required Object total}) => 'Exercise ${current} / ${total}',
 			'session.live.supersetPosition' => ({required Object current, required Object total}) => 'Superset ${current} / ${total}',
 			'session.live.headerSubtitle' => ({required Object completed, required Object total, required Object time}) => '${completed}/${total} sets · ${time}',
@@ -3175,12 +3224,15 @@ extension on Translations {
 			'session.confirm.overwriteAndStart' => 'Overwrite and start',
 			'session.confirm.deleteExerciseTitle' => ({required Object name}) => 'Delete “${name}”?',
 			'session.confirm.deleteExerciseMessage' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'This exercise already has ${n} completed set. It will be lost.', other: 'This exercise already has ${n} completed sets. They will be lost.', ), 
+			'session.confirm.removeSessionOnly' => 'This session only',
+			'session.confirm.removeFromTemplate' => 'Also from the template',
 			'session.add.title' => 'Add an exercise',
 			'session.add.subtitle' => 'Added to this session only, without changing the template.',
 			'session.add.addLabel' => 'Add',
 			'session.add.addToSession' => 'Add to session',
 			'session.add.reps' => 'Reps',
 			'session.add.time' => 'Time',
+			'session.add.addAndTemplate' => 'Add to session and template',
 			'session.swap.title' => 'Edit exercise',
 			'session.swap.currently' => ({required Object name}) => 'Currently: ${name}',
 			'session.swap.sessionOnly' => 'These changes apply to this session only.',
@@ -3188,6 +3240,7 @@ extension on Translations {
 			'session.swap.adoptFormat' => 'Adopt the format',
 			'session.swap.adoptFormatSummary' => ({required Object summary, required Object name}) => '${summary} · from “${name}”',
 			'session.swap.apply' => 'Apply for this session',
+			'session.swap.applyAndTemplate' => 'Apply and update the template',
 			'session.variants.title' => 'Choose a variant',
 			'session.variants.lockedMessage' => 'A set is already completed — finish the exercise or use “Swap” to adjust on the fly.',
 			'session.variants.pickMessage' => 'Pick a variant for this slot. It will replace the current exercise.',
@@ -3203,6 +3256,12 @@ extension on Translations {
 			'session.finish.confirm' => 'Finish',
 			'session.finish.unvalidatedSets' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} UNVALIDATED SET', other: '${n} UNVALIDATED SETS', ), 
 			'session.finish.incompleteHint' => 'You can go back and complete your sets, or finish anyway — only checked sets will be saved.',
+			'session.finish.templateLabel' => 'TEMPLATE UPDATE',
+			'session.finish.templateToggle' => ({required Object name}) => 'Update “${name}”',
+			'session.finish.templateHint' => 'Changes you flagged during the session. Turn it off to keep the template as it is.',
+			'session.finish.changeAdded' => ({required Object name}) => '${name} · added',
+			'session.finish.changeModified' => ({required Object name}) => '${name} · modified',
+			'session.finish.changeRemoved' => ({required Object name}) => '${name} · removed',
 			'session.timer.preparation' => 'GET READY',
 			'session.timer.running' => 'IN PROGRESS',
 			'session.timer.done' => 'DONE',
@@ -3236,6 +3295,9 @@ extension on Translations {
 			'session.exercise.targetWasReps' => ({required Object n}) => 'was aiming for ${n} reps',
 			'session.exercise.targetWasSeconds' => ({required Object n}) => 'was aiming for ${n}s',
 			'session.exercise.morePerfs' => ({required Object n}) => '+${n}',
+			'session.exercise.keptInTemplate' => 'Modified · will be saved to the template',
+			'session.exercise.keptInTemplateWas' => ({required Object name}) => 'Modified · will be saved to the template (was: ${name})',
+			'session.exercise.keepInTemplateAction' => 'Tap to keep this change in the template',
 			'session.overview.title' => 'Exercises',
 			'session.overview.current' => 'CURRENT',
 			'session.overview.setsValidated' => ({required Object completed, required Object total}) => '${completed}/${total} sets completed',
@@ -3266,6 +3328,8 @@ extension on Translations {
 			'session.fields.tempo' => 'Tempo',
 			'session.fields.notesOptional' => 'Notes (optional)',
 			'session.fields.notesHint' => 'Technique tips…',
+			'session.fields.keepInTemplate' => 'Also save to the template',
+			'session.fields.keepInTemplateHint' => 'By default the change applies to this session only.',
 			'session.toast.exerciseAdded' => ({required Object name}) => '${name} added to the session',
 			'session.toast.validateOneSet' => 'Complete at least one set before finishing.',
 			'session.toast.sessionSaved' => 'Session saved! 🎉',
@@ -3352,6 +3416,8 @@ extension on Translations {
 			'templates.list.manage' => 'Manage',
 			'templates.list.newAction' => 'Create',
 			'templates.list.emptyTitle' => 'No sessions',
+			_ => null,
+		} ?? switch (path) {
 			'templates.list.emptyMessage' => 'Create your first session to build your program.',
 			'templates.list.emptyAction' => 'Create a session',
 			'templates.list.emptyActiveTitle' => 'No sessions in the program',
@@ -3368,8 +3434,6 @@ extension on Translations {
 			'templates.list.deleted' => 'Session deleted.',
 			'templates.list.deleteError' => 'Deletion failed.',
 			'templates.list.copySuffix' => '(copy)',
-			_ => null,
-		} ?? switch (path) {
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} exercise', other: '${n} exercises', ), 
 			'templates.card.details' => 'Details',
 			'templates.card.copy' => 'Copy',

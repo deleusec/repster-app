@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:repster/features/session/domain/last_perf.dart';
+import 'package:repster/features/session/domain/template_merge.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 
 part 'live_session_state.freezed.dart';
@@ -51,6 +52,11 @@ class LiveSessionState with _$LiveSessionState {
     /// Last action performed in the session (a validated set, a changed load,
     /// an added exercise…). `null` before the session starts.
     DateTime? lastActivityAt,
+
+    /// Template slots the user removed from this session *and* asked to drop
+    /// from the template, keyed by slot id with the exercise name for the
+    /// finish recap. Applied when the session is saved.
+    @Default({}) Map<String, String> removedTemplateSlots,
   }) = _LiveSessionState;
 
   const LiveSessionState._();
@@ -71,6 +77,12 @@ class LiveSessionState with _$LiveSessionState {
     final span = end.difference(start).inSeconds;
     return bankedSeconds + (span > 0 ? span : 0);
   }
+
+  /// What saving the session would write back to its template.
+  List<TemplateChange> get templateChanges => pendingTemplateChanges(
+    session?.exercises ?? const [],
+    removedTemplateSlots,
+  );
 
   static const empty = LiveSessionState(
     status: LiveSessionStatus.idle,

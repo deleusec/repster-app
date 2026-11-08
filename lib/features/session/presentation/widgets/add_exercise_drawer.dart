@@ -19,6 +19,7 @@ class AddExerciseData {
     required this.restTime,
     required this.tempo,
     required this.notes,
+    required this.keepInTemplate,
     this.exerciseId,
   });
 
@@ -30,6 +31,10 @@ class AddExerciseData {
   final int restTime;
   final String tempo;
   final String notes;
+
+  /// Whether the exercise should also be added to the template when the
+  /// session is saved.
+  final bool keepInTemplate;
 
   /// Catalog identity of the picked exercise, `null` when the name was typed
   /// by hand. Drives the history lookup.
@@ -67,6 +72,7 @@ class _AddSheetState extends State<_AddSheet> {
   final _tempo = TextEditingController(text: '2-0-2-0');
   final _notes = TextEditingController();
   bool _isTimeBased = false;
+  bool _keepInTemplate = false;
 
   /// Name/id of the last catalog pick, so a hand-edited name drops the
   /// identity instead of inheriting someone else's history.
@@ -109,6 +115,7 @@ class _AddSheetState extends State<_AddSheet> {
         restTime: _int(_rest, 90),
         tempo: _tempo.text.trim(),
         notes: _notes.text.trim(),
+        keepInTemplate: _keepInTemplate,
         exerciseId: name == _pickedName ? _pickedId : null,
       ),
     );
@@ -121,13 +128,14 @@ class _AddSheetState extends State<_AddSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            t.session.add.subtitle,
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.accentAmber.withValues(alpha: 0.85),
+          if (!_keepInTemplate)
+            Text(
+              t.session.add.subtitle,
+              style: TextStyle(
+                fontSize: 12,
+                color: AppColors.accentAmber.withValues(alpha: 0.85),
+              ),
             ),
-          ),
           const SizedBox(height: 16),
           FormFieldLabel(t.session.fields.exerciseName),
           const SizedBox(height: 6),
@@ -217,6 +225,11 @@ class _AddSheetState extends State<_AddSheet> {
           FormFieldLabel(t.session.fields.notesOptional),
           const SizedBox(height: 6),
           NotesField(controller: _notes),
+          const SizedBox(height: 14),
+          KeepInTemplateRow(
+            value: _keepInTemplate,
+            onChanged: (v) => setState(() => _keepInTemplate = v),
+          ),
           const SizedBox(height: 20),
           FilledButton(
             onPressed: _add,
@@ -231,9 +244,15 @@ class _AddSheetState extends State<_AddSheet> {
               children: [
                 const Icon(LucideIcons.plus, size: 16),
                 const SizedBox(width: 8),
-                Text(
-                  t.session.add.addToSession,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+                Flexible(
+                  child: Text(
+                    _keepInTemplate
+                        ? t.session.add.addAndTemplate
+                        : t.session.add.addToSession,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
                 ),
               ],
             ),

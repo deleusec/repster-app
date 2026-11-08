@@ -378,6 +378,11 @@ mixin _$WorkoutExercise {
   String? get slotId => throw _privateConstructorUsedError;
   String? get originalName => throw _privateConstructorUsedError;
   bool get sessionModified => throw _privateConstructorUsedError;
+
+  /// The user asked for this exercise, as it now stands, to be written back
+  /// to the template when the session ends. Off by default: a change made
+  /// mid-session is for today only unless said otherwise.
+  bool get keepInTemplate => throw _privateConstructorUsedError;
   List<WorkoutVariant>? get variants => throw _privateConstructorUsedError;
   int? get activeVariantIndex => throw _privateConstructorUsedError;
   String? get supersetGroupId => throw _privateConstructorUsedError;
@@ -413,6 +418,7 @@ abstract class $WorkoutExerciseCopyWith<$Res> {
     String? slotId,
     String? originalName,
     bool sessionModified,
+    bool keepInTemplate,
     List<WorkoutVariant>? variants,
     int? activeVariantIndex,
     String? supersetGroupId,
@@ -447,6 +453,7 @@ class _$WorkoutExerciseCopyWithImpl<$Res, $Val extends WorkoutExercise>
     Object? slotId = freezed,
     Object? originalName = freezed,
     Object? sessionModified = null,
+    Object? keepInTemplate = null,
     Object? variants = freezed,
     Object? activeVariantIndex = freezed,
     Object? supersetGroupId = freezed,
@@ -499,6 +506,10 @@ class _$WorkoutExerciseCopyWithImpl<$Res, $Val extends WorkoutExercise>
                 ? _value.sessionModified
                 : sessionModified // ignore: cast_nullable_to_non_nullable
                       as bool,
+            keepInTemplate: null == keepInTemplate
+                ? _value.keepInTemplate
+                : keepInTemplate // ignore: cast_nullable_to_non_nullable
+                      as bool,
             variants: freezed == variants
                 ? _value.variants
                 : variants // ignore: cast_nullable_to_non_nullable
@@ -546,6 +557,7 @@ abstract class _$$WorkoutExerciseImplCopyWith<$Res>
     String? slotId,
     String? originalName,
     bool sessionModified,
+    bool keepInTemplate,
     List<WorkoutVariant>? variants,
     int? activeVariantIndex,
     String? supersetGroupId,
@@ -579,6 +591,7 @@ class __$$WorkoutExerciseImplCopyWithImpl<$Res>
     Object? slotId = freezed,
     Object? originalName = freezed,
     Object? sessionModified = null,
+    Object? keepInTemplate = null,
     Object? variants = freezed,
     Object? activeVariantIndex = freezed,
     Object? supersetGroupId = freezed,
@@ -631,6 +644,10 @@ class __$$WorkoutExerciseImplCopyWithImpl<$Res>
             ? _value.sessionModified
             : sessionModified // ignore: cast_nullable_to_non_nullable
                   as bool,
+        keepInTemplate: null == keepInTemplate
+            ? _value.keepInTemplate
+            : keepInTemplate // ignore: cast_nullable_to_non_nullable
+                  as bool,
         variants: freezed == variants
             ? _value._variants
             : variants // ignore: cast_nullable_to_non_nullable
@@ -671,6 +688,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
     this.slotId,
     this.originalName,
     this.sessionModified = false,
+    this.keepInTemplate = false,
     final List<WorkoutVariant>? variants,
     this.activeVariantIndex,
     this.supersetGroupId,
@@ -716,6 +734,13 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
   @override
   @JsonKey()
   final bool sessionModified;
+
+  /// The user asked for this exercise, as it now stands, to be written back
+  /// to the template when the session ends. Off by default: a change made
+  /// mid-session is for today only unless said otherwise.
+  @override
+  @JsonKey()
+  final bool keepInTemplate;
   final List<WorkoutVariant>? _variants;
   @override
   List<WorkoutVariant>? get variants {
@@ -737,7 +762,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
 
   @override
   String toString() {
-    return 'WorkoutExercise(id: $id, name: $name, notes: $notes, tempo: $tempo, restTime: $restTime, sets: $sets, isTimeBased: $isTimeBased, exerciseId: $exerciseId, slotId: $slotId, originalName: $originalName, sessionModified: $sessionModified, variants: $variants, activeVariantIndex: $activeVariantIndex, supersetGroupId: $supersetGroupId, supersetPosition: $supersetPosition, supersetSize: $supersetSize)';
+    return 'WorkoutExercise(id: $id, name: $name, notes: $notes, tempo: $tempo, restTime: $restTime, sets: $sets, isTimeBased: $isTimeBased, exerciseId: $exerciseId, slotId: $slotId, originalName: $originalName, sessionModified: $sessionModified, keepInTemplate: $keepInTemplate, variants: $variants, activeVariantIndex: $activeVariantIndex, supersetGroupId: $supersetGroupId, supersetPosition: $supersetPosition, supersetSize: $supersetSize)';
   }
 
   @override
@@ -761,6 +786,8 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
                 other.originalName == originalName) &&
             (identical(other.sessionModified, sessionModified) ||
                 other.sessionModified == sessionModified) &&
+            (identical(other.keepInTemplate, keepInTemplate) ||
+                other.keepInTemplate == keepInTemplate) &&
             const DeepCollectionEquality().equals(other._variants, _variants) &&
             (identical(other.activeVariantIndex, activeVariantIndex) ||
                 other.activeVariantIndex == activeVariantIndex) &&
@@ -787,6 +814,7 @@ class _$WorkoutExerciseImpl extends _WorkoutExercise {
     slotId,
     originalName,
     sessionModified,
+    keepInTemplate,
     const DeepCollectionEquality().hash(_variants),
     activeVariantIndex,
     supersetGroupId,
@@ -824,6 +852,7 @@ abstract class _WorkoutExercise extends WorkoutExercise {
     final String? slotId,
     final String? originalName,
     final bool sessionModified,
+    final bool keepInTemplate,
     final List<WorkoutVariant>? variants,
     final int? activeVariantIndex,
     final String? supersetGroupId,
@@ -860,6 +889,12 @@ abstract class _WorkoutExercise extends WorkoutExercise {
   String? get originalName;
   @override
   bool get sessionModified;
+
+  /// The user asked for this exercise, as it now stands, to be written back
+  /// to the template when the session ends. Off by default: a change made
+  /// mid-session is for today only unless said otherwise.
+  @override
+  bool get keepInTemplate;
   @override
   List<WorkoutVariant>? get variants;
   @override

@@ -47,6 +47,12 @@ mixin _$LiveSessionState {
   /// an added exercise…). `null` before the session starts.
   DateTime? get lastActivityAt => throw _privateConstructorUsedError;
 
+  /// Template slots the user removed from this session *and* asked to drop
+  /// from the template, keyed by slot id with the exercise name for the
+  /// finish recap. Applied when the session is saved.
+  Map<String, String> get removedTemplateSlots =>
+      throw _privateConstructorUsedError;
+
   /// Create a copy of LiveSessionState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -75,6 +81,7 @@ abstract class $LiveSessionStateCopyWith<$Res> {
     int bankedSeconds,
     DateTime? segmentStartedAt,
     DateTime? lastActivityAt,
+    Map<String, String> removedTemplateSlots,
   });
 
   $WorkoutSessionCopyWith<$Res>? get session;
@@ -108,6 +115,7 @@ class _$LiveSessionStateCopyWithImpl<$Res, $Val extends LiveSessionState>
     Object? bankedSeconds = null,
     Object? segmentStartedAt = freezed,
     Object? lastActivityAt = freezed,
+    Object? removedTemplateSlots = null,
   }) {
     return _then(
       _value.copyWith(
@@ -163,6 +171,10 @@ class _$LiveSessionStateCopyWithImpl<$Res, $Val extends LiveSessionState>
                 ? _value.lastActivityAt
                 : lastActivityAt // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
+            removedTemplateSlots: null == removedTemplateSlots
+                ? _value.removedTemplateSlots
+                : removedTemplateSlots // ignore: cast_nullable_to_non_nullable
+                      as Map<String, String>,
           )
           as $Val,
     );
@@ -206,6 +218,7 @@ abstract class _$$LiveSessionStateImplCopyWith<$Res>
     int bankedSeconds,
     DateTime? segmentStartedAt,
     DateTime? lastActivityAt,
+    Map<String, String> removedTemplateSlots,
   });
 
   @override
@@ -239,6 +252,7 @@ class __$$LiveSessionStateImplCopyWithImpl<$Res>
     Object? bankedSeconds = null,
     Object? segmentStartedAt = freezed,
     Object? lastActivityAt = freezed,
+    Object? removedTemplateSlots = null,
   }) {
     return _then(
       _$LiveSessionStateImpl(
@@ -294,6 +308,10 @@ class __$$LiveSessionStateImplCopyWithImpl<$Res>
             ? _value.lastActivityAt
             : lastActivityAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        removedTemplateSlots: null == removedTemplateSlots
+            ? _value._removedTemplateSlots
+            : removedTemplateSlots // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>,
       ),
     );
   }
@@ -316,8 +334,10 @@ class _$LiveSessionStateImpl extends _LiveSessionState {
     this.bankedSeconds = 0,
     this.segmentStartedAt,
     this.lastActivityAt,
+    final Map<String, String> removedTemplateSlots = const {},
   }) : _lastPerfs = lastPerfs,
        _lastPerfsMeta = lastPerfsMeta,
+       _removedTemplateSlots = removedTemplateSlots,
        super._();
 
   @override
@@ -378,9 +398,26 @@ class _$LiveSessionStateImpl extends _LiveSessionState {
   @override
   final DateTime? lastActivityAt;
 
+  /// Template slots the user removed from this session *and* asked to drop
+  /// from the template, keyed by slot id with the exercise name for the
+  /// finish recap. Applied when the session is saved.
+  final Map<String, String> _removedTemplateSlots;
+
+  /// Template slots the user removed from this session *and* asked to drop
+  /// from the template, keyed by slot id with the exercise name for the
+  /// finish recap. Applied when the session is saved.
+  @override
+  @JsonKey()
+  Map<String, String> get removedTemplateSlots {
+    if (_removedTemplateSlots is EqualUnmodifiableMapView)
+      return _removedTemplateSlots;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_removedTemplateSlots);
+  }
+
   @override
   String toString() {
-    return 'LiveSessionState(status: $status, currentExerciseIndex: $currentExerciseIndex, lastPerfs: $lastPerfs, lastPerfsMeta: $lastPerfsMeta, isResting: $isResting, restStartedAt: $restStartedAt, restTotalSeconds: $restTotalSeconds, restReturnTo: $restReturnTo, session: $session, error: $error, bankedSeconds: $bankedSeconds, segmentStartedAt: $segmentStartedAt, lastActivityAt: $lastActivityAt)';
+    return 'LiveSessionState(status: $status, currentExerciseIndex: $currentExerciseIndex, lastPerfs: $lastPerfs, lastPerfsMeta: $lastPerfsMeta, isResting: $isResting, restStartedAt: $restStartedAt, restTotalSeconds: $restTotalSeconds, restReturnTo: $restReturnTo, session: $session, error: $error, bankedSeconds: $bankedSeconds, segmentStartedAt: $segmentStartedAt, lastActivityAt: $lastActivityAt, removedTemplateSlots: $removedTemplateSlots)';
   }
 
   @override
@@ -414,7 +451,11 @@ class _$LiveSessionStateImpl extends _LiveSessionState {
             (identical(other.segmentStartedAt, segmentStartedAt) ||
                 other.segmentStartedAt == segmentStartedAt) &&
             (identical(other.lastActivityAt, lastActivityAt) ||
-                other.lastActivityAt == lastActivityAt));
+                other.lastActivityAt == lastActivityAt) &&
+            const DeepCollectionEquality().equals(
+              other._removedTemplateSlots,
+              _removedTemplateSlots,
+            ));
   }
 
   @override
@@ -433,6 +474,7 @@ class _$LiveSessionStateImpl extends _LiveSessionState {
     bankedSeconds,
     segmentStartedAt,
     lastActivityAt,
+    const DeepCollectionEquality().hash(_removedTemplateSlots),
   );
 
   /// Create a copy of LiveSessionState
@@ -462,6 +504,7 @@ abstract class _LiveSessionState extends LiveSessionState {
     final int bankedSeconds,
     final DateTime? segmentStartedAt,
     final DateTime? lastActivityAt,
+    final Map<String, String> removedTemplateSlots,
   }) = _$LiveSessionStateImpl;
   const _LiveSessionState._() : super._();
 
@@ -505,6 +548,12 @@ abstract class _LiveSessionState extends LiveSessionState {
   /// an added exercise…). `null` before the session starts.
   @override
   DateTime? get lastActivityAt;
+
+  /// Template slots the user removed from this session *and* asked to drop
+  /// from the template, keyed by slot id with the exercise name for the
+  /// finish recap. Applied when the session is saved.
+  @override
+  Map<String, String> get removedTemplateSlots;
 
   /// Create a copy of LiveSessionState
   /// with the given fields replaced by the non-null parameter values.

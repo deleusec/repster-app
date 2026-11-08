@@ -6,6 +6,7 @@ import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/session/application/live_session_controller.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/app_action_sheet.dart';
 import 'package:repster/shared/widgets/app_dialog.dart';
 import 'package:repster/shared/widgets/glass_surface.dart';
 import 'package:repster/shared/widgets/pressable.dart';
@@ -25,17 +26,41 @@ class OverviewPanel extends ConsumerStatefulWidget {
 class _OverviewPanelState extends ConsumerState<OverviewPanel> {
   bool _editMode = false;
 
+  /// An exercise that came from the template asks whether to drop it there
+  /// too; one added in session just goes. Completed sets are then confirmed
+  /// as lost, as before.
   Future<void> _requestDelete(int i, WorkoutExercise ex, int total) async {
     if (total <= 1) return;
+    var fromTemplate = false;
+    if (ex.templateOrigin != null) {
+      final choice = await AppActionSheet.show<bool>(
+        context,
+        title: t.session.confirm.deleteExerciseTitle(name: ex.name),
+        actions: [
+          AppSheetAction(
+            value: false,
+            label: t.session.confirm.removeSessionOnly,
+            icon: LucideIcons.minus,
+          ),
+          AppSheetAction(
+            value: true,
+            label: t.session.confirm.removeFromTemplate,
+            icon: LucideIcons.bookmarkX,
+            isDestructive: true,
+          ),
+        ],
+      );
+      if (choice == null || !mounted) return;
+      fromTemplate = choice;
+    }
     final completed = ex.completedSetCount;
-    if (completed == 0) {
-      ref.read(liveSessionControllerProvider.notifier).removeExercise(i);
-      return;
+    if (completed > 0) {
+      final ok = await _confirmDelete(ex.name, completed);
+      if (!ok || !mounted) return;
     }
-    final ok = await _confirmDelete(ex.name, completed);
-    if (ok && mounted) {
-      ref.read(liveSessionControllerProvider.notifier).removeExercise(i);
-    }
+    ref
+        .read(liveSessionControllerProvider.notifier)
+        .removeExercise(i, fromTemplate: fromTemplate);
   }
 
   Future<bool> _confirmDelete(String name, int completed) async {

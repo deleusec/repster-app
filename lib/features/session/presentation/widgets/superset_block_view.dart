@@ -213,7 +213,7 @@ class _ExoHeader extends StatelessWidget {
               height: 1.1,
             ),
           ),
-          ExerciseModifiedTag(exercise: exercise),
+          ExerciseModifiedTag(exercise: exercise, exerciseIndex: exerciseIndex),
           if (exercise.notes.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 2),

@@ -49,6 +49,7 @@ _$WorkoutExerciseImpl _$$WorkoutExerciseImplFromJson(
   slotId: json['slotId'] as String?,
   originalName: json['originalName'] as String?,
   sessionModified: json['sessionModified'] as bool? ?? false,
+  keepInTemplate: json['keepInTemplate'] as bool? ?? false,
   variants: (json['variants'] as List<dynamic>?)
       ?.map((e) => WorkoutVariant.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -72,6 +73,7 @@ Map<String, dynamic> _$$WorkoutExerciseImplToJson(
   'slotId': instance.slotId,
   'originalName': instance.originalName,
   'sessionModified': instance.sessionModified,
+  'keepInTemplate': instance.keepInTemplate,
   'variants': instance.variants,
   'activeVariantIndex': instance.activeVariantIndex,
   'supersetGroupId': instance.supersetGroupId,

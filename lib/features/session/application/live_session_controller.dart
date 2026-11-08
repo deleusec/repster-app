@@ -8,10 +8,12 @@ import 'package:repster/features/session/application/live_session_state.dart';
 import 'package:repster/features/session/data/sessions_repository.dart';
 import 'package:repster/features/session/domain/exercise_history.dart';
 import 'package:repster/features/session/domain/last_perf.dart';
+import 'package:repster/features/session/domain/template_merge.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
 import 'package:repster/features/stats/application/stats_controller.dart';
+import 'package:repster/features/templates/application/templates_controller.dart';
 import 'package:repster/features/templates/data/templates_repository.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:uuid/uuid.dart';
@@ -77,6 +79,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
             _timestamp(s['lastActivityAt']) ??
             snap.liveUpdatedAt ??
             session.startedAt,
+        removedTemplateSlots: _removedSlotsFromJson(s['removedTemplateSlots']),
       );
       return true;
     } on Object catch (e, st) {
@@ -131,6 +134,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         bankedSeconds: 0,
         segmentStartedAt: startedAt,
         lastActivityAt: startedAt,
+        removedTemplateSlots: const {},
       );
     } on Object catch (e, st) {
       log.e('startFromTemplate failed', error: e, stackTrace: st);
@@ -398,12 +402,16 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     return insertAt;
   }
 
-  void removeExercise(int exIdx) {
+  /// Removes an exercise from the session. With [fromTemplate], its slot is
+  /// also dropped from the template when the session is saved — only
+  /// meaningful for an exercise that came from the template.
+  void removeExercise(int exIdx, {bool fromTemplate = false}) {
     final session = state.session;
     if (session == null) return;
     final list = session.exercises;
     if (list.length <= 1) return;
     if (exIdx < 0 || exIdx >= list.length) return;
+    final removed = list[exIdx];
     final next = [
       for (var i = 0; i < list.length; i++)
         if (i != exIdx) list[i],
@@ -414,11 +422,31 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     } else if (exIdx == current) {
       current = current.clamp(0, next.length - 1);
     }
+    final slotId = removed.slotId;
+    final dropSlot =
+        fromTemplate && slotId != null && removed.templateOrigin != null;
     state = state.copyWith(
       session: session.copyWith(exercises: _normalizeSupersets(next)),
       currentExerciseIndex: current,
+      removedTemplateSlots: dropSlot
+          ? {
+              ...state.removedTemplateSlots,
+              slotId: removed.originalName ?? removed.name,
+            }
+          : state.removedTemplateSlots,
     );
     _scheduleSync();
+  }
+
+  /// Marks (or unmarks) an exercise to be written back to the template when
+  /// the session is saved.
+  void setKeepInTemplate(int exIdx, {required bool value}) {
+    final session = state.session;
+    if (session == null) return;
+    if (exIdx < 0 || exIdx >= session.exercises.length) return;
+    final ex = session.exercises[exIdx];
+    if (ex.keepInTemplate == value) return;
+    _replaceExerciseState(exIdx, ex.copyWith(keepInTemplate: value));
   }
 
   /// Rewrites every superset block's metadata from the list itself: rank by
@@ -475,6 +503,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
     int? target,
     bool? isTimeBased,
     String? exerciseId,
+    bool? keepInTemplate,
   }) {
     final session = state.session;
     if (session == null) return;
@@ -520,6 +549,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         isTimeBased: timeBased,
         sets: newSets ?? ex.sets,
         sessionModified: true,
+        keepInTemplate: keepInTemplate ?? ex.keepInTemplate,
         originalName: nameChanged && ex.originalName == null
             ? ex.name
             : ex.originalName,
@@ -630,7 +660,11 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
 
   // ── Finalization ───────────────────────────────────────────────────────────
 
-  Future<bool> endAndSave(String notes) async {
+  /// Saves the session. With [updateTemplate], the changes the user flagged
+  /// during the session are then written to the template; a failure there is
+  /// reported through `error` but does not undo the save — the session is
+  /// what matters, the template can be edited by hand.
+  Future<bool> endAndSave(String notes, {bool updateTemplate = false}) async {
     final session = state.session;
     if (session == null) return false;
     if (session.completedSets == 0) return false;
@@ -647,9 +681,13 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       // The finished session feeds history, the dashboard (recent sessions +
       // weekly stats + cleared "in progress" card) and the stats.
       _invalidateSessionDependents();
+      final templateError = updateTemplate && state.templateChanges.isNotEmpty
+          ? await _applyTemplateChanges(finalSession)
+          : null;
       state = state.copyWith(
         status: LiveSessionStatus.finished,
         session: finalSession,
+        error: templateError,
       );
       return true;
     } on Object catch (e, st) {
@@ -659,6 +697,35 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         error: t.session.error.saveFailed,
       );
       return false;
+    }
+  }
+
+  /// Rewrites the template's slots with the session's kept changes. Returns
+  /// the error message to surface, `null` on success.
+  Future<String?> _applyTemplateChanges(WorkoutSession session) async {
+    try {
+      final templates = ref.read(templatesRepositoryProvider);
+      final template = await templates.fetchById(session.templateId);
+      final slots = mergeSessionIntoSlots(
+        template.slots,
+        session.exercises,
+        removedSlotIds: state.removedTemplateSlots.keys.toSet(),
+      );
+      await templates.update(
+        id: template.id,
+        name: template.name,
+        description: template.description,
+        tags: template.tags,
+        slots: slots,
+      );
+      // The dashboard carousel holds its own copy of the templates.
+      ref
+        ..invalidate(templatesControllerProvider)
+        ..invalidate(dashboardControllerProvider);
+      return null;
+    } on Object catch (e, st) {
+      log.e('applyTemplateChanges failed', error: e, stackTrace: st);
+      return t.session.error.templateUpdateFailed;
     }
   }
 
@@ -810,6 +877,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
       'segmentStartedAt': state.segmentStartedAt?.millisecondsSinceEpoch,
       'lastActivityAt': state.lastActivityAt?.millisecondsSinceEpoch,
       'currentExerciseIndex': state.currentExerciseIndex,
+      'removedTemplateSlots': state.removedTemplateSlots,
       'lastPerfs': {
         for (final entry in state.lastPerfs.entries)
           entry.key: [for (final p in entry.value) p.toJson()],
@@ -825,6 +893,14 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
   DateTime? _timestamp(Object? raw) {
     if (raw is! num) return null;
     return DateTime.fromMillisecondsSinceEpoch(raw.toInt());
+  }
+
+  Map<String, String> _removedSlotsFromJson(Object? raw) {
+    if (raw is! Map) return const {};
+    return {
+      for (final entry in raw.entries)
+        if (entry.value is String) entry.key as String: entry.value as String,
+    };
   }
 
   Map<String, List<LastPerf>> _lastPerfsFromJson(Object? raw) {

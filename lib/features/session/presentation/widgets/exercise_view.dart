@@ -64,7 +64,10 @@ class ExerciseView extends ConsumerWidget {
                       height: 1.1,
                     ),
                   ),
-                  ExerciseModifiedTag(exercise: ex),
+                  ExerciseModifiedTag(
+                    exercise: ex,
+                    exerciseIndex: exerciseIndex,
+                  ),
                   if (ex.notes.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(top: 2),

@@ -3,7 +3,8 @@
   "continueLabel": "Continua",
   "error": {
     "startFailed": "Impossibile avviare la sessione.",
-    "saveFailed": "Salvataggio non riuscito."
+    "saveFailed": "Salvataggio non riuscito.",
+    "templateUpdateFailed": "Sessione salvata, ma il template non è stato aggiornato."
   },
   "live": {
     "exercisePosition": "Esercizio {{current}} / {{total}}",
@@ -25,7 +26,9 @@
     "deleteExerciseMessage": {
       "one": "Questo esercizio ha già {{n}} serie completata. Andrà persa.",
       "other": "Questo esercizio ha già {{n}} serie completate. Andranno perse."
-    }
+    },
+    "removeSessionOnly": "Solo in questa sessione",
+    "removeFromTemplate": "Anche dal template"
   },
   "add": {
     "title": "Aggiungi un esercizio",
@@ -33,7 +36,8 @@
     "addLabel": "Aggiungi",
     "addToSession": "Aggiungi alla sessione",
     "reps": "Ripetizioni",
-    "time": "Tempo"
+    "time": "Tempo",
+    "addAndTemplate": "Aggiungi alla sessione e al template"
   },
   "swap": {
     "title": "Modifica esercizio",
@@ -42,7 +46,8 @@
     "useLabel": "Usa",
     "adoptFormat": "Riprendi il formato",
     "adoptFormatSummary": "{{summary}} · da «{{name}}»",
-    "apply": "Applica a questa sessione"
+    "apply": "Applica a questa sessione",
+    "applyAndTemplate": "Applica e aggiorna il template"
   },
   "variants": {
     "title": "Scegli una variante",
@@ -64,7 +69,13 @@
       "one": "{{n}} SERIE NON VALIDATA",
       "other": "{{n}} SERIE NON VALIDATE"
     },
-    "incompleteHint": "Puoi tornare a validare le tue serie, oppure terminare comunque — verranno salvate solo le serie selezionate."
+    "incompleteHint": "Puoi tornare a validare le tue serie, oppure terminare comunque — verranno salvate solo le serie selezionate.",
+    "templateLabel": "AGGIORNAMENTO DEL TEMPLATE",
+    "templateToggle": "Aggiorna “{{name}}”",
+    "templateHint": "Le modifiche segnate durante la sessione. Disattiva per lasciare il template com'è.",
+    "changeAdded": "{{name}} · aggiunto",
+    "changeModified": "{{name}} · modificato",
+    "changeRemoved": "{{name}} · rimosso"
   },
   "timer": {
     "preparation": "PREPARAZIONE",
@@ -105,7 +116,10 @@
     "otherWorkout": "altra sessione",
     "targetWasReps": "obiettivo {{n}} rip.",
     "targetWasSeconds": "obiettivo {{n}}s",
-    "morePerfs": "+{{n}}"
+    "morePerfs": "+{{n}}",
+    "keptInTemplate": "Modificato · sarà salvato nel template",
+    "keptInTemplateWas": "Modificato · sarà salvato nel template (era: {{name}})",
+    "keepInTemplateAction": "Tocca per mantenere questa modifica nel template"
   },
   "overview": {
     "title": "Esercizi",
@@ -149,7 +163,9 @@
     "rest": "Recupero (sec)",
     "tempo": "Tempo",
     "notesOptional": "Note (facoltativo)",
-    "notesHint": "Consigli tecnici…"
+    "notesHint": "Consigli tecnici…",
+    "keepInTemplate": "Salva anche nel template",
+    "keepInTemplateHint": "Per impostazione predefinita la modifica vale solo per questa sessione."
   },
   "toast": {
     "exerciseAdded": "{{name}} aggiunto alla sessione",

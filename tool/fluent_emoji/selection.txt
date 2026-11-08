@@ -1,0 +1,440 @@
+# Fluent 3D emoji vendored by Repster, one official name per line, grouped by
+# picker section (`# <group>`). Run `python3 tool/fluent_emoji/fetch.py` after
+# editing: it downloads, resamples and regenerates the Dart catalogue + the
+# English labels.
+
+# sport
+Person lifting weights
+Man lifting weights
+Woman lifting weights
+Flexed biceps
+Boxing glove
+Martial arts uniform
+Person wrestling
+Person running
+Man running
+Woman running
+Running shoe
+Running shirt
+Hiking boot
+Person walking
+Person climbing
+Person biking
+Person mountain biking
+Bicycle
+Person swimming
+Person surfing
+Person rowing boat
+Canoe
+Person in lotus position
+Lotus
+Person cartwheeling
+Person juggling
+Person bouncing ball
+Person playing handball
+Person playing water polo
+Person fencing
+Person golfing
+Horse racing
+Skier
+Snowboarder
+Ice skate
+Roller skate
+Skateboard
+Basketball
+Soccer ball
+American football
+Rugby football
+Tennis
+Volleyball
+Baseball
+Ping pong
+Badminton
+Field hockey
+Ice hockey
+Bowling
+Flying disc
+Bow and arrow
+Bullseye
+Pool 8 ball
+Parachute
+Trophy
+Sports medal
+1st place medal
+2nd place medal
+3rd place medal
+Military medal
+Chequered flag
+Triangular flag
+Stadium
+Stopwatch
+Timer clock
+Alarm clock
+Hourglass not done
+
+# body
+Leg
+Foot
+Anatomical heart
+Lungs
+Bone
+Brain
+Footprints
+Eyes
+Raised fist
+Oncoming fist
+Left-facing fist
+Right-facing fist
+Thumbs up
+Clapping hands
+Raising hands
+Heart hands
+Handshake
+Folded hands
+Victory hand
+Ok hand
+Waving hand
+Pinched fingers
+Sign of the horns
+Call me hand
+Crossed fingers
+Love-you gesture
+Sweat droplets
+Zzz
+Person standing
+Person kneeling
+
+# energy
+Fire
+High voltage
+Collision
+Dizzy
+Sparkles
+Star
+Shooting star
+Rocket
+Flying saucer
+Hundred points
+Check mark button
+Battery
+Light bulb
+Bomb
+Fireworks
+Party popper
+Confetti ball
+Mirror ball
+Crown
+Gem stone
+Shield
+Crossed swords
+Infinity
+Skull
+Skull and crossbones
+Ghost
+Alien
+Robot
+Pile of poo
+Magic wand
+Crystal ball
+
+# faces
+Grinning face
+Grinning face with big eyes
+Grinning face with smiling eyes
+Beaming face with smiling eyes
+Grinning squinting face
+Grinning face with sweat
+Face with tears of joy
+Rolling on the floor laughing
+Smiling face with smiling eyes
+Smiling face with halo
+Smiling face with hearts
+Smiling face with heart-eyes
+Star-struck
+Face blowing a kiss
+Face savoring food
+Face with tongue
+Winking face
+Winking face with tongue
+Zany face
+Money-mouth face
+Hugging face
+Face with hand over mouth
+Face with peeking eye
+Shushing face
+Thinking face
+Saluting face
+Zipper-mouth face
+Face with raised eyebrow
+Neutral face
+Unamused face
+Smirking face
+Drooling face
+Sleeping face
+Face with medical mask
+Hot face
+Cold face
+Woozy face
+Dizzy face
+Face with spiral eyes
+Exploding head
+Cowboy hat face
+Partying face
+Disguised face
+Smiling face with sunglasses
+Nerd face
+Face with monocle
+Slightly smiling face
+Upside-down face
+Melting face
+Flushed face
+Pleading face
+Face holding back tears
+Loudly crying face
+Face screaming in fear
+Downcast face with sweat
+Weary face
+Tired face
+Yawning face
+Face with steam from nose
+Enraged face
+Angry face
+Smiling face with horns
+Angry face with horns
+
+# hearts
+Red heart
+Orange heart
+Yellow heart
+Green heart
+Blue heart
+Purple heart
+Black heart
+White heart
+Pink heart
+Sparkling heart
+Growing heart
+Beating heart
+Revolving hearts
+Two hearts
+Heart on fire
+Mending heart
+Broken heart
+Heart with arrow
+Heart with ribbon
+
+# animals
+Gorilla
+Lion
+Tiger
+Leopard
+Bear
+Polar bear
+Ox
+Water buffalo
+Bison
+Cow
+Rhinoceros
+Elephant
+Hippopotamus
+Mammoth
+Horse
+Zebra
+Giraffe
+Camel
+Deer
+Ram
+Goat
+Pig
+Wolf
+Fox
+Dog
+Cat
+Black cat
+Monkey
+See-no-evil monkey
+Kangaroo
+Rabbit
+Hedgehog
+Koala
+Panda
+Sloth
+Otter
+Seal
+Bat
+Eagle
+Owl
+Rooster
+Chicken
+Baby chick
+Duck
+Swan
+Flamingo
+Peacock
+Parrot
+Dove
+Penguin
+Shark
+Whale
+Dolphin
+Octopus
+Fish
+Tropical fish
+Crab
+Lobster
+Shrimp
+Turtle
+Crocodile
+Snake
+Frog
+T-rex
+Sauropod
+Dragon
+Unicorn
+Butterfly
+Honeybee
+Scorpion
+
+# food
+Cut of meat
+Meat on bone
+Poultry leg
+Bacon
+Egg
+Cooked rice
+Steaming bowl
+Green salad
+Broccoli
+Avocado
+Banana
+Red apple
+Green apple
+Pear
+Peach
+Cherries
+Strawberry
+Blueberries
+Grapes
+Watermelon
+Pineapple
+Mango
+Kiwi fruit
+Lemon
+Coconut
+Carrot
+Potato
+Tomato
+Bell pepper
+Hot pepper
+Eggplant
+Bread
+Croissant
+Glass of milk
+Hot beverage
+Honey pot
+Chocolate bar
+Cookie
+Doughnut
+Ice cream
+Birthday cake
+Pancakes
+Popcorn
+Lollipop
+Pizza
+Hamburger
+French fries
+Taco
+Sushi
+Fork and knife
+Bottle with popping cork
+Clinking glasses
+Wine glass
+Beer mug
+Tropical drink
+
+# nature
+Sun
+Sun with face
+Sunrise
+Sunrise over mountains
+Sunset
+Cloud
+Cloud with rain
+Cloud with lightning
+Cloud with lightning and rain
+Snowflake
+Rainbow
+Crescent moon
+Full moon
+Night with stars
+Milky way
+Mountain
+Snow-capped mountain
+Volcano
+Desert island
+Beach with umbrella
+Water wave
+Droplet
+Tornado
+Palm tree
+Cactus
+Seedling
+Four leaf clover
+Sunflower
+Rose
+Tulip
+Cherry blossom
+Maple leaf
+Globe showing europe-africa
+Globe with meridians
+
+# places
+House
+Cityscape
+Tent
+Hot springs
+World map
+Compass
+Airplane
+Automobile
+Racing car
+Motorcycle
+Sailboat
+
+# objects
+Gear
+Hammer
+Wrench
+Hammer and wrench
+Brick
+Puzzle piece
+Game die
+Joystick
+Video game
+Headphone
+Musical note
+Musical notes
+Guitar
+Calendar
+Mobile phone
+Laptop
+Clipboard
+Memo
+Pencil
+Chart increasing
+Bar chart
+Balance scale
+Books
+Open book
+Graduation cap
+Money bag
+Coin
+Locked
+Unlocked
+Key
+Dna
+Pill
+Stethoscope
+Adhesive bandage
+Speech balloon
+Thought balloon

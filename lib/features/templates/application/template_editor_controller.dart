@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
+import 'package:repster/features/templates/domain/session_emoji.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
@@ -17,18 +19,26 @@ class TemplateEditorState with _$TemplateEditorState {
     required String description,
     required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
+    required FluentEmoji emoji,
   }) = _TemplateEditorState;
 
   const TemplateEditorState._();
 
-  factory TemplateEditorState.empty() =>
-      const TemplateEditorState(name: '', description: '', tags: [], slots: []);
+  factory TemplateEditorState.empty() => const TemplateEditorState(
+    name: '',
+    description: '',
+    tags: [],
+    slots: [],
+    emoji: kDefaultSessionEmoji,
+  );
 
   factory TemplateEditorState.fromTemplate(Template t) => TemplateEditorState(
     name: t.name,
     description: t.description,
     tags: t.tags,
     slots: t.slots,
+    // What the card shows, so saving an old template persists its fallback.
+    emoji: t.displayEmoji,
   );
 
   bool get isValid =>
@@ -48,6 +58,7 @@ class TemplateEditorController
 
   void setName(String v) => state = state.copyWith(name: v);
   void setDescription(String v) => state = state.copyWith(description: v);
+  void setEmoji(FluentEmoji e) => state = state.copyWith(emoji: e);
 
   void toggleTag(MuscleGroup g) {
     final has = state.tags.contains(g);

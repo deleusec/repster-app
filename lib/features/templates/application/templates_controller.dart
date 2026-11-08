@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/dashboard/application/dashboard_controller.dart';
 import 'package:repster/features/templates/data/templates_repository.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
@@ -27,12 +28,14 @@ class TemplatesController extends AsyncNotifier<List<Template>> {
     required String description,
     required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
+    required FluentEmoji emoji,
   }) async {
     final id = await _repo.create(
       name: name,
       description: description,
       tags: tags,
       slots: slots,
+      emoji: emoji,
     );
     await refresh();
     _syncDashboard();
@@ -45,6 +48,7 @@ class TemplatesController extends AsyncNotifier<List<Template>> {
     required String description,
     required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
+    required FluentEmoji emoji,
   }) async {
     await _repo.update(
       id: id,
@@ -52,6 +56,7 @@ class TemplatesController extends AsyncNotifier<List<Template>> {
       description: description,
       tags: tags,
       slots: slots,
+      emoji: emoji,
     );
     await refresh();
     _syncDashboard();

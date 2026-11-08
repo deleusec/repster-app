@@ -70,6 +70,7 @@
     "nameHint": "e.g. Chest / Triceps / Shoulders",
     "description": "Description (optional)",
     "descriptionHint": "Describe your session…",
+    "emoji": "Picture",
     "muscleGroups": "Muscle groups",
     "selectedCount": {
       "one": "{{n}} selected",
@@ -97,5 +98,11 @@
     "supersetLabel": "SUPERSET",
     "reps": "Reps",
     "time": "Time"
+  },
+  "emojiPicker": {
+    "title": "Session picture",
+    "searchHint": "Search an emoji…",
+    "noResults": "No emoji matches.",
+    "change": "Change"
   }
 }

@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
+import 'package:repster/features/templates/domain/session_emoji.dart';
 
 part 'workout_session_summary.freezed.dart';
 
@@ -24,7 +26,13 @@ class WorkoutSessionSummary with _$WorkoutSessionSummary {
     /// Seconds held on time-based exercises. Kept apart from the tonnage:
     /// seconds and reps are not the same unit.
     @Default(0) int timeUnderTensionSec,
+
+    /// Picture snapshotted from the template at session start; `null` for
+    /// sessions older than the picker or started from the PWA.
+    FluentEmoji? emoji,
   }) = _WorkoutSessionSummary;
 
   const WorkoutSessionSummary._();
+
+  FluentEmoji get displayEmoji => sessionEmoji(emoji, tags);
 }

@@ -26,6 +26,11 @@ mixin _$Template {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
+  /// The picture chosen for the session. `null` on rows older than the
+  /// picker or written by the PWA: [displayEmoji] then falls back on the
+  /// first muscle group's.
+  FluentEmoji? get emoji => throw _privateConstructorUsedError;
+
   /// Create a copy of Template
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -47,6 +52,7 @@ abstract class $TemplateCopyWith<$Res> {
     bool isActive,
     DateTime createdAt,
     DateTime updatedAt,
+    FluentEmoji? emoji,
   });
 }
 
@@ -73,6 +79,7 @@ class _$TemplateCopyWithImpl<$Res, $Val extends Template>
     Object? isActive = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? emoji = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -108,6 +115,10 @@ class _$TemplateCopyWithImpl<$Res, $Val extends Template>
                 ? _value.updatedAt
                 : updatedAt // ignore: cast_nullable_to_non_nullable
                       as DateTime,
+            emoji: freezed == emoji
+                ? _value.emoji
+                : emoji // ignore: cast_nullable_to_non_nullable
+                      as FluentEmoji?,
           )
           as $Val,
     );
@@ -132,6 +143,7 @@ abstract class _$$TemplateImplCopyWith<$Res>
     bool isActive,
     DateTime createdAt,
     DateTime updatedAt,
+    FluentEmoji? emoji,
   });
 }
 
@@ -157,6 +169,7 @@ class __$$TemplateImplCopyWithImpl<$Res>
     Object? isActive = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? emoji = freezed,
   }) {
     return _then(
       _$TemplateImpl(
@@ -192,6 +205,10 @@ class __$$TemplateImplCopyWithImpl<$Res>
             ? _value.updatedAt
             : updatedAt // ignore: cast_nullable_to_non_nullable
                   as DateTime,
+        emoji: freezed == emoji
+            ? _value.emoji
+            : emoji // ignore: cast_nullable_to_non_nullable
+                  as FluentEmoji?,
       ),
     );
   }
@@ -209,6 +226,7 @@ class _$TemplateImpl extends _Template {
     required this.isActive,
     required this.createdAt,
     required this.updatedAt,
+    this.emoji,
   }) : _tags = tags,
        _slots = slots,
        super._();
@@ -242,9 +260,15 @@ class _$TemplateImpl extends _Template {
   @override
   final DateTime updatedAt;
 
+  /// The picture chosen for the session. `null` on rows older than the
+  /// picker or written by the PWA: [displayEmoji] then falls back on the
+  /// first muscle group's.
+  @override
+  final FluentEmoji? emoji;
+
   @override
   String toString() {
-    return 'Template(id: $id, name: $name, description: $description, tags: $tags, slots: $slots, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Template(id: $id, name: $name, description: $description, tags: $tags, slots: $slots, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, emoji: $emoji)';
   }
 
   @override
@@ -263,7 +287,8 @@ class _$TemplateImpl extends _Template {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.emoji, emoji) || other.emoji == emoji));
   }
 
   @override
@@ -277,6 +302,7 @@ class _$TemplateImpl extends _Template {
     isActive,
     createdAt,
     updatedAt,
+    emoji,
   );
 
   /// Create a copy of Template
@@ -298,6 +324,7 @@ abstract class _Template extends Template {
     required final bool isActive,
     required final DateTime createdAt,
     required final DateTime updatedAt,
+    final FluentEmoji? emoji,
   }) = _$TemplateImpl;
   const _Template._() : super._();
 
@@ -317,6 +344,12 @@ abstract class _Template extends Template {
   DateTime get createdAt;
   @override
   DateTime get updatedAt;
+
+  /// The picture chosen for the session. `null` on rows older than the
+  /// picker or written by the PWA: [displayEmoji] then falls back on the
+  /// first muscle group's.
+  @override
+  FluentEmoji? get emoji;
 
   /// Create a copy of Template
   /// with the given fields replaced by the non-null parameter values.

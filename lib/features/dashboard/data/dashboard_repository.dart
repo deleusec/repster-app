@@ -58,6 +58,7 @@ class DashboardRepository {
           .from('workout_sessions')
           .select('''
 id, template_id, template_name, started_at, completed_at, duration_seconds, tags,
+emoji,
 session_exercises (
   is_time_based,
   session_sets (

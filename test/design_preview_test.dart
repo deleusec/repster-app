@@ -16,6 +16,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/core/theme/app_theme.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
@@ -41,6 +42,7 @@ import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
+import 'package:repster/features/templates/presentation/template_edit_screen.dart';
 import 'package:repster/features/templates/presentation/templates_screen.dart';
 import 'package:repster/i18n/translations.g.dart';
 
@@ -79,12 +81,14 @@ Template _tpl(
   String id,
   String name,
   List<MuscleGroup> tags,
-  List<String> ex,
-) => Template(
+  List<String> ex, {
+  FluentEmoji? emoji,
+}) => Template(
   id: id,
   name: name,
   description: '',
   tags: tags,
+  emoji: emoji,
   slots: [for (var i = 0; i < ex.length; i++) _slot(i, ex[i])],
   isActive: true,
   createdAt: DateTime(2026, 3),
@@ -103,6 +107,7 @@ final _templates = [
       'Élévations latérales',
       'Extension triceps poulie',
     ],
+    emoji: FluentEmojis.fire,
   ),
   _tpl(
     't2',
@@ -346,6 +351,13 @@ Future<void> _shoot(
     await act(tester);
     await tester.pump(const Duration(milliseconds: 1500));
   }
+  // Asset images (the Fluent emoji) decode on real I/O, which only runs
+  // inside `runAsync`; give them a moment, then paint the decoded frames.
+  await tester.runAsync(
+    () => Future<void>.delayed(const Duration(milliseconds: 600)),
+  );
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 300));
   await tester.runAsync(() async {
     final boundary =
         key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
@@ -394,6 +406,29 @@ void main() {
       height: 1100,
       act: (w) async {
         await w.tap(find.text(t.templates.list.manage));
+      },
+    );
+  });
+  testWidgets('template edit', (t) async {
+    await _shoot(
+      t,
+      'template_edit',
+      const TemplateEditScreen(),
+      common,
+      height: 1100,
+    );
+  });
+  testWidgets('emoji picker', (tester) async {
+    await _shoot(
+      tester,
+      'emoji_picker',
+      const TemplateEditScreen(),
+      common,
+      height: 1100,
+      act: (w) async {
+        await w.tap(find.text(t.templates.emojiPicker.change));
+        await w.pump(const Duration(milliseconds: 600));
+        await w.enterText(find.byType(TextField).last, 'fe');
       },
     );
   });

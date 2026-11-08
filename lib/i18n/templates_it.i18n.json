@@ -70,6 +70,7 @@
     "nameHint": "es.: Petto / Tricipiti / Spalle",
     "description": "Descrizione (opzionale)",
     "descriptionHint": "Descrivi la tua sessione…",
+    "emoji": "Immagine",
     "muscleGroups": "Gruppi muscolari",
     "selectedCount": {
       "one": "{{n}} selezionato",
@@ -97,5 +98,11 @@
     "supersetLabel": "SUPERSERIE",
     "reps": "Ripetizioni",
     "time": "Tempo"
+  },
+  "emojiPicker": {
+    "title": "Immagine della sessione",
+    "searchHint": "Cerca un emoji…",
+    "noResults": "Nessun emoji corrisponde.",
+    "change": "Cambia"
   }
 }

@@ -10,6 +10,7 @@ import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
+import 'package:repster/shared/widgets/session_mark.dart';
 
 /// The home page's one bold element: the next session, ready to start.
 ///
@@ -86,7 +87,11 @@ class HeroCtaCard extends StatelessWidget {
               ),
             ),
           ),
-          MuscleGroupBadge(group: group),
+          SessionMark(
+            emoji: template.displayEmoji,
+            accent: group.accent,
+            size: 44,
+          ),
         ],
       ),
       const SizedBox(height: 4),

@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
+import 'package:repster/features/templates/domain/session_emoji.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
 
@@ -19,9 +21,16 @@ class Template with _$Template {
     required bool isActive,
     required DateTime createdAt,
     required DateTime updatedAt,
+
+    /// The picture chosen for the session. `null` on rows older than the
+    /// picker or written by the PWA: [displayEmoji] then falls back on the
+    /// first muscle group's.
+    FluentEmoji? emoji,
   }) = _Template;
 
   const Template._();
+
+  FluentEmoji get displayEmoji => sessionEmoji(emoji, tags);
 
   /// Flat list of each slot's primary variant, in order. Useful for screens
   /// that don't show the alternative variants (dashboard, list).

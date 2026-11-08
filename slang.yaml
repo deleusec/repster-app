@@ -12,3 +12,8 @@ enum_name: AppLocale
 # le changement de langue synchrone (`setLocaleSync`) fonctionne partout, y
 # compris sur le web. Volume négligeable (~500 clés × 5 langues).
 lazy: false
+
+# Emoji names are looked up by catalogue key (`t.emoji.labels[key]`).
+maps:
+  - emoji.groups
+  - emoji.labels

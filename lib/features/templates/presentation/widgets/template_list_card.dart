@@ -11,6 +11,7 @@ import 'package:repster/shared/l10n/muscle_group_l10n.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/pressable.dart';
+import 'package:repster/shared/widgets/session_mark.dart';
 
 /// Template card in the list (Templates page): group thumbnail, name +
 /// description + tags + exercise count, and — depending on the mode — either an
@@ -87,7 +88,11 @@ class TemplateListCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MuscleGroupBadge(group: group, size: 44, fontSize: 22),
+          SessionMark(
+            emoji: template.displayEmoji,
+            accent: group.accent,
+            size: 44,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

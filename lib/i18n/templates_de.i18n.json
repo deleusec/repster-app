@@ -70,6 +70,7 @@
     "nameHint": "z. B. Brust / Trizeps / Schultern",
     "description": "Beschreibung (optional)",
     "descriptionHint": "Beschreibe deine Einheit…",
+    "emoji": "Bild",
     "muscleGroups": "Muskelgruppen",
     "selectedCount": {
       "one": "{{n}} ausgewählt",
@@ -97,5 +98,11 @@
     "supersetLabel": "SUPERSATZ",
     "reps": "Wiederholungen",
     "time": "Zeit"
+  },
+  "emojiPicker": {
+    "title": "Bild der Einheit",
+    "searchHint": "Emoji suchen…",
+    "noResults": "Kein Emoji passt.",
+    "change": "Ändern"
   }
 }

@@ -1,3 +1,4 @@
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 
@@ -44,6 +45,7 @@ class WorkoutSessionSummaryDto {
       timeUnderTensionSec: tensionSec,
       totalSets: totalSets,
       tags: MuscleGroup.listFromDb(row['tags'] as List<dynamic>?),
+      emoji: FluentEmoji.fromKey(row['emoji'] as String?),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
+import 'package:repster/shared/widgets/session_mark.dart';
 
 /// Recent session row: group thumbnail, name + date·duration, and the
 /// tonnage on the right — the figure the session is remembered by.
@@ -29,7 +30,7 @@ class RecentSessionCard extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
       child: Row(
         children: [
-          MuscleGroupBadge(group: group),
+          SessionMark(emoji: summary.displayEmoji, accent: group.accent),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

@@ -33,6 +33,10 @@ mixin _$WorkoutSessionSummary {
   /// seconds and reps are not the same unit.
   int get timeUnderTensionSec => throw _privateConstructorUsedError;
 
+  /// Picture snapshotted from the template at session start; `null` for
+  /// sessions older than the picker or started from the PWA.
+  FluentEmoji? get emoji => throw _privateConstructorUsedError;
+
   /// Create a copy of WorkoutSessionSummary
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -57,6 +61,7 @@ abstract class $WorkoutSessionSummaryCopyWith<$Res> {
     int totalSets,
     List<MuscleGroup> tags,
     int timeUnderTensionSec,
+    FluentEmoji? emoji,
   });
 }
 
@@ -87,6 +92,7 @@ class _$WorkoutSessionSummaryCopyWithImpl<
     Object? totalSets = null,
     Object? tags = null,
     Object? timeUnderTensionSec = null,
+    Object? emoji = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -126,6 +132,10 @@ class _$WorkoutSessionSummaryCopyWithImpl<
                 ? _value.timeUnderTensionSec
                 : timeUnderTensionSec // ignore: cast_nullable_to_non_nullable
                       as int,
+            emoji: freezed == emoji
+                ? _value.emoji
+                : emoji // ignore: cast_nullable_to_non_nullable
+                      as FluentEmoji?,
           )
           as $Val,
     );
@@ -151,6 +161,7 @@ abstract class _$$WorkoutSessionSummaryImplCopyWith<$Res>
     int totalSets,
     List<MuscleGroup> tags,
     int timeUnderTensionSec,
+    FluentEmoji? emoji,
   });
 }
 
@@ -178,6 +189,7 @@ class __$$WorkoutSessionSummaryImplCopyWithImpl<$Res>
     Object? totalSets = null,
     Object? tags = null,
     Object? timeUnderTensionSec = null,
+    Object? emoji = freezed,
   }) {
     return _then(
       _$WorkoutSessionSummaryImpl(
@@ -217,6 +229,10 @@ class __$$WorkoutSessionSummaryImplCopyWithImpl<$Res>
             ? _value.timeUnderTensionSec
             : timeUnderTensionSec // ignore: cast_nullable_to_non_nullable
                   as int,
+        emoji: freezed == emoji
+            ? _value.emoji
+            : emoji // ignore: cast_nullable_to_non_nullable
+                  as FluentEmoji?,
       ),
     );
   }
@@ -235,6 +251,7 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
     required this.totalSets,
     required final List<MuscleGroup> tags,
     this.timeUnderTensionSec = 0,
+    this.emoji,
   }) : _tags = tags,
        super._();
 
@@ -269,9 +286,14 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
   @JsonKey()
   final int timeUnderTensionSec;
 
+  /// Picture snapshotted from the template at session start; `null` for
+  /// sessions older than the picker or started from the PWA.
+  @override
+  final FluentEmoji? emoji;
+
   @override
   String toString() {
-    return 'WorkoutSessionSummary(id: $id, templateName: $templateName, templateId: $templateId, startedAt: $startedAt, durationSeconds: $durationSeconds, totalTonnageKg: $totalTonnageKg, totalSets: $totalSets, tags: $tags, timeUnderTensionSec: $timeUnderTensionSec)';
+    return 'WorkoutSessionSummary(id: $id, templateName: $templateName, templateId: $templateId, startedAt: $startedAt, durationSeconds: $durationSeconds, totalTonnageKg: $totalTonnageKg, totalSets: $totalSets, tags: $tags, timeUnderTensionSec: $timeUnderTensionSec, emoji: $emoji)';
   }
 
   @override
@@ -294,7 +316,8 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
                 other.totalSets == totalSets) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.timeUnderTensionSec, timeUnderTensionSec) ||
-                other.timeUnderTensionSec == timeUnderTensionSec));
+                other.timeUnderTensionSec == timeUnderTensionSec) &&
+            (identical(other.emoji, emoji) || other.emoji == emoji));
   }
 
   @override
@@ -309,6 +332,7 @@ class _$WorkoutSessionSummaryImpl extends _WorkoutSessionSummary {
     totalSets,
     const DeepCollectionEquality().hash(_tags),
     timeUnderTensionSec,
+    emoji,
   );
 
   /// Create a copy of WorkoutSessionSummary
@@ -335,6 +359,7 @@ abstract class _WorkoutSessionSummary extends WorkoutSessionSummary {
     required final int totalSets,
     required final List<MuscleGroup> tags,
     final int timeUnderTensionSec,
+    final FluentEmoji? emoji,
   }) = _$WorkoutSessionSummaryImpl;
   const _WorkoutSessionSummary._() : super._();
 
@@ -362,6 +387,11 @@ abstract class _WorkoutSessionSummary extends WorkoutSessionSummary {
   /// seconds and reps are not the same unit.
   @override
   int get timeUnderTensionSec;
+
+  /// Picture snapshotted from the template at session start; `null` for
+  /// sessions older than the picker or started from the PWA.
+  @override
+  FluentEmoji? get emoji;
 
   /// Create a copy of WorkoutSessionSummary
   /// with the given fields replaced by the non-null parameter values.

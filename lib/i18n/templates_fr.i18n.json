@@ -70,6 +70,7 @@
     "nameHint": "ex : Pec / Triceps / Épaules",
     "description": "Description (optionnel)",
     "descriptionHint": "Décris ta séance…",
+    "emoji": "Image",
     "muscleGroups": "Groupes musculaires",
     "selectedCount": {
       "one": "{{n}} sélectionné",
@@ -97,5 +98,11 @@
     "supersetLabel": "SUPERSET",
     "reps": "Répétitions",
     "time": "Temps"
+  },
+  "emojiPicker": {
+    "title": "Image de la séance",
+    "searchHint": "Chercher un emoji…",
+    "noResults": "Aucun emoji ne correspond.",
+    "change": "Modifier"
   }
 }

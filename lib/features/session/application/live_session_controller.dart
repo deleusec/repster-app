@@ -717,6 +717,7 @@ class LiveSessionController extends AutoDisposeNotifier<LiveSessionState> {
         description: template.description,
         tags: template.tags,
         slots: slots,
+        emoji: template.displayEmoji,
       );
       // The dashboard carousel holds its own copy of the templates.
       ref

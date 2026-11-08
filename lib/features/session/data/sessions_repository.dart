@@ -60,6 +60,7 @@ class SessionsRepository {
             'template_id': template.id,
             'template_name': template.name,
             'tags': template.tags.map((t) => t.toDb()).toList(),
+            'emoji': template.emoji?.key,
             'started_at': DateTime.now().toUtc().toIso8601String(),
           })
           .select('id')
@@ -591,7 +592,7 @@ session_exercises (
   /// catalog join they never display. Mirrors `dashboard_repository`.
   static const _historySummarySelect = '''
 id, template_id, template_name, started_at, completed_at, duration_seconds,
-tags,
+tags, emoji,
 session_exercises (
   is_time_based,
   session_sets (

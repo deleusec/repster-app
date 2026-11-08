@@ -69,6 +69,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/audio/
+    - assets/emoji/fluent/
     - assets/images/
   # Bundled Manrope (same family as the PWA), so text renders identically
   # offline and with no fetch/flash — see lib/core/theme/app_theme.dart.

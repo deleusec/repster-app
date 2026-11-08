@@ -14,6 +14,7 @@ import 'package:repster/shared/util/format.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/pressable.dart';
+import 'package:repster/shared/widgets/session_mark.dart';
 
 /// History session card: group badge, name + date/time, metrics
 /// (duration / emerald volume / sets), tags, and a delete bar with inline
@@ -59,7 +60,11 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MuscleGroupBadge(group: group, size: 44, fontSize: 22),
+                  SessionMark(
+                    emoji: s.displayEmoji,
+                    accent: group.accent,
+                    size: 44,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(child: _content(scheme)),
                   const SizedBox(width: 8),

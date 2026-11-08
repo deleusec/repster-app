@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/core/error/humanize_error.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
@@ -12,6 +13,7 @@ import 'package:repster/features/templates/application/template_editor_controlle
 import 'package:repster/features/templates/application/templates_controller.dart';
 import 'package:repster/features/templates/domain/muscle_group.dart';
 import 'package:repster/features/templates/domain/template.dart';
+import 'package:repster/features/templates/presentation/widgets/emoji_picker_sheet.dart';
 import 'package:repster/features/templates/presentation/widgets/muscle_group_picker.dart';
 import 'package:repster/features/templates/presentation/widgets/slot_editor_card.dart';
 import 'package:repster/i18n/translations.g.dart';
@@ -19,6 +21,7 @@ import 'package:repster/shared/widgets/app_loading.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
 import 'package:repster/shared/widgets/form_error_box.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
+import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 
 class TemplateEditScreen extends ConsumerStatefulWidget {
   const TemplateEditScreen({this.templateId, super.key});
@@ -90,6 +93,7 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
           description: ed.description,
           tags: ed.tags,
           slots: ed.slots,
+          emoji: ed.emoji,
         );
         if (!mounted) return;
         context.pushReplacement('/templates/$id');
@@ -100,6 +104,7 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
           description: ed.description,
           tags: ed.tags,
           slots: ed.slots,
+          emoji: ed.emoji,
         );
         if (!mounted) return;
         context.pop();
@@ -170,6 +175,7 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
               },
               onDescription: ctl.setDescription,
               onToggleTag: ctl.toggleTag,
+              onEmoji: ctl.setEmoji,
             ),
             const SizedBox(height: 20),
             Padding(
@@ -333,6 +339,7 @@ class _InfoCard extends StatelessWidget {
     required this.onName,
     required this.onDescription,
     required this.onToggleTag,
+    required this.onEmoji,
   });
 
   final TextEditingController nameCtl;
@@ -341,16 +348,24 @@ class _InfoCard extends StatelessWidget {
   final ValueChanged<String> onName;
   final ValueChanged<String> onDescription;
   final ValueChanged<MuscleGroup> onToggleTag;
+  final ValueChanged<FluentEmoji> onEmoji;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final accent = editor.tags.isEmpty
+        ? MuscleGroup.custom.accent
+        : editor.tags.first.accent;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: scheme.translucentCard,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          _FieldLabel(t.templates.fields.emoji),
+          const SizedBox(height: 6),
+          EmojiField(value: editor.emoji, accent: accent, onChanged: onEmoji),
+          const SizedBox(height: 14),
           _FieldLabel(t.templates.fields.name),
           const SizedBox(height: 6),
           _Field(

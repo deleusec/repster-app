@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/features/session/application/live_session_controller.dart';
 import 'package:repster/features/session/application/live_session_state.dart';
 import 'package:repster/features/session/data/sessions_repository.dart';
@@ -66,6 +67,7 @@ class _FakeTemplatesRepo extends Fake implements TemplatesRepository {
     required String description,
     required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
+    required FluentEmoji emoji,
   }) async {
     if (updateThrows) throw Exception('update boom');
     updatedSlots = slots;

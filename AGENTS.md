@@ -172,6 +172,12 @@ Toolchain active : **freezed + json_serializable** via `build_runner`.
   explicite dit qu'on avale aussi les `Error`. Un type précis
   (`on AppAuthException catch`) reste préférable quand on sait quoi rattraper.
 - **Pas d'offline** pour l'instant — connexion active supposée pendant une séance.
+- **Image de séance = emoji Fluent 3D** (`lib/core/emoji`, assets
+  `assets/emoji/fluent/*.webp`), jamais un emoji système. Pour en ajouter :
+  éditer `tool/fluent_emoji/selection.txt`, lancer
+  `python3 tool/fluent_emoji/fetch.py` (régénère le catalogue Dart et
+  `emoji_en.i18n.json`), puis traduire les clés listées dans
+  `emoji_{fr,es,de,it}.i18n.json` — `test/fluent_emoji_test.dart` veille.
 
 ## Standards détaillés — `.claude/standards/`
 

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/core/error/app_exception.dart';
 import 'package:repster/core/exercises/exercise_identity.dart';
 import 'package:repster/core/supabase/postgrest_error_x.dart';
@@ -38,7 +39,7 @@ class TemplatesRepository {
 
   static const _selectAll =
       '''
-id, name, description, tags, position, is_active, created_at, updated_at,
+id, name, description, tags, emoji, position, is_active, created_at, updated_at,
 template_exercises (
   id, exercise_id, position, sets_count, reps_target, tempo, rest_seconds,
   notes, is_time_based, duration_seconds, slot_id, variant_position,
@@ -89,6 +90,7 @@ template_exercises (
     required String description,
     required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
+    required FluentEmoji emoji,
   }) async {
     try {
       final normalized = _normalizeSlots(slots);
@@ -102,6 +104,7 @@ template_exercises (
                 ? null
                 : description.trim(),
             'tags': tags.map((t) => t.toDb()).toList(),
+            'emoji': emoji.key,
             'position': nextPosition,
           })
           .select('id')
@@ -123,6 +126,7 @@ template_exercises (
     required String description,
     required List<MuscleGroup> tags,
     required List<TemplateSlot> slots,
+    required FluentEmoji emoji,
   }) async {
     try {
       final normalized = _normalizeSlots(slots);
@@ -134,6 +138,7 @@ template_exercises (
                 ? null
                 : description.trim(),
             'tags': tags.map((t) => t.toDb()).toList(),
+            'emoji': emoji.key,
           })
           .eq('id', id)
           .eq('user_id', _userId);
@@ -178,6 +183,7 @@ template_exercises (
         description: source.description,
         tags: source.tags,
         slots: newSlots,
+        emoji: source.displayEmoji,
       );
     } on Object catch (e, st) {
       throw mapSupabaseError(e, st);

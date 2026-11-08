@@ -9,6 +9,7 @@ import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/muscle_group_visuals.dart';
 import 'package:repster/shared/widgets/pressable.dart';
+import 'package:repster/shared/widgets/session_mark.dart';
 
 /// Shared height for the template carousel cards. Sized to fit a 2-line name
 /// (36 thumbnail + name 2×~16 + subtitle + paddings/border) without overflow.
@@ -41,7 +42,11 @@ class TemplatePreviewCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MuscleGroupBadge(group: group, size: 36, fontSize: 18),
+            SessionMark(
+              emoji: template.displayEmoji,
+              accent: group.accent,
+              size: 36,
+            ),
             const SizedBox(height: 10),
             Text(
               template.name,

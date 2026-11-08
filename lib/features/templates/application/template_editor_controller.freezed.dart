@@ -21,6 +21,7 @@ mixin _$TemplateEditorState {
   String get description => throw _privateConstructorUsedError;
   List<MuscleGroup> get tags => throw _privateConstructorUsedError;
   List<TemplateSlot> get slots => throw _privateConstructorUsedError;
+  FluentEmoji get emoji => throw _privateConstructorUsedError;
 
   /// Create a copy of TemplateEditorState
   /// with the given fields replaced by the non-null parameter values.
@@ -41,6 +42,7 @@ abstract class $TemplateEditorStateCopyWith<$Res> {
     String description,
     List<MuscleGroup> tags,
     List<TemplateSlot> slots,
+    FluentEmoji emoji,
   });
 }
 
@@ -63,6 +65,7 @@ class _$TemplateEditorStateCopyWithImpl<$Res, $Val extends TemplateEditorState>
     Object? description = null,
     Object? tags = null,
     Object? slots = null,
+    Object? emoji = null,
   }) {
     return _then(
       _value.copyWith(
@@ -82,6 +85,10 @@ class _$TemplateEditorStateCopyWithImpl<$Res, $Val extends TemplateEditorState>
                 ? _value.slots
                 : slots // ignore: cast_nullable_to_non_nullable
                       as List<TemplateSlot>,
+            emoji: null == emoji
+                ? _value.emoji
+                : emoji // ignore: cast_nullable_to_non_nullable
+                      as FluentEmoji,
           )
           as $Val,
     );
@@ -102,6 +109,7 @@ abstract class _$$TemplateEditorStateImplCopyWith<$Res>
     String description,
     List<MuscleGroup> tags,
     List<TemplateSlot> slots,
+    FluentEmoji emoji,
   });
 }
 
@@ -123,6 +131,7 @@ class __$$TemplateEditorStateImplCopyWithImpl<$Res>
     Object? description = null,
     Object? tags = null,
     Object? slots = null,
+    Object? emoji = null,
   }) {
     return _then(
       _$TemplateEditorStateImpl(
@@ -142,6 +151,10 @@ class __$$TemplateEditorStateImplCopyWithImpl<$Res>
             ? _value._slots
             : slots // ignore: cast_nullable_to_non_nullable
                   as List<TemplateSlot>,
+        emoji: null == emoji
+            ? _value.emoji
+            : emoji // ignore: cast_nullable_to_non_nullable
+                  as FluentEmoji,
       ),
     );
   }
@@ -155,6 +168,7 @@ class _$TemplateEditorStateImpl extends _TemplateEditorState {
     required this.description,
     required final List<MuscleGroup> tags,
     required final List<TemplateSlot> slots,
+    required this.emoji,
   }) : _tags = tags,
        _slots = slots,
        super._();
@@ -180,8 +194,11 @@ class _$TemplateEditorStateImpl extends _TemplateEditorState {
   }
 
   @override
+  final FluentEmoji emoji;
+
+  @override
   String toString() {
-    return 'TemplateEditorState(name: $name, description: $description, tags: $tags, slots: $slots)';
+    return 'TemplateEditorState(name: $name, description: $description, tags: $tags, slots: $slots, emoji: $emoji)';
   }
 
   @override
@@ -193,7 +210,8 @@ class _$TemplateEditorStateImpl extends _TemplateEditorState {
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
-            const DeepCollectionEquality().equals(other._slots, _slots));
+            const DeepCollectionEquality().equals(other._slots, _slots) &&
+            (identical(other.emoji, emoji) || other.emoji == emoji));
   }
 
   @override
@@ -203,6 +221,7 @@ class _$TemplateEditorStateImpl extends _TemplateEditorState {
     description,
     const DeepCollectionEquality().hash(_tags),
     const DeepCollectionEquality().hash(_slots),
+    emoji,
   );
 
   /// Create a copy of TemplateEditorState
@@ -223,6 +242,7 @@ abstract class _TemplateEditorState extends TemplateEditorState {
     required final String description,
     required final List<MuscleGroup> tags,
     required final List<TemplateSlot> slots,
+    required final FluentEmoji emoji,
   }) = _$TemplateEditorStateImpl;
   const _TemplateEditorState._() : super._();
 
@@ -234,6 +254,8 @@ abstract class _TemplateEditorState extends TemplateEditorState {
   List<MuscleGroup> get tags;
   @override
   List<TemplateSlot> get slots;
+  @override
+  FluentEmoji get emoji;
 
   /// Create a copy of TemplateEditorState
   /// with the given fields replaced by the non-null parameter values.

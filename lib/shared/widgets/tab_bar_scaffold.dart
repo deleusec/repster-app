@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -77,11 +78,13 @@ class _TabBar extends StatelessWidget {
 
     return Material(
       color: scheme.surface,
-      // The bottom inset is real on every platform now: native reports it,
-      // and on the web the page measures `env(safe-area-inset-bottom)` and
-      // the app merges it into MediaQuery (see `RepsterApp`).
       child: SafeArea(
         top: false,
+        // iOS standalone PWAs don't reliably report `safe-area-inset-bottom`
+        // to Flutter, so the bar ends up flush against the screen edge / home
+        // indicator. Guarantee a floor on web (the greater of this and the real
+        // inset wins, so native is unaffected).
+        minimum: const EdgeInsets.only(bottom: kIsWeb ? 20 : 0),
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(top: BorderSide(color: topBorder)),

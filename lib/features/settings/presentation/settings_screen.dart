@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +8,6 @@ import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/core/theme/app_text.dart';
-import 'package:repster/core/web/safe_area.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/auth/presentation/goal_l10n.dart';
@@ -589,22 +587,12 @@ class _VersionFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    // On the web the safe-area insets come from a measurement the page
-    // makes (see `measuredSafeArea`); showing the result here is how we
-    // check it on a real phone without a debugger attached.
-    final padding = MediaQuery.paddingOf(context);
-    final insets = kIsWeb
-        ? '\ninsets ${padding.top.round()}/${padding.bottom.round()} · '
-              '${webDiagnostics()}'
-        : '';
     return Center(
       child: Text(
-        '${t.settings.version}$insets',
-        textAlign: TextAlign.center,
+        t.settings.version,
         style: TextStyle(
           fontSize: 10,
-          height: 1.5,
-          color: onSurface.withValues(alpha: kIsWeb ? 0.4 : 0.15),
+          color: onSurface.withValues(alpha: 0.15),
         ),
       ),
     );

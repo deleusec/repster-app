@@ -14,7 +14,7 @@ class ProfileFavoriteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     final accent = favorite.group.accent;
     final count = favorite.sessionCount;
     return Container(
@@ -38,10 +38,7 @@ class ProfileFavoriteCard extends StatelessWidget {
           ),
           Text(
             t.profile.sessionCount(n: count),
-            style: TextStyle(
-              fontSize: 12,
-              color: onSurface.withValues(alpha: 0.3),
-            ),
+            style: TextStyle(fontSize: 12, color: scheme.textTertiary),
           ),
         ],
       ),

@@ -7,6 +7,7 @@ import 'package:repster/features/session/domain/last_perf.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Small info pill (timed, tempo, rest, ...).
 class MetaChip extends StatelessWidget {
@@ -166,9 +167,9 @@ class ExerciseLastPerfs extends StatelessWidget {
           if (onTap == null)
             header
           else
-            InkWell(
+            Pressable(
               onTap: onTap,
-              borderRadius: BorderRadius.circular(AppRadius.controlSm),
+              scale: 1,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 child: header,
@@ -278,7 +279,7 @@ class ExerciseActions extends StatelessWidget {
         if (hasVariants && onVariants != null) ...[
           _ActionButton(
             icon: LucideIcons.shuffle,
-            tint: Theme.of(context).colorScheme.primary,
+            tint: Theme.of(context).colorScheme.glow,
             badge: ex.variants!.length,
             onTap: onVariants!,
           ),
@@ -332,21 +333,21 @@ class _ActionButton extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Material(
-          color: onSurface.withValues(alpha: 0.06),
-          borderRadius: BorderRadius.circular(AppRadius.controlSm),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(AppRadius.controlSm),
-            onTap: onTap,
-            child: Container(
-              width: 38,
-              height: 38,
-              alignment: Alignment.center,
-              child: Icon(
-                icon,
-                size: 17,
-                color: tint ?? onSurface.withValues(alpha: 0.7),
-              ),
+        Pressable(
+          onTap: onTap,
+          scale: 0.9,
+          child: Container(
+            width: 38,
+            height: 38,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: onSurface.withValues(alpha: 0.06),
+              borderRadius: BorderRadius.circular(AppRadius.controlSm),
+            ),
+            child: Icon(
+              icon,
+              size: 17,
+              color: tint ?? onSurface.withValues(alpha: 0.7),
             ),
           ),
         ),
@@ -360,7 +361,7 @@ class _ActionButton extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: scheme.primary,
+                color: scheme.glow,
                 borderRadius: BorderRadius.circular(AppRadius.pill),
               ),
               child: Text(

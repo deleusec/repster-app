@@ -11,6 +11,7 @@ import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/presentation/widgets/exercise_meta.dart';
 import 'package:repster/features/session/presentation/widgets/set_card.dart';
 import 'package:repster/i18n/translations.g.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Superset block view: all exercises on one page, sets interleaved (S1 A,
 /// S1 B, S2 A, ...) with A/B tone dots.
@@ -33,7 +34,7 @@ class SupersetBlockView extends ConsumerWidget {
   Color _tone(BuildContext context, int idx) {
     final scheme = Theme.of(context).colorScheme;
     return switch (idx % 3) {
-      0 => scheme.primary,
+      0 => scheme.glow,
       1 => scheme.onSurface.withValues(alpha: 0.7),
       _ => scheme.onSurface.withValues(alpha: 0.45),
     };
@@ -62,14 +63,14 @@ class SupersetBlockView extends ConsumerWidget {
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
           decoration: BoxDecoration(
-            color: scheme.primary.withValues(alpha: 0.15),
+            color: scheme.glow.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(AppRadius.pill),
-            border: Border.all(color: scheme.primary.withValues(alpha: 0.25)),
+            border: Border.all(color: scheme.glow.withValues(alpha: 0.25)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(LucideIcons.link2, size: 11, color: scheme.primary),
+              Icon(LucideIcons.link2, size: 11, color: scheme.glow),
               const SizedBox(width: 4),
               Text(
                 t.session.superset.badge(n: exos.length),
@@ -77,7 +78,7 @@ class SupersetBlockView extends ConsumerWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.5,
-                  color: scheme.primary,
+                  color: scheme.glow,
                 ),
               ),
             ],
@@ -180,7 +181,7 @@ class _ExoHeader extends StatelessWidget {
                   letterSpacing: 1,
                   height: 1,
                   color: isFirst
-                      ? scheme.primary.withValues(alpha: 0.8)
+                      ? scheme.glow.withValues(alpha: 0.85)
                       : onSurface.withValues(alpha: 0.35),
                 ),
               ),
@@ -189,7 +190,7 @@ class _ExoHeader extends StatelessWidget {
                 child: Container(
                   height: 1,
                   color: isFirst
-                      ? scheme.primary.withValues(alpha: 0.4)
+                      ? scheme.glow.withValues(alpha: 0.4)
                       : onSurface.withValues(alpha: 0.15),
                 ),
               ),
@@ -360,46 +361,38 @@ class _AddSetToExo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        onTap: onTap,
-        child: Container(
-          height: 44,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.xl),
-            border: Border.all(color: onSurface.withValues(alpha: 0.12)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                LucideIcons.plus,
-                size: 15,
-                color: onSurface.withValues(alpha: 0.6),
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  t.session.superset.addSetTo(
-                    letter: label,
-                    name: exerciseName,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: onSurface.withValues(alpha: 0.6),
-                  ),
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        height: 44,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(color: onSurface.withValues(alpha: 0.12)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              LucideIcons.plus,
+              size: 15,
+              color: onSurface.withValues(alpha: 0.6),
+            ),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                t.session.superset.addSetTo(letter: label, name: exerciseName),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: onSurface.withValues(alpha: 0.6),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

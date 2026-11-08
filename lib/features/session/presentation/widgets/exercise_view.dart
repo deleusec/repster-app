@@ -11,6 +11,7 @@ import 'package:repster/features/session/presentation/widgets/exercise_meta.dart
 import 'package:repster/features/session/presentation/widgets/set_card.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Standalone exercise page: header (title, actions, meta, last time), set
 /// list, add-set button and volume summary.
@@ -185,39 +186,30 @@ class _AddSetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        onTap: onTap,
-        child: Container(
-          height: 48,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.xl),
-            border: Border.all(color: onSurface.withValues(alpha: 0.15)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                LucideIcons.plus,
-                size: 16,
-                color: onSurface.withValues(alpha: 0.6),
+    final scheme = Theme.of(context).colorScheme;
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        height: 48,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(color: scheme.onSurface.withValues(alpha: 0.14)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(LucideIcons.plus, size: 16, color: scheme.textSecondary),
+            const SizedBox(width: 8),
+            Text(
+              t.session.set.addSet,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: scheme.textSecondary,
               ),
-              const SizedBox(width: 8),
-              Text(
-                t.session.set.addSet,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: onSurface.withValues(alpha: 0.6),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

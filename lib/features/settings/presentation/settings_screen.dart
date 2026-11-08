@@ -7,6 +7,7 @@ import 'package:repster/core/error/humanize_error.dart';
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/auth/presentation/goal_l10n.dart';
@@ -15,9 +16,12 @@ import 'package:repster/features/settings/presentation/widgets/language_picker_s
 import 'package:repster/features/templates/application/templates_controller.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/animation/staggered_list.dart';
+import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 import 'package:repster/shared/widgets/icon_chip.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
 import 'package:repster/shared/widgets/section_label.dart';
 
@@ -186,8 +190,7 @@ class _ProfileCardError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return Container(
-      decoration: scheme.translucentCard,
+    return EdgeLitSurface(
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
@@ -204,28 +207,25 @@ class _ProfileCardError extends StatelessWidget {
               children: [
                 Text(
                   t.settings.profileUnavailable,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: scheme.onSurface.withValues(alpha: 0.85),
-                  ),
+                  style: AppText.bodyStrong.copyWith(color: scheme.textPrimary),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   humanizeAppError(error),
-                  style: TextStyle(
-                    fontSize: 12,
+                  style: AppText.caption.copyWith(
                     height: 1.4,
-                    color: scheme.onSurface.withValues(alpha: 0.5),
+                    color: scheme.textSecondary,
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(width: 8),
-          TextButton(
+          AppButton(
+            label: t.common.actions.retry,
+            variant: AppButtonVariant.ghost,
+            size: AppButtonSize.sm,
             onPressed: onRetry,
-            child: Text(t.common.actions.retry),
           ),
         ],
       ),
@@ -243,94 +243,76 @@ class _ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
     final goal = user.goal;
     final name = user.fullName?.trim().isNotEmpty ?? false
         ? user.fullName!.trim()
         : t.settings.defaultName;
 
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.cardLg),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.cardLg),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: onSurface.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(AppRadius.cardLg),
-            border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-          ),
-          child: Row(
-            children: [
-              _ProfileAvatar(user: user),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.2,
-                        color: onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      user.email,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: onSurface.withValues(alpha: 0.4),
-                      ),
-                    ),
-                    if (goal != null) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        '${goal.emoji} ${goal.localizedLabel}',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          color: onSurface.withValues(alpha: 0.45),
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    t.settings.editProfile,
-                    style: TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1,
-                      color: onSurface.withValues(alpha: 0.3),
-                    ),
+    return EdgeLitSurface(
+      radius: AppRadius.sheet,
+      padding: const EdgeInsets.all(16),
+      accent: scheme.glow,
+      onTap: onTap,
+      child: Row(
+        children: [
+          _ProfileAvatar(user: user),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppText.cardTitle.copyWith(
+                    fontSize: 16,
+                    letterSpacing: -0.2,
+                    color: scheme.textPrimary,
                   ),
-                  const SizedBox(height: 8),
-                  Icon(
-                    LucideIcons.chevronRight,
-                    size: 16,
-                    color: onSurface.withValues(alpha: 0.25),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  user.email,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppText.caption.copyWith(color: scheme.textSecondary),
+                ),
+                if (goal != null) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    '${goal.emoji} ${goal.localizedLabel}',
+                    style: AppText.caption.copyWith(
+                      fontSize: 11,
+                      color: scheme.textSecondary,
+                    ),
                   ),
                 ],
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                t.settings.editProfile,
+                style: AppText.microLabel.copyWith(
+                  fontSize: 9,
+                  color: scheme.textTertiary,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Icon(
+                LucideIcons.chevronRight,
+                size: 16,
+                color: scheme.textTertiary,
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
@@ -401,18 +383,8 @@ class _SettingsGroup extends StatelessWidget {
       if (i > 0) children.add(_RowDivider(color: scheme.hairline));
       children.add(rows[i]);
     }
-    return DecoratedBox(
-      decoration: scheme.translucentCard,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        // Material inside the clip so the rows' InkWell ink
-        // (splash/hover/focus) is clipped to the rounded corners here, instead
-        // of on the ancestor Material where it would bleed past them.
-        child: Material(
-          type: MaterialType.transparency,
-          child: Column(mainAxisSize: MainAxisSize.min, children: children),
-        ),
-      ),
+    return EdgeLitSurface(
+      child: Column(mainAxisSize: MainAxisSize.min, children: children),
     );
   }
 }
@@ -449,11 +421,12 @@ class _SettingsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     final badge = this.badge;
     final hint = this.hint;
-    return InkWell(
+    return Pressable(
       onTap: onTap,
+      scale: 1,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
@@ -465,11 +438,7 @@ class _SettingsRow extends StatelessWidget {
                 label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: onSurface.withValues(alpha: 0.85),
-                ),
+                style: AppText.body.copyWith(color: scheme.textPrimary),
               ),
             ),
             if (hint != null)
@@ -477,11 +446,9 @@ class _SettingsRow extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8),
                 child: Text(
                   hint.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
+                  style: AppText.microLabel.copyWith(
                     letterSpacing: 0.8,
-                    color: onSurface.withValues(alpha: 0.3),
+                    color: scheme.textTertiary,
                   ),
                 ),
               ),
@@ -490,17 +457,16 @@ class _SettingsRow extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8),
                 child: Text(
                   '$badge',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: onSurface.withValues(alpha: 0.4),
+                  style: AppText.bodyStrong.copyWith(
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                    color: scheme.textSecondary,
                   ),
                 ),
               ),
             Icon(
               LucideIcons.chevronRight,
               size: 16,
-              color: onSurface.withValues(alpha: 0.25),
+              color: scheme.textTertiary,
             ),
           ],
         ),
@@ -538,9 +504,9 @@ class _LogoutButtonState extends ConsumerState<_LogoutButton> {
       return _LogoutAction(
         icon: LucideIcons.logOut,
         label: t.settings.logout.action,
-        color: onSurface.withValues(alpha: 0.5),
+        color: scheme.textSecondary,
         background: onSurface.withValues(alpha: 0.04),
-        border: onSurface.withValues(alpha: 0.07),
+        border: onSurface.withValues(alpha: 0.08),
         onTap: () => setState(() => _confirming = true),
       );
     }
@@ -550,7 +516,7 @@ class _LogoutButtonState extends ConsumerState<_LogoutButton> {
         Expanded(
           child: _LogoutAction(
             label: t.common.actions.cancel,
-            color: onSurface.withValues(alpha: 0.6),
+            color: scheme.textSecondary,
             background: onSurface.withValues(alpha: 0.05),
             border: onSurface.withValues(alpha: 0.08),
             onTap: () => setState(() => _confirming = false),
@@ -591,36 +557,24 @@ class _LogoutAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          decoration: BoxDecoration(
-            color: background,
-            borderRadius: BorderRadius.circular(AppRadius.xl),
-            border: Border.all(color: border),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (icon != null) ...[
-                Icon(icon, size: 16, color: color),
-                const SizedBox(width: 8),
-              ],
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: color,
-                ),
-              ),
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          color: background,
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(color: border),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) ...[
+              Icon(icon, size: 16, color: color),
+              const SizedBox(width: 8),
             ],
-          ),
+            Text(label, style: AppText.bodyStrong.copyWith(color: color)),
+          ],
         ),
       ),
     );

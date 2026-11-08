@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// The 38×38 square icon button the pushed screens use in their nav bar.
 ///
@@ -30,36 +31,28 @@ class NavIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    final button = Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.controlSm),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.controlSm),
-        onTap: onTap,
-        child: Container(
-          width: 38,
-          height: 38,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: onSurface.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(AppRadius.controlSm),
-            border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-          ),
-          child: busy
-              ? SizedBox(
-                  width: 15,
-                  height: 15,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: onSurface.withValues(alpha: 0.6),
-                  ),
-                )
-              : Icon(
-                  icon,
-                  size: 17,
+    final button = Pressable(
+      onTap: onTap,
+      scale: 0.9,
+      child: Container(
+        width: 38,
+        height: 38,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: onSurface.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(AppRadius.controlSm),
+          border: Border.all(color: onSurface.withValues(alpha: 0.08)),
+        ),
+        child: busy
+            ? SizedBox(
+                width: 15,
+                height: 15,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
                   color: onSurface.withValues(alpha: 0.6),
                 ),
-        ),
+              )
+            : Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.6)),
       ),
     );
     final message = tooltip;

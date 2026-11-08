@@ -19,17 +19,14 @@ class ProfileBadgesSection extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
-          color: scheme.primary.withValues(alpha: 0.08),
+          color: scheme.glow.withValues(alpha: 0.07),
           borderRadius: BorderRadius.circular(AppRadius.card),
-          border: Border.all(color: scheme.primary.withValues(alpha: 0.15)),
+          border: Border.all(color: scheme.glow.withValues(alpha: 0.18)),
         ),
         child: Text(
           t.profile.badges.empty,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 13,
-            color: scheme.onSurface.withValues(alpha: 0.35),
-          ),
+          style: TextStyle(fontSize: 13, color: scheme.textSecondary),
         ),
       );
     }
@@ -62,7 +59,7 @@ class _BadgeChip extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: scheme.onSurface.withValues(alpha: 0.5),
+              color: scheme.textSecondary,
             ),
           ),
         ],

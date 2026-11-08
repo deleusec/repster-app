@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/auth/domain/auth_user_goal.dart';
 import 'package:repster/features/auth/presentation/goal_l10n.dart';
@@ -11,7 +12,7 @@ import 'package:repster/shared/util/format.dart';
 /// Accent color associated with a goal.
 Color _goalAccent(AuthUserGoal goal, ColorScheme scheme) => switch (goal) {
   AuthUserGoal.strength => AppColors.accentAmber,
-  AuthUserGoal.hypertrophy => scheme.primary,
+  AuthUserGoal.hypertrophy => scheme.glow,
   AuthUserGoal.endurance => AppColors.accentBlue,
   AuthUserGoal.weightLoss => AppColors.accentOrange,
   AuthUserGoal.maintenance => AppColors.accentEmerald,
@@ -26,7 +27,6 @@ class ProfileIdentityHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
     final goal = user.goal;
     final name = user.fullName?.trim().isNotEmpty ?? false
         ? user.fullName!.trim()
@@ -41,20 +41,17 @@ class ProfileIdentityHero extends StatelessWidget {
           name,
           textAlign: TextAlign.center,
           // Display name — matches the PWA's text-[1.75rem] font-black (28px).
-          style: TextStyle(
+          style: AppText.display.copyWith(
             fontSize: 28,
-            fontWeight: FontWeight.w800,
-            letterSpacing: -0.6,
-            height: 1,
-            color: onSurface,
+            color: scheme.textPrimary,
           ),
         ),
         const SizedBox(height: 6),
         Text(
           user.email,
-          style: TextStyle(
+          style: AppText.caption.copyWith(
             fontSize: 13,
-            color: onSurface.withValues(alpha: 0.35),
+            color: scheme.textSecondary,
           ),
         ),
         const SizedBox(height: 12),
@@ -67,10 +64,7 @@ class ProfileIdentityHero extends StatelessWidget {
             if (goal != null) _GoalPill(goal: goal),
             Text(
               t.profile.since(month: monthLabel(user.joinedAt)),
-              style: TextStyle(
-                fontSize: 12,
-                color: onSurface.withValues(alpha: 0.25),
-              ),
+              style: AppText.caption.copyWith(color: scheme.textTertiary),
             ),
           ],
         ),
@@ -81,10 +75,10 @@ class ProfileIdentityHero extends StatelessWidget {
             child: Text(
               bio,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: AppText.caption.copyWith(
                 fontSize: 13,
                 height: 1.45,
-                color: onSurface.withValues(alpha: 0.4),
+                color: scheme.textSecondary,
               ),
             ),
           ),

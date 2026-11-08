@@ -651,7 +651,6 @@ session_exercises (
   }
 
   // ── Internal helpers ───────────────────────────────────────────────────────
-
 }
 
 /// In-progress session snapshot fetched from Supabase.

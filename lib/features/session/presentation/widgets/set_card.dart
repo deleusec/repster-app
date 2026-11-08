@@ -9,6 +9,7 @@ import 'package:repster/features/session/presentation/widgets/stepper_control.da
 import 'package:repster/features/session/presentation/widgets/weight_ruler_picker.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 enum _Cmp { up, down, equal }
 
@@ -487,16 +488,19 @@ class TimedSetCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          TextButton(
-            onPressed: onCompleteManually,
-            style: TextButton.styleFrom(
-              foregroundColor: scheme.onSurface.withValues(alpha: 0.5),
-              minimumSize: Size.zero,
-              padding: const EdgeInsets.symmetric(vertical: 4),
-            ),
-            child: Text(
-              t.session.set.validateWithoutTimer,
-              style: const TextStyle(fontSize: 12),
+          Pressable(
+            onTap: onCompleteManually,
+            scale: 1,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Text(
+                t.session.set.validateWithoutTimer,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: scheme.textSecondary,
+                ),
+              ),
             ),
           ),
         ],
@@ -541,6 +545,7 @@ class _DoneMetric extends StatelessWidget {
             fontWeight: FontWeight.w700,
             letterSpacing: -0.5,
             height: 1,
+            fontFeatures: [FontFeature.tabularFigures()],
             color: AppColors.accentEmerald,
           ),
         ),
@@ -600,55 +605,52 @@ class _PickerField extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        Material(
-          color: accent
-              ? amber.withValues(alpha: 0.1)
-              : onSurface.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(AppRadius.xl),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(AppRadius.xl),
-            onTap: onTap,
-            child: Container(
-              height: 44,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppRadius.xl),
-                border: Border.all(
-                  color: accent
-                      ? amber.withValues(alpha: 0.4)
-                      : onSurface.withValues(alpha: 0.08),
-                ),
+        Pressable(
+          onTap: onTap,
+          scale: 0.96,
+          child: Container(
+            height: 44,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: accent
+                  ? amber.withValues(alpha: 0.1)
+                  : onSurface.withValues(alpha: 0.05),
+              borderRadius: BorderRadius.circular(AppRadius.xl),
+              border: Border.all(
+                color: accent
+                    ? amber.withValues(alpha: 0.4)
+                    : onSurface.withValues(alpha: 0.08),
               ),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
+            ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text(
+                    value,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
+                      color: accent ? amber : onSurface,
+                    ),
+                  ),
+                  if (suffix != null) ...[
+                    const SizedBox(width: 2),
                     Text(
-                      value,
-                      maxLines: 1,
+                      suffix!,
                       style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.5,
-                        color: accent ? amber : onSurface,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: onSurface.withValues(alpha: 0.5),
                       ),
                     ),
-                    if (suffix != null) ...[
-                      const SizedBox(width: 2),
-                      Text(
-                        suffix!,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: onSurface.withValues(alpha: 0.5),
-                        ),
-                      ),
-                    ],
                   ],
-                ),
+                ],
               ),
             ),
           ),
@@ -666,8 +668,9 @@ class _CheckButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return GestureDetector(
+    return Pressable(
       onTap: onTap,
+      scale: 0.9,
       child: Container(
         width: 54,
         height: 54,
@@ -676,9 +679,9 @@ class _CheckButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.xl),
           boxShadow: [
             BoxShadow(
-              color: scheme.primary.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+              color: scheme.glow.withValues(alpha: 0.32),
+              blurRadius: 14,
+              offset: const Offset(0, 5),
             ),
           ],
         ),
@@ -696,8 +699,9 @@ class _PlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const amber = AppColors.accentAmber;
-    return GestureDetector(
+    return Pressable(
       onTap: onTap,
+      scale: 0.9,
       child: Container(
         width: 54,
         height: 54,
@@ -731,16 +735,16 @@ class _MiniIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
-      color: onSurface.withValues(alpha: 0.06),
-      borderRadius: BorderRadius.circular(AppRadius.md),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Icon(icon, size: 14, color: onSurface.withValues(alpha: 0.6)),
+    return Pressable(
+      onTap: onTap,
+      scale: 0.85,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: onSurface.withValues(alpha: 0.06),
+          borderRadius: BorderRadius.circular(AppRadius.md),
         ),
+        child: Icon(icon, size: 14, color: onSurface.withValues(alpha: 0.6)),
       ),
     );
   }

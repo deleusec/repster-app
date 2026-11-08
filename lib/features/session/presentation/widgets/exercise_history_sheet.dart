@@ -121,9 +121,7 @@ class _EntryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
     final raw = DateFormat(t.session.history.dateFormat).format(entry.date);
-    final date = raw.isEmpty
-        ? raw
-        : raw[0].toUpperCase() + raw.substring(1);
+    final date = raw.isEmpty ? raw : raw[0].toUpperCase() + raw.substring(1);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

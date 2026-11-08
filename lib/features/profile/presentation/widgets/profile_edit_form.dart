@@ -15,6 +15,7 @@ import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/app_text_field.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/form_error_box.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/section_label.dart';
 
 /// Profile edit sheet: name, bio, body metrics and goal.
@@ -165,9 +166,9 @@ class _EditFormState extends ConsumerState<ProfileEditForm> {
               ),
             ),
             const SizedBox(height: 6),
-            InkWell(
+            Pressable(
               onTap: _pickDate,
-              borderRadius: BorderRadius.circular(AppRadius.xl),
+              scale: 0.98,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 14,
@@ -294,52 +295,43 @@ class _GoalTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final onSurface = scheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
+    final glow = scheme.glow;
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: selected
+              ? glow.withValues(alpha: 0.10)
+              : onSurface.withValues(alpha: 0.04),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(
             color: selected
-                ? scheme.primary.withValues(alpha: 0.12)
-                : onSurface.withValues(alpha: 0.04),
-            borderRadius: BorderRadius.circular(AppRadius.xl),
-            border: Border.all(
-              color: selected
-                  ? scheme.primary.withValues(alpha: 0.40)
-                  : onSurface.withValues(alpha: 0.07),
-            ),
+                ? glow.withValues(alpha: 0.40)
+                : onSurface.withValues(alpha: 0.08),
           ),
-          child: Row(
-            children: [
-              Text(goal.emoji, style: const TextStyle(fontSize: 20, height: 1)),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  goal.localizedLabel,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: selected
-                        ? onSurface
-                        : onSurface.withValues(alpha: 0.45),
-                  ),
+        ),
+        child: Row(
+          children: [
+            Text(goal.emoji, style: const TextStyle(fontSize: 20, height: 1)),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                goal.localizedLabel,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: selected ? scheme.textPrimary : scheme.textSecondary,
                 ),
               ),
-              if (selected)
-                Container(
-                  width: 7,
-                  height: 7,
-                  decoration: BoxDecoration(
-                    color: scheme.primary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-            ],
-          ),
+            ),
+            if (selected)
+              Container(
+                width: 7,
+                height: 7,
+                decoration: BoxDecoration(color: glow, shape: BoxShape.circle),
+              ),
+          ],
         ),
       ),
     );

@@ -3,9 +3,11 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/profile/domain/profile_stats.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/edge_lit_surface.dart';
 
 /// Three-cell summary row: sessions, tonnage, sets.
 class ProfileStatsRow extends StatelessWidget {
@@ -17,40 +19,37 @@ class ProfileStatsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final divider = scheme.hairline;
-    return Container(
+    return EdgeLitSurface(
       padding: const EdgeInsets.symmetric(vertical: 14),
-      decoration: scheme.translucentCard,
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Expanded(
-              child: _StatCell(
-                icon: LucideIcons.dumbbell,
-                tint: scheme.primary,
-                label: t.profile.stats.sessions,
-                value: '${stats.sessionCount}',
-              ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _StatCell(
+              icon: LucideIcons.dumbbell,
+              tint: scheme.glow,
+              label: t.profile.stats.sessions,
+              value: '${stats.sessionCount}',
             ),
-            Container(width: 1, color: divider),
-            Expanded(
-              child: _StatCell(
-                icon: LucideIcons.trendingUp,
-                tint: AppColors.accentEmerald,
-                label: t.profile.stats.tonnage,
-                value: formatTonnage(stats.totalTonnageKg),
-              ),
+          ),
+          Container(width: 1, height: 40, color: divider),
+          Expanded(
+            child: _StatCell(
+              icon: LucideIcons.trendingUp,
+              tint: AppColors.accentEmerald,
+              label: t.profile.stats.tonnage,
+              value: formatTonnage(stats.totalTonnageKg),
             ),
-            Container(width: 1, color: divider),
-            Expanded(
-              child: _StatCell(
-                icon: LucideIcons.flame,
-                tint: AppColors.accentAmber,
-                label: t.profile.stats.sets,
-                value: '${stats.totalSets}',
-              ),
+          ),
+          Container(width: 1, height: 40, color: divider),
+          Expanded(
+            child: _StatCell(
+              icon: LucideIcons.flame,
+              tint: AppColors.accentAmber,
+              label: t.profile.stats.sets,
+              value: '${stats.totalSets}',
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -71,7 +70,7 @@ class _StatCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -82,11 +81,10 @@ class _StatCell extends StatelessWidget {
             const SizedBox(width: 5),
             Text(
               label.toUpperCase(),
-              style: TextStyle(
+              style: AppText.microLabel.copyWith(
                 fontSize: 9,
                 fontWeight: FontWeight.w600,
-                letterSpacing: 1,
-                color: onSurface.withValues(alpha: 0.3),
+                color: scheme.textTertiary,
               ),
             ),
           ],
@@ -96,12 +94,9 @@ class _StatCell extends StatelessWidget {
           value,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w800,
+          style: AppText.statValue.copyWith(
             letterSpacing: -0.5,
-            height: 1,
-            color: onSurface,
+            color: scheme.textPrimary,
           ),
         ),
       ],

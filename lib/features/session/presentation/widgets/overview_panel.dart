@@ -8,6 +8,7 @@ import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_dialog.dart';
 import 'package:repster/shared/widgets/glass_surface.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// "Exercises" side panel: list with progress bars, edit mode (reorder, delete
 /// with confirmation) and add. Used as the session screen's `endDrawer`.
@@ -177,26 +178,22 @@ class _CloseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.controlSm),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.controlSm),
-        onTap: onTap,
-        child: Container(
-          width: 32,
-          height: 32,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: onSurface.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(AppRadius.controlSm),
-            border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-          ),
-          child: Icon(
-            LucideIcons.x,
-            size: 16,
-            color: onSurface.withValues(alpha: 0.6),
-          ),
+    return Pressable(
+      onTap: onTap,
+      scale: 0.9,
+      child: Container(
+        width: 32,
+        height: 32,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: onSurface.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(AppRadius.controlSm),
+          border: Border.all(color: onSurface.withValues(alpha: 0.08)),
+        ),
+        child: Icon(
+          LucideIcons.x,
+          size: 16,
+          color: onSurface.withValues(alpha: 0.6),
         ),
       ),
     );
@@ -213,39 +210,36 @@ class _EditToggle extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final onSurface = scheme.onSurface;
-    return Material(
-      color: editMode
-          ? scheme.primary.withValues(alpha: 0.15)
-          : onSurface.withValues(alpha: 0.05),
-      borderRadius: BorderRadius.circular(AppRadius.lg),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                editMode ? LucideIcons.check : LucideIcons.pencil,
-                size: 14,
-                color: editMode
-                    ? scheme.primary
-                    : onSurface.withValues(alpha: 0.6),
+    final fg = editMode ? scheme.glow : onSurface.withValues(alpha: 0.6);
+    return Pressable(
+      onTap: onTap,
+      scale: 0.94,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        decoration: BoxDecoration(
+          color: editMode
+              ? scheme.glow.withValues(alpha: 0.14)
+              : onSurface.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              editMode ? LucideIcons.check : LucideIcons.pencil,
+              size: 14,
+              color: fg,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              editMode ? t.common.actions.done : t.common.actions.edit,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: fg,
               ),
-              const SizedBox(width: 6),
-              Text(
-                editMode ? t.common.actions.done : t.common.actions.edit,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: editMode
-                      ? scheme.primary
-                      : onSurface.withValues(alpha: 0.6),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -271,114 +265,111 @@ class _NavRow extends StatelessWidget {
     final onSurface = scheme.onSurface;
     final completed = exercise.completedSetCount;
     final isComplete = completed == exercise.sets.length;
-    return Material(
-      color: isCurrent
-          ? scheme.primary.withValues(alpha: 0.1)
-          : onSurface.withValues(alpha: 0.03),
-      borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.xl),
-            border: Border.all(
-              color: isCurrent
-                  ? scheme.primary.withValues(alpha: 0.4)
-                  : onSurface.withValues(alpha: 0.07),
-            ),
+    final glow = scheme.glow;
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: isCurrent
+              ? glow.withValues(alpha: 0.09)
+              : onSurface.withValues(alpha: 0.03),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(
+            color: isCurrent
+                ? glow.withValues(alpha: 0.4)
+                : onSurface.withValues(alpha: 0.07),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  if (exercise.isTimeBased) ...[
-                    const Icon(
-                      LucideIcons.timer,
-                      size: 12,
-                      color: AppColors.accentAmber,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                if (exercise.isTimeBased) ...[
+                  const Icon(
+                    LucideIcons.timer,
+                    size: 12,
+                    color: AppColors.accentAmber,
+                  ),
+                  const SizedBox(width: 6),
+                ],
+                if (exercise.inSuperset) ...[
+                  Icon(LucideIcons.link2, size: 12, color: glow),
+                  const SizedBox(width: 6),
+                ],
+                Expanded(
+                  child: Text(
+                    '${index + 1}. ${exercise.name}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: isCurrent ? glow : onSurface,
                     ),
-                    const SizedBox(width: 6),
-                  ],
-                  if (exercise.inSuperset) ...[
-                    Icon(LucideIcons.link2, size: 12, color: scheme.primary),
-                    const SizedBox(width: 6),
-                  ],
-                  Expanded(
+                  ),
+                ),
+                if (isComplete)
+                  const Icon(
+                    LucideIcons.check,
+                    size: 16,
+                    color: AppColors.accentEmerald,
+                  )
+                else if (isCurrent)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: glow.withValues(alpha: 0.16),
+                      borderRadius: BorderRadius.circular(AppRadius.pill),
+                    ),
                     child: Text(
-                      '${index + 1}. ${exercise.name}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      t.session.overview.current,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 10,
                         fontWeight: FontWeight.w600,
-                        color: isCurrent ? scheme.primary : onSurface,
+                        color: glow,
                       ),
                     ),
                   ),
-                  if (isComplete)
-                    const Icon(
-                      LucideIcons.check,
-                      size: 16,
-                      color: AppColors.accentEmerald,
-                    )
-                  else if (isCurrent)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                for (var s = 0; s < exercise.sets.length; s++) ...[
+                  if (s > 0) const SizedBox(width: 4),
+                  Expanded(
+                    child: Container(
+                      height: 6,
                       decoration: BoxDecoration(
-                        color: scheme.primary.withValues(alpha: 0.2),
+                        color: exercise.sets[s].completed
+                            ? AppColors.accentEmerald
+                            : isCurrent
+                            ? onSurface.withValues(alpha: 0.35)
+                            : onSurface.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(AppRadius.pill),
                       ),
-                      child: Text(
-                        t.session.overview.current,
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: scheme.primary,
-                        ),
-                      ),
                     ),
+                  ),
                 ],
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              t.session.overview.setsValidated(
+                completed: completed,
+                total: exercise.sets.length,
               ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  for (var s = 0; s < exercise.sets.length; s++) ...[
-                    if (s > 0) const SizedBox(width: 4),
-                    Expanded(
-                      child: Container(
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: exercise.sets[s].completed
-                              ? AppColors.accentEmerald
-                              : isCurrent
-                              ? onSurface.withValues(alpha: 0.35)
-                              : onSurface.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(AppRadius.pill),
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
+              style: TextStyle(
+                fontSize: 12,
+                color: onSurface.withValues(alpha: 0.5),
               ),
-              const SizedBox(height: 8),
-              Text(
-                t.session.overview.setsValidated(
-                  completed: completed,
-                  total: exercise.sets.length,
-                ),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: onSurface.withValues(alpha: 0.5),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -408,12 +399,12 @@ class _EditRow extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(6, 8, 8, 8),
       decoration: BoxDecoration(
         color: isCurrent
-            ? scheme.primary.withValues(alpha: 0.1)
+            ? scheme.glow.withValues(alpha: 0.09)
             : onSurface.withValues(alpha: 0.03),
         borderRadius: BorderRadius.circular(AppRadius.xl),
         border: Border.all(
           color: isCurrent
-              ? scheme.primary.withValues(alpha: 0.4)
+              ? scheme.glow.withValues(alpha: 0.4)
               : onSurface.withValues(alpha: 0.07),
         ),
       ),
@@ -443,7 +434,7 @@ class _EditRow extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: isCurrent ? scheme.primary : onSurface,
+                color: isCurrent ? scheme.glow : onSurface,
               ),
             ),
           ),
@@ -478,19 +469,19 @@ class _SquareBtn extends StatelessWidget {
     final color = danger ? scheme.error : onSurface.withValues(alpha: 0.7);
     return Opacity(
       opacity: disabled ? 0.2 : 1,
-      child: Material(
-        color: danger
-            ? scheme.error.withValues(alpha: 0.1)
-            : onSurface.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          onTap: onTap,
-          child: SizedBox(
-            width: danger ? 34 : 28,
-            height: danger ? 34 : 24,
-            child: Icon(icon, size: 15, color: color),
+      child: Pressable(
+        onTap: onTap,
+        scale: 0.88,
+        child: Container(
+          width: danger ? 34 : 28,
+          height: danger ? 34 : 24,
+          decoration: BoxDecoration(
+            color: danger
+                ? scheme.error.withValues(alpha: 0.1)
+                : onSurface.withValues(alpha: 0.06),
+            borderRadius: BorderRadius.circular(AppRadius.md),
           ),
+          child: Icon(icon, size: 15, color: color),
         ),
       ),
     );
@@ -505,38 +496,33 @@ class _AddRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        onTap: onTap,
-        child: Container(
-          height: 48,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.xl),
-            border: Border.all(color: onSurface.withValues(alpha: 0.15)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                LucideIcons.plus,
-                size: 16,
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        height: 48,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(color: onSurface.withValues(alpha: 0.14)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              LucideIcons.plus,
+              size: 16,
+              color: onSurface.withValues(alpha: 0.6),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              t.session.add.title,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
                 color: onSurface.withValues(alpha: 0.6),
               ),
-              const SizedBox(width: 8),
-              Text(
-                t.session.add.title,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: onSurface.withValues(alpha: 0.6),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

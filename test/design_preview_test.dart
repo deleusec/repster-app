@@ -29,6 +29,7 @@ import 'package:repster/features/dashboard/domain/workout_session_summary.dart';
 import 'package:repster/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:repster/features/history/application/history_controller.dart';
 import 'package:repster/features/history/presentation/history_screen.dart';
+import 'package:repster/features/profile/presentation/profile_screen.dart';
 import 'package:repster/features/session/domain/workout_exercise.dart';
 import 'package:repster/features/session/domain/workout_session.dart';
 import 'package:repster/features/session/domain/workout_set.dart';
@@ -404,6 +405,9 @@ void main() {
   });
   testWidgets('settings', (t) async {
     await _shoot(t, 'settings', const SettingsScreen(), common, height: 1200);
+  });
+  testWidgets('profile', (t) async {
+    await _shoot(t, 'profile', const ProfileScreen(), common, height: 1100);
   });
   testWidgets('login', (t) async {
     await _shoot(t, 'login', const LoginScreen(), common);

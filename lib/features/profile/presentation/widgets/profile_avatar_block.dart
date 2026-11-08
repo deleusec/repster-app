@@ -11,6 +11,7 @@ import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/app_action_sheet.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Tappable avatar: pick from camera or gallery, or remove it.
 class ProfileAvatarBlock extends ConsumerStatefulWidget {
@@ -115,8 +116,9 @@ class _AvatarBlockState extends ConsumerState<ProfileAvatarBlock> {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final avatarUrl = widget.user.avatarUrl;
-    return GestureDetector(
+    return Pressable(
       onTap: _openMenu,
+      scale: 0.95,
       child: SizedBox(
         width: 96,
         height: 96,
@@ -136,7 +138,7 @@ class _AvatarBlockState extends ConsumerState<ProfileAvatarBlock> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: scheme.primary.withValues(alpha: 0.35),
+                    color: scheme.glow.withValues(alpha: 0.30),
                     blurRadius: 28,
                     offset: const Offset(0, 10),
                   ),

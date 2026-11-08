@@ -59,7 +59,8 @@ class _StepperControlState extends State<StepperControl> {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final onSurface = scheme.onSurface;
-    final accentColor = widget.accent ? scheme.primary : onSurface;
+    final glow = scheme.glow;
+    final accentColor = widget.accent ? glow : onSurface;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -77,12 +78,12 @@ class _StepperControlState extends State<StepperControl> {
         Container(
           decoration: BoxDecoration(
             color: widget.accent
-                ? scheme.primary.withValues(alpha: 0.10)
+                ? glow.withValues(alpha: 0.09)
                 : onSurface.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(AppRadius.xl),
             border: Border.all(
               color: widget.accent
-                  ? scheme.primary.withValues(alpha: 0.40)
+                  ? glow.withValues(alpha: 0.40)
                   : onSurface.withValues(alpha: 0.08),
             ),
           ),
@@ -90,9 +91,7 @@ class _StepperControlState extends State<StepperControl> {
             children: [
               _RepeatButton(
                 icon: LucideIcons.minus,
-                color: widget.accent
-                    ? scheme.primary
-                    : onSurface.withValues(alpha: 0.6),
+                color: widget.accent ? glow : onSurface.withValues(alpha: 0.6),
                 onStart: () => _start(widget.onDecrement),
                 onStop: _stop,
               ),
@@ -106,6 +105,7 @@ class _StepperControlState extends State<StepperControl> {
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       letterSpacing: -0.5,
+                      fontFeatures: const [FontFeature.tabularFigures()],
                       color: accentColor,
                     ),
                   ),
@@ -113,9 +113,7 @@ class _StepperControlState extends State<StepperControl> {
               ),
               _RepeatButton(
                 icon: LucideIcons.plus,
-                color: widget.accent
-                    ? scheme.primary
-                    : onSurface.withValues(alpha: 0.6),
+                color: widget.accent ? glow : onSurface.withValues(alpha: 0.6),
                 onStart: () => _start(widget.onIncrement),
                 onStop: _stop,
               ),

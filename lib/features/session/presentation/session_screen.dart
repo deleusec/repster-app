@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
+import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/dashboard/application/dashboard_controller.dart';
 import 'package:repster/features/exercises/application/exercises_search.dart';
 import 'package:repster/features/exercises/domain/catalog_exercise.dart';
@@ -34,8 +35,10 @@ import 'package:repster/features/session/presentation/widgets/variant_picker_dra
 import 'package:repster/features/stats/application/stats_controller.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/util/format.dart';
+import 'package:repster/shared/widgets/app_button.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/glass_surface.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 import 'package:uuid/uuid.dart';
 
 class SessionScreen extends ConsumerStatefulWidget {
@@ -264,10 +267,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       showExerciseHistorySheet(
         context,
         name: ex.name,
-        future: _ctl.exerciseHistory(
-          name: ex.name,
-          exerciseId: ex.exerciseId,
-        ),
+        future: _ctl.exerciseHistory(name: ex.name, exerciseId: ex.exerciseId),
       ),
     );
   }
@@ -623,10 +623,9 @@ class _Header extends StatelessWidget {
                       templateName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: AppText.cardTitle.copyWith(
                         fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: onSurface,
+                        color: scheme.textPrimary,
                       ),
                     ),
                     Text(
@@ -635,9 +634,8 @@ class _Header extends StatelessWidget {
                         total: totalSets,
                         time: formatSessionTimer(elapsed),
                       ),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: onSurface.withValues(alpha: 0.55),
+                      style: AppText.caption.copyWith(
+                        color: scheme.textSecondary,
                       ),
                     ),
                   ],
@@ -658,15 +656,15 @@ class _Header extends StatelessWidget {
                     Icon(
                       LucideIcons.clock,
                       size: 13,
-                      color: onSurface.withValues(alpha: 0.6),
+                      color: scheme.textSecondary,
                     ),
                     const SizedBox(width: 5),
                     Text(
                       formatSessionTimer(elapsed),
-                      style: TextStyle(
+                      style: AppText.bodyStrong.copyWith(
                         fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: onSurface,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                        color: scheme.textPrimary,
                       ),
                     ),
                   ],
@@ -681,7 +679,7 @@ class _Header extends StatelessWidget {
               value: progress,
               minHeight: 6,
               backgroundColor: onSurface.withValues(alpha: 0.08),
-              color: scheme.primary,
+              color: scheme.glow,
             ),
           ),
         ],
@@ -709,7 +707,7 @@ class _BlockNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final scheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
       child: Row(
@@ -722,10 +720,9 @@ class _BlockNav extends StatelessWidget {
             child: Text(
               label,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
+              style: AppText.caption.copyWith(
                 fontWeight: FontWeight.w600,
-                color: onSurface.withValues(alpha: 0.6),
+                color: scheme.textSecondary,
               ),
             ),
           ),
@@ -786,19 +783,18 @@ class _BottomBar extends StatelessWidget {
                   t.session.live.totalTonnage,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: AppText.caption.copyWith(
                     fontSize: 11,
-                    color: onSurface.withValues(alpha: 0.5),
+                    color: scheme.textSecondary,
                   ),
                 ),
                 Text(
                   formatTonnage(tonnage),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: onSurface,
+                  style: AppText.statValue.copyWith(
+                    fontSize: 16,
+                    color: scheme.textPrimary,
                   ),
                 ),
               ],
@@ -830,35 +826,32 @@ class _FinishButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const emerald = AppColors.accentEmerald;
-    return Material(
-      color: emerald.withValues(alpha: 0.15),
-      borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.xl),
-            border: Border.all(color: emerald.withValues(alpha: 0.3)),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(LucideIcons.flag, size: 16, color: emerald),
-              if (!compact) ...[
-                const SizedBox(width: 8),
-                Text(
-                  t.session.live.finishSession,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: emerald,
-                  ),
+    return Pressable(
+      onTap: onTap,
+      haptic: true,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: emerald.withValues(alpha: 0.14),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(color: emerald.withValues(alpha: 0.3)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(LucideIcons.flag, size: 16, color: emerald),
+            if (!compact) ...[
+              const SizedBox(width: 8),
+              Text(
+                t.session.live.finishSession,
+                maxLines: 1,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: emerald,
                 ),
-              ],
+              ),
             ],
-          ),
+          ],
         ),
       ),
     );
@@ -879,29 +872,36 @@ class _NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return Material(
-      color: scheme.primary,
-      borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                maxLines: 1,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: scheme.onPrimary,
-                ),
+    return Pressable(
+      onTap: onTap,
+      haptic: true,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: scheme.primary,
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          boxShadow: [
+            BoxShadow(
+              color: scheme.glow.withValues(alpha: 0.28),
+              blurRadius: 16,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              maxLines: 1,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: scheme.onPrimary,
               ),
-              const SizedBox(width: 4),
-              Icon(LucideIcons.chevronRight, size: 16, color: scheme.onPrimary),
-            ],
-          ),
+            ),
+            const SizedBox(width: 4),
+            Icon(LucideIcons.chevronRight, size: 16, color: scheme.onPrimary),
+          ],
         ),
       ),
     );
@@ -920,21 +920,17 @@ class _IconChipButton extends StatelessWidget {
     final disabled = onTap == null;
     return Opacity(
       opacity: disabled ? 0.3 : 1,
-      child: Material(
-        color: onSurface.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          onTap: onTap,
-          child: SizedBox(
-            width: 36,
-            height: 36,
-            child: Icon(
-              icon,
-              size: 17,
-              color: onSurface.withValues(alpha: 0.7),
-            ),
+      child: Pressable(
+        onTap: onTap,
+        scale: 0.9,
+        child: Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: onSurface.withValues(alpha: 0.06),
+            borderRadius: BorderRadius.circular(AppRadius.lg),
           ),
+          child: Icon(icon, size: 17, color: onSurface.withValues(alpha: 0.7)),
         ),
       ),
     );
@@ -962,7 +958,7 @@ class _ErrorBody extends StatelessWidget {
           const SizedBox(height: 16),
           Text(message, style: TextStyle(color: onSurface)),
           const SizedBox(height: 16),
-          FilledButton(onPressed: onBack, child: Text(t.common.actions.back)),
+          AppButton(label: t.common.actions.back, onPressed: onBack),
         ],
       ),
     );

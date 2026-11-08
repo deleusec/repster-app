@@ -7,6 +7,7 @@ import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/features/session/presentation/widgets/timer_ring.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/widgets/glass_surface.dart';
+import 'package:repster/shared/widgets/pressable.dart';
 
 /// Shared height for the full-screen actions ("Skip" / "Minimize") so they are
 /// exactly identical.
@@ -66,7 +67,7 @@ class RestTimerOverlay extends StatelessWidget {
                       Text(
                         t.session.rest.title,
                         style: TextStyle(
-                          color: scheme.primary,
+                          color: scheme.glow,
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 3,
@@ -76,14 +77,14 @@ class RestTimerOverlay extends StatelessWidget {
                       Container(
                         width: 24,
                         height: 1,
-                        color: scheme.primary.withValues(alpha: 0.4),
+                        color: scheme.glow.withValues(alpha: 0.4),
                       ),
                     ],
                   ),
                   CountdownRing(
                     startedAt: startedAt,
                     totalSeconds: total,
-                    color: scheme.primary,
+                    color: scheme.glow,
                     trackColor: onSurface.withValues(alpha: 0.1),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -96,6 +97,7 @@ class RestTimerOverlay extends StatelessWidget {
                             fontWeight: FontWeight.w800,
                             letterSpacing: -4,
                             height: 1,
+                            fontFeatures: const [FontFeature.tabularFigures()],
                           ),
                         ),
                         Text(
@@ -193,15 +195,15 @@ class RestTimerOverlay extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: GestureDetector(
+                        child: Pressable(
                           onTap: onExpand,
-                          behavior: HitTestBehavior.opaque,
+                          scale: 1,
                           child: Row(
                             children: [
                               CountdownRing(
                                 startedAt: startedAt,
                                 totalSeconds: total,
-                                color: scheme.primary,
+                                color: scheme.glow,
                                 trackColor: onSurface.withValues(alpha: 0.1),
                                 size: 46,
                                 stroke: 3.5,
@@ -271,26 +273,36 @@ class RestTimerOverlay extends StatelessWidget {
                         color: onSurface.withValues(alpha: 0.1),
                         margin: const EdgeInsets.symmetric(horizontal: 12),
                       ),
-                      FilledButton(
-                        onPressed: onSkip,
-                        style: FilledButton.styleFrom(
+                      Pressable(
+                        onTap: onSkip,
+                        haptic: true,
+                        child: Container(
+                          height: 44,
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          minimumSize: const Size(0, 44),
-                          shape: RoundedRectangleBorder(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: scheme.primary,
                             borderRadius: BorderRadius.circular(AppRadius.xl),
                           ),
-                          textStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                LucideIcons.skipForward,
+                                size: 15,
+                                color: scheme.onPrimary,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                t.session.rest.skip,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: scheme.onPrimary,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(LucideIcons.skipForward, size: 15),
-                            const SizedBox(width: 6),
-                            Text(t.session.rest.skip),
-                          ],
                         ),
                       ),
                     ],
@@ -302,7 +314,7 @@ class RestTimerOverlay extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: (_progress * 1000).round(),
-                        child: ColoredBox(color: scheme.primary),
+                        child: ColoredBox(color: scheme.glow),
                       ),
                       Expanded(
                         flex: 1000 - (_progress * 1000).round(),
@@ -331,26 +343,23 @@ class _AdjustChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
-    return Material(
-      color: onSurface.withValues(alpha: 0.07),
-      borderRadius: BorderRadius.circular(AppRadius.lg),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        onTap: onTap,
-        child: Container(
-          height: 42,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(color: onSurface.withValues(alpha: 0.08)),
-          ),
-          child: Text(
-            delta > 0 ? '+${delta}s' : '${delta}s',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: onSurface.withValues(alpha: 0.9),
-            ),
+    return Pressable(
+      onTap: onTap,
+      scale: 0.94,
+      child: Container(
+        height: 42,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: onSurface.withValues(alpha: 0.07),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          border: Border.all(color: onSurface.withValues(alpha: 0.08)),
+        ),
+        child: Text(
+          delta > 0 ? '+${delta}s' : '${delta}s',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: onSurface.withValues(alpha: 0.9),
           ),
         ),
       ),
@@ -383,36 +392,31 @@ class _RestAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radius = BorderRadius.circular(AppRadius.xxl);
-    return Material(
-      color: background,
-      borderRadius: radius,
-      child: InkWell(
-        borderRadius: radius,
-        onTap: onTap,
-        child: Container(
-          height: _restActionHeight,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: radius,
-            border: borderColor != null
-                ? Border.all(color: borderColor!)
-                : null,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 18, color: foreground),
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: TextStyle(
-                  color: foreground,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
+    return Pressable(
+      onTap: onTap,
+      haptic: true,
+      child: Container(
+        height: _restActionHeight,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: background,
+          borderRadius: radius,
+          border: borderColor != null ? Border.all(color: borderColor!) : null,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 18, color: foreground),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                color: foreground,
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

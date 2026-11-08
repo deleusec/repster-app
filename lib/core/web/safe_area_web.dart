@@ -8,9 +8,11 @@ import 'package:flutter/widgets.dart';
 @JS('repsterSafeArea')
 external JSArray<JSNumber>? _repsterSafeArea();
 
-/// `navigator.standalone`: true only for an iOS home-screen web app.
-@JS('navigator.standalone')
-external JSBoolean? get _navigatorStandalone;
+/// `window.repsterDiag()` from `web/index.html`: one line describing the
+/// host (shell version, standalone mode, raw env values, status-bar meta,
+/// viewport), for the settings footer.
+@JS('repsterDiag')
+external JSString? _repsterDiag();
 
 /// The bottom inset an iOS home-screen app gets when the page reports none.
 /// Installed from Safari the app runs edge to edge, so a zero here means
@@ -18,11 +20,15 @@ external JSBoolean? get _navigatorStandalone;
 /// no home indicator; this is the floor the tab bar used to carry.
 const double _iosStandaloneBottomFloor = 20;
 
-bool get _isIosStandalone {
+bool get _isIosStandalone => webDiagnostics().contains('standalone=1');
+
+/// What the page knows about its host, or `shell=old` when the running
+/// `index.html` predates the hook.
+String webDiagnostics() {
   try {
-    return _navigatorStandalone?.toDart ?? false;
+    return _repsterDiag()?.toDart ?? 'shell=old';
   } on Object {
-    return false;
+    return 'shell=old';
   }
 }
 

@@ -9,6 +9,7 @@ import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/core/theme/app_text.dart';
+import 'package:repster/core/web/safe_area.dart';
 import 'package:repster/features/auth/application/auth_controller.dart';
 import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/auth/presentation/goal_l10n.dart';
@@ -593,14 +594,17 @@ class _VersionFooter extends StatelessWidget {
     // check it on a real phone without a debugger attached.
     final padding = MediaQuery.paddingOf(context);
     final insets = kIsWeb
-        ? ' · insets ${padding.top.round()}/${padding.bottom.round()}'
+        ? '\ninsets ${padding.top.round()}/${padding.bottom.round()} · '
+              '${webDiagnostics()}'
         : '';
     return Center(
       child: Text(
         '${t.settings.version}$insets',
+        textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 10,
-          color: onSurface.withValues(alpha: 0.15),
+          height: 1.5,
+          color: onSurface.withValues(alpha: kIsWeb ? 0.4 : 0.15),
         ),
       ),
     );

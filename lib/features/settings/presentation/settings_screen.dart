@@ -13,7 +13,7 @@ import 'package:repster/features/auth/domain/auth_user.dart';
 import 'package:repster/features/auth/presentation/goal_l10n.dart';
 import 'package:repster/features/history/application/history_controller.dart';
 import 'package:repster/features/settings/presentation/widgets/language_picker_sheet.dart';
-import 'package:repster/features/templates/application/templates_controller.dart';
+import 'package:repster/features/templates/application/programs_controller.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/animation/staggered_list.dart';
 import 'package:repster/shared/widgets/app_button.dart';
@@ -43,8 +43,8 @@ class SettingsScreen extends ConsumerWidget {
     // Best-effort on purpose: these two only decorate a row with a count. A
     // row that navigates without its badge is a smaller loss than a settings
     // screen that refuses to open because a count could not be fetched.
-    final templateCount = ref
-        .watch(templatesControllerProvider)
+    final programCount = ref
+        .watch(programsControllerProvider)
         .valueOrNull
         ?.length;
     final sessionCount = ref
@@ -90,7 +90,7 @@ class SettingsScreen extends ConsumerWidget {
                   icon: LucideIcons.dumbbell,
                   tint: Theme.of(context).colorScheme.primary,
                   label: t.settings.rows.templates,
-                  badge: templateCount,
+                  badge: programCount,
                   onTap: () => context.go(Routes.templates),
                 ),
                 _SettingsRow(

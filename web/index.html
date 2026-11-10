@@ -19,7 +19,9 @@
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <!-- Installed on iOS, the page runs under the status bar. This only works
+       together with viewport-fit=cover, which the script below keeps alive. -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Repster">
   <meta name="theme-color" content="#010101">
   <meta name="format-detection" content="telephone=no">
@@ -47,6 +49,22 @@
       background-color: #010101;
       overscroll-behavior: none;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Measures env(safe-area-inset-*) so Flutter, which does not read it,
+       can pad the UI itself. Never visible. */
+    #safe-area-probe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      visibility: hidden;
+      pointer-events: none;
+      padding-top: env(safe-area-inset-top);
+      padding-right: env(safe-area-inset-right);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
     }
 
     /* Boot splash: the mark fades and settles in, then the whole veil fades
@@ -93,6 +111,35 @@
   </style>
 
   <script id="splash-screen-script">
+    // Flutter's engine removes the viewport meta at startup and writes its
+    // own, without viewport-fit=cover. Without it iOS lays the page out
+    // inside the safe area while the translucent status bar still expects it
+    // underneath: env() reads zero, the top is clipped and taps land off by
+    // the bar's height. Put it back whenever a viewport meta appears.
+    function keepViewportCover() {
+      var metas = document.head.querySelectorAll('meta[name="viewport"]');
+      for (var i = 0; i < metas.length; i++) {
+        if (metas[i].content.indexOf("viewport-fit") === -1) {
+          metas[i].content += ", viewport-fit=cover";
+        }
+      }
+    }
+    new MutationObserver(keepViewportCover).observe(document.head, { childList: true });
+
+    // Safe-area insets in CSS pixels, [top, right, bottom, left], read by the
+    // app on every layout (see lib/core/web/safe_area_web.dart).
+    window.repsterSafeArea = function () {
+      var probe = document.getElementById("safe-area-probe");
+      if (!probe) return [0, 0, 0, 0];
+      var cs = getComputedStyle(probe);
+      return [
+        parseFloat(cs.paddingTop) || 0,
+        parseFloat(cs.paddingRight) || 0,
+        parseFloat(cs.paddingBottom) || 0,
+        parseFloat(cs.paddingLeft) || 0,
+      ];
+    };
+
     function removeSplashFromWeb() {
       var splash = document.getElementById("splash");
       if (!splash) return;
@@ -112,6 +159,7 @@
   </script>
 </head>
 <body>
+  <div id="safe-area-probe" aria-hidden="true"></div>
   <div id="splash" aria-hidden="true">
     <img src="splash/repster_logo.svg" alt="">
   </div>

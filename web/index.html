@@ -57,6 +57,12 @@
     /* Installed on iOS under a translucent status bar, WebKit lays the page
        out shorter than the screen by the bar's height and leaves a band at
        the bottom. The large viewport unit still spans the whole screen. */
+    /* The root has to be that tall too: WebKit only paints as far down as
+       the document goes, and fixed boxes do not extend it. */
+    html.ios-standalone {
+      height: 100lvh;
+    }
+
     html.ios-standalone body,
     html.ios-standalone #splash {
       height: 100lvh !important;

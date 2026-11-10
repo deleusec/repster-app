@@ -26,7 +26,7 @@
     },
     "feature": {
       "label": "Idea",
-      "placeholder": "E.g. being able to duplicate an existing template…",
+      "placeholder": "E.g. being able to duplicate an existing session…",
       "guidance": "Above all, describe the need behind the idea: what would it let you do?",
       "successLine": "Great idea, thanks! We're adding it to our thinking."
     },

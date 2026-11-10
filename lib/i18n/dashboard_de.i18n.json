@@ -7,11 +7,11 @@
   "defaultName": "Athlet",
   "seeAll": "Alle ansehen",
   "sections": {
-    "templates": "Vorlagen",
+    "templates": "Programm",
     "recentSessions": "Letzte Einheiten"
   },
   "templates": {
-    "empty": "Noch keine Vorlagen",
+    "empty": "Noch keine Einheiten",
     "newLabel": "Neu"
   },
   "exerciseCount": {
@@ -21,14 +21,14 @@
   "hero": {
     "eyebrow": "NÄCHSTE EINHEIT",
     "start": "Einheit starten",
-    "emptyTitle": "Erstelle deine erste Vorlage",
+    "emptyTitle": "Erstelle deine erste Einheit",
     "emptyMessage": "Richte deine Übungen ein und los geht’s.",
-    "create": "Vorlage erstellen",
+    "create": "Einheit erstellen",
     "duration": "≈ {{n}} Min"
   },
   "recent": {
     "emptyTitle": "Starte deine erste Einheit!",
-    "emptyMessage": "Wähle eine Vorlage und los geht’s.",
+    "emptyMessage": "Wähle eine Einheit und los geht’s.",
     "tonnage": "Tonnage"
   },
   "inProgress": {

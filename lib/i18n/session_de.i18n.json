@@ -4,7 +4,7 @@
   "error": {
     "startFailed": "Training konnte nicht gestartet werden.",
     "saveFailed": "Speichern fehlgeschlagen.",
-    "templateUpdateFailed": "Einheit gespeichert, aber die Vorlage konnte nicht aktualisiert werden."
+    "templateUpdateFailed": "Einheit gespeichert, aber das Programm konnte nicht aktualisiert werden."
   },
   "live": {
     "exercisePosition": "Übung {{current}} / {{total}}",
@@ -28,16 +28,16 @@
       "other": "Diese Übung hat bereits {{n}} abgeschlossene Sätze. Sie gehen verloren."
     },
     "removeSessionOnly": "Nur in dieser Einheit",
-    "removeFromTemplate": "Auch aus der Vorlage"
+    "removeFromTemplate": "Auch aus dem Programm"
   },
   "add": {
     "title": "Übung hinzufügen",
-    "subtitle": "Nur zu diesem Training hinzugefügt, ohne die Vorlage zu ändern.",
+    "subtitle": "Nur zu diesem Training hinzugefügt, ohne das Programm zu ändern.",
     "addLabel": "Hinzufügen",
     "addToSession": "Zum Training hinzufügen",
     "reps": "Wiederholungen",
     "time": "Zeit",
-    "addAndTemplate": "Zur Einheit und zur Vorlage hinzufügen"
+    "addAndTemplate": "Zur Einheit und zum Programm hinzufügen"
   },
   "swap": {
     "title": "Übung bearbeiten",
@@ -47,7 +47,7 @@
     "adoptFormat": "Format übernehmen",
     "adoptFormatSummary": "{{summary}} · nach „{{name}}“",
     "apply": "Für dieses Training anwenden",
-    "applyAndTemplate": "Anwenden und Vorlage aktualisieren"
+    "applyAndTemplate": "Anwenden und Programm aktualisieren"
   },
   "variants": {
     "title": "Variante wählen",
@@ -70,9 +70,9 @@
       "other": "{{n}} NICHT BESTÄTIGTE SÄTZE"
     },
     "incompleteHint": "Du kannst zurückgehen und deine Sätze bestätigen oder trotzdem beenden — nur markierte Sätze werden gespeichert.",
-    "templateLabel": "VORLAGE AKTUALISIEREN",
+    "templateLabel": "PROGRAMM AKTUALISIEREN",
     "templateToggle": "„{{name}}“ aktualisieren",
-    "templateHint": "Die während der Einheit markierten Änderungen. Ausschalten, um die Vorlage unverändert zu lassen.",
+    "templateHint": "Die während der Einheit markierten Änderungen. Ausschalten, um das Programm unverändert zu lassen.",
     "changeAdded": "{{name}} · hinzugefügt",
     "changeModified": "{{name}} · geändert",
     "changeRemoved": "{{name}} · entfernt"
@@ -117,9 +117,9 @@
     "targetWasReps": "Ziel war {{n}} Wdh.",
     "targetWasSeconds": "Ziel war {{n}}s",
     "morePerfs": "+{{n}}",
-    "keptInTemplate": "Geändert · wird in der Vorlage gespeichert",
-    "keptInTemplateWas": "Geändert · wird in der Vorlage gespeichert (vorher: {{name}})",
-    "keepInTemplateAction": "Antippen, um diese Änderung in der Vorlage zu behalten"
+    "keptInTemplate": "Geändert · wird im Programm gespeichert",
+    "keptInTemplateWas": "Geändert · wird im Programm gespeichert (vorher: {{name}})",
+    "keepInTemplateAction": "Antippen, um diese Änderung im Programm zu behalten"
   },
   "overview": {
     "title": "Übungen",
@@ -164,7 +164,7 @@
     "tempo": "Tempo",
     "notesOptional": "Notizen (optional)",
     "notesHint": "Technik-Tipps…",
-    "keepInTemplate": "Auch in der Vorlage speichern",
+    "keepInTemplate": "Auch im Programm speichern",
     "keepInTemplateHint": "Standardmäßig gilt die Änderung nur für diese Einheit."
   },
   "toast": {

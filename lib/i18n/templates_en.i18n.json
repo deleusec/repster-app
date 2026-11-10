@@ -1,6 +1,6 @@
 {
   "list": {
-    "title": "Program",
+    "title": "Programs",
     "subtitleActive": {
       "one": "{{n}} active session",
       "other": "{{n}} active sessions"
@@ -26,7 +26,7 @@
     "deactivate": "Deactivate"
   },
   "detail": {
-    "noExercises": "No exercises in this template.",
+    "noExercises": "No exercises in this session.",
     "superset": "Superset",
     "setsCount": {
       "one": "{{n}} set",

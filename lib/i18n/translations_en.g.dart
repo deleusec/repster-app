@@ -704,8 +704,8 @@ class Translations$nav$en {
 	/// en: 'Home'
 	String get home => 'Home';
 
-	/// en: 'Program'
-	String get program => 'Program';
+	/// en: 'Programs'
+	String get program => 'Programs';
 
 	/// en: 'History'
 	String get history => 'History';
@@ -1412,8 +1412,8 @@ class Translations$dashboard$sections$en {
 
 	// Translations
 
-	/// en: 'Templates'
-	String get templates => 'Templates';
+	/// en: 'Program'
+	String get templates => 'Program';
 
 	/// en: 'Latest sessions'
 	String get recentSessions => 'Latest sessions';
@@ -1427,8 +1427,8 @@ class Translations$dashboard$templates$en {
 
 	// Translations
 
-	/// en: 'No templates yet'
-	String get empty => 'No templates yet';
+	/// en: 'No sessions yet'
+	String get empty => 'No sessions yet';
 
 	/// en: 'New'
 	String get newLabel => 'New';
@@ -1448,14 +1448,14 @@ class Translations$dashboard$hero$en {
 	/// en: 'Start session'
 	String get start => 'Start session';
 
-	/// en: 'Create your first template'
-	String get emptyTitle => 'Create your first template';
+	/// en: 'Create your first session'
+	String get emptyTitle => 'Create your first session';
 
 	/// en: 'Set up your exercises and off you go.'
 	String get emptyMessage => 'Set up your exercises and off you go.';
 
-	/// en: 'Create a template'
-	String get create => 'Create a template';
+	/// en: 'Create a session'
+	String get create => 'Create a session';
 
 	/// en: '≈ {{n}} min'
 	String duration({required Object n}) => '≈ ${n} min';
@@ -1472,8 +1472,8 @@ class Translations$dashboard$recent$en {
 	/// en: 'Start your first session!'
 	String get emptyTitle => 'Start your first session!';
 
-	/// en: 'Pick a template and off you go.'
-	String get emptyMessage => 'Pick a template and off you go.';
+	/// en: 'Pick a session and off you go.'
+	String get emptyMessage => 'Pick a session and off you go.';
 
 	/// en: 'tonnage'
 	String get tonnage => 'tonnage';
@@ -1835,8 +1835,8 @@ class Translations$session$error$en {
 	/// en: 'Save failed.'
 	String get saveFailed => 'Save failed.';
 
-	/// en: 'Session saved, but the template couldn't be updated.'
-	String get templateUpdateFailed => 'Session saved, but the template couldn\'t be updated.';
+	/// en: 'Session saved, but the program couldn't be updated.'
+	String get templateUpdateFailed => 'Session saved, but the program couldn\'t be updated.';
 }
 
 // Path: session.live
@@ -1907,8 +1907,8 @@ class Translations$session$confirm$en {
 	/// en: 'This session only'
 	String get removeSessionOnly => 'This session only';
 
-	/// en: 'Also from the template'
-	String get removeFromTemplate => 'Also from the template';
+	/// en: 'Also from the program'
+	String get removeFromTemplate => 'Also from the program';
 }
 
 // Path: session.add
@@ -1922,8 +1922,8 @@ class Translations$session$add$en {
 	/// en: 'Add an exercise'
 	String get title => 'Add an exercise';
 
-	/// en: 'Added to this session only, without changing the template.'
-	String get subtitle => 'Added to this session only, without changing the template.';
+	/// en: 'Added to this session only, without changing the program.'
+	String get subtitle => 'Added to this session only, without changing the program.';
 
 	/// en: 'Add'
 	String get addLabel => 'Add';
@@ -1937,8 +1937,8 @@ class Translations$session$add$en {
 	/// en: 'Time'
 	String get time => 'Time';
 
-	/// en: 'Add to session and template'
-	String get addAndTemplate => 'Add to session and template';
+	/// en: 'Add to session and program'
+	String get addAndTemplate => 'Add to session and program';
 }
 
 // Path: session.swap
@@ -1970,8 +1970,8 @@ class Translations$session$swap$en {
 	/// en: 'Apply for this session'
 	String get apply => 'Apply for this session';
 
-	/// en: 'Apply and update the template'
-	String get applyAndTemplate => 'Apply and update the template';
+	/// en: 'Apply and update the program'
+	String get applyAndTemplate => 'Apply and update the program';
 }
 
 // Path: session.variants
@@ -2039,14 +2039,14 @@ class Translations$session$finish$en {
 	/// en: 'You can go back and complete your sets, or finish anyway — only checked sets will be saved.'
 	String get incompleteHint => 'You can go back and complete your sets, or finish anyway — only checked sets will be saved.';
 
-	/// en: 'TEMPLATE UPDATE'
-	String get templateLabel => 'TEMPLATE UPDATE';
+	/// en: 'PROGRAM UPDATE'
+	String get templateLabel => 'PROGRAM UPDATE';
 
 	/// en: 'Update “{{name}}”'
 	String templateToggle({required Object name}) => 'Update “${name}”';
 
-	/// en: 'Changes you flagged during the session. Turn it off to keep the template as it is.'
-	String get templateHint => 'Changes you flagged during the session. Turn it off to keep the template as it is.';
+	/// en: 'Changes you flagged during the session. Turn it off to keep the program as it is.'
+	String get templateHint => 'Changes you flagged during the session. Turn it off to keep the program as it is.';
 
 	/// en: '{{name}} · added'
 	String changeAdded({required Object name}) => '${name} · added';
@@ -2192,14 +2192,14 @@ class Translations$session$exercise$en {
 	/// en: '+{{n}}'
 	String morePerfs({required Object n}) => '+${n}';
 
-	/// en: 'Modified · will be saved to the template'
-	String get keptInTemplate => 'Modified · will be saved to the template';
+	/// en: 'Modified · will be saved to the program'
+	String get keptInTemplate => 'Modified · will be saved to the program';
 
-	/// en: 'Modified · will be saved to the template (was: {{name}})'
-	String keptInTemplateWas({required Object name}) => 'Modified · will be saved to the template (was: ${name})';
+	/// en: 'Modified · will be saved to the program (was: {{name}})'
+	String keptInTemplateWas({required Object name}) => 'Modified · will be saved to the program (was: ${name})';
 
-	/// en: 'Tap to keep this change in the template'
-	String get keepInTemplateAction => 'Tap to keep this change in the template';
+	/// en: 'Tap to keep this change in the program'
+	String get keepInTemplateAction => 'Tap to keep this change in the program';
 }
 
 // Path: session.overview
@@ -2354,8 +2354,8 @@ class Translations$session$fields$en {
 	/// en: 'Technique tips…'
 	String get notesHint => 'Technique tips…';
 
-	/// en: 'Also save to the template'
-	String get keepInTemplate => 'Also save to the template';
+	/// en: 'Also save to the program'
+	String get keepInTemplate => 'Also save to the program';
 
 	/// en: 'By default the change applies to this session only.'
 	String get keepInTemplateHint => 'By default the change applies to this session only.';
@@ -2429,8 +2429,8 @@ class Translations$settings$rows$en {
 
 	// Translations
 
-	/// en: 'My templates'
-	String get templates => 'My templates';
+	/// en: 'My programs'
+	String get templates => 'My programs';
 
 	/// en: 'Session history'
 	String get history => 'Session history';
@@ -2672,8 +2672,8 @@ class Translations$templates$list$en {
 
 	// Translations
 
-	/// en: 'Program'
-	String get title => 'Program';
+	/// en: 'Programs'
+	String get title => 'Programs';
 
 	/// en: '(one) {{{n}} active session} (other) {{{n}} active sessions}'
 	String subtitleActive({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
@@ -2744,8 +2744,8 @@ class Translations$templates$detail$en {
 
 	// Translations
 
-	/// en: 'No exercises in this template.'
-	String get noExercises => 'No exercises in this template.';
+	/// en: 'No exercises in this session.'
+	String get noExercises => 'No exercises in this session.';
 
 	/// en: 'Superset'
 	String get superset => 'Superset';
@@ -3083,8 +3083,8 @@ class Translations$contact$categories$feature$en {
 	/// en: 'Idea'
 	String get label => 'Idea';
 
-	/// en: 'E.g. being able to duplicate an existing template…'
-	String get placeholder => 'E.g. being able to duplicate an existing template…';
+	/// en: 'E.g. being able to duplicate an existing session…'
+	String get placeholder => 'E.g. being able to duplicate an existing session…';
 
 	/// en: 'Above all, describe the need behind the idea: what would it let you do?'
 	String get guidance => 'Above all, describe the need behind the idea: what would it let you do?';
@@ -3431,7 +3431,7 @@ extension on Translations {
 			'contact.categories.bug.guidance' => 'Give the steps to reproduce, what you expected, and your phone model — it helps us fix it fast.',
 			'contact.categories.bug.successLine' => 'Got it — we\'re heading over to take a close look at this bug.',
 			'contact.categories.feature.label' => 'Idea',
-			'contact.categories.feature.placeholder' => 'E.g. being able to duplicate an existing template…',
+			'contact.categories.feature.placeholder' => 'E.g. being able to duplicate an existing session…',
 			'contact.categories.feature.guidance' => 'Above all, describe the need behind the idea: what would it let you do?',
 			'contact.categories.feature.successLine' => 'Great idea, thanks! We\'re adding it to our thinking.',
 			'contact.categories.general.label' => 'Message',
@@ -3449,19 +3449,19 @@ extension on Translations {
 			'dashboard.greeting.evening' => 'Good evening',
 			'dashboard.defaultName' => 'Athlete',
 			'dashboard.seeAll' => 'See all',
-			'dashboard.sections.templates' => 'Templates',
+			'dashboard.sections.templates' => 'Program',
 			'dashboard.sections.recentSessions' => 'Latest sessions',
-			'dashboard.templates.empty' => 'No templates yet',
+			'dashboard.templates.empty' => 'No sessions yet',
 			'dashboard.templates.newLabel' => 'New',
 			'dashboard.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} exercise', other: '${n} exercises', ), 
 			'dashboard.hero.eyebrow' => 'NEXT SESSION',
 			'dashboard.hero.start' => 'Start session',
-			'dashboard.hero.emptyTitle' => 'Create your first template',
+			'dashboard.hero.emptyTitle' => 'Create your first session',
 			'dashboard.hero.emptyMessage' => 'Set up your exercises and off you go.',
-			'dashboard.hero.create' => 'Create a template',
+			'dashboard.hero.create' => 'Create a session',
 			'dashboard.hero.duration' => ({required Object n}) => '≈ ${n} min',
 			'dashboard.recent.emptyTitle' => 'Start your first session!',
-			'dashboard.recent.emptyMessage' => 'Pick a template and off you go.',
+			'dashboard.recent.emptyMessage' => 'Pick a session and off you go.',
 			'dashboard.recent.tonnage' => 'tonnage',
 			'dashboard.inProgress.label' => 'SESSION IN PROGRESS',
 			'dashboard.inProgress.startedAt' => ({required Object when}) => 'Started ${when}',
@@ -3971,7 +3971,7 @@ extension on Translations {
 			'history.detail.edit.dateFormat' => 'MMMM d, y',
 			'legal.onlyInEnglish' => 'This document is available in English only.',
 			'nav.home' => 'Home',
-			'nav.program' => 'Program',
+			'nav.program' => 'Programs',
 			'nav.history' => 'History',
 			'nav.stats' => 'Stats',
 			'nav.settings' => 'Settings',
@@ -4018,7 +4018,7 @@ extension on Translations {
 			'session.continueLabel' => 'Continue',
 			'session.error.startFailed' => 'Couldn\'t start the session.',
 			'session.error.saveFailed' => 'Save failed.',
-			'session.error.templateUpdateFailed' => 'Session saved, but the template couldn\'t be updated.',
+			'session.error.templateUpdateFailed' => 'Session saved, but the program couldn\'t be updated.',
 			'session.live.exercisePosition' => ({required Object current, required Object total}) => 'Exercise ${current} / ${total}',
 			'session.live.supersetPosition' => ({required Object current, required Object total}) => 'Superset ${current} / ${total}',
 			'session.live.headerSubtitle' => ({required Object completed, required Object total, required Object time}) => '${completed}/${total} sets · ${time}',
@@ -4035,14 +4035,14 @@ extension on Translations {
 			'session.confirm.deleteExerciseTitle' => ({required Object name}) => 'Delete “${name}”?',
 			'session.confirm.deleteExerciseMessage' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'This exercise already has ${n} completed set. It will be lost.', other: 'This exercise already has ${n} completed sets. They will be lost.', ), 
 			'session.confirm.removeSessionOnly' => 'This session only',
-			'session.confirm.removeFromTemplate' => 'Also from the template',
+			'session.confirm.removeFromTemplate' => 'Also from the program',
 			'session.add.title' => 'Add an exercise',
-			'session.add.subtitle' => 'Added to this session only, without changing the template.',
+			'session.add.subtitle' => 'Added to this session only, without changing the program.',
 			'session.add.addLabel' => 'Add',
 			'session.add.addToSession' => 'Add to session',
 			'session.add.reps' => 'Reps',
 			'session.add.time' => 'Time',
-			'session.add.addAndTemplate' => 'Add to session and template',
+			'session.add.addAndTemplate' => 'Add to session and program',
 			'session.swap.title' => 'Edit exercise',
 			'session.swap.currently' => ({required Object name}) => 'Currently: ${name}',
 			'session.swap.sessionOnly' => 'These changes apply to this session only.',
@@ -4050,7 +4050,7 @@ extension on Translations {
 			'session.swap.adoptFormat' => 'Adopt the format',
 			'session.swap.adoptFormatSummary' => ({required Object summary, required Object name}) => '${summary} · from “${name}”',
 			'session.swap.apply' => 'Apply for this session',
-			'session.swap.applyAndTemplate' => 'Apply and update the template',
+			'session.swap.applyAndTemplate' => 'Apply and update the program',
 			'session.variants.title' => 'Choose a variant',
 			'session.variants.lockedMessage' => 'A set is already completed — finish the exercise or use “Swap” to adjust on the fly.',
 			'session.variants.pickMessage' => 'Pick a variant for this slot. It will replace the current exercise.',
@@ -4066,9 +4066,9 @@ extension on Translations {
 			'session.finish.confirm' => 'Finish',
 			'session.finish.unvalidatedSets' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} UNVALIDATED SET', other: '${n} UNVALIDATED SETS', ), 
 			'session.finish.incompleteHint' => 'You can go back and complete your sets, or finish anyway — only checked sets will be saved.',
-			'session.finish.templateLabel' => 'TEMPLATE UPDATE',
+			'session.finish.templateLabel' => 'PROGRAM UPDATE',
 			'session.finish.templateToggle' => ({required Object name}) => 'Update “${name}”',
-			'session.finish.templateHint' => 'Changes you flagged during the session. Turn it off to keep the template as it is.',
+			'session.finish.templateHint' => 'Changes you flagged during the session. Turn it off to keep the program as it is.',
 			'session.finish.changeAdded' => ({required Object name}) => '${name} · added',
 			'session.finish.changeModified' => ({required Object name}) => '${name} · modified',
 			'session.finish.changeRemoved' => ({required Object name}) => '${name} · removed',
@@ -4105,9 +4105,9 @@ extension on Translations {
 			'session.exercise.targetWasReps' => ({required Object n}) => 'was aiming for ${n} reps',
 			'session.exercise.targetWasSeconds' => ({required Object n}) => 'was aiming for ${n}s',
 			'session.exercise.morePerfs' => ({required Object n}) => '+${n}',
-			'session.exercise.keptInTemplate' => 'Modified · will be saved to the template',
-			'session.exercise.keptInTemplateWas' => ({required Object name}) => 'Modified · will be saved to the template (was: ${name})',
-			'session.exercise.keepInTemplateAction' => 'Tap to keep this change in the template',
+			'session.exercise.keptInTemplate' => 'Modified · will be saved to the program',
+			'session.exercise.keptInTemplateWas' => ({required Object name}) => 'Modified · will be saved to the program (was: ${name})',
+			'session.exercise.keepInTemplateAction' => 'Tap to keep this change in the program',
 			'session.overview.title' => 'Exercises',
 			'session.overview.current' => 'CURRENT',
 			'session.overview.setsValidated' => ({required Object completed, required Object total}) => '${completed}/${total} sets completed',
@@ -4138,7 +4138,7 @@ extension on Translations {
 			'session.fields.tempo' => 'Tempo',
 			'session.fields.notesOptional' => 'Notes (optional)',
 			'session.fields.notesHint' => 'Technique tips…',
-			'session.fields.keepInTemplate' => 'Also save to the template',
+			'session.fields.keepInTemplate' => 'Also save to the program',
 			'session.fields.keepInTemplateHint' => 'By default the change applies to this session only.',
 			'session.toast.exerciseAdded' => ({required Object name}) => '${name} added to the session',
 			'session.toast.validateOneSet' => 'Complete at least one set before finishing.',
@@ -4155,7 +4155,7 @@ extension on Translations {
 			'settings.defaultName' => 'Athlete',
 			'settings.editProfile' => 'EDIT',
 			'settings.profileUnavailable' => 'Profile unavailable',
-			'settings.rows.templates' => 'My templates',
+			'settings.rows.templates' => 'My programs',
 			'settings.rows.history' => 'Session history',
 			'settings.rows.stats' => 'Statistics',
 			'settings.rows.notifications' => 'Notifications',
@@ -4214,7 +4214,7 @@ extension on Translations {
 			'stats.records.consecutiveWeeks' => 'consecutive weeks',
 			'stats.strength.title' => 'Strength',
 			'stats.strength.scope' => 'all time',
-			'templates.list.title' => 'Program',
+			'templates.list.title' => 'Programs',
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} active session', other: '${n} active sessions', ), 
 			'templates.list.newAction' => 'Create',
 			'templates.list.emptyTitle' => 'No sessions',
@@ -4230,7 +4230,7 @@ extension on Translations {
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} exercise', other: '${n} exercises', ), 
 			'templates.card.activate' => 'Activate',
 			'templates.card.deactivate' => 'Deactivate',
-			'templates.detail.noExercises' => 'No exercises in this template.',
+			'templates.detail.noExercises' => 'No exercises in this session.',
 			'templates.detail.superset' => 'Superset',
 			'templates.detail.setsCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} set', other: '${n} sets', ), 
 			'templates.detail.seconds' => ({required Object n}) => '${n} s',

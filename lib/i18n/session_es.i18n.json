@@ -4,7 +4,7 @@
   "error": {
     "startFailed": "No se pudo iniciar la sesión.",
     "saveFailed": "Error al guardar.",
-    "templateUpdateFailed": "Sesión guardada, pero no se pudo actualizar la plantilla."
+    "templateUpdateFailed": "Sesión guardada, pero no se pudo actualizar el programa."
   },
   "live": {
     "exercisePosition": "Ejercicio {{current}} / {{total}}",
@@ -28,16 +28,16 @@
       "other": "Este ejercicio ya tiene {{n}} series completadas. Se perderán."
     },
     "removeSessionOnly": "Solo en esta sesión",
-    "removeFromTemplate": "También de la plantilla"
+    "removeFromTemplate": "También del programa"
   },
   "add": {
     "title": "Añadir un ejercicio",
-    "subtitle": "Se añade solo a esta sesión, sin modificar la plantilla.",
+    "subtitle": "Se añade solo a esta sesión, sin modificar el programa.",
     "addLabel": "Añadir",
     "addToSession": "Añadir a la sesión",
     "reps": "Repeticiones",
     "time": "Tiempo",
-    "addAndTemplate": "Añadir a la sesión y a la plantilla"
+    "addAndTemplate": "Añadir a la sesión y al programa"
   },
   "swap": {
     "title": "Editar ejercicio",
@@ -47,7 +47,7 @@
     "adoptFormat": "Adoptar el formato",
     "adoptFormatSummary": "{{summary}} · según «{{name}}»",
     "apply": "Aplicar a esta sesión",
-    "applyAndTemplate": "Aplicar y actualizar la plantilla"
+    "applyAndTemplate": "Aplicar y actualizar el programa"
   },
   "variants": {
     "title": "Elegir una variante",
@@ -70,9 +70,9 @@
       "other": "{{n}} SERIES SIN VALIDAR"
     },
     "incompleteHint": "Puedes volver a validar tus series o terminar de todos modos — solo se guardarán las series marcadas.",
-    "templateLabel": "ACTUALIZACIÓN DE LA PLANTILLA",
+    "templateLabel": "ACTUALIZACIÓN DEL PROGRAMA",
     "templateToggle": "Actualizar «{{name}}»",
-    "templateHint": "Los cambios marcados durante la sesión. Desactívalo para dejar la plantilla como está.",
+    "templateHint": "Los cambios marcados durante la sesión. Desactívalo para dejar el programa como está.",
     "changeAdded": "{{name}} · añadido",
     "changeModified": "{{name}} · modificado",
     "changeRemoved": "{{name}} · quitado"
@@ -117,9 +117,9 @@
     "targetWasReps": "buscaba {{n}} reps",
     "targetWasSeconds": "buscaba {{n}}s",
     "morePerfs": "+{{n}}",
-    "keptInTemplate": "Modificado · se guardará en la plantilla",
-    "keptInTemplateWas": "Modificado · se guardará en la plantilla (antes: {{name}})",
-    "keepInTemplateAction": "Toca para conservar este cambio en la plantilla"
+    "keptInTemplate": "Modificado · se guardará en el programa",
+    "keptInTemplateWas": "Modificado · se guardará en el programa (antes: {{name}})",
+    "keepInTemplateAction": "Toca para conservar este cambio en el programa"
   },
   "overview": {
     "title": "Ejercicios",
@@ -164,7 +164,7 @@
     "tempo": "Tempo",
     "notesOptional": "Notas (opcional)",
     "notesHint": "Consejos de técnica…",
-    "keepInTemplate": "Guardar también en la plantilla",
+    "keepInTemplate": "Guardar también en el programa",
     "keepInTemplateHint": "Por defecto, el cambio solo vale para esta sesión."
   },
   "toast": {

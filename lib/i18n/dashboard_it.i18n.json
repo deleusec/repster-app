@@ -7,11 +7,11 @@
   "defaultName": "Atleta",
   "seeAll": "Vedi tutto",
   "sections": {
-    "templates": "Modelli",
+    "templates": "Programma",
     "recentSessions": "Ultime sessioni"
   },
   "templates": {
-    "empty": "Ancora nessun modello",
+    "empty": "Ancora nessuna sessione",
     "newLabel": "Nuovo"
   },
   "exerciseCount": {
@@ -21,14 +21,14 @@
   "hero": {
     "eyebrow": "PROSSIMA SESSIONE",
     "start": "Inizia la sessione",
-    "emptyTitle": "Crea il tuo primo modello",
+    "emptyTitle": "Crea la tua prima sessione",
     "emptyMessage": "Configura i tuoi esercizi e via.",
-    "create": "Crea un modello",
+    "create": "Crea una sessione",
     "duration": "≈ {{n}} min"
   },
   "recent": {
     "emptyTitle": "Inizia la tua prima sessione!",
-    "emptyMessage": "Scegli un modello e via.",
+    "emptyMessage": "Scegli una sessione e via.",
     "tonnage": "tonnellaggio"
   },
   "inProgress": {

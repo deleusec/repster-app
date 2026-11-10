@@ -4,7 +4,7 @@
   "error": {
     "startFailed": "Couldn't start the session.",
     "saveFailed": "Save failed.",
-    "templateUpdateFailed": "Session saved, but the template couldn't be updated."
+    "templateUpdateFailed": "Session saved, but the program couldn't be updated."
   },
   "live": {
     "exercisePosition": "Exercise {{current}} / {{total}}",
@@ -28,16 +28,16 @@
       "other": "This exercise already has {{n}} completed sets. They will be lost."
     },
     "removeSessionOnly": "This session only",
-    "removeFromTemplate": "Also from the template"
+    "removeFromTemplate": "Also from the program"
   },
   "add": {
     "title": "Add an exercise",
-    "subtitle": "Added to this session only, without changing the template.",
+    "subtitle": "Added to this session only, without changing the program.",
     "addLabel": "Add",
     "addToSession": "Add to session",
     "reps": "Reps",
     "time": "Time",
-    "addAndTemplate": "Add to session and template"
+    "addAndTemplate": "Add to session and program"
   },
   "swap": {
     "title": "Edit exercise",
@@ -47,7 +47,7 @@
     "adoptFormat": "Adopt the format",
     "adoptFormatSummary": "{{summary}} · from “{{name}}”",
     "apply": "Apply for this session",
-    "applyAndTemplate": "Apply and update the template"
+    "applyAndTemplate": "Apply and update the program"
   },
   "variants": {
     "title": "Choose a variant",
@@ -70,9 +70,9 @@
       "other": "{{n}} UNVALIDATED SETS"
     },
     "incompleteHint": "You can go back and complete your sets, or finish anyway — only checked sets will be saved.",
-    "templateLabel": "TEMPLATE UPDATE",
+    "templateLabel": "PROGRAM UPDATE",
     "templateToggle": "Update “{{name}}”",
-    "templateHint": "Changes you flagged during the session. Turn it off to keep the template as it is.",
+    "templateHint": "Changes you flagged during the session. Turn it off to keep the program as it is.",
     "changeAdded": "{{name}} · added",
     "changeModified": "{{name}} · modified",
     "changeRemoved": "{{name}} · removed"
@@ -117,9 +117,9 @@
     "targetWasReps": "was aiming for {{n}} reps",
     "targetWasSeconds": "was aiming for {{n}}s",
     "morePerfs": "+{{n}}",
-    "keptInTemplate": "Modified · will be saved to the template",
-    "keptInTemplateWas": "Modified · will be saved to the template (was: {{name}})",
-    "keepInTemplateAction": "Tap to keep this change in the template"
+    "keptInTemplate": "Modified · will be saved to the program",
+    "keptInTemplateWas": "Modified · will be saved to the program (was: {{name}})",
+    "keepInTemplateAction": "Tap to keep this change in the program"
   },
   "overview": {
     "title": "Exercises",
@@ -164,7 +164,7 @@
     "tempo": "Tempo",
     "notesOptional": "Notes (optional)",
     "notesHint": "Technique tips…",
-    "keepInTemplate": "Also save to the template",
+    "keepInTemplate": "Also save to the program",
     "keepInTemplateHint": "By default the change applies to this session only."
   },
   "toast": {

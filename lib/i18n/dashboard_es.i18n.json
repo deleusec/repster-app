@@ -7,11 +7,11 @@
   "defaultName": "Atleta",
   "seeAll": "Ver todo",
   "sections": {
-    "templates": "Plantillas",
+    "templates": "Programa",
     "recentSessions": "Últimas sesiones"
   },
   "templates": {
-    "empty": "Aún no hay plantillas",
+    "empty": "Aún no hay sesiones",
     "newLabel": "Nueva"
   },
   "exerciseCount": {
@@ -21,14 +21,14 @@
   "hero": {
     "eyebrow": "PRÓXIMA SESIÓN",
     "start": "Empezar sesión",
-    "emptyTitle": "Crea tu primera plantilla",
+    "emptyTitle": "Crea tu primera sesión",
     "emptyMessage": "Configura tus ejercicios y a por ello.",
-    "create": "Crear una plantilla",
+    "create": "Crear una sesión",
     "duration": "≈ {{n}} min"
   },
   "recent": {
     "emptyTitle": "¡Inicia tu primera sesión!",
-    "emptyMessage": "Elige una plantilla y a por ello.",
+    "emptyMessage": "Elige una sesión y a por ello.",
     "tonnage": "tonelaje"
   },
   "inProgress": {

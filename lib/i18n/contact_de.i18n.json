@@ -26,7 +26,7 @@
     },
     "feature": {
       "label": "Idee",
-      "placeholder": "Z. B.: eine bestehende Vorlage duplizieren können…",
+      "placeholder": "Z. B.: eine bestehende Einheit duplizieren können…",
       "guidance": "Beschreibe vor allem den Bedarf hinter der Idee: Was würde es dir ermöglichen?",
       "successLine": "Tolle Idee, danke! Wir nehmen sie in unsere Überlegungen auf."
     },

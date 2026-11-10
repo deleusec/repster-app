@@ -7,11 +7,11 @@
   "defaultName": "Athlete",
   "seeAll": "See all",
   "sections": {
-    "templates": "Templates",
+    "templates": "Program",
     "recentSessions": "Latest sessions"
   },
   "templates": {
-    "empty": "No templates yet",
+    "empty": "No sessions yet",
     "newLabel": "New"
   },
   "exerciseCount": {
@@ -21,14 +21,14 @@
   "hero": {
     "eyebrow": "NEXT SESSION",
     "start": "Start session",
-    "emptyTitle": "Create your first template",
+    "emptyTitle": "Create your first session",
     "emptyMessage": "Set up your exercises and off you go.",
-    "create": "Create a template",
+    "create": "Create a session",
     "duration": "≈ {{n}} min"
   },
   "recent": {
     "emptyTitle": "Start your first session!",
-    "emptyMessage": "Pick a template and off you go.",
+    "emptyMessage": "Pick a session and off you go.",
     "tonnage": "tonnage"
   },
   "inProgress": {

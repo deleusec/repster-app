@@ -7,11 +7,11 @@
   "defaultName": "Athlète",
   "seeAll": "Tout voir",
   "sections": {
-    "templates": "Templates",
+    "templates": "Programme",
     "recentSessions": "Dernières séances"
   },
   "templates": {
-    "empty": "Aucun template encore",
+    "empty": "Aucune séance encore",
     "newLabel": "Nouveau"
   },
   "exerciseCount": {
@@ -21,14 +21,14 @@
   "hero": {
     "eyebrow": "PROCHAINE SÉANCE",
     "start": "Démarrer la séance",
-    "emptyTitle": "Crée ton premier template",
+    "emptyTitle": "Crée ta première séance",
     "emptyMessage": "Configure tes exercices et c’est parti.",
-    "create": "Créer un template",
+    "create": "Créer une séance",
     "duration": "≈ {{n}} min"
   },
   "recent": {
     "emptyTitle": "Lance ta première séance !",
-    "emptyMessage": "Choisis un template et c’est parti.",
+    "emptyMessage": "Choisis une séance et c’est parti.",
     "tonnage": "tonnage"
   },
   "inProgress": {

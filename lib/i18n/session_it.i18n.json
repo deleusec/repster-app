@@ -4,7 +4,7 @@
   "error": {
     "startFailed": "Impossibile avviare la sessione.",
     "saveFailed": "Salvataggio non riuscito.",
-    "templateUpdateFailed": "Sessione salvata, ma il template non è stato aggiornato."
+    "templateUpdateFailed": "Sessione salvata, ma il programma non è stato aggiornato."
   },
   "live": {
     "exercisePosition": "Esercizio {{current}} / {{total}}",
@@ -28,16 +28,16 @@
       "other": "Questo esercizio ha già {{n}} serie completate. Andranno perse."
     },
     "removeSessionOnly": "Solo in questa sessione",
-    "removeFromTemplate": "Anche dal template"
+    "removeFromTemplate": "Anche dal programma"
   },
   "add": {
     "title": "Aggiungi un esercizio",
-    "subtitle": "Aggiunto solo a questa sessione, senza modificare il modello.",
+    "subtitle": "Aggiunto solo a questa sessione, senza modificare il programma.",
     "addLabel": "Aggiungi",
     "addToSession": "Aggiungi alla sessione",
     "reps": "Ripetizioni",
     "time": "Tempo",
-    "addAndTemplate": "Aggiungi alla sessione e al template"
+    "addAndTemplate": "Aggiungi alla sessione e al programma"
   },
   "swap": {
     "title": "Modifica esercizio",
@@ -47,7 +47,7 @@
     "adoptFormat": "Riprendi il formato",
     "adoptFormatSummary": "{{summary}} · da «{{name}}»",
     "apply": "Applica a questa sessione",
-    "applyAndTemplate": "Applica e aggiorna il template"
+    "applyAndTemplate": "Applica e aggiorna il programma"
   },
   "variants": {
     "title": "Scegli una variante",
@@ -70,9 +70,9 @@
       "other": "{{n}} SERIE NON VALIDATE"
     },
     "incompleteHint": "Puoi tornare a validare le tue serie, oppure terminare comunque — verranno salvate solo le serie selezionate.",
-    "templateLabel": "AGGIORNAMENTO DEL TEMPLATE",
+    "templateLabel": "AGGIORNAMENTO DEL PROGRAMMA",
     "templateToggle": "Aggiorna “{{name}}”",
-    "templateHint": "Le modifiche segnate durante la sessione. Disattiva per lasciare il template com'è.",
+    "templateHint": "Le modifiche segnate durante la sessione. Disattiva per lasciare il programma com'è.",
     "changeAdded": "{{name}} · aggiunto",
     "changeModified": "{{name}} · modificato",
     "changeRemoved": "{{name}} · rimosso"
@@ -117,9 +117,9 @@
     "targetWasReps": "obiettivo {{n}} rip.",
     "targetWasSeconds": "obiettivo {{n}}s",
     "morePerfs": "+{{n}}",
-    "keptInTemplate": "Modificato · sarà salvato nel template",
-    "keptInTemplateWas": "Modificato · sarà salvato nel template (era: {{name}})",
-    "keepInTemplateAction": "Tocca per mantenere questa modifica nel template"
+    "keptInTemplate": "Modificato · sarà salvato nel programma",
+    "keptInTemplateWas": "Modificato · sarà salvato nel programma (era: {{name}})",
+    "keepInTemplateAction": "Tocca per mantenere questa modifica nel programma"
   },
   "overview": {
     "title": "Esercizi",
@@ -164,7 +164,7 @@
     "tempo": "Tempo",
     "notesOptional": "Note (facoltativo)",
     "notesHint": "Consigli tecnici…",
-    "keepInTemplate": "Salva anche nel template",
+    "keepInTemplate": "Salva anche nel programma",
     "keepInTemplateHint": "Per impostazione predefinita la modifica vale solo per questa sessione."
   },
   "toast": {

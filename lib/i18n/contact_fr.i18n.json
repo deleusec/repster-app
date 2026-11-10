@@ -26,7 +26,7 @@
     },
     "feature": {
       "label": "Idée",
-      "placeholder": "Ex : pouvoir dupliquer un template existant…",
+      "placeholder": "Ex : pouvoir dupliquer une séance existante…",
       "guidance": "Décris surtout le besoin derrière l'idée : qu'est-ce que ça te permettrait de faire ?",
       "successLine": "Super idée, merci ! On l'ajoute à notre réflexion."
     },

@@ -143,6 +143,7 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
     }
 
     return GlowScaffold(
+      pinnedHeader: true,
       child: Column(
         children: [
           _NavBar(

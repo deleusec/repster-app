@@ -10,6 +10,7 @@ import 'package:repster/core/router/app_router.dart';
 import 'package:repster/core/theme/app_scroll_behavior.dart';
 import 'package:repster/core/theme/app_theme.dart';
 import 'package:repster/core/web/safe_area.dart';
+import 'package:repster/core/web/status_bar_fade.dart';
 import 'package:repster/i18n/translations.g.dart';
 
 class RepsterApp extends ConsumerWidget {
@@ -46,13 +47,8 @@ class RepsterApp extends ConsumerWidget {
         final mq = MediaQuery.of(context);
         // On the web the engine reports no safe area, so the page measures
         // it and the app takes the larger of the two on each side.
-        // Under a translucent iOS status bar the system fades the page out
-        // a little below the bar itself, so content starts lower than the
-        // raw inset.
         final raw = measuredSafeArea();
-        final measured = raw.top > 0
-            ? raw.copyWith(top: raw.top + _statusBarFade)
-            : raw;
+        final measured = raw.copyWith(top: raw.top + statusBarFade());
         return MediaQuery(
           data: mq.copyWith(
             padding: _max(mq.padding, measured),
@@ -65,8 +61,6 @@ class RepsterApp extends ConsumerWidget {
     );
   }
 }
-
-const double _statusBarFade = 24;
 
 EdgeInsets _max(EdgeInsets a, EdgeInsets b) => EdgeInsets.fromLTRB(
   math.max(a.left, b.left),

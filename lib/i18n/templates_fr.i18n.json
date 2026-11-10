@@ -5,22 +5,10 @@
       "one": "{{n}} séance active",
       "other": "{{n}} séances actives"
     },
-    "subtitleManage": {
-      "one": "{{n}} / {{total}} active",
-      "other": "{{n}} / {{total}} actives"
-    },
-    "manage": "Gérer",
     "newAction": "Créer",
     "emptyTitle": "Aucune séance",
     "emptyMessage": "Crée ta première séance pour composer ton programme.",
     "emptyAction": "Créer une séance",
-    "emptyActiveTitle": "Aucune séance dans le programme",
-    "emptyActiveMessage": "Active des séances pour les ajouter à ton programme.",
-    "emptyActiveAction": "Gérer les séances",
-    "noResult": "Aucun résultat",
-    "searchHint": "Rechercher une séance…",
-    "manageHint": "Glisse pour réorganiser · touche le cercle pour masquer/afficher une séance",
-    "savedChanges": "Modifications sauvegardées ✓",
     "reorderError": "Erreur lors du réordonnancement.",
     "toggleError": "Action impossible.",
     "duplicated": "Séance copiée !",
@@ -34,9 +22,6 @@
       "one": "{{n}} exercice",
       "other": "{{n}} exercices"
     },
-    "details": "Détails",
-    "copy": "Copier",
-    "deleteShort": "Suppr.",
     "activate": "Activer",
     "deactivate": "Désactiver"
   },
@@ -94,5 +79,45 @@
     "searchHint": "Chercher un emoji…",
     "noResults": "Aucun emoji ne correspond.",
     "change": "Modifier"
+  },
+  "programs": {
+    "newSession": "Une séance",
+    "newProgram": "Un programme",
+    "nameTitleNew": "Nouveau programme",
+    "nameTitleRename": "Renommer le programme",
+    "nameHint": "PPL, Full body, Vacances…",
+    "createAction": "Créer le programme",
+    "sessionCount": {
+      "one": "{{n}} séance",
+      "other": "{{n}} séances"
+    },
+    "active": "Actif",
+    "empty": "Vide",
+    "sessionInactive": "Désactivée",
+    "emptyTitle": "Aucune séance",
+    "emptyMessage": "Ajoute les séances qui composent ce programme.",
+    "switchOn": "Programme actif",
+    "switchOff": "Activer ce programme",
+    "switchHint": "Ses séances alimentent ton accueil. Les autres programmes sont désactivés.",
+    "addSession": "Ajouter une séance",
+    "addSessionTitle": "Ajouter à {{name}}",
+    "createSession": "Créer une nouvelle séance",
+    "loose": "Hors programme",
+    "moveTitle": "Déplacer vers",
+    "start": "Démarrer",
+    "move": "Déplacer",
+    "duplicate": "Dupliquer",
+    "rename": "Renommer",
+    "dragHint": "Maintiens une séance pour la glisser dans un programme.",
+    "deleteProgramTitle": "Supprimer « {{name}} » ?",
+    "deleteProgramMessage": "Ses séances sont conservées, hors programme.",
+    "deleteSessionTitle": "Supprimer « {{name}} » ?",
+    "deleteSessionMessage": "La séance est supprimée définitivement. Ton historique est conservé.",
+    "moved": "Déplacée dans {{name}}.",
+    "movedOut": "Sortie de son programme.",
+    "activated": "{{name}} est maintenant actif.",
+    "deactivated": "{{name}} est désactivé.",
+    "programDeleted": "Programme supprimé.",
+    "error": "Action impossible. Réessaie."
   }
 }

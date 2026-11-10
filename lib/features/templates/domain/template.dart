@@ -22,6 +22,9 @@ class Template with _$Template {
     /// The session's picture. Rows older than the picker get one from their
     /// legacy muscle-group tags when read (`legacyEmojiForTags`).
     required FluentEmoji emoji,
+
+    /// The program this session is filed under; `null` for a loose session.
+    String? programId,
   }) = _Template;
 
   const Template._();

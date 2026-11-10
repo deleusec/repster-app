@@ -27,12 +27,16 @@ class TemplatesController extends AsyncNotifier<List<Template>> {
     required String description,
     required List<TemplateSlot> slots,
     required FluentEmoji emoji,
+    String? programId,
+    bool isActive = true,
   }) async {
     final id = await _repo.create(
       name: name,
       description: description,
       slots: slots,
       emoji: emoji,
+      programId: programId,
+      isActive: isActive,
     );
     await refresh();
     _syncDashboard();
@@ -100,10 +104,80 @@ class TemplatesController extends AsyncNotifier<List<Template>> {
     }
   }
 
+  /// Files a session under [programId], or takes it out with `null`.
+  Future<void> moveToProgram(String id, String? programId) async {
+    final previous = state.valueOrNull;
+    if (previous != null) {
+      // Moved sessions land at the end of their new group.
+      final moved = previous.firstWhere((t) => t.id == id);
+      state = AsyncData<List<Template>>([
+        for (final t in previous)
+          if (t.id != id) t,
+        moved.copyWith(programId: programId),
+      ]);
+    }
+    try {
+      await _repo.moveToProgram(id, programId);
+      _syncDashboard();
+    } on Object {
+      await refresh();
+      rethrow;
+    }
+  }
+
+  /// Reorders one group of sessions — a program's, or the loose ones.
+  /// [orderedIds] must hold every session of that group.
   Future<void> reorder(List<String> orderedIds) async {
-    await _repo.reorder(orderedIds);
-    await refresh();
-    _syncDashboard();
+    final previous = state.valueOrNull;
+    if (previous != null) {
+      // The group keeps the slots it occupied in the list; only the order
+      // inside those slots changes.
+      final byId = {for (final t in previous) t.id: t};
+      final group = orderedIds.toSet();
+      final next = orderedIds.iterator;
+      state = AsyncData<List<Template>>([
+        for (final t in previous)
+          if (group.contains(t.id) && next.moveNext())
+            byId[next.current]!
+          else
+            t,
+      ]);
+    }
+    try {
+      await _repo.reorder(orderedIds);
+      _syncDashboard();
+    } on Object {
+      await refresh();
+      rethrow;
+    }
+  }
+
+  /// Mirrors what `set_active_program` does to the sessions on the server,
+  /// so the page answers before the round trip. Local only.
+  void applyProgramActivation(String programId, {required bool isActive}) {
+    final previous = state.valueOrNull;
+    if (previous == null) return;
+    state = AsyncData<List<Template>>([
+      for (final t in previous)
+        if (t.programId == null)
+          t
+        else if (isActive)
+          t.copyWith(isActive: t.programId == programId)
+        else if (t.programId == programId)
+          t.copyWith(isActive: false)
+        else
+          t,
+    ]);
+  }
+
+  /// A deleted program releases its sessions. Local only.
+  void releaseProgram(String programId) {
+    final previous = state.valueOrNull;
+    if (previous == null) return;
+    state = AsyncData<List<Template>>([
+      for (final t in previous)
+        if (t.programId == programId) t.copyWith(programId: null) else t,
+    ]);
   }
 }
 

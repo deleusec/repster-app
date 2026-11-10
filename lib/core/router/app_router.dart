@@ -21,6 +21,7 @@ import 'package:repster/features/profile/presentation/profile_screen.dart';
 import 'package:repster/features/session/presentation/session_screen.dart';
 import 'package:repster/features/settings/presentation/settings_screen.dart';
 import 'package:repster/features/stats/presentation/stats_screen.dart';
+import 'package:repster/features/templates/presentation/program_screen.dart';
 import 'package:repster/features/templates/presentation/template_detail_screen.dart';
 import 'package:repster/features/templates/presentation/template_edit_screen.dart';
 import 'package:repster/features/templates/presentation/templates_screen.dart';
@@ -172,7 +173,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: 'new',
-                    builder: (_, _) => const TemplateEditScreen(),
+                    builder: (_, state) => TemplateEditScreen(
+                      programId: state.uri.queryParameters['program'],
+                    ),
+                  ),
+                  GoRoute(
+                    path: Routes.programPattern,
+                    builder: (_, state) =>
+                        ProgramScreen(id: state.pathParameters['programId']!),
                   ),
                   GoRoute(
                     path: Routes.templateDetailPattern,

@@ -29,6 +29,9 @@ mixin _$Template {
   /// legacy muscle-group tags when read (`legacyEmojiForTags`).
   FluentEmoji get emoji => throw _privateConstructorUsedError;
 
+  /// The program this session is filed under; `null` for a loose session.
+  String? get programId => throw _privateConstructorUsedError;
+
   /// Create a copy of Template
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -50,6 +53,7 @@ abstract class $TemplateCopyWith<$Res> {
     DateTime createdAt,
     DateTime updatedAt,
     FluentEmoji emoji,
+    String? programId,
   });
 }
 
@@ -76,6 +80,7 @@ class _$TemplateCopyWithImpl<$Res, $Val extends Template>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? emoji = null,
+    Object? programId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -111,6 +116,10 @@ class _$TemplateCopyWithImpl<$Res, $Val extends Template>
                 ? _value.emoji
                 : emoji // ignore: cast_nullable_to_non_nullable
                       as FluentEmoji,
+            programId: freezed == programId
+                ? _value.programId
+                : programId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -135,6 +144,7 @@ abstract class _$$TemplateImplCopyWith<$Res>
     DateTime createdAt,
     DateTime updatedAt,
     FluentEmoji emoji,
+    String? programId,
   });
 }
 
@@ -160,6 +170,7 @@ class __$$TemplateImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? emoji = null,
+    Object? programId = freezed,
   }) {
     return _then(
       _$TemplateImpl(
@@ -195,6 +206,10 @@ class __$$TemplateImplCopyWithImpl<$Res>
             ? _value.emoji
             : emoji // ignore: cast_nullable_to_non_nullable
                   as FluentEmoji,
+        programId: freezed == programId
+            ? _value.programId
+            : programId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -212,6 +227,7 @@ class _$TemplateImpl extends _Template {
     required this.createdAt,
     required this.updatedAt,
     required this.emoji,
+    this.programId,
   }) : _slots = slots,
        super._();
 
@@ -241,9 +257,13 @@ class _$TemplateImpl extends _Template {
   @override
   final FluentEmoji emoji;
 
+  /// The program this session is filed under; `null` for a loose session.
+  @override
+  final String? programId;
+
   @override
   String toString() {
-    return 'Template(id: $id, name: $name, description: $description, slots: $slots, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, emoji: $emoji)';
+    return 'Template(id: $id, name: $name, description: $description, slots: $slots, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, emoji: $emoji, programId: $programId)';
   }
 
   @override
@@ -262,7 +282,9 @@ class _$TemplateImpl extends _Template {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.emoji, emoji) || other.emoji == emoji));
+            (identical(other.emoji, emoji) || other.emoji == emoji) &&
+            (identical(other.programId, programId) ||
+                other.programId == programId));
   }
 
   @override
@@ -276,6 +298,7 @@ class _$TemplateImpl extends _Template {
     createdAt,
     updatedAt,
     emoji,
+    programId,
   );
 
   /// Create a copy of Template
@@ -297,6 +320,7 @@ abstract class _Template extends Template {
     required final DateTime createdAt,
     required final DateTime updatedAt,
     required final FluentEmoji emoji,
+    final String? programId,
   }) = _$TemplateImpl;
   const _Template._() : super._();
 
@@ -319,6 +343,10 @@ abstract class _Template extends Template {
   /// legacy muscle-group tags when read (`legacyEmojiForTags`).
   @override
   FluentEmoji get emoji;
+
+  /// The program this session is filed under; `null` for a loose session.
+  @override
+  String? get programId;
 
   /// Create a copy of Template
   /// with the given fields replaced by the non-null parameter values.

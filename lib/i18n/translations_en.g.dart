@@ -870,6 +870,7 @@ class Translations$templates$en {
 	late final Translations$templates$fields$en fields = Translations$templates$fields$en.internal(_root);
 	late final Translations$templates$slot$en slot = Translations$templates$slot$en.internal(_root);
 	late final Translations$templates$emojiPicker$en emojiPicker = Translations$templates$emojiPicker$en.internal(_root);
+	late final Translations$templates$programs$en programs = Translations$templates$programs$en.internal(_root);
 }
 
 // Path: tempo
@@ -2680,15 +2681,6 @@ class Translations$templates$list$en {
 		other: '${n} active sessions',
 	);
 
-	/// en: '(one) {{{n}} / {{total}} active} (other) {{{n}} / {{total}} active}'
-	String subtitleManage({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		one: '${n} / ${total} active',
-		other: '${n} / ${total} active',
-	);
-
-	/// en: 'Manage'
-	String get manage => 'Manage';
-
 	/// en: 'Create'
 	String get newAction => 'Create';
 
@@ -2700,27 +2692,6 @@ class Translations$templates$list$en {
 
 	/// en: 'Create a session'
 	String get emptyAction => 'Create a session';
-
-	/// en: 'No sessions in the program'
-	String get emptyActiveTitle => 'No sessions in the program';
-
-	/// en: 'Activate sessions to add them to your program.'
-	String get emptyActiveMessage => 'Activate sessions to add them to your program.';
-
-	/// en: 'Manage sessions'
-	String get emptyActiveAction => 'Manage sessions';
-
-	/// en: 'No results'
-	String get noResult => 'No results';
-
-	/// en: 'Search a session…'
-	String get searchHint => 'Search a session…';
-
-	/// en: 'Drag to reorder · tap the circle to hide/show a session'
-	String get manageHint => 'Drag to reorder · tap the circle to hide/show a session';
-
-	/// en: 'Changes saved ✓'
-	String get savedChanges => 'Changes saved ✓';
 
 	/// en: 'Reordering failed.'
 	String get reorderError => 'Reordering failed.';
@@ -2757,15 +2728,6 @@ class Translations$templates$card$en {
 		one: '${n} exercise',
 		other: '${n} exercises',
 	);
-
-	/// en: 'Details'
-	String get details => 'Details';
-
-	/// en: 'Copy'
-	String get copy => 'Copy';
-
-	/// en: 'Delete'
-	String get deleteShort => 'Delete';
 
 	/// en: 'Activate'
 	String get activate => 'Activate';
@@ -2946,6 +2908,123 @@ class Translations$templates$emojiPicker$en {
 
 	/// en: 'Change'
 	String get change => 'Change';
+}
+
+// Path: templates.programs
+class Translations$templates$programs$en {
+	Translations$templates$programs$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'A session'
+	String get newSession => 'A session';
+
+	/// en: 'A program'
+	String get newProgram => 'A program';
+
+	/// en: 'New program'
+	String get nameTitleNew => 'New program';
+
+	/// en: 'Rename program'
+	String get nameTitleRename => 'Rename program';
+
+	/// en: 'PPL, Full body, Holidays…'
+	String get nameHint => 'PPL, Full body, Holidays…';
+
+	/// en: 'Create program'
+	String get createAction => 'Create program';
+
+	/// en: '(one) {{{n}} session} (other) {{{n}} sessions}'
+	String sessionCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} session',
+		other: '${n} sessions',
+	);
+
+	/// en: 'Active'
+	String get active => 'Active';
+
+	/// en: 'Empty'
+	String get empty => 'Empty';
+
+	/// en: 'Off'
+	String get sessionInactive => 'Off';
+
+	/// en: 'No sessions yet'
+	String get emptyTitle => 'No sessions yet';
+
+	/// en: 'Add the sessions that make up this program.'
+	String get emptyMessage => 'Add the sessions that make up this program.';
+
+	/// en: 'Active program'
+	String get switchOn => 'Active program';
+
+	/// en: 'Activate this program'
+	String get switchOff => 'Activate this program';
+
+	/// en: 'Its sessions feed your home page. Other programs are switched off.'
+	String get switchHint => 'Its sessions feed your home page. Other programs are switched off.';
+
+	/// en: 'Add a session'
+	String get addSession => 'Add a session';
+
+	/// en: 'Add to {{name}}'
+	String addSessionTitle({required Object name}) => 'Add to ${name}';
+
+	/// en: 'Create a new session'
+	String get createSession => 'Create a new session';
+
+	/// en: 'No program'
+	String get loose => 'No program';
+
+	/// en: 'Move to'
+	String get moveTitle => 'Move to';
+
+	/// en: 'Start'
+	String get start => 'Start';
+
+	/// en: 'Move'
+	String get move => 'Move';
+
+	/// en: 'Duplicate'
+	String get duplicate => 'Duplicate';
+
+	/// en: 'Rename'
+	String get rename => 'Rename';
+
+	/// en: 'Hold a session to drag it into a program.'
+	String get dragHint => 'Hold a session to drag it into a program.';
+
+	/// en: 'Delete “{{name}}”?'
+	String deleteProgramTitle({required Object name}) => 'Delete “${name}”?';
+
+	/// en: 'Its sessions are kept, outside any program.'
+	String get deleteProgramMessage => 'Its sessions are kept, outside any program.';
+
+	/// en: 'Delete “{{name}}”?'
+	String deleteSessionTitle({required Object name}) => 'Delete “${name}”?';
+
+	/// en: 'The session is deleted for good. Your history is kept.'
+	String get deleteSessionMessage => 'The session is deleted for good. Your history is kept.';
+
+	/// en: 'Moved to {{name}}.'
+	String moved({required Object name}) => 'Moved to ${name}.';
+
+	/// en: 'Taken out of its program.'
+	String get movedOut => 'Taken out of its program.';
+
+	/// en: '{{name}} is now active.'
+	String activated({required Object name}) => '${name} is now active.';
+
+	/// en: '{{name}} is switched off.'
+	String deactivated({required Object name}) => '${name} is switched off.';
+
+	/// en: 'Program deleted.'
+	String get programDeleted => 'Program deleted.';
+
+	/// en: 'That didn't work. Try again.'
+	String get error => 'That didn\'t work. Try again.';
 }
 
 // Path: auth.onboarding.goalDescriptions
@@ -4137,19 +4216,10 @@ extension on Translations {
 			'stats.strength.scope' => 'all time',
 			'templates.list.title' => 'Program',
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} active session', other: '${n} active sessions', ), 
-			'templates.list.subtitleManage' => ({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} / ${total} active', other: '${n} / ${total} active', ), 
-			'templates.list.manage' => 'Manage',
 			'templates.list.newAction' => 'Create',
 			'templates.list.emptyTitle' => 'No sessions',
 			'templates.list.emptyMessage' => 'Create your first session to build your program.',
 			'templates.list.emptyAction' => 'Create a session',
-			'templates.list.emptyActiveTitle' => 'No sessions in the program',
-			'templates.list.emptyActiveMessage' => 'Activate sessions to add them to your program.',
-			'templates.list.emptyActiveAction' => 'Manage sessions',
-			'templates.list.noResult' => 'No results',
-			'templates.list.searchHint' => 'Search a session…',
-			'templates.list.manageHint' => 'Drag to reorder · tap the circle to hide/show a session',
-			'templates.list.savedChanges' => 'Changes saved ✓',
 			'templates.list.reorderError' => 'Reordering failed.',
 			'templates.list.toggleError' => 'Action failed.',
 			'templates.list.duplicated' => 'Session copied!',
@@ -4158,9 +4228,6 @@ extension on Translations {
 			'templates.list.deleteError' => 'Deletion failed.',
 			'templates.list.copySuffix' => '(copy)',
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} exercise', other: '${n} exercises', ), 
-			'templates.card.details' => 'Details',
-			'templates.card.copy' => 'Copy',
-			'templates.card.deleteShort' => 'Delete',
 			'templates.card.activate' => 'Activate',
 			'templates.card.deactivate' => 'Deactivate',
 			'templates.detail.noExercises' => 'No exercises in this template.',
@@ -4205,6 +4272,41 @@ extension on Translations {
 			'templates.emojiPicker.searchHint' => 'Search an emoji…',
 			'templates.emojiPicker.noResults' => 'No emoji matches.',
 			'templates.emojiPicker.change' => 'Change',
+			'templates.programs.newSession' => 'A session',
+			'templates.programs.newProgram' => 'A program',
+			'templates.programs.nameTitleNew' => 'New program',
+			'templates.programs.nameTitleRename' => 'Rename program',
+			'templates.programs.nameHint' => 'PPL, Full body, Holidays…',
+			'templates.programs.createAction' => 'Create program',
+			'templates.programs.sessionCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} session', other: '${n} sessions', ), 
+			'templates.programs.active' => 'Active',
+			'templates.programs.empty' => 'Empty',
+			'templates.programs.sessionInactive' => 'Off',
+			'templates.programs.emptyTitle' => 'No sessions yet',
+			'templates.programs.emptyMessage' => 'Add the sessions that make up this program.',
+			'templates.programs.switchOn' => 'Active program',
+			'templates.programs.switchOff' => 'Activate this program',
+			'templates.programs.switchHint' => 'Its sessions feed your home page. Other programs are switched off.',
+			'templates.programs.addSession' => 'Add a session',
+			'templates.programs.addSessionTitle' => ({required Object name}) => 'Add to ${name}',
+			'templates.programs.createSession' => 'Create a new session',
+			'templates.programs.loose' => 'No program',
+			'templates.programs.moveTitle' => 'Move to',
+			'templates.programs.start' => 'Start',
+			'templates.programs.move' => 'Move',
+			'templates.programs.duplicate' => 'Duplicate',
+			'templates.programs.rename' => 'Rename',
+			'templates.programs.dragHint' => 'Hold a session to drag it into a program.',
+			'templates.programs.deleteProgramTitle' => ({required Object name}) => 'Delete “${name}”?',
+			'templates.programs.deleteProgramMessage' => 'Its sessions are kept, outside any program.',
+			'templates.programs.deleteSessionTitle' => ({required Object name}) => 'Delete “${name}”?',
+			'templates.programs.deleteSessionMessage' => 'The session is deleted for good. Your history is kept.',
+			'templates.programs.moved' => ({required Object name}) => 'Moved to ${name}.',
+			'templates.programs.movedOut' => 'Taken out of its program.',
+			'templates.programs.activated' => ({required Object name}) => '${name} is now active.',
+			'templates.programs.deactivated' => ({required Object name}) => '${name} is switched off.',
+			'templates.programs.programDeleted' => 'Program deleted.',
+			'templates.programs.error' => 'That didn\'t work. Try again.',
 			'tempo.helper' => 'Eccentric — pause — concentric — pause (in s)',
 			'tempo.formatError' => 'Expected format: 3-1-X-0',
 			_ => null,

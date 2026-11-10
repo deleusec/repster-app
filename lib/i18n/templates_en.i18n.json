@@ -5,22 +5,10 @@
       "one": "{{n}} active session",
       "other": "{{n}} active sessions"
     },
-    "subtitleManage": {
-      "one": "{{n}} / {{total}} active",
-      "other": "{{n}} / {{total}} active"
-    },
-    "manage": "Manage",
     "newAction": "Create",
     "emptyTitle": "No sessions",
     "emptyMessage": "Create your first session to build your program.",
     "emptyAction": "Create a session",
-    "emptyActiveTitle": "No sessions in the program",
-    "emptyActiveMessage": "Activate sessions to add them to your program.",
-    "emptyActiveAction": "Manage sessions",
-    "noResult": "No results",
-    "searchHint": "Search a session…",
-    "manageHint": "Drag to reorder · tap the circle to hide/show a session",
-    "savedChanges": "Changes saved ✓",
     "reorderError": "Reordering failed.",
     "toggleError": "Action failed.",
     "duplicated": "Session copied!",
@@ -34,9 +22,6 @@
       "one": "{{n}} exercise",
       "other": "{{n}} exercises"
     },
-    "details": "Details",
-    "copy": "Copy",
-    "deleteShort": "Delete",
     "activate": "Activate",
     "deactivate": "Deactivate"
   },
@@ -94,5 +79,45 @@
     "searchHint": "Search an emoji…",
     "noResults": "No emoji matches.",
     "change": "Change"
+  },
+  "programs": {
+    "newSession": "A session",
+    "newProgram": "A program",
+    "nameTitleNew": "New program",
+    "nameTitleRename": "Rename program",
+    "nameHint": "PPL, Full body, Holidays…",
+    "createAction": "Create program",
+    "sessionCount": {
+      "one": "{{n}} session",
+      "other": "{{n}} sessions"
+    },
+    "active": "Active",
+    "empty": "Empty",
+    "sessionInactive": "Off",
+    "emptyTitle": "No sessions yet",
+    "emptyMessage": "Add the sessions that make up this program.",
+    "switchOn": "Active program",
+    "switchOff": "Activate this program",
+    "switchHint": "Its sessions feed your home page. Other programs are switched off.",
+    "addSession": "Add a session",
+    "addSessionTitle": "Add to {{name}}",
+    "createSession": "Create a new session",
+    "loose": "No program",
+    "moveTitle": "Move to",
+    "start": "Start",
+    "move": "Move",
+    "duplicate": "Duplicate",
+    "rename": "Rename",
+    "dragHint": "Hold a session to drag it into a program.",
+    "deleteProgramTitle": "Delete “{{name}}”?",
+    "deleteProgramMessage": "Its sessions are kept, outside any program.",
+    "deleteSessionTitle": "Delete “{{name}}”?",
+    "deleteSessionMessage": "The session is deleted for good. Your history is kept.",
+    "moved": "Moved to {{name}}.",
+    "movedOut": "Taken out of its program.",
+    "activated": "{{name}} is now active.",
+    "deactivated": "{{name}} is switched off.",
+    "programDeleted": "Program deleted.",
+    "error": "That didn't work. Try again."
   }
 }

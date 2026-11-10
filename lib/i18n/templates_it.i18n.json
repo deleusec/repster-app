@@ -5,22 +5,10 @@
       "one": "{{n}} sessione attiva",
       "other": "{{n}} sessioni attive"
     },
-    "subtitleManage": {
-      "one": "{{n}} / {{total}} attiva",
-      "other": "{{n}} / {{total}} attive"
-    },
-    "manage": "Gestisci",
     "newAction": "Crea",
     "emptyTitle": "Nessuna sessione",
     "emptyMessage": "Crea la tua prima sessione per comporre il tuo programma.",
     "emptyAction": "Crea una sessione",
-    "emptyActiveTitle": "Nessuna sessione nel programma",
-    "emptyActiveMessage": "Attiva delle sessioni per aggiungerle al tuo programma.",
-    "emptyActiveAction": "Gestisci le sessioni",
-    "noResult": "Nessun risultato",
-    "searchHint": "Cerca una sessione…",
-    "manageHint": "Trascina per riordinare · tocca il cerchio per nascondere/mostrare una sessione",
-    "savedChanges": "Modifiche salvate ✓",
     "reorderError": "Errore durante il riordino.",
     "toggleError": "Azione impossibile.",
     "duplicated": "Sessione copiata!",
@@ -34,9 +22,6 @@
       "one": "{{n}} esercizio",
       "other": "{{n}} esercizi"
     },
-    "details": "Dettagli",
-    "copy": "Copia",
-    "deleteShort": "Elim.",
     "activate": "Attiva",
     "deactivate": "Disattiva"
   },
@@ -94,5 +79,45 @@
     "searchHint": "Cerca un emoji…",
     "noResults": "Nessun emoji corrisponde.",
     "change": "Cambia"
+  },
+  "programs": {
+    "newSession": "Una sessione",
+    "newProgram": "Un programma",
+    "nameTitleNew": "Nuovo programma",
+    "nameTitleRename": "Rinomina il programma",
+    "nameHint": "PPL, Full body, Vacanze…",
+    "createAction": "Crea il programma",
+    "sessionCount": {
+      "one": "{{n}} sessione",
+      "other": "{{n}} sessioni"
+    },
+    "active": "Attivo",
+    "empty": "Vuoto",
+    "sessionInactive": "Disattivata",
+    "emptyTitle": "Nessuna sessione",
+    "emptyMessage": "Aggiungi le sessioni che compongono questo programma.",
+    "switchOn": "Programma attivo",
+    "switchOff": "Attiva questo programma",
+    "switchHint": "Le sue sessioni alimentano la tua home. Gli altri programmi vengono disattivati.",
+    "addSession": "Aggiungi una sessione",
+    "addSessionTitle": "Aggiungi a {{name}}",
+    "createSession": "Crea una nuova sessione",
+    "loose": "Senza programma",
+    "moveTitle": "Sposta in",
+    "start": "Inizia",
+    "move": "Sposta",
+    "duplicate": "Duplica",
+    "rename": "Rinomina",
+    "dragHint": "Tieni premuta una sessione per trascinarla in un programma.",
+    "deleteProgramTitle": "Eliminare «{{name}}»?",
+    "deleteProgramMessage": "Le sue sessioni vengono conservate, senza programma.",
+    "deleteSessionTitle": "Eliminare «{{name}}»?",
+    "deleteSessionMessage": "La sessione viene eliminata definitivamente. La tua cronologia resta.",
+    "moved": "Spostata in {{name}}.",
+    "movedOut": "Tolta dal suo programma.",
+    "activated": "{{name}} è ora attivo.",
+    "deactivated": "{{name}} è disattivato.",
+    "programDeleted": "Programma eliminato.",
+    "error": "Non ha funzionato. Riprova."
   }
 }

@@ -5,22 +5,10 @@
       "one": "{{n}} aktive Einheit",
       "other": "{{n}} aktive Einheiten"
     },
-    "subtitleManage": {
-      "one": "{{n}} / {{total}} aktiv",
-      "other": "{{n}} / {{total}} aktiv"
-    },
-    "manage": "Verwalten",
     "newAction": "Erstellen",
     "emptyTitle": "Keine Einheiten",
     "emptyMessage": "Erstelle deine erste Einheit, um dein Programm aufzubauen.",
     "emptyAction": "Einheit erstellen",
-    "emptyActiveTitle": "Keine Einheiten im Programm",
-    "emptyActiveMessage": "Aktiviere Einheiten, um sie deinem Programm hinzuzufügen.",
-    "emptyActiveAction": "Einheiten verwalten",
-    "noResult": "Keine Ergebnisse",
-    "searchHint": "Einheit suchen…",
-    "manageHint": "Ziehen zum Umsortieren · tippe auf den Kreis, um eine Einheit aus-/einzublenden",
-    "savedChanges": "Änderungen gespeichert ✓",
     "reorderError": "Umsortieren fehlgeschlagen.",
     "toggleError": "Aktion nicht möglich.",
     "duplicated": "Einheit kopiert!",
@@ -34,9 +22,6 @@
       "one": "{{n}} Übung",
       "other": "{{n}} Übungen"
     },
-    "details": "Details",
-    "copy": "Kopieren",
-    "deleteShort": "Löschen",
     "activate": "Aktivieren",
     "deactivate": "Deaktivieren"
   },
@@ -94,5 +79,45 @@
     "searchHint": "Emoji suchen…",
     "noResults": "Kein Emoji passt.",
     "change": "Ändern"
+  },
+  "programs": {
+    "newSession": "Eine Einheit",
+    "newProgram": "Ein Programm",
+    "nameTitleNew": "Neues Programm",
+    "nameTitleRename": "Programm umbenennen",
+    "nameHint": "PPL, Ganzkörper, Urlaub…",
+    "createAction": "Programm erstellen",
+    "sessionCount": {
+      "one": "{{n}} Einheit",
+      "other": "{{n}} Einheiten"
+    },
+    "active": "Aktiv",
+    "empty": "Leer",
+    "sessionInactive": "Deaktiviert",
+    "emptyTitle": "Noch keine Einheit",
+    "emptyMessage": "Füge die Einheiten hinzu, aus denen dieses Programm besteht.",
+    "switchOn": "Aktives Programm",
+    "switchOff": "Dieses Programm aktivieren",
+    "switchHint": "Seine Einheiten erscheinen auf deiner Startseite. Andere Programme werden deaktiviert.",
+    "addSession": "Einheit hinzufügen",
+    "addSessionTitle": "Zu {{name}} hinzufügen",
+    "createSession": "Neue Einheit erstellen",
+    "loose": "Ohne Programm",
+    "moveTitle": "Verschieben nach",
+    "start": "Starten",
+    "move": "Verschieben",
+    "duplicate": "Duplizieren",
+    "rename": "Umbenennen",
+    "dragHint": "Halte eine Einheit gedrückt, um sie in ein Programm zu ziehen.",
+    "deleteProgramTitle": "„{{name}}“ löschen?",
+    "deleteProgramMessage": "Seine Einheiten bleiben erhalten, ohne Programm.",
+    "deleteSessionTitle": "„{{name}}“ löschen?",
+    "deleteSessionMessage": "Die Einheit wird endgültig gelöscht. Dein Verlauf bleibt erhalten.",
+    "moved": "Nach {{name}} verschoben.",
+    "movedOut": "Aus dem Programm genommen.",
+    "activated": "{{name}} ist jetzt aktiv.",
+    "deactivated": "{{name}} ist deaktiviert.",
+    "programDeleted": "Programm gelöscht.",
+    "error": "Das hat nicht geklappt. Versuch es noch einmal."
   }
 }

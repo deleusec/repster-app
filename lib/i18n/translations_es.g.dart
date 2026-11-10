@@ -755,6 +755,7 @@ class _Translations$templates$es extends Translations$templates$en {
 	@override late final _Translations$templates$fields$es fields = _Translations$templates$fields$es._(_root);
 	@override late final _Translations$templates$slot$es slot = _Translations$templates$slot$es._(_root);
 	@override late final _Translations$templates$emojiPicker$es emojiPicker = _Translations$templates$emojiPicker$es._(_root);
+	@override late final _Translations$templates$programs$es programs = _Translations$templates$programs$es._(_root);
 }
 
 // Path: tempo
@@ -1799,22 +1800,10 @@ class _Translations$templates$list$es extends Translations$templates$list$en {
 		one: '${n} sesión activa',
 		other: '${n} sesiones activas',
 	);
-	@override String subtitleManage({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n,
-		one: '${n} / ${total} activa',
-		other: '${n} / ${total} activas',
-	);
-	@override String get manage => 'Gestionar';
 	@override String get newAction => 'Crear';
 	@override String get emptyTitle => 'No hay sesiones';
 	@override String get emptyMessage => 'Crea tu primera sesión para armar tu programa.';
 	@override String get emptyAction => 'Crear una sesión';
-	@override String get emptyActiveTitle => 'No hay sesiones en el programa';
-	@override String get emptyActiveMessage => 'Activa sesiones para añadirlas a tu programa.';
-	@override String get emptyActiveAction => 'Gestionar sesiones';
-	@override String get noResult => 'Sin resultados';
-	@override String get searchHint => 'Buscar una sesión…';
-	@override String get manageHint => 'Arrastra para reordenar · toca el círculo para ocultar/mostrar una sesión';
-	@override String get savedChanges => 'Cambios guardados ✓';
 	@override String get reorderError => 'Error al reordenar.';
 	@override String get toggleError => 'Acción imposible.';
 	@override String get duplicated => '¡Sesión copiada!';
@@ -1835,9 +1824,6 @@ class _Translations$templates$card$es extends Translations$templates$card$en {
 		one: '${n} ejercicio',
 		other: '${n} ejercicios',
 	);
-	@override String get details => 'Detalles';
-	@override String get copy => 'Copiar';
-	@override String get deleteShort => 'Elim.';
 	@override String get activate => 'Activar';
 	@override String get deactivate => 'Desactivar';
 }
@@ -1930,6 +1916,53 @@ class _Translations$templates$emojiPicker$es extends Translations$templates$emoj
 	@override String get searchHint => 'Buscar un emoji…';
 	@override String get noResults => 'Ningún emoji coincide.';
 	@override String get change => 'Cambiar';
+}
+
+// Path: templates.programs
+class _Translations$templates$programs$es extends Translations$templates$programs$en {
+	_Translations$templates$programs$es._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get newSession => 'Una sesión';
+	@override String get newProgram => 'Un programa';
+	@override String get nameTitleNew => 'Nuevo programa';
+	@override String get nameTitleRename => 'Renombrar el programa';
+	@override String get nameHint => 'PPL, Full body, Vacaciones…';
+	@override String get createAction => 'Crear el programa';
+	@override String sessionCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n,
+		one: '${n} sesión',
+		other: '${n} sesiones',
+	);
+	@override String get active => 'Activo';
+	@override String get empty => 'Vacío';
+	@override String get sessionInactive => 'Desactivada';
+	@override String get emptyTitle => 'Ninguna sesión';
+	@override String get emptyMessage => 'Añade las sesiones que componen este programa.';
+	@override String get switchOn => 'Programa activo';
+	@override String get switchOff => 'Activar este programa';
+	@override String get switchHint => 'Sus sesiones alimentan tu inicio. Los demás programas se desactivan.';
+	@override String get addSession => 'Añadir una sesión';
+	@override String addSessionTitle({required Object name}) => 'Añadir a ${name}';
+	@override String get createSession => 'Crear una sesión nueva';
+	@override String get loose => 'Sin programa';
+	@override String get moveTitle => 'Mover a';
+	@override String get start => 'Empezar';
+	@override String get move => 'Mover';
+	@override String get duplicate => 'Duplicar';
+	@override String get rename => 'Renombrar';
+	@override String get dragHint => 'Mantén pulsada una sesión para arrastrarla a un programa.';
+	@override String deleteProgramTitle({required Object name}) => '¿Eliminar «${name}»?';
+	@override String get deleteProgramMessage => 'Sus sesiones se conservan, sin programa.';
+	@override String deleteSessionTitle({required Object name}) => '¿Eliminar «${name}»?';
+	@override String get deleteSessionMessage => 'La sesión se elimina definitivamente. Tu historial se conserva.';
+	@override String moved({required Object name}) => 'Movida a ${name}.';
+	@override String get movedOut => 'Sacada de su programa.';
+	@override String activated({required Object name}) => '${name} ya está activo.';
+	@override String deactivated({required Object name}) => '${name} está desactivado.';
+	@override String get programDeleted => 'Programa eliminado.';
+	@override String get error => 'No se pudo. Inténtalo de nuevo.';
 }
 
 // Path: auth.onboarding.goalDescriptions
@@ -3010,19 +3043,10 @@ extension on TranslationsEs {
 			'stats.strength.scope' => 'todo el historial',
 			'templates.list.title' => 'Programa',
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} sesión activa', other: '${n} sesiones activas', ), 
-			'templates.list.subtitleManage' => ({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} / ${total} activa', other: '${n} / ${total} activas', ), 
-			'templates.list.manage' => 'Gestionar',
 			'templates.list.newAction' => 'Crear',
 			'templates.list.emptyTitle' => 'No hay sesiones',
 			'templates.list.emptyMessage' => 'Crea tu primera sesión para armar tu programa.',
 			'templates.list.emptyAction' => 'Crear una sesión',
-			'templates.list.emptyActiveTitle' => 'No hay sesiones en el programa',
-			'templates.list.emptyActiveMessage' => 'Activa sesiones para añadirlas a tu programa.',
-			'templates.list.emptyActiveAction' => 'Gestionar sesiones',
-			'templates.list.noResult' => 'Sin resultados',
-			'templates.list.searchHint' => 'Buscar una sesión…',
-			'templates.list.manageHint' => 'Arrastra para reordenar · toca el círculo para ocultar/mostrar una sesión',
-			'templates.list.savedChanges' => 'Cambios guardados ✓',
 			'templates.list.reorderError' => 'Error al reordenar.',
 			'templates.list.toggleError' => 'Acción imposible.',
 			'templates.list.duplicated' => '¡Sesión copiada!',
@@ -3031,9 +3055,6 @@ extension on TranslationsEs {
 			'templates.list.deleteError' => 'No se pudo eliminar.',
 			'templates.list.copySuffix' => '(copia)',
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} ejercicio', other: '${n} ejercicios', ), 
-			'templates.card.details' => 'Detalles',
-			'templates.card.copy' => 'Copiar',
-			'templates.card.deleteShort' => 'Elim.',
 			'templates.card.activate' => 'Activar',
 			'templates.card.deactivate' => 'Desactivar',
 			'templates.detail.noExercises' => 'No hay ejercicios en esta plantilla.',
@@ -3078,6 +3099,41 @@ extension on TranslationsEs {
 			'templates.emojiPicker.searchHint' => 'Buscar un emoji…',
 			'templates.emojiPicker.noResults' => 'Ningún emoji coincide.',
 			'templates.emojiPicker.change' => 'Cambiar',
+			'templates.programs.newSession' => 'Una sesión',
+			'templates.programs.newProgram' => 'Un programa',
+			'templates.programs.nameTitleNew' => 'Nuevo programa',
+			'templates.programs.nameTitleRename' => 'Renombrar el programa',
+			'templates.programs.nameHint' => 'PPL, Full body, Vacaciones…',
+			'templates.programs.createAction' => 'Crear el programa',
+			'templates.programs.sessionCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(n, one: '${n} sesión', other: '${n} sesiones', ), 
+			'templates.programs.active' => 'Activo',
+			'templates.programs.empty' => 'Vacío',
+			'templates.programs.sessionInactive' => 'Desactivada',
+			'templates.programs.emptyTitle' => 'Ninguna sesión',
+			'templates.programs.emptyMessage' => 'Añade las sesiones que componen este programa.',
+			'templates.programs.switchOn' => 'Programa activo',
+			'templates.programs.switchOff' => 'Activar este programa',
+			'templates.programs.switchHint' => 'Sus sesiones alimentan tu inicio. Los demás programas se desactivan.',
+			'templates.programs.addSession' => 'Añadir una sesión',
+			'templates.programs.addSessionTitle' => ({required Object name}) => 'Añadir a ${name}',
+			'templates.programs.createSession' => 'Crear una sesión nueva',
+			'templates.programs.loose' => 'Sin programa',
+			'templates.programs.moveTitle' => 'Mover a',
+			'templates.programs.start' => 'Empezar',
+			'templates.programs.move' => 'Mover',
+			'templates.programs.duplicate' => 'Duplicar',
+			'templates.programs.rename' => 'Renombrar',
+			'templates.programs.dragHint' => 'Mantén pulsada una sesión para arrastrarla a un programa.',
+			'templates.programs.deleteProgramTitle' => ({required Object name}) => '¿Eliminar «${name}»?',
+			'templates.programs.deleteProgramMessage' => 'Sus sesiones se conservan, sin programa.',
+			'templates.programs.deleteSessionTitle' => ({required Object name}) => '¿Eliminar «${name}»?',
+			'templates.programs.deleteSessionMessage' => 'La sesión se elimina definitivamente. Tu historial se conserva.',
+			'templates.programs.moved' => ({required Object name}) => 'Movida a ${name}.',
+			'templates.programs.movedOut' => 'Sacada de su programa.',
+			'templates.programs.activated' => ({required Object name}) => '${name} ya está activo.',
+			'templates.programs.deactivated' => ({required Object name}) => '${name} está desactivado.',
+			'templates.programs.programDeleted' => 'Programa eliminado.',
+			'templates.programs.error' => 'No se pudo. Inténtalo de nuevo.',
 			'tempo.helper' => 'Excéntrica — pausa — concéntrica — pausa (en s)',
 			'tempo.formatError' => 'Formato esperado: 3-1-X-0',
 			_ => null,

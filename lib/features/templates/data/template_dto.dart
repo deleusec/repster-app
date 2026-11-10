@@ -70,6 +70,7 @@ class TemplateDto {
           legacyEmojiForTags(row['tags'] as List<dynamic>?),
       slots: slots,
       isActive: (row['is_active'] as bool?) ?? true,
+      programId: row['program_id'] as String?,
       createdAt: DateTime.parse(row['created_at'] as String),
       updatedAt: DateTime.parse(row['updated_at'] as String),
     );

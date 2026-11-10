@@ -37,10 +37,13 @@ import 'package:repster/features/session/domain/workout_set.dart';
 import 'package:repster/features/settings/presentation/settings_screen.dart';
 import 'package:repster/features/stats/application/stats_controller.dart';
 import 'package:repster/features/stats/presentation/stats_screen.dart';
+import 'package:repster/features/templates/application/programs_controller.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
+import 'package:repster/features/templates/domain/program.dart';
 import 'package:repster/features/templates/domain/template.dart';
 import 'package:repster/features/templates/domain/template_exercise.dart';
 import 'package:repster/features/templates/domain/template_slot.dart';
+import 'package:repster/features/templates/presentation/program_screen.dart';
 import 'package:repster/features/templates/presentation/template_detail_screen.dart';
 import 'package:repster/features/templates/presentation/template_edit_screen.dart';
 import 'package:repster/features/templates/presentation/templates_screen.dart';
@@ -264,9 +267,41 @@ class _Auth extends AuthController {
   Future<AuthUser?> build() async => _user;
 }
 
+const _programs = [
+  Program(id: 'p1', name: 'Push Pull Legs', isActive: true),
+  Program(id: 'p2', name: 'Vacances', isActive: false),
+  Program(id: 'p3', name: 'Prépa trail', isActive: false),
+];
+
+Template _extra(String id, String name, FluentEmoji emoji, {String? program}) =>
+    _tpl(id, name, [
+      'Planche',
+      'Fentes',
+      'Pompes',
+    ]).copyWith(emoji: emoji, programId: program, isActive: false);
+
+/// The same sessions, filed: three in the active program, the rest spread
+/// over two idle programs and the loose tiles.
+final _filed = [
+  for (final t in _templates.take(3)) t.copyWith(programId: 'p1'),
+  _templates[3].copyWith(programId: 'p2', isActive: false),
+  _extra('t6', 'Full body', FluentEmojis.rocket, program: 'p2'),
+  _extra('t7', 'Côtes', FluentEmojis.personRunning, program: 'p3'),
+  _extra('t8', 'Sortie longue', FluentEmojis.runningShoe, program: 'p3'),
+  _extra('t9', 'Vélo', FluentEmojis.bicycle, program: 'p3'),
+  _extra('t10', 'Renfo', FluentEmojis.highVoltage, program: 'p3'),
+  _templates[4],
+  _extra('t11', 'Étirements', FluentEmojis.lotus),
+];
+
 class _Templates extends TemplatesController {
   @override
-  Future<List<Template>> build() async => _templates;
+  Future<List<Template>> build() async => _filed;
+}
+
+class _Programs extends ProgramsController {
+  @override
+  Future<List<Program>> build() async => _programs;
 }
 
 class _History extends HistoryController {
@@ -399,6 +434,7 @@ void main() {
   final common = <Override>[
     authControllerProvider.overrideWith(_Auth.new),
     templatesControllerProvider.overrideWith(_Templates.new),
+    programsControllerProvider.overrideWith(_Programs.new),
     historyControllerProvider.overrideWith(_History.new),
     statsSessionsProvider.overrideWith((ref) async => _fullSessions()),
   ];
@@ -416,18 +452,24 @@ void main() {
     ], height: 1000);
   });
   testWidgets('templates', (t) async {
-    await _shoot(t, 'templates', const TemplatesScreen(), common, height: 1100);
+    await _shoot(t, 'templates', const TemplatesScreen(), common, height: 900);
   });
-  testWidgets('templates manage', (tester) async {
+  testWidgets('program', (t) async {
     await _shoot(
-      tester,
-      'templates_manage',
-      const TemplatesScreen(),
+      t,
+      'program',
+      const ProgramScreen(id: 'p1'),
       common,
-      height: 1100,
-      act: (w) async {
-        await w.tap(find.text(t.templates.list.manage));
-      },
+      height: 900,
+    );
+  });
+  testWidgets('program idle', (t) async {
+    await _shoot(
+      t,
+      'program_idle',
+      const ProgramScreen(id: 'p3'),
+      common,
+      height: 900,
     );
   });
   testWidgets('template detail', (t) async {

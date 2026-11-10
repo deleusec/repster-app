@@ -5,22 +5,10 @@
       "one": "{{n}} sesión activa",
       "other": "{{n}} sesiones activas"
     },
-    "subtitleManage": {
-      "one": "{{n}} / {{total}} activa",
-      "other": "{{n}} / {{total}} activas"
-    },
-    "manage": "Gestionar",
     "newAction": "Crear",
     "emptyTitle": "No hay sesiones",
     "emptyMessage": "Crea tu primera sesión para armar tu programa.",
     "emptyAction": "Crear una sesión",
-    "emptyActiveTitle": "No hay sesiones en el programa",
-    "emptyActiveMessage": "Activa sesiones para añadirlas a tu programa.",
-    "emptyActiveAction": "Gestionar sesiones",
-    "noResult": "Sin resultados",
-    "searchHint": "Buscar una sesión…",
-    "manageHint": "Arrastra para reordenar · toca el círculo para ocultar/mostrar una sesión",
-    "savedChanges": "Cambios guardados ✓",
     "reorderError": "Error al reordenar.",
     "toggleError": "Acción imposible.",
     "duplicated": "¡Sesión copiada!",
@@ -34,9 +22,6 @@
       "one": "{{n}} ejercicio",
       "other": "{{n}} ejercicios"
     },
-    "details": "Detalles",
-    "copy": "Copiar",
-    "deleteShort": "Elim.",
     "activate": "Activar",
     "deactivate": "Desactivar"
   },
@@ -94,5 +79,45 @@
     "searchHint": "Buscar un emoji…",
     "noResults": "Ningún emoji coincide.",
     "change": "Cambiar"
+  },
+  "programs": {
+    "newSession": "Una sesión",
+    "newProgram": "Un programa",
+    "nameTitleNew": "Nuevo programa",
+    "nameTitleRename": "Renombrar el programa",
+    "nameHint": "PPL, Full body, Vacaciones…",
+    "createAction": "Crear el programa",
+    "sessionCount": {
+      "one": "{{n}} sesión",
+      "other": "{{n}} sesiones"
+    },
+    "active": "Activo",
+    "empty": "Vacío",
+    "sessionInactive": "Desactivada",
+    "emptyTitle": "Ninguna sesión",
+    "emptyMessage": "Añade las sesiones que componen este programa.",
+    "switchOn": "Programa activo",
+    "switchOff": "Activar este programa",
+    "switchHint": "Sus sesiones alimentan tu inicio. Los demás programas se desactivan.",
+    "addSession": "Añadir una sesión",
+    "addSessionTitle": "Añadir a {{name}}",
+    "createSession": "Crear una sesión nueva",
+    "loose": "Sin programa",
+    "moveTitle": "Mover a",
+    "start": "Empezar",
+    "move": "Mover",
+    "duplicate": "Duplicar",
+    "rename": "Renombrar",
+    "dragHint": "Mantén pulsada una sesión para arrastrarla a un programa.",
+    "deleteProgramTitle": "¿Eliminar «{{name}}»?",
+    "deleteProgramMessage": "Sus sesiones se conservan, sin programa.",
+    "deleteSessionTitle": "¿Eliminar «{{name}}»?",
+    "deleteSessionMessage": "La sesión se elimina definitivamente. Tu historial se conserva.",
+    "moved": "Movida a {{name}}.",
+    "movedOut": "Sacada de su programa.",
+    "activated": "{{name}} ya está activo.",
+    "deactivated": "{{name}} está desactivado.",
+    "programDeleted": "Programa eliminado.",
+    "error": "No se pudo. Inténtalo de nuevo."
   }
 }

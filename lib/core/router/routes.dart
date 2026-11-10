@@ -25,6 +25,12 @@ class Routes {
   // ── Sub-routes (within their tab branch) ──────────────────────────────────
   static const String templateNew = '/templates/new';
   static const String _templatesBase = '/templates';
+
+  /// New session filed straight into a program.
+  static String templateNewIn(String programId) =>
+      '$templateNew?program=$programId';
+  static String program(String id) => '$_templatesBase/program/$id';
+  static const String programPattern = 'program/:programId';
   static String templateDetail(String id) => '$_templatesBase/$id';
   static String templateEdit(String id) => '$_templatesBase/$id/edit';
   static const String templateDetailPattern = ':id';

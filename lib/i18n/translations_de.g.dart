@@ -755,6 +755,7 @@ class _Translations$templates$de extends Translations$templates$en {
 	@override late final _Translations$templates$fields$de fields = _Translations$templates$fields$de._(_root);
 	@override late final _Translations$templates$slot$de slot = _Translations$templates$slot$de._(_root);
 	@override late final _Translations$templates$emojiPicker$de emojiPicker = _Translations$templates$emojiPicker$de._(_root);
+	@override late final _Translations$templates$programs$de programs = _Translations$templates$programs$de._(_root);
 }
 
 // Path: tempo
@@ -1799,22 +1800,10 @@ class _Translations$templates$list$de extends Translations$templates$list$en {
 		one: '${n} aktive Einheit',
 		other: '${n} aktive Einheiten',
 	);
-	@override String subtitleManage({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n,
-		one: '${n} / ${total} aktiv',
-		other: '${n} / ${total} aktiv',
-	);
-	@override String get manage => 'Verwalten';
 	@override String get newAction => 'Erstellen';
 	@override String get emptyTitle => 'Keine Einheiten';
 	@override String get emptyMessage => 'Erstelle deine erste Einheit, um dein Programm aufzubauen.';
 	@override String get emptyAction => 'Einheit erstellen';
-	@override String get emptyActiveTitle => 'Keine Einheiten im Programm';
-	@override String get emptyActiveMessage => 'Aktiviere Einheiten, um sie deinem Programm hinzuzufügen.';
-	@override String get emptyActiveAction => 'Einheiten verwalten';
-	@override String get noResult => 'Keine Ergebnisse';
-	@override String get searchHint => 'Einheit suchen…';
-	@override String get manageHint => 'Ziehen zum Umsortieren · tippe auf den Kreis, um eine Einheit aus-/einzublenden';
-	@override String get savedChanges => 'Änderungen gespeichert ✓';
 	@override String get reorderError => 'Umsortieren fehlgeschlagen.';
 	@override String get toggleError => 'Aktion nicht möglich.';
 	@override String get duplicated => 'Einheit kopiert!';
@@ -1835,9 +1824,6 @@ class _Translations$templates$card$de extends Translations$templates$card$en {
 		one: '${n} Übung',
 		other: '${n} Übungen',
 	);
-	@override String get details => 'Details';
-	@override String get copy => 'Kopieren';
-	@override String get deleteShort => 'Löschen';
 	@override String get activate => 'Aktivieren';
 	@override String get deactivate => 'Deaktivieren';
 }
@@ -1930,6 +1916,53 @@ class _Translations$templates$emojiPicker$de extends Translations$templates$emoj
 	@override String get searchHint => 'Emoji suchen…';
 	@override String get noResults => 'Kein Emoji passt.';
 	@override String get change => 'Ändern';
+}
+
+// Path: templates.programs
+class _Translations$templates$programs$de extends Translations$templates$programs$en {
+	_Translations$templates$programs$de._(TranslationsDe root) : this._root = root, super.internal(root);
+
+	final TranslationsDe _root; // ignore: unused_field
+
+	// Translations
+	@override String get newSession => 'Eine Einheit';
+	@override String get newProgram => 'Ein Programm';
+	@override String get nameTitleNew => 'Neues Programm';
+	@override String get nameTitleRename => 'Programm umbenennen';
+	@override String get nameHint => 'PPL, Ganzkörper, Urlaub…';
+	@override String get createAction => 'Programm erstellen';
+	@override String sessionCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n,
+		one: '${n} Einheit',
+		other: '${n} Einheiten',
+	);
+	@override String get active => 'Aktiv';
+	@override String get empty => 'Leer';
+	@override String get sessionInactive => 'Deaktiviert';
+	@override String get emptyTitle => 'Noch keine Einheit';
+	@override String get emptyMessage => 'Füge die Einheiten hinzu, aus denen dieses Programm besteht.';
+	@override String get switchOn => 'Aktives Programm';
+	@override String get switchOff => 'Dieses Programm aktivieren';
+	@override String get switchHint => 'Seine Einheiten erscheinen auf deiner Startseite. Andere Programme werden deaktiviert.';
+	@override String get addSession => 'Einheit hinzufügen';
+	@override String addSessionTitle({required Object name}) => 'Zu ${name} hinzufügen';
+	@override String get createSession => 'Neue Einheit erstellen';
+	@override String get loose => 'Ohne Programm';
+	@override String get moveTitle => 'Verschieben nach';
+	@override String get start => 'Starten';
+	@override String get move => 'Verschieben';
+	@override String get duplicate => 'Duplizieren';
+	@override String get rename => 'Umbenennen';
+	@override String get dragHint => 'Halte eine Einheit gedrückt, um sie in ein Programm zu ziehen.';
+	@override String deleteProgramTitle({required Object name}) => '„${name}“ löschen?';
+	@override String get deleteProgramMessage => 'Seine Einheiten bleiben erhalten, ohne Programm.';
+	@override String deleteSessionTitle({required Object name}) => '„${name}“ löschen?';
+	@override String get deleteSessionMessage => 'Die Einheit wird endgültig gelöscht. Dein Verlauf bleibt erhalten.';
+	@override String moved({required Object name}) => 'Nach ${name} verschoben.';
+	@override String get movedOut => 'Aus dem Programm genommen.';
+	@override String activated({required Object name}) => '${name} ist jetzt aktiv.';
+	@override String deactivated({required Object name}) => '${name} ist deaktiviert.';
+	@override String get programDeleted => 'Programm gelöscht.';
+	@override String get error => 'Das hat nicht geklappt. Versuch es noch einmal.';
 }
 
 // Path: auth.onboarding.goalDescriptions
@@ -3010,19 +3043,10 @@ extension on TranslationsDe {
 			'stats.strength.scope' => 'gesamte Historie',
 			'templates.list.title' => 'Programm',
 			'templates.list.subtitleActive' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} aktive Einheit', other: '${n} aktive Einheiten', ), 
-			'templates.list.subtitleManage' => ({required num n, required Object total}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} / ${total} aktiv', other: '${n} / ${total} aktiv', ), 
-			'templates.list.manage' => 'Verwalten',
 			'templates.list.newAction' => 'Erstellen',
 			'templates.list.emptyTitle' => 'Keine Einheiten',
 			'templates.list.emptyMessage' => 'Erstelle deine erste Einheit, um dein Programm aufzubauen.',
 			'templates.list.emptyAction' => 'Einheit erstellen',
-			'templates.list.emptyActiveTitle' => 'Keine Einheiten im Programm',
-			'templates.list.emptyActiveMessage' => 'Aktiviere Einheiten, um sie deinem Programm hinzuzufügen.',
-			'templates.list.emptyActiveAction' => 'Einheiten verwalten',
-			'templates.list.noResult' => 'Keine Ergebnisse',
-			'templates.list.searchHint' => 'Einheit suchen…',
-			'templates.list.manageHint' => 'Ziehen zum Umsortieren · tippe auf den Kreis, um eine Einheit aus-/einzublenden',
-			'templates.list.savedChanges' => 'Änderungen gespeichert ✓',
 			'templates.list.reorderError' => 'Umsortieren fehlgeschlagen.',
 			'templates.list.toggleError' => 'Aktion nicht möglich.',
 			'templates.list.duplicated' => 'Einheit kopiert!',
@@ -3031,9 +3055,6 @@ extension on TranslationsDe {
 			'templates.list.deleteError' => 'Löschen fehlgeschlagen.',
 			'templates.list.copySuffix' => '(Kopie)',
 			'templates.card.exerciseCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} Übung', other: '${n} Übungen', ), 
-			'templates.card.details' => 'Details',
-			'templates.card.copy' => 'Kopieren',
-			'templates.card.deleteShort' => 'Löschen',
 			'templates.card.activate' => 'Aktivieren',
 			'templates.card.deactivate' => 'Deaktivieren',
 			'templates.detail.noExercises' => 'Keine Übungen in dieser Vorlage.',
@@ -3078,6 +3099,41 @@ extension on TranslationsDe {
 			'templates.emojiPicker.searchHint' => 'Emoji suchen…',
 			'templates.emojiPicker.noResults' => 'Kein Emoji passt.',
 			'templates.emojiPicker.change' => 'Ändern',
+			'templates.programs.newSession' => 'Eine Einheit',
+			'templates.programs.newProgram' => 'Ein Programm',
+			'templates.programs.nameTitleNew' => 'Neues Programm',
+			'templates.programs.nameTitleRename' => 'Programm umbenennen',
+			'templates.programs.nameHint' => 'PPL, Ganzkörper, Urlaub…',
+			'templates.programs.createAction' => 'Programm erstellen',
+			'templates.programs.sessionCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(n, one: '${n} Einheit', other: '${n} Einheiten', ), 
+			'templates.programs.active' => 'Aktiv',
+			'templates.programs.empty' => 'Leer',
+			'templates.programs.sessionInactive' => 'Deaktiviert',
+			'templates.programs.emptyTitle' => 'Noch keine Einheit',
+			'templates.programs.emptyMessage' => 'Füge die Einheiten hinzu, aus denen dieses Programm besteht.',
+			'templates.programs.switchOn' => 'Aktives Programm',
+			'templates.programs.switchOff' => 'Dieses Programm aktivieren',
+			'templates.programs.switchHint' => 'Seine Einheiten erscheinen auf deiner Startseite. Andere Programme werden deaktiviert.',
+			'templates.programs.addSession' => 'Einheit hinzufügen',
+			'templates.programs.addSessionTitle' => ({required Object name}) => 'Zu ${name} hinzufügen',
+			'templates.programs.createSession' => 'Neue Einheit erstellen',
+			'templates.programs.loose' => 'Ohne Programm',
+			'templates.programs.moveTitle' => 'Verschieben nach',
+			'templates.programs.start' => 'Starten',
+			'templates.programs.move' => 'Verschieben',
+			'templates.programs.duplicate' => 'Duplizieren',
+			'templates.programs.rename' => 'Umbenennen',
+			'templates.programs.dragHint' => 'Halte eine Einheit gedrückt, um sie in ein Programm zu ziehen.',
+			'templates.programs.deleteProgramTitle' => ({required Object name}) => '„${name}“ löschen?',
+			'templates.programs.deleteProgramMessage' => 'Seine Einheiten bleiben erhalten, ohne Programm.',
+			'templates.programs.deleteSessionTitle' => ({required Object name}) => '„${name}“ löschen?',
+			'templates.programs.deleteSessionMessage' => 'Die Einheit wird endgültig gelöscht. Dein Verlauf bleibt erhalten.',
+			'templates.programs.moved' => ({required Object name}) => 'Nach ${name} verschoben.',
+			'templates.programs.movedOut' => 'Aus dem Programm genommen.',
+			'templates.programs.activated' => ({required Object name}) => '${name} ist jetzt aktiv.',
+			'templates.programs.deactivated' => ({required Object name}) => '${name} ist deaktiviert.',
+			'templates.programs.programDeleted' => 'Programm gelöscht.',
+			'templates.programs.error' => 'Das hat nicht geklappt. Versuch es noch einmal.',
 			'tempo.helper' => 'Exzentrisch — Pause — konzentrisch — Pause (in s)',
 			'tempo.formatError' => 'Erwartetes Format: 3-1-X-0',
 			_ => null,

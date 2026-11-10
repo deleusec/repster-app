@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
-import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/core/theme/app_text.dart';
 import 'package:repster/features/session/presentation/start_session.dart';
+import 'package:repster/features/templates/application/programs_controller.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
+import 'package:repster/features/templates/domain/program.dart';
 import 'package:repster/features/templates/domain/template.dart';
-import 'package:repster/features/templates/presentation/widgets/template_list_card.dart';
+import 'package:repster/features/templates/presentation/program_actions.dart';
+import 'package:repster/features/templates/presentation/widgets/program_folder_card.dart';
+import 'package:repster/features/templates/presentation/widgets/session_tile.dart';
 import 'package:repster/i18n/translations.g.dart';
 import 'package:repster/shared/animation/staggered_list.dart';
+import 'package:repster/shared/widgets/app_action_sheet.dart';
 import 'package:repster/shared/widgets/app_toast.dart';
 import 'package:repster/shared/widgets/async_value_widget.dart';
 import 'package:repster/shared/widgets/empty_state.dart';
@@ -20,327 +25,162 @@ import 'package:repster/shared/widgets/glow_scaffold.dart';
 import 'package:repster/shared/widgets/pressable.dart';
 import 'package:repster/shared/widgets/screen_header.dart';
 
-/// `emerald-600` — "Done" button in manage mode.
-const Color _emerald600 = Color(0xFF059669);
+/// Height of a grid cell — folders and session tiles share it.
+const double _cellHeight = 168;
+const double _gap = 12;
 
-class TemplatesScreen extends ConsumerStatefulWidget {
+/// What is being dragged across the grid.
+typedef _Dragged = ({bool isProgram, String id});
+
+/// The Programme tab: programs as folders, and the sessions that belong to
+/// none of them, in one grid. Holding a cell picks it up — a session dropped
+/// on a folder is filed in it, a cell dropped on one of its kind takes its
+/// place.
+class TemplatesScreen extends ConsumerWidget {
   const TemplatesScreen({super.key});
 
   @override
-  ConsumerState<TemplatesScreen> createState() => _TemplatesScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final templates = ref.watch(templatesControllerProvider);
+    final programs = ref.watch(programsControllerProvider);
+
+    final AsyncValue<(List<Template>, List<Program>)> both;
+    if (templates.hasValue && programs.hasValue) {
+      both = AsyncData((templates.requireValue, programs.requireValue));
+    } else if (templates.hasError) {
+      both = AsyncError(templates.error!, templates.stackTrace!);
+    } else if (programs.hasError) {
+      both = AsyncError(programs.error!, programs.stackTrace!);
+    } else {
+      both = const AsyncLoading();
+    }
+
+    return GlowScaffold(
+      child: AsyncValueWidget<(List<Template>, List<Program>)>(
+        value: both,
+        onRetry: () {
+          ref
+            ..invalidate(templatesControllerProvider)
+            ..invalidate(programsControllerProvider);
+        },
+        data: (data) => _Grid(templates: data.$1, programs: data.$2),
+      ),
+    );
+  }
 }
 
-class _TemplatesScreenState extends ConsumerState<TemplatesScreen> {
-  final _searchController = TextEditingController();
-  String _search = '';
-  bool _manageMode = false;
-  String? _confirmDeleteId;
+enum _Create { session, program }
 
-  /// Local working order during manage mode (smooth drag without waiting for
-  /// the server refetch).
-  List<Template> _ordered = const [];
+class _Grid extends ConsumerWidget {
+  const _Grid({required this.templates, required this.programs});
 
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
+  final List<Template> templates;
+  final List<Program> programs;
+
+  Future<void> _create(BuildContext context, WidgetRef ref) async {
+    final choice = await AppActionSheet.show<_Create>(
+      context,
+      title: t.templates.list.newAction,
+      actions: [
+        AppSheetAction(
+          value: _Create.session,
+          label: t.templates.programs.newSession,
+          icon: LucideIcons.dumbbell,
+        ),
+        AppSheetAction(
+          value: _Create.program,
+          label: t.templates.programs.newProgram,
+          icon: LucideIcons.folderPlus,
+        ),
+      ],
+    );
+    if (choice == null || !context.mounted) return;
+    switch (choice) {
+      case _Create.session:
+        await context.push(Routes.templateNew);
+      case _Create.program:
+        final program = await createProgramFlow(context, ref);
+        if (program == null || !context.mounted) return;
+        await context.push(Routes.program(program.id));
+    }
   }
 
-  void _enterManage(List<Template> all) {
-    setState(() {
-      _manageMode = true;
-      _ordered = List.of(all);
-      _search = '';
-      _searchController.clear();
-      _confirmDeleteId = null;
-    });
+  /// Moves [id] to the place [targetId] holds in [ids].
+  static List<String> _moved(List<String> ids, String id, String targetId) {
+    final to = ids.indexOf(targetId);
+    return List.of(ids)
+      ..remove(id)
+      ..insert(to, id);
   }
 
-  void _exitManage() {
-    setState(() => _manageMode = false);
-    AppToast.showSuccess(context, t.templates.list.savedChanges);
-  }
-
-  Future<void> _onReorder(int oldIndex, int newIndex) async {
-    setState(() {
-      var to = newIndex;
-      if (to > oldIndex) to -= 1;
-      final item = _ordered.removeAt(oldIndex);
-      _ordered.insert(to, item);
-    });
+  Future<void> _drop(
+    BuildContext context,
+    WidgetRef ref,
+    _Dragged dragged, {
+    Program? onProgram,
+    Template? onSession,
+  }) async {
     try {
-      await ref
-          .read(templatesControllerProvider.notifier)
-          .reorder(_ordered.map((t) => t.id).toList(growable: false));
+      if (onProgram != null && !dragged.isProgram) {
+        final session = templates.firstWhere((t) => t.id == dragged.id);
+        await moveSession(context, ref, session, onProgram);
+      } else if (onProgram != null) {
+        await ref
+            .read(programsControllerProvider.notifier)
+            .reorder(
+              _moved(
+                [for (final p in programs) p.id],
+                dragged.id,
+                onProgram.id,
+              ),
+            );
+      } else if (onSession != null) {
+        await ref
+            .read(templatesControllerProvider.notifier)
+            .reorder(
+              _moved(
+                [
+                  for (final t in templates)
+                    if (t.programId == null) t.id,
+                ],
+                dragged.id,
+                onSession.id,
+              ),
+            );
+      }
     } on Object {
-      if (mounted) {
+      if (context.mounted) {
         AppToast.showError(context, t.templates.list.reorderError);
       }
     }
   }
 
-  Future<void> _toggleActive(Template template) async {
-    final next = !template.isActive;
-    setState(() {
-      _ordered = _ordered
-          .map((e) => e.id == template.id ? e.copyWith(isActive: next) : e)
-          .toList(growable: false);
-    });
-    try {
-      await ref
-          .read(templatesControllerProvider.notifier)
-          .toggleActive(template.id, isActive: next);
-    } on Object {
-      if (mounted) AppToast.showError(context, t.templates.list.toggleError);
-    }
-  }
-
-  Future<void> _duplicate(String id) async {
-    try {
-      await ref.read(templatesControllerProvider.notifier).duplicate(id);
-      if (mounted) AppToast.showSuccess(context, t.templates.list.duplicated);
-    } on Object {
-      if (mounted) AppToast.showError(context, t.templates.list.duplicateError);
-    }
-  }
-
-  Future<void> _delete(String id) async {
-    setState(() => _confirmDeleteId = null);
-    try {
-      await ref.read(templatesControllerProvider.notifier).delete(id);
-      if (mounted) AppToast.showSuccess(context, t.templates.list.deleted);
-    } on Object {
-      if (mounted) AppToast.showError(context, t.templates.list.deleteError);
-    }
-  }
-
   @override
-  Widget build(BuildContext context) {
-    final templates = ref.watch(templatesControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scheme = Theme.of(context).colorScheme;
+    final active = templates.where((t) => t.isActive).length;
+    final loose = templates
+        .where((t) => t.programId == null)
+        .toList(growable: false);
 
-    return GlowScaffold(
-      child: AsyncValueWidget<List<Template>>(
-        value: templates,
-        onRetry: () => ref.invalidate(templatesControllerProvider),
-        data: (list) => _manageMode
-            ? _ManageList(
-                templates: _ordered,
-                subtitle: _subtitle(list),
-                onReorder: _onReorder,
-                onToggle: _toggleActive,
-                onDone: _exitManage,
-              )
-            : _NormalList(
-                templates: list,
-                subtitle: _subtitle(list),
-                search: _search,
-                searchController: _searchController,
-                confirmDeleteId: _confirmDeleteId,
-                onSearch: (v) => setState(() => _search = v),
-                onRefresh: () =>
-                    ref.read(templatesControllerProvider.notifier).refresh(),
-                onStart: (t) => startTemplateSession(context, ref, t.id),
-                onEdit: (t) => context.push(Routes.templateEdit(t.id)),
-                onDetails: (t) => context.push(Routes.templateDetail(t.id)),
-                onDuplicate: (t) => _duplicate(t.id),
-                onRequestDelete: (t) => setState(() => _confirmDeleteId = t.id),
-                onDelete: (t) => _delete(t.id),
-                onNew: () => context.push(Routes.templateNew),
-                onManage: () => _enterManage(list),
-              ),
-      ),
-    );
-  }
-
-  String _subtitle(List<Template> list) {
-    final active = list.where((t) => t.isActive).length;
-    if (_manageMode) {
-      return t.templates.list.subtitleManage(n: active, total: list.length);
-    }
-    return t.templates.list.subtitleActive(n: active);
-  }
-}
-
-/// Program page header: title + subtitle (via [ScreenHeader]) and right-aligned
-/// actions (Manage / New, or Done in manage mode).
-class _ProgramHeader extends StatelessWidget {
-  const _ProgramHeader({required this.subtitle, required this.actions});
-
-  final String subtitle;
-  final List<Widget> actions;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
+    final header = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: ScreenHeader(
             title: t.templates.list.title,
-            subtitle: subtitle,
+            subtitle: t.templates.list.subtitleActive(n: active),
           ),
         ),
         const SizedBox(width: 12),
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          // Equal-width actions, sized to the widest: `IntrinsicWidth` asks
-          // the row for its natural width, and two `Expanded` children split
-          // it evenly. Matching the labels by hand would only work in the
-          // language it was tuned for — "Gérer"/"Créer" happen to be the same
-          // length, "Gestionar"/"Crear" do not.
-          child: IntrinsicWidth(
-            child: Row(
-              children: [
-                for (var i = 0; i < actions.length; i++) ...[
-                  if (i > 0) const SizedBox(width: 8),
-                  Expanded(child: actions[i]),
-                ],
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-/// Small chip-button for header actions. Filled (background, with the
-/// brand's halo) or outline variant.
-class _HeaderChip extends StatelessWidget {
-  const _HeaderChip({
-    required this.icon,
-    required this.label,
-    required this.foreground,
-    required this.onTap,
-    this.background,
-    this.border,
-    this.halo = false,
-  });
-
-  final IconData icon;
-  final String label;
-  final Color foreground;
-  final VoidCallback onTap;
-  final Color? background;
-  final Color? border;
-  final bool halo;
-
-  @override
-  Widget build(BuildContext context) {
-    final glow = Theme.of(context).colorScheme.glow;
-    return Pressable(
-      onTap: onTap,
-      scale: 0.94,
-      child: Container(
-        height: 36,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: background,
-          borderRadius: BorderRadius.circular(AppRadius.controlSm),
-          border: border != null ? Border.all(color: border!) : null,
-          boxShadow: halo
-              ? [
-                  BoxShadow(
-                    color: glow.withValues(alpha: 0.25),
-                    blurRadius: 14,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
-        ),
-        // Centred rather than min-width: the chip is stretched to the
-        // widest of the pair, so its content has to sit in the middle of
-        // the box instead of hugging the left edge.
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 15, color: foreground),
-            const SizedBox(width: 6),
-            Flexible(
-              child: Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: foreground,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ── Normal mode ─────────────────────────────────────────────────────────────
-
-class _NormalList extends StatelessWidget {
-  const _NormalList({
-    required this.templates,
-    required this.subtitle,
-    required this.search,
-    required this.searchController,
-    required this.confirmDeleteId,
-    required this.onSearch,
-    required this.onRefresh,
-    required this.onStart,
-    required this.onEdit,
-    required this.onDetails,
-    required this.onDuplicate,
-    required this.onRequestDelete,
-    required this.onDelete,
-    required this.onNew,
-    required this.onManage,
-  });
-
-  final List<Template> templates;
-  final String subtitle;
-  final String search;
-  final TextEditingController searchController;
-  final String? confirmDeleteId;
-  final ValueChanged<String> onSearch;
-  final Future<void> Function() onRefresh;
-  final ValueChanged<Template> onStart;
-  final ValueChanged<Template> onEdit;
-  final ValueChanged<Template> onDetails;
-  final ValueChanged<Template> onDuplicate;
-  final ValueChanged<Template> onRequestDelete;
-  final ValueChanged<Template> onDelete;
-  final VoidCallback onNew;
-  final VoidCallback onManage;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    final header = _ProgramHeader(
-      subtitle: subtitle,
-      actions: [
-        if (templates.isNotEmpty) ...[
-          _HeaderChip(
-            icon: LucideIcons.slidersHorizontal,
-            label: t.templates.list.manage,
-            foreground: onSurface,
-            border: onSurface.withValues(alpha: 0.12),
-            onTap: onManage,
-          ),
-        ],
-        _HeaderChip(
-          icon: LucideIcons.plus,
-          label: t.templates.list.newAction,
-          foreground: scheme.onPrimary,
-          background: scheme.primary,
-          halo: true,
-          onTap: onNew,
+          child: _CreateChip(onTap: () => _create(context, ref)),
         ),
       ],
     );
 
-    // No templates at all.
-    if (templates.isEmpty) {
+    if (templates.isEmpty && programs.isEmpty) {
       return ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
         children: [
@@ -351,254 +191,184 @@ class _NormalList extends StatelessWidget {
             title: t.templates.list.emptyTitle,
             message: t.templates.list.emptyMessage,
             actionLabel: t.templates.list.emptyAction,
-            onAction: onNew,
+            onAction: () => context.push(Routes.templateNew),
           ),
         ],
       );
     }
-
-    final active = templates.where((t) => t.isActive).toList(growable: false);
-
-    // Templates exist but none are in the program.
-    if (active.isEmpty) {
-      return ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-        children: [
-          header,
-          const SizedBox(height: 60),
-          EmptyState(
-            icon: LucideIcons.dumbbell,
-            title: t.templates.list.emptyActiveTitle,
-            message: t.templates.list.emptyActiveMessage,
-            actionLabel: t.templates.list.emptyActiveAction,
-            onAction: onManage,
-          ),
-        ],
-      );
-    }
-
-    final q = search.trim().toLowerCase();
-    final filtered = active
-        .where((t) => q.isEmpty || t.name.toLowerCase().contains(q))
-        .toList(growable: false);
 
     final stagger = StaggeredList();
     return RefreshIndicator(
-      onRefresh: onRefresh,
+      onRefresh: () => Future.wait([
+        ref.read(templatesControllerProvider.notifier).refresh(),
+        ref.read(programsControllerProvider.notifier).refresh(),
+      ]),
       child: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
         children: [
           header,
-          const SizedBox(height: 16),
-          _SearchBar(controller: searchController, onChanged: onSearch),
-          const SizedBox(height: 16),
-          if (filtered.isEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 48),
-              child: Center(
-                child: Text(
-                  t.templates.list.noResult,
-                  style: AppText.body.copyWith(color: scheme.textTertiary),
-                ),
-              ),
-            )
-          else
-            for (final template in filtered)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: stagger.wrap(
-                  TemplateListCard(
-                    template: template,
-                    manageMode: false,
-                    confirmingDelete: confirmDeleteId == template.id,
-                    onStart: () => onStart(template),
-                    onEdit: () => onEdit(template),
-                    onDetails: () => onDetails(template),
-                    onDuplicate: () => onDuplicate(template),
-                    onRequestDelete: () => onRequestDelete(template),
-                    onDelete: () => onDelete(template),
-                    onToggleActive: () {},
-                  ),
-                ),
-              ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SearchBar extends StatelessWidget {
-  const _SearchBar({required this.controller, required this.onChanged});
-  final TextEditingController controller;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final onSurface = scheme.onSurface;
-    return Container(
-      height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      decoration: scheme.controlSurface,
-      child: Row(
-        children: [
-          Icon(LucideIcons.search, size: 18, color: scheme.textTertiary),
-          const SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              controller: controller,
-              onChanged: onChanged,
-              textAlignVertical: TextAlignVertical.center,
-              cursorColor: scheme.primary,
-              style: TextStyle(fontSize: 14, color: onSurface),
-              decoration: InputDecoration(
-                isCollapsed: true,
-                filled: false,
-                fillColor: Colors.transparent,
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                hintText: t.templates.list.searchHint,
-                hintStyle: AppText.body.copyWith(color: scheme.textTertiary),
-              ),
-            ),
-          ),
-          ValueListenableBuilder<TextEditingValue>(
-            valueListenable: controller,
-            builder: (context, value, _) {
-              if (value.text.isEmpty) return const SizedBox.shrink();
-              return Pressable(
-                onTap: () {
-                  controller.clear();
-                  onChanged('');
-                },
-                scale: 0.85,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Icon(
-                    LucideIcons.x,
-                    size: 18,
-                    color: scheme.textSecondary,
-                  ),
-                ),
+          const SizedBox(height: 20),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final size = Size((constraints.maxWidth - _gap) / 2, _cellHeight);
+              return Wrap(
+                spacing: _gap,
+                runSpacing: _gap,
+                children: [
+                  for (final program in programs)
+                    stagger.wrap(
+                      _Cell(
+                        key: ValueKey('program-${program.id}'),
+                        size: size,
+                        data: (isProgram: true, id: program.id),
+                        // A folder takes a session, or swaps with a folder.
+                        accepts: (_) => true,
+                        onDrop: (d) =>
+                            _drop(context, ref, d, onProgram: program),
+                        builder: (hovering) => Pressable(
+                          onTap: () => context.push(Routes.program(program.id)),
+                          child: ProgramFolderCard(
+                            program: program,
+                            sessions: [
+                              for (final t in templates)
+                                if (t.programId == program.id) t,
+                            ],
+                            receiving: hovering != null,
+                          ),
+                        ),
+                      ),
+                    ),
+                  for (final session in loose)
+                    stagger.wrap(
+                      _Cell(
+                        key: ValueKey('session-${session.id}'),
+                        size: size,
+                        data: (isProgram: false, id: session.id),
+                        accepts: (d) => !d.isProgram,
+                        onDrop: (d) =>
+                            _drop(context, ref, d, onSession: session),
+                        builder: (hovering) => SessionTile(
+                          template: session,
+                          receiving: hovering != null,
+                          onOpen: () =>
+                              context.push(Routes.templateDetail(session.id)),
+                          onStart: () =>
+                              startTemplateSession(context, ref, session.id),
+                          onMore: () =>
+                              showSessionActions(context, ref, session),
+                        ),
+                      ),
+                    ),
+                ],
               );
             },
           ),
+          if (programs.isNotEmpty && loose.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Text(
+                t.templates.programs.dragHint,
+                textAlign: TextAlign.center,
+                style: AppText.caption.copyWith(color: scheme.textTertiary),
+              ),
+            ),
         ],
       ),
     );
   }
 }
 
-// ── Manage mode (reorder + activation) ──────────────────────────────────────
-
-class _ManageList extends StatelessWidget {
-  const _ManageList({
-    required this.templates,
-    required this.subtitle,
-    required this.onReorder,
-    required this.onToggle,
-    required this.onDone,
+/// One grid cell: picked up by a long press, and a landing spot for the
+/// cells it [accepts].
+class _Cell extends StatelessWidget {
+  const _Cell({
+    required this.size,
+    required this.data,
+    required this.accepts,
+    required this.onDrop,
+    required this.builder,
+    super.key,
   });
 
-  final List<Template> templates;
-  final String subtitle;
-  final void Function(int, int) onReorder;
-  final ValueChanged<Template> onToggle;
-  final VoidCallback onDone;
+  final Size size;
+  final _Dragged data;
+  final bool Function(_Dragged) accepts;
+  final ValueChanged<_Dragged> onDrop;
+
+  /// Builds the cell; the argument is the cell hovering over it, if any.
+  final Widget Function(_Dragged? hovering) builder;
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableListView.builder(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-      buildDefaultDragHandles: false,
-      header: Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _ProgramHeader(
-              subtitle: subtitle,
-              actions: [
-                _HeaderChip(
-                  icon: LucideIcons.check,
-                  label: t.common.actions.done,
-                  foreground: Colors.white,
-                  background: _emerald600,
-                  onTap: onDone,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const _ManageHint(),
-          ],
-        ),
-      ),
-      itemCount: templates.length,
-      onReorder: onReorder,
-      proxyDecorator: (child, index, animation) =>
-          Material(color: Colors.transparent, child: child),
-      itemBuilder: (context, i) {
-        final t = templates[i];
-        return Padding(
-          key: ValueKey(t.id),
-          padding: const EdgeInsets.only(bottom: 12),
-          child: TemplateListCard(
-            template: t,
-            manageMode: true,
-            confirmingDelete: false,
-            onStart: () {},
-            onEdit: () {},
-            onDetails: () {},
-            onDuplicate: () {},
-            onRequestDelete: () {},
-            onDelete: () {},
-            onToggleActive: () => onToggle(t),
-            dragHandle: ReorderableDragStartListener(
-              index: i,
-              child: Container(
-                width: 44,
-                alignment: Alignment.center,
-                color: Colors.transparent,
-                child: Icon(
-                  LucideIcons.gripVertical,
-                  size: 20,
-                  color: Theme.of(context).colorScheme.glow,
-                ),
+    return SizedBox.fromSize(
+      size: size,
+      child: DragTarget<_Dragged>(
+        onWillAcceptWithDetails: (d) => d.data.id != data.id && accepts(d.data),
+        onAcceptWithDetails: (d) => onDrop(d.data),
+        builder: (context, candidates, _) {
+          final child = builder(candidates.firstOrNull);
+          return LongPressDraggable<_Dragged>(
+            data: data,
+            onDragStarted: HapticFeedback.mediumImpact,
+            childWhenDragging: Opacity(opacity: 0.25, child: child),
+            // The overlay sits above the page's Material: without one the
+            // text loses its style.
+            feedback: Material(
+              type: MaterialType.transparency,
+              child: SizedBox.fromSize(
+                size: size,
+                child: Transform.scale(scale: 1.04, child: builder(null)),
               ),
             ),
-          ),
-        );
-      },
+            child: child,
+          );
+        },
+      ),
     );
   }
 }
 
-class _ManageHint extends StatelessWidget {
-  const _ManageHint();
+/// The header's one action, filled with the brand colour and its halo.
+class _CreateChip extends StatelessWidget {
+  const _CreateChip({required this.onTap});
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final glow = scheme.glow;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: glow.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: glow.withValues(alpha: 0.22)),
-      ),
-      child: Row(
-        children: [
-          Icon(LucideIcons.slidersHorizontal, size: 16, color: glow),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              t.templates.list.manageHint,
-              style: AppText.caption.copyWith(color: scheme.textSecondary),
+    return Pressable(
+      onTap: onTap,
+      scale: 0.94,
+      child: Container(
+        height: 36,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: scheme.primary,
+          borderRadius: BorderRadius.circular(AppRadius.controlSm),
+          boxShadow: [
+            BoxShadow(
+              color: scheme.glow.withValues(alpha: 0.25),
+              blurRadius: 14,
+              offset: const Offset(0, 4),
             ),
-          ),
-        ],
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(LucideIcons.plus, size: 15, color: scheme.onPrimary),
+            const SizedBox(width: 6),
+            Text(
+              t.templates.list.newAction,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: scheme.onPrimary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

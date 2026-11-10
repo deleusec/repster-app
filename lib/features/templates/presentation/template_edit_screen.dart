@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-
 import 'package:repster/core/emoji/fluent_emoji.dart';
 import 'package:repster/core/error/humanize_error.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_surfaces.dart';
 import 'package:repster/features/exercises/application/exercises_search.dart';
 import 'package:repster/features/exercises/domain/catalog_exercise.dart';
+import 'package:repster/features/templates/application/programs_controller.dart';
 import 'package:repster/features/templates/application/template_editor_controller.dart';
 import 'package:repster/features/templates/application/templates_controller.dart';
 import 'package:repster/features/templates/domain/template.dart';
@@ -21,10 +21,13 @@ import 'package:repster/shared/widgets/form_error_box.dart';
 import 'package:repster/shared/widgets/glow_scaffold.dart';
 
 class TemplateEditScreen extends ConsumerStatefulWidget {
-  const TemplateEditScreen({this.templateId, super.key});
+  const TemplateEditScreen({this.templateId, this.programId, super.key});
 
   /// `null` = new template, otherwise editing an existing one.
   final String? templateId;
+
+  /// When creating: the program the new session is filed under.
+  final String? programId;
 
   @override
   ConsumerState<TemplateEditScreen> createState() => _TemplateEditScreenState();
@@ -85,11 +88,20 @@ class _TemplateEditScreenState extends ConsumerState<TemplateEditScreen> {
     try {
       final ctl = ref.read(templatesControllerProvider.notifier);
       if (widget.templateId == null) {
+        final programId = widget.programId;
+        final program = ref
+            .read(programsControllerProvider)
+            .valueOrNull
+            ?.where((p) => p.id == programId)
+            .firstOrNull;
         final id = await ctl.create(
           name: ed.name,
           description: ed.description,
           slots: ed.slots,
           emoji: ed.emoji,
+          programId: program?.id,
+          // A session takes the state of the program it is created in.
+          isActive: program?.isActive ?? true,
         );
         if (!mounted) return;
         context.pushReplacement('/templates/$id');

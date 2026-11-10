@@ -38,7 +38,8 @@ class TemplatesRepository {
 
   static const _selectAll =
       '''
-id, name, description, tags, emoji, position, is_active, created_at, updated_at,
+id, name, description, tags, emoji, position, is_active, program_id,
+created_at, updated_at,
 template_exercises (
   id, exercise_id, position, sets_count, reps_target, tempo, rest_seconds,
   notes, is_time_based, duration_seconds, slot_id, variant_position,
@@ -89,6 +90,8 @@ template_exercises (
     required String description,
     required List<TemplateSlot> slots,
     required FluentEmoji emoji,
+    String? programId,
+    bool isActive = true,
   }) async {
     try {
       final normalized = _normalizeSlots(slots);
@@ -103,6 +106,8 @@ template_exercises (
                 : description.trim(),
             'emoji': emoji.key,
             'position': nextPosition,
+            'program_id': programId,
+            'is_active': isActive,
           })
           .select('id')
           .single();
@@ -178,6 +183,8 @@ template_exercises (
         description: source.description,
         slots: newSlots,
         emoji: source.emoji,
+        programId: source.programId,
+        isActive: source.isActive,
       );
     } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
@@ -196,6 +203,23 @@ template_exercises (
     }
   }
 
+  /// Files a session under [programId] (`null` takes it out of any program),
+  /// at the end of its new neighbours.
+  Future<void> moveToProgram(String id, String? programId) async {
+    try {
+      final position = await _nextPosition();
+      await _client
+          .from('workout_templates')
+          .update({'program_id': programId, 'position': position})
+          .eq('id', id)
+          .eq('user_id', _userId);
+    } on Object catch (e, st) {
+      throw mapSupabaseError(e, st);
+    }
+  }
+
+  /// Writes the order of one group of sessions (a program's, or the loose
+  /// ones). Positions only need to sort within a group.
   Future<void> reorder(List<String> orderedIds) async {
     if (orderedIds.isEmpty) return;
     try {

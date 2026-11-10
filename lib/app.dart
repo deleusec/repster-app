@@ -46,7 +46,13 @@ class RepsterApp extends ConsumerWidget {
         final mq = MediaQuery.of(context);
         // On the web the engine reports no safe area, so the page measures
         // it and the app takes the larger of the two on each side.
-        final measured = measuredSafeArea();
+        // Under a translucent iOS status bar the system fades the page out
+        // a little below the bar itself, so content starts lower than the
+        // raw inset.
+        final raw = measuredSafeArea();
+        final measured = raw.top > 0
+            ? raw.copyWith(top: raw.top + _statusBarFade)
+            : raw;
         return MediaQuery(
           data: mq.copyWith(
             padding: _max(mq.padding, measured),
@@ -59,6 +65,8 @@ class RepsterApp extends ConsumerWidget {
     );
   }
 }
+
+const double _statusBarFade = 12;
 
 EdgeInsets _max(EdgeInsets a, EdgeInsets b) => EdgeInsets.fromLTRB(
   math.max(a.left, b.left),

@@ -1,0 +1,5 @@
+{
+  "setup": ["./.paradev/setup.sh"],
+  "teardown": [],
+  "run": ["./.paradev/run.sh"]
+}

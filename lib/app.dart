@@ -66,7 +66,7 @@ class RepsterApp extends ConsumerWidget {
   }
 }
 
-const double _statusBarFade = 12;
+const double _statusBarFade = 24;
 
 EdgeInsets _max(EdgeInsets a, EdgeInsets b) => EdgeInsets.fromLTRB(
   math.max(a.left, b.left),

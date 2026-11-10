@@ -38,6 +38,9 @@
   <style id="splash-screen-style">
     html {
       height: 100%;
+      /* iOS tints the status bar from this colour; without it the page
+         behind the app is white. */
+      background-color: #010101;
       overscroll-behavior: none;
       -webkit-text-size-adjust: 100%;
     }
@@ -49,6 +52,15 @@
       background-color: #010101;
       overscroll-behavior: none;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Installed on iOS under a translucent status bar, WebKit lays the page
+       out shorter than the screen by the bar's height and leaves a band at
+       the bottom. The large viewport unit still spans the whole screen. */
+    html.ios-standalone body,
+    html.ios-standalone #splash {
+      height: 100lvh !important;
+      bottom: auto !important;
     }
 
     /* Measures env(safe-area-inset-*) so Flutter, which does not read it,
@@ -126,6 +138,25 @@
     }
     new MutationObserver(keepViewportCover).observe(document.head, { childList: true });
 
+    // Same WebKit bug, engine side: on iOS Flutter sizes itself from
+    // documentElement.clientHeight, which comes back short. Report the body's
+    // height instead (100lvh, see the style above) when it is taller.
+    if (window.navigator.standalone === true) {
+      var root = document.documentElement;
+      root.classList.add("ios-standalone");
+      var nativeHeight = Object.getOwnPropertyDescriptor(Element.prototype, "clientHeight");
+      if (nativeHeight && nativeHeight.get) {
+        Object.defineProperty(root, "clientHeight", {
+          configurable: true,
+          get: function () {
+            var layout = nativeHeight.get.call(this);
+            var full = document.body ? Math.round(document.body.getBoundingClientRect().height) : 0;
+            return full > layout ? full : layout;
+          },
+        });
+      }
+    }
+
     // Safe-area insets in CSS pixels, [top, right, bottom, left], read by the
     // app on every layout (see lib/core/web/safe_area_web.dart).
     window.repsterSafeArea = function () {
@@ -145,7 +176,6 @@
       if (!splash) return;
       splash.classList.add("is-fading");
       setTimeout(function () { splash.remove(); }, 550);
-      document.body.style.background = "transparent";
     }
 
     // The app removes the splash itself once its first screen is ready

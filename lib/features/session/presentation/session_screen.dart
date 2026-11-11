@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-
 import 'package:repster/core/router/routes.dart';
 import 'package:repster/core/theme/app_colors.dart';
 import 'package:repster/core/theme/app_text.dart';
+import 'package:repster/core/web/status_bar_fade.dart';
 import 'package:repster/features/dashboard/application/dashboard_controller.dart';
 import 'package:repster/features/exercises/application/exercises_search.dart';
 import 'package:repster/features/exercises/domain/catalog_exercise.dart';
@@ -432,21 +432,23 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     // Idempotent + web-only, so this is harmless on native.
     return Listener(
       onPointerDown: (_) => ref.read(sessionAudioProvider).unlock(),
-      child: Scaffold(
-        key: _scaffoldKey,
-        drawerScrimColor: Colors.black.withValues(alpha: kGlassScrimAlpha),
-        endDrawer: OverviewPanel(onGoTo: _ctl.goToExercise, onAdd: _openAdd),
-        body: switch (state.status) {
-          LiveSessionStatus.idle when state.error != null => _ErrorBody(
-            message: state.error!,
-            onBack: () => context.pop(),
-          ),
-          LiveSessionStatus.idle ||
-          LiveSessionStatus.loading => const AppLoading(),
-          LiveSessionStatus.finished => const AppLoading(),
-          LiveSessionStatus.running ||
-          LiveSessionStatus.saving => _buildRunning(context, state),
-        },
+      child: WithoutStatusBarFade(
+        child: Scaffold(
+          key: _scaffoldKey,
+          drawerScrimColor: Colors.black.withValues(alpha: kGlassScrimAlpha),
+          endDrawer: OverviewPanel(onGoTo: _ctl.goToExercise, onAdd: _openAdd),
+          body: switch (state.status) {
+            LiveSessionStatus.idle when state.error != null => _ErrorBody(
+              message: state.error!,
+              onBack: () => context.pop(),
+            ),
+            LiveSessionStatus.idle ||
+            LiveSessionStatus.loading => const AppLoading(),
+            LiveSessionStatus.finished => const AppLoading(),
+            LiveSessionStatus.running ||
+            LiveSessionStatus.saving => _buildRunning(context, state),
+          },
+        ),
       ),
     );
   }

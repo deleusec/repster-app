@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +30,11 @@ import 'package:repster/shared/widgets/screen_header.dart';
 /// Height of a grid cell — folders and session tiles share it.
 const double _cellHeight = 168;
 const double _gap = 12;
+
+/// Widest a cell grows before the grid adds a column. Two columns on a phone;
+/// on a wide window the cells keep their phone proportions instead of
+/// stretching into strips.
+const double _cellMaxWidth = 220;
 
 /// What is being dragged across the grid.
 typedef _Dragged = ({bool isProgram, String id});
@@ -210,7 +217,15 @@ class _Grid extends ConsumerWidget {
           const SizedBox(height: 20),
           LayoutBuilder(
             builder: (context, constraints) {
-              final size = Size((constraints.maxWidth - _gap) / 2, _cellHeight);
+              final width = constraints.maxWidth;
+              final columns = math.max(
+                2,
+                ((width + _gap) / (_cellMaxWidth + _gap)).ceil(),
+              );
+              final size = Size(
+                (width - _gap * (columns - 1)) / columns,
+                _cellHeight,
+              );
               return Wrap(
                 spacing: _gap,
                 runSpacing: _gap,

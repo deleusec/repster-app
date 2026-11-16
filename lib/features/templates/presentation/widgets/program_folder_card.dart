@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -172,7 +173,7 @@ class _FolderPainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
     const r = _radius;
-    final tabEnd = w * 0.44;
+    final tabEnd = math.min<double>(w * 0.44, 96);
     // Half the width of the slope from the tab down to the lower edge.
     const slope = 15.0;
     return Path()

@@ -370,10 +370,11 @@ Future<void> _shoot(
   String name,
   Widget screen,
   List<Override> overrides, {
+  double width = 390,
   double height = 844,
   Future<void> Function(WidgetTester)? act,
 }) async {
-  tester.view.physicalSize = Size(390 * 3, height * 3);
+  tester.view.physicalSize = Size(width * 3, height * 3);
   tester.view.devicePixelRatio = 3;
   addTearDown(tester.view.reset);
   final key = GlobalKey();
@@ -453,6 +454,16 @@ void main() {
   });
   testWidgets('templates', (t) async {
     await _shoot(t, 'templates', const TemplatesScreen(), common, height: 900);
+  });
+  testWidgets('templates on a wide window', (t) async {
+    await _shoot(
+      t,
+      'templates_desktop',
+      const TemplatesScreen(),
+      common,
+      width: 1280,
+      height: 800,
+    );
   });
   testWidgets('program', (t) async {
     await _shoot(

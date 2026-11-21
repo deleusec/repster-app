@@ -81,7 +81,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (_mode == _AuthMode.login) {
         await ctl.signIn(email: email, password: password);
       } else {
-        await ctl.signUp(email: email, password: password);
+        await ctl.signUp(
+          email: email,
+          password: password,
+          language: LocaleSettings.currentLocale.languageCode,
+        );
         if (!mounted) return;
         context.go('${Routes.verifyEmail}?email=${Uri.encodeComponent(email)}');
       }

@@ -75,9 +75,19 @@ class AuthRepository {
     }
   }
 
-  Future<void> signUp({required String email, required String password}) async {
+  /// [language] picks the language of the starter program the database
+  /// creates for the new account (`seed_starter_program`).
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String language,
+  }) async {
     try {
-      await _client.auth.signUp(email: email, password: password);
+      await _client.auth.signUp(
+        email: email,
+        password: password,
+        data: {'signup_language': language},
+      );
     } on Object catch (e, st) {
       throw mapSupabaseError(e, st);
     }

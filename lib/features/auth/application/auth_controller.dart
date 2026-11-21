@@ -39,10 +39,14 @@ class AuthController extends AsyncNotifier<AuthUser?> {
     }
   }
 
-  Future<void> signUp({required String email, required String password}) async {
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String language,
+  }) async {
     state = const AsyncLoading<AuthUser?>().copyWithPrevious(state);
     try {
-      await _repo.signUp(email: email, password: password);
+      await _repo.signUp(email: email, password: password, language: language);
       // Stay signed out until the OTP is verified.
       state = AsyncData<AuthUser?>(_repo.currentUser());
     } on Object catch (e, st) {

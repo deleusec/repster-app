@@ -257,37 +257,11 @@ template_exercises (
     String templateId,
     List<TemplateSlot> slots,
   ) async {
-    final names = [
+    final exerciseIds = await _exercises.resolve([
       for (final s in slots)
         for (final v in s.variants) v.name,
-    ];
-    final exMap = await _exercises.resolve(names);
-    final rows = <Map<String, Object?>>[];
-    for (var slotIdx = 0; slotIdx < slots.length; slotIdx++) {
-      final slot = slots[slotIdx];
-      for (var vIdx = 0; vIdx < slot.variants.length; vIdx++) {
-        final ex = slot.variants[vIdx];
-        final exerciseId = exMap[ex.name];
-        if (exerciseId == null) continue;
-        rows.add({
-          'template_id': templateId,
-          'exercise_id': exerciseId,
-          'position': slotIdx,
-          'slot_id': slot.slotId,
-          'variant_position': vIdx,
-          'superset_with_next': slot.supersetWithNext,
-          'sets_count': ex.sets,
-          'reps_target': ex.reps,
-          'tempo': ex.tempo.isEmpty ? null : ex.tempo,
-          'rest_seconds': ex.restTime,
-          'notes': ex.notes.trim().isEmpty ? null : ex.notes.trim(),
-          'is_time_based': ex.isTimeBased,
-          'duration_seconds': ex.isTimeBased
-              ? (ex.durationSeconds ?? 30)
-              : null,
-        });
-      }
-    }
+    ]);
+    final rows = templateExerciseRows(templateId, slots, exerciseIds);
     if (rows.isEmpty) return;
     await _client.from('template_exercises').insert(rows);
   }
@@ -303,6 +277,43 @@ template_exercises (
         ),
     ];
   }
+}
+
+/// The `template_exercises` rows that store [slots], one per variant.
+///
+/// [exerciseIds] is keyed by trimmed name, as `ExerciseResolver.resolve`
+/// returns it, so the lookup trims too: looking up the raw name silently
+/// dropped any exercise typed with a stray space from the saved session.
+List<Map<String, Object?>> templateExerciseRows(
+  String templateId,
+  List<TemplateSlot> slots,
+  Map<String, String> exerciseIds,
+) {
+  final rows = <Map<String, Object?>>[];
+  for (var slotIdx = 0; slotIdx < slots.length; slotIdx++) {
+    final slot = slots[slotIdx];
+    for (var vIdx = 0; vIdx < slot.variants.length; vIdx++) {
+      final ex = slot.variants[vIdx];
+      final exerciseId = exerciseIds[ex.name.trim()];
+      if (exerciseId == null) continue;
+      rows.add({
+        'template_id': templateId,
+        'exercise_id': exerciseId,
+        'position': slotIdx,
+        'slot_id': slot.slotId,
+        'variant_position': vIdx,
+        'superset_with_next': slot.supersetWithNext,
+        'sets_count': ex.sets,
+        'reps_target': ex.reps,
+        'tempo': ex.tempo.isEmpty ? null : ex.tempo,
+        'rest_seconds': ex.restTime,
+        'notes': ex.notes.trim().isEmpty ? null : ex.notes.trim(),
+        'is_time_based': ex.isTimeBased,
+        'duration_seconds': ex.isTimeBased ? (ex.durationSeconds ?? 30) : null,
+      });
+    }
+  }
+  return rows;
 }
 
 final templatesRepositoryProvider = Provider<TemplatesRepository>((ref) {
